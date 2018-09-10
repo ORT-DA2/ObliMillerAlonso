@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Sports.Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Sports.Domain.Test
