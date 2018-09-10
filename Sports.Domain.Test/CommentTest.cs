@@ -26,7 +26,7 @@ namespace Sports.Domain.Test
             {
                Text = ""
             };
-            invalidText.IsValidCommentText();
+            invalidText.IsValid();
         }
     }
 }

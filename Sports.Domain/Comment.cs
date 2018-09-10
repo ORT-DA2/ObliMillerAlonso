@@ -9,7 +9,11 @@ namespace Sports.Domain
     {
         public string Text { get; set; }
 
-        public void IsValidCommentText()
+        public void IsValid()
+        {
+            IsValidCommentText();
+        }
+        private void IsValidCommentText()
         {
             if (string.IsNullOrWhiteSpace(Text))
                 throw new InvalidCommentDataException("Invalid Text");
