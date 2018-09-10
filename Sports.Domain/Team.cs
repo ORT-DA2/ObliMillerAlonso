@@ -64,5 +64,17 @@ namespace Sports.Domain
             }
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj == null || !obj.GetType().Equals(this.GetType()))
+            {
+                return false;
+            }
+            else
+            {
+                return this.Name.Equals(((Team)obj).Name);
+            }
+        }
+
     }
 }
