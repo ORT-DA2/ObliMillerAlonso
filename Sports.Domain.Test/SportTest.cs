@@ -32,7 +32,7 @@ namespace Sports.Domain.Test
         public void InvalidSportName()
         {
             sport.Name = "";
-            sport.IsValidSportName();
+            sport.IsValid();
         }
     }
 }

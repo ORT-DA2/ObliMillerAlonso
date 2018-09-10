@@ -9,7 +9,12 @@ namespace Sports.Domain
     {
         public string Name { get; set; }
 
-        public void IsValidSportName()
+        public void IsValid()
+        {
+            IsValidSportName();
+        }
+
+        private void IsValidSportName()
         {
             if (string.IsNullOrWhiteSpace(Name))
                 throw new InvalidSportDataException("Invalid Name");
