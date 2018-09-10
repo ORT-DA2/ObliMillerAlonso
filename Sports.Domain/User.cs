@@ -56,6 +56,7 @@ namespace Sports.Domain
             IsValidUserUserName();
             IsValidUserPassword();
             IsValidUserEMail();
+            IsValidUserEmailFormat(Email);
         }
 
         private void IsValidFirstName()
@@ -88,18 +89,30 @@ namespace Sports.Domain
                 throw new InvalidUserDataException("Invalid EMail");
         }
 
-        public void IsValidUserEmailFormat(string emailaddress)
+        private void IsValidUserEmailFormat(string emailaddress)
+        {
+           if(!IsValidEmailAt(emailaddress) || !IsValidEmailDotCom(emailaddress))
+                throw new InvalidUserDataException("Invalid EMail");
+        }
+
+        private bool IsValidEmailAt(string emailaddress)
         {
             string[] address = emailaddress.Split("@");
-            if(address.Length != 2)
+            if (address.Length != 2)
             {
-                throw new InvalidUserDataException("Invalid EMail");
+                return false;
             }
+            return true;
+        }
+
+        private bool IsValidEmailDotCom(string emailaddress)
+        {
             string[] ending = emailaddress.Split(".com");
-            if(ending.Length != 2 || ending[1] != "")
+            if (ending.Length != 2 || ending[1] != "")
             {
-                throw new InvalidUserDataException("Invalid EMail");
+                return false;
             }
+            return true;
         }
 
 
