@@ -38,5 +38,11 @@ namespace Sports.Domain.Test
             invalidNameTeam.IsValid();
         }
         
+        [TestMethod]
+        public void ValidName()
+        {
+            team.IsValid();
+            Assert.AreEqual<string>(team.Name, "Test Team");
+        }
     }
 }
