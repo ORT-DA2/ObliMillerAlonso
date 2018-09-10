@@ -21,6 +21,22 @@ namespace Sports.Domain
             Token = "";
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj == null || !obj.GetType().Equals(this.GetType()))
+            {
+                return false;
+            }
+            else
+            {
+                return this.UserName.Equals(((User)obj).UserName);
+            }
+        }
+        public override int GetHashCode()
+        {
+            return this.UserName.GetHashCode();
+        }
+
         public void IsValid()
         {
             IsValidFirstName();
@@ -59,6 +75,7 @@ namespace Sports.Domain
             if (string.IsNullOrWhiteSpace(Email))
                 throw new InvalidUserDataException("Invalid EMail");
         }
+
 
     }
 }
