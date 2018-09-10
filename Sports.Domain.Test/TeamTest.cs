@@ -35,7 +35,7 @@ namespace Sports.Domain.Test
                 Name = "",
 
             };
-            invalidNameTeam.IsValidName();
+            invalidNameTeam.IsValid();
         }
         
     }

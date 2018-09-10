@@ -10,7 +10,12 @@ namespace Sports.Domain
         public string Name { get; set; }
         public byte[] Picture { get; private set; }
 
-        public void IsValidName()
+        public void IsValid()
+        {
+            IsValidName();
+        }
+
+        private void IsValidName()
         {
             if (string.IsNullOrWhiteSpace(this.Name))
             {
