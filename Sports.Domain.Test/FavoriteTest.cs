@@ -7,17 +7,20 @@ using Sports.Exceptions;
 
 namespace Sports.Domain.Test
 {
+    [TestClass]
     public class FavoriteTest
     {
+        User user;
+        Team team;
         Favorite favorite;
         [TestInitialize]
         public void SetUp()
         {
-            User user = new User()
+            user = new User()
             {
                 UserName = "Pepe"
             };
-            Team team = new Team()
+            team = new Team()
             {
                 Name = "Manya"
             };
@@ -34,5 +37,29 @@ namespace Sports.Domain.Test
         {
             Assert.IsNotNull(favorite);
         }
+
+
+        [TestMethod]
+        public void EqualsIsTrue()
+        {
+            Favorite secondFavorite = new Favorite()
+            {
+                User = user,
+                Team = team
+            };
+            Assert.IsTrue(favorite.Equals(secondFavorite));
+        }
+
+        /*
+        [TestMethod]
+        public void EqualsIsFalse()
+        {
+            Team secondTeam = new Team()
+            {
+                Name = "Different Team",
+
+            };
+            Assert.IsFalse(team.Equals(secondTeam));
+        }*/
     }
 }
