@@ -50,8 +50,8 @@ namespace Sports.Domain.Test
         [TestMethod]
         public void AddPictureFromPath()
         {
-            string picturePath = "C: /Users/Rafael/Documents/Diseno2/MillerAlonso/Sports.Domain.Test/gun.png";
-            team.AddPictureFromPath();
+            string picturePath = "C:/Users/Rafael/Documents/Diseno2/MillerAlonso/Sports.Domain.Test/TestImage/gun.png";
+            team.AddPictureFromPath(picturePath);
             byte[] file = File.ReadAllBytes(picturePath);
             Assert.IsTrue(Enumerable.SequenceEqual(file, team.Picture));
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace Sports.Domain
@@ -23,6 +24,10 @@ namespace Sports.Domain
             }
         }
 
+        public void AddPictureFromPath(string filePath)
+        {
+            this.Picture = File.ReadAllBytes(filePath);
+        }
 
     }
 }
