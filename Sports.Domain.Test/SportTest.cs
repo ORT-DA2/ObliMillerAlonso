@@ -74,5 +74,16 @@ namespace Sports.Domain.Test
             sport.AddTeam(team);
             sport.AddTeam(team);
         }
+
+        [TestMethod]
+        public void EqualsIsTrue()
+        {
+            Team secondSport = new Team()
+            {
+                Name = "Test sport",
+
+            };
+            Assert.IsTrue(team.Equals(secondSport));
+        }
     }
 }
