@@ -76,5 +76,10 @@ namespace Sports.Domain
             }
         }
 
+        public override string ToString()
+        {
+            return this.Name;
+        }
+
     }
 }
