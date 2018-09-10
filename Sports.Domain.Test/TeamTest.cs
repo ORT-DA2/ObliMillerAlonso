@@ -57,7 +57,12 @@ namespace Sports.Domain.Test
             Assert.AreEqual<string>(fileString, team.Picture);
         }
 
-        //invalidImagePath
+        [ExpectedException(typeof(Exception))]
+        [TestMethod]
+        public void InvalidPicturePath()
+        {
+            team.AddPictureFromPath("C:/testPicture.png");
+        }
 
         //invalidImageFile
     }
