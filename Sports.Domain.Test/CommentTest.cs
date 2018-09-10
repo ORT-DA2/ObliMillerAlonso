@@ -19,6 +19,12 @@ namespace Sports.Domain.Test
         }
 
         [TestMethod]
+        public void NewComment()
+        {
+            Assert.IsNotNull(comment);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(InvalidCommentDataException))]
         public void InvalidCommentText()
         {
