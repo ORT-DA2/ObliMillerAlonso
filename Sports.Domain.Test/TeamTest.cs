@@ -93,5 +93,15 @@ namespace Sports.Domain.Test
         }
 
 
+        [TestMethod]
+        public void EqualsIsFalse()
+        {
+            Team secondTeam = new Team()
+            {
+                Name = "Different Team",
+
+            };
+            Assert.IsFalse(team.Equals(secondTeam));
+        }
     }
 }
