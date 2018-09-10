@@ -24,6 +24,7 @@ namespace Sports.Domain
         public void IsValid()
         {
             IsValidFirstName();
+            IsValidLastName();
         }
 
         private void IsValidFirstName()
@@ -32,7 +33,7 @@ namespace Sports.Domain
                 throw new InvalidUserDataException("Invalid Name");
         }
 
-        public void IsValidLastName()
+        private void IsValidLastName()
         {
             if (string.IsNullOrEmpty(LastName))
                 throw new InvalidUserDataException("Invalid LastName");

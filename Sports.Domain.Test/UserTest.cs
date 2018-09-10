@@ -51,7 +51,7 @@ namespace Sports.Domain.Test
                 Password = "root",
                 IsAdmin = false
             };
-            invalidUser.IsValidLastName();
+            invalidUser.IsValid();
         }
 
 
