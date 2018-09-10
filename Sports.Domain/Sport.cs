@@ -7,7 +7,14 @@ namespace Sports.Domain
 {
     public class Sport
     {
+        public int Id { get; private set; }
         public string Name { get; set; }
+        public ICollection<Team> Teams { get; set; }
+
+        public Sport()
+        {
+            Teams = new List<Team>();
+        }
 
         public void IsValid()
         {
@@ -19,5 +26,7 @@ namespace Sports.Domain
             if (string.IsNullOrWhiteSpace(Name))
                 throw new InvalidSportDataException("Invalid Name");
         }
+
+       
     }
 }
