@@ -31,7 +31,6 @@ namespace Sports.Domain.Test
                 LastName = "Miller",
                 Email = "itaimiller@gmail.com",
                 UserName = "iMiller",
-                Token = "12345678",
                 Password = "root"
             };
             invalidUser.IsValid();
@@ -47,7 +46,6 @@ namespace Sports.Domain.Test
                 LastName = "",
                 Email = "itai@gmail.com",
                 UserName = "iMiller",
-                Token = "12345678",
                 Password = "root"
             };
             invalidUser.IsValid();
@@ -63,7 +61,6 @@ namespace Sports.Domain.Test
                 LastName = "Miller",
                 Email = "itai@gmail.com",
                 UserName = "",
-                Token = "12345678",
                 Password = "root"
             };
             invalidUser.IsValid();
@@ -79,7 +76,6 @@ namespace Sports.Domain.Test
                 LastName = "Miller",
                 Email = "itai@gmail.com",
                 UserName = "IMiller",
-                Token = "12345678",
                 Password = ""
             };
             invalidUser.IsValid();
@@ -95,7 +91,6 @@ namespace Sports.Domain.Test
                 LastName = "Miller",
                 Email = "",
                 UserName = "IMiller",
-                Token = "12345678",
                 Password = "root"
             };
             invalidUser.IsValid();
@@ -123,7 +118,6 @@ namespace Sports.Domain.Test
                 LastName = "Miller",
                 Email = "itai@gmail.com",
                 UserName = "IMiller",
-                Token = "12345678",
                 Password = "root"
             };
             Assert.IsTrue(admin.IsAdmin);
