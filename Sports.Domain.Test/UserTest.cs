@@ -102,8 +102,23 @@ namespace Sports.Domain.Test
                 Password = "root",
                 IsAdmin = false
             };
-            invalidUser.IsValidUserEMail();
+            invalidUser.IsValid();
         }
+
+        [TestMethod]
+        public void EqualsIsTrue()
+        {
+            User firstUser = new User
+            {
+                UserName = "Pablo"
+            };
+            User secondUser = new User
+            {
+                UserName = "Pablo"
+            };
+            Assert.AreEqual(firstUser, secondUser);
+        }
+
 
 
 
