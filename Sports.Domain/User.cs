@@ -53,5 +53,11 @@ namespace Sports.Domain
                 throw new InvalidUserDataException("Invalid Password");
         }
 
+        public void IsValidUserEMail()
+        {
+            if (string.IsNullOrWhiteSpace(Email))
+                throw new InvalidUserDataException("Invalid EMail");
+        }
+
     }
 }
