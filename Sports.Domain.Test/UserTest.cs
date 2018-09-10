@@ -109,7 +109,7 @@ namespace Sports.Domain.Test
             {
                 Email = "itaimillergmail"
             };
-            invalidFormat.IsValidEmailFormat();
+            invalidFormat.IsValidUserEmailFormat(invalidFormat.Email);
         }
 
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Sports.Exceptions;
+using System.Net.Mail;
 
 namespace Sports.Domain
 {
@@ -85,6 +86,20 @@ namespace Sports.Domain
         {
             if (string.IsNullOrWhiteSpace(Email))
                 throw new InvalidUserDataException("Invalid EMail");
+        }
+
+        public void IsValidUserEmailFormat(string emailaddress)
+        {
+            string[] address = emailaddress.Split("@");
+            if(address.Length != 2)
+            {
+                throw new InvalidUserDataException("Invalid EMail");
+            }
+            string[] ending = emailaddress.Split(".com");
+            if(ending.Length != 2 || ending[1] != "")
+            {
+                throw new InvalidUserDataException("Invalid EMail");
+            }
         }
 
 
