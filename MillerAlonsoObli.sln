@@ -10,11 +10,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sports.Domain.Test", "Sports.Domain.Test\Sports.Domain.Test.csproj", "{41EE6B64-33EA-4262-8FA5-3F94C7FFA1C1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sports.Logic.Test", "Sports.Logic.Test\Sports.Logic.Test.csproj", "{37EF27D2-438F-4318-A241-73E75F2CFB63}"
-<<<<<<< HEAD
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sports.Exceptions", "Sports.Exceptions\Sports.Exceptions.csproj", "{15F6E04E-A50E-4A45-9EC2-E91E2336C55A}"
-=======
->>>>>>> feature/team_domain
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sports.Exceptions", "Sports.Exceptions\Sports.Exceptions.csproj", "{15F6E04E-A50E-4A45-9EC2-E91E2336C55A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
