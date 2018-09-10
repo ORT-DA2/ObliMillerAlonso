@@ -36,6 +36,23 @@ namespace Sports.Domain.Test
             invalidUser.IsValid();
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(InvalidUserDataException))]
+        public void InvalidUserLastName()
+        {
+            User invalidUser = new User()
+            {
+                FirstName = "Itai",
+                LastName = "",
+                Email = "itai@gmail.com",
+                UserName = "iMiller",
+                Token = "12345678",
+                Password = "root",
+                IsAdmin = false
+            };
+            user.IsValidLastName();
+        }
+
 
     }
 }
