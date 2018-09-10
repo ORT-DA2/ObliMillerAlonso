@@ -16,6 +16,18 @@ namespace Sports.Domain
             Teams = new List<Team>();
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj == null || !obj.GetType().Equals(this.GetType()))
+            {
+                return false;
+            }
+            else
+            {
+                return this.Name.Equals(((Sport)obj).Name);
+            }
+        }
+
         public void IsValid()
         {
             IsValidSportName();

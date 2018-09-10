@@ -78,12 +78,11 @@ namespace Sports.Domain.Test
         [TestMethod]
         public void EqualsIsTrue()
         {
-            Team secondSport = new Team()
+            Sport secondSport = new Sport()
             {
                 Name = "Test sport",
-
             };
-            Assert.IsTrue(team.Equals(secondSport));
+            Assert.IsTrue(sport.Equals(secondSport));
         }
     }
 }
