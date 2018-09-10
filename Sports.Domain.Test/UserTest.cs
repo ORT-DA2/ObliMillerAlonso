@@ -119,6 +119,20 @@ namespace Sports.Domain.Test
             Assert.AreEqual(firstUser, secondUser);
         }
 
+        [TestMethod]
+        public void EqualsIsFalse()
+        {
+            User firstUser = new User
+            {
+                UserName = "Pablo"
+            };
+            User secondUser = new User
+            {
+                UserName = "Diego"
+            };
+            Assert.AreNotEqual(firstUser, secondUser);
+        }
+
 
 
 
