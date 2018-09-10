@@ -57,5 +57,22 @@ namespace Sports.Domain.Test
             sport.Teams.Remove(team);
             Assert.AreEqual(0, sport.Teams.Count);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidSportDataException))]
+        public void InvalidRemoveTeam()
+        {
+            Team team = new Team()
+            {
+                Name = "Barcelona"
+            };
+            sport.Teams.Add(team);
+
+            Team secondTeam = new Team()
+            {
+                Name = "Real"
+            };
+            sport.Teams.Remove(secondTeam);
+        }
     }
 }
