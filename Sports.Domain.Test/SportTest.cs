@@ -11,13 +11,19 @@ namespace Sports.Domain.Test
     {
         Sport sport;
 
-        [TestMethod]
+        [TestInitialize]
         public void SetUp()
         {
             sport = new Sport()
             {
                 Name = "Test sport"
             };
+        }
+
+        [TestMethod]
+        public void NewSport()
+        {
+            Assert.IsNotNull(sport);
         }
     }
 }
