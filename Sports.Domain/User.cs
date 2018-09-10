@@ -9,16 +9,21 @@ namespace Sports.Domain
     {
         public int Id { get; private set; }
         public string FirstName { get; set; }
-        public bool IsAdmin { get; set; }
+        public bool IsAdmin { get; private set; }
         public string LastName { get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }
+        public string Password { get;  set; }
         public string UserName { get; set; }
         public string Token { get; set; }
 
         public User()
         {
             Token = "";
+        }
+
+        public User(bool isAdmin)
+        {
+            this.IsAdmin = isAdmin;
         }
 
         public override bool Equals(object obj)
