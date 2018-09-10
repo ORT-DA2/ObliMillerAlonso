@@ -26,6 +26,7 @@ namespace Sports.Domain
             IsValidFirstName();
             IsValidLastName();
             IsValidUserUserName();
+            IsValidUserPassword();
         }
 
         private void IsValidFirstName()
@@ -46,7 +47,7 @@ namespace Sports.Domain
                 throw new InvalidUserDataException("Invalid UserName");
         }
 
-        public void IsValidUserPassword()
+        private void IsValidUserPassword()
         {
             if (string.IsNullOrWhiteSpace(Password))
                 throw new InvalidUserDataException("Invalid Password");
