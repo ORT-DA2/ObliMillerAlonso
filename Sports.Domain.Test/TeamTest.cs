@@ -12,6 +12,7 @@ namespace Sports.Domain.Test
     public class TeamTest
     {
         const string TEST_IMAGE_PATH = "C:/Users/Rafael/Documents/Diseno2/MillerAlonso/Sports.Domain.Test/TestImage/gun.png";
+        const string INVALID_FILE_PATH = "C:/Users/Rafael/Documents/Diseno2/MillerAlonso/Sports.Domain.Test/TestImage/example.txt";
         Team team;
         [TestInitialize]
         public void SetUp()
@@ -64,6 +65,12 @@ namespace Sports.Domain.Test
             team.AddPictureFromPath("C:/testPicture.png");
         }
 
-        //invalidImageFile
+
+        [ExpectedException(typeof(Exception))]
+        [TestMethod]
+        public void InvalidFile()
+        {
+            team.AddPictureFromPath(INVALID_FILE_PATH);
+        }
     }
 }
