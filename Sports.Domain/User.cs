@@ -25,23 +25,24 @@ namespace Sports.Domain
         {
             IsValidFirstName();
             IsValidLastName();
+            IsValidUserUserName();
         }
 
         private void IsValidFirstName()
         {
-            if (string.IsNullOrEmpty(FirstName))
+            if (string.IsNullOrWhiteSpace(FirstName))
                 throw new InvalidUserDataException("Invalid Name");
         }
 
         private void IsValidLastName()
         {
-            if (string.IsNullOrEmpty(LastName))
+            if (string.IsNullOrWhiteSpace(LastName))
                 throw new InvalidUserDataException("Invalid LastName");
         }
 
-        public void IsValidUserUserName()
+        private void IsValidUserUserName()
         {
-            if (string.IsNullOrEmpty(UserName))
+            if (string.IsNullOrWhiteSpace(UserName))
                 throw new InvalidUserDataException("Invalid UserName");
         }
 
