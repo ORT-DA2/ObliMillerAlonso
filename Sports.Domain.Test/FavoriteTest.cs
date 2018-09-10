@@ -13,8 +13,14 @@ namespace Sports.Domain.Test
         [TestInitialize]
         public void SetUp()
         {
-            User user = new User();
-            Team team = new Team();
+            User user = new User()
+            {
+                UserName = "Pepe"
+            };
+            Team team = new Team()
+            {
+                Name = "Manya"
+            };
             favorite = new Favorite()
             {
                User = user,
