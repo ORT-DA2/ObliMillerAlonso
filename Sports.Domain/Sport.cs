@@ -29,11 +29,11 @@ namespace Sports.Domain
 
         public void RemoveTeam(Team team)
         {
-            CheckIfTeamExists(team);
+            CheckIfTeamDoesntExist(team);
             Teams.Remove(team);
         }
 
-        private void CheckIfTeamExists(Team team)
+        private void CheckIfTeamDoesntExist(Team team)
         {
             if (!Teams.Contains(team))
             {
@@ -43,12 +43,16 @@ namespace Sports.Domain
 
         public void AddTeam(Team team)
         {
+            CheckDuplicateTeam(team);
+            Teams.Add(team);
+        }
+
+        private void CheckDuplicateTeam(Team team)
+        {
             if (Teams.Contains(team))
             {
                 throw new InvalidSportDataException("Team already exists in Sport");
             }
-            Teams.Add(team);
         }
-
     }
 }
