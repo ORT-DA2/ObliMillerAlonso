@@ -41,5 +41,14 @@ namespace Sports.Domain
             }
         }
 
+        public void AddTeam(Team team)
+        {
+            if (Teams.Contains(team))
+            {
+                throw new InvalidSportDataException("Team already exists in Sport");
+            }
+            Teams.Add(team);
+        }
+
     }
 }

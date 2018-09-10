@@ -71,8 +71,8 @@ namespace Sports.Domain.Test
         [ExpectedException(typeof(InvalidSportDataException))]
         public void InvalidAddTeam()
         {
-            sport.Teams.Add(team);
-            sport.Teams.Add(team);
+            sport.AddTeam(team);
+            sport.AddTeam(team);
         }
     }
 }
