@@ -8,6 +8,9 @@ namespace Sports.Domain
     public class Comment
     {
         public string Text { get; set; }
+        public DateTime Date { get; set; }
+        private User user;
+        
 
         public void IsValid()
         {
