@@ -5,6 +5,7 @@ using Sports.Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using System.Linq;
+using Sports.Exceptions;
 
 namespace Sports.Domain.Test
 {
@@ -31,7 +32,7 @@ namespace Sports.Domain.Test
             Assert.IsNotNull(team);
         }
 
-        [ExpectedException(typeof(Exception))]
+        [ExpectedException(typeof(InvalidTeamDataException))]
         [TestMethod]
         public void InvalidName()
         {
@@ -59,7 +60,7 @@ namespace Sports.Domain.Test
             Assert.AreEqual<string>(fileString, team.Picture);
         }
 
-        [ExpectedException(typeof(Exception))]
+        [ExpectedException(typeof(InvalidTeamDataException))]
         [TestMethod]
         public void InvalidPicturePath()
         {
@@ -67,14 +68,14 @@ namespace Sports.Domain.Test
         }
 
 
-        [ExpectedException(typeof(Exception))]
+        [ExpectedException(typeof(InvalidTeamDataException))]
         [TestMethod]
         public void InvalidFile()
         {
             team.AddPictureFromPath(INVALID_FILE_PATH);
         }
 
-        [ExpectedException(typeof(Exception))]
+        [ExpectedException(typeof(InvalidTeamDataException))]
         [TestMethod]
         public void OversizedFile()
         {
@@ -105,7 +106,7 @@ namespace Sports.Domain.Test
         }
 
         [TestMethod]
-        public void ToString()
+        public void ToStringRedefined()
         {
             Assert.AreEqual<string>(team.ToString(),team.Name);
         }
