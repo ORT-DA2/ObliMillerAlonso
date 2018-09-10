@@ -53,5 +53,14 @@ namespace Sports.Domain
             }
         }
 
+        public void ValidateFileSize(string filePath)
+        {
+            FileInfo file = new FileInfo(filePath);
+            if (file.Length > 2000)
+            {
+                throw new Exception();
+            }
+        }
+
     }
 }
