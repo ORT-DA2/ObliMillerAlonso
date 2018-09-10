@@ -15,5 +15,16 @@ namespace Sports.Domain.Test
         {
             comment = new Comment();
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidCommentDataException))]
+        public void InvalidCommentText()
+        {
+            Comment invalidText = new Comment()
+            {
+               Text = ""
+            };
+            invalidText.IsValidCommentText();
+        }
     }
 }

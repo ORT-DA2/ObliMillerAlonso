@@ -33,7 +33,7 @@ namespace Sports.Domain.Test
                 UserName = "iMiller",
                 Password = "root"
             };
-            invalidUser.IsValid();
+            invalidUser.IsValidCommentText();
         }
 
         [TestMethod]
