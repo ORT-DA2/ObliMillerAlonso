@@ -28,6 +28,11 @@ namespace Sports.Domain
             }
         }
 
+        public override string ToString()
+        {
+            return this.Name;
+        }
+
         public void IsValid()
         {
             IsValidSportName();
