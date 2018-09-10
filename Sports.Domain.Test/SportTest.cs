@@ -66,5 +66,13 @@ namespace Sports.Domain.Test
             };
             sport.RemoveTeam(secondTeam);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidSportDataException))]
+        public void InvalidAddTeam()
+        {
+            sport.Teams.Add(team);
+            sport.Teams.Add(team);
+        }
     }
 }
