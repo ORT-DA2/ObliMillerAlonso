@@ -94,5 +94,11 @@ namespace Sports.Domain.Test
             };
             Assert.IsFalse(sport.Equals(secondSport));
         }
+
+        [TestMethod]
+        public void ToStringRedefined()
+        {
+            Assert.AreEqual<string>(sport.ToString(), sport.Name);
+        }
     }
 }
