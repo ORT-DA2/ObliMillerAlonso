@@ -37,6 +37,12 @@ namespace Sports.Domain
             return this.UserName.GetHashCode();
         }
 
+        public override string ToString()
+        {
+            string tostring = "Name: " + FirstName + " LastName: " + LastName + " UserName: " + UserName;
+            return tostring;
+        }
+
         public void IsValid()
         {
             IsValidFirstName();
