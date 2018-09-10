@@ -103,7 +103,7 @@ namespace Sports.Domain.Test
         [TestMethod]
         public void CreateAdmin()
         {
-            User admin = new User()
+            User admin = new User(true)
             {
                 FirstName = "Itai",
                 LastName = "Miller",
