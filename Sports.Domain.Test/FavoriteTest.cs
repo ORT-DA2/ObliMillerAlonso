@@ -64,5 +64,20 @@ namespace Sports.Domain.Test
             };
             Assert.IsFalse(favorite.Equals(secondFavorite));
         }
+
+        [TestMethod]
+        public void EqualsIsFalseTeam()
+        {
+            Team differentTeam = new Team()
+            {
+                Name = "Different",
+            };
+            Favorite secondFavorite = new Favorite()
+            {
+                Team = differentTeam,
+                User = user
+            };
+            Assert.IsFalse(favorite.Equals(secondFavorite));
+        }
     }
 }
