@@ -25,7 +25,8 @@ namespace Sports.Domain.Test
         {
             Assert.IsNotNull(team);
         }
-        
+
+        [ExpectedException(typeof(Exception))]
         [TestMethod]
         public void InvalidName()
         {

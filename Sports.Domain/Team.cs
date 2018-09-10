@@ -10,5 +10,13 @@ namespace Sports.Domain
         public string Name { get; set; }
         public byte[] Picture { get; private set; }
 
+        public void IsValidName()
+        {
+            if (string.IsNullOrWhiteSpace(this.Name))
+            {
+                throw new Exception();
+            }
+        }
+
     }
 }
