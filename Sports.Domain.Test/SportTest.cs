@@ -25,5 +25,13 @@ namespace Sports.Domain.Test
         {
             Assert.IsNotNull(sport);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidSportDataException))]
+        public void InvalidSportName()
+        {
+            sport.Name = "";
+            sport.IsValidSportName();
+        }
     }
 }
