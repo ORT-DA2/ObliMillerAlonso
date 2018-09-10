@@ -102,6 +102,19 @@ namespace Sports.Domain.Test
         }
 
         [TestMethod]
+        [ExpectedException(typeof(InvalidUserDataException))]
+        public void InvalidUserEMailFormat()
+        {
+            User invalidFormat = new User()
+            {
+                Email = "itaimillergmail"
+            };
+            invalidFormat.IsValidEmailFormat();
+        }
+
+
+
+        [TestMethod]
         public void CreateAdmin()
         {
             User admin = new User(ADMINUSER)
