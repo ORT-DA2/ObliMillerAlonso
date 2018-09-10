@@ -78,7 +78,7 @@ namespace Sports.Domain.Test
         [TestMethod]
         public void OversizedFile()
         {
-            team.ValidateFileSize(LARGE_IMAGE_PATH);
+            team.AddPictureFromPath(LARGE_IMAGE_PATH);
         }
     }
 }

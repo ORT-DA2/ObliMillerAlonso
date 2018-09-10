@@ -7,6 +7,7 @@ namespace Sports.Domain
 {
     public class Team
     {
+        const int MAX_FILE_SIZE = 2000000;
         public int Id { get; private set; }
         public string Name { get; set; }
         public string Picture { get; private set; }
@@ -31,10 +32,11 @@ namespace Sports.Domain
             this.Picture = System.Text.Encoding.UTF8.GetString(bytePicture);
         }
 
-        private void ValidateFile(string filePath)
+        public void ValidateFile(string filePath)
         {
             ValidatePath(filePath);
             ValidateImage(filePath);
+            ValidateFileSize(filePath);
         }
 
         private void ValidateImage(string filePath)
@@ -56,7 +58,7 @@ namespace Sports.Domain
         public void ValidateFileSize(string filePath)
         {
             FileInfo file = new FileInfo(filePath);
-            if (file.Length > 2000)
+            if (file.Length > MAX_FILE_SIZE)
             {
                 throw new Exception();
             }
