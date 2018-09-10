@@ -9,7 +9,7 @@ namespace Sports.Domain
     {
         public int Id { get; private set; }
         public string Name { get; set; }
-        public byte[] Picture { get; private set; }
+        public string Picture { get; private set; }
 
         public void IsValid()
         {
@@ -26,7 +26,8 @@ namespace Sports.Domain
 
         public void AddPictureFromPath(string filePath)
         {
-            this.Picture = File.ReadAllBytes(filePath);
+            byte[] bytePicture = File.ReadAllBytes(filePath);
+            this.Picture = System.Text.Encoding.UTF8.GetString(bytePicture);
         }
 
     }

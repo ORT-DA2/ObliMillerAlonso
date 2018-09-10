@@ -11,6 +11,7 @@ namespace Sports.Domain.Test
     [TestClass]
     public class TeamTest
     {
+        const string TEST_IMAGE_PATH = "C:/Users/Rafael/Documents/Diseno2/MillerAlonso/Sports.Domain.Test/TestImage/gun.png";
         Team team;
         [TestInitialize]
         public void SetUp()
@@ -50,10 +51,10 @@ namespace Sports.Domain.Test
         [TestMethod]
         public void AddPictureFromPath()
         {
-            string picturePath = "C:/Users/Rafael/Documents/Diseno2/MillerAlonso/Sports.Domain.Test/TestImage/gun.png";
-            team.AddPictureFromPath(picturePath);
-            byte[] file = File.ReadAllBytes(picturePath);
-            Assert.IsTrue(Enumerable.SequenceEqual(file, team.Picture));
+            team.AddPictureFromPath(TEST_IMAGE_PATH);
+            byte[] file = File.ReadAllBytes(TEST_IMAGE_PATH);
+            string fileString = System.Text.Encoding.UTF8.GetString(file);
+            Assert.AreEqual<string>(fileString, team.Picture);
         }
 
         //invalidImagePath
