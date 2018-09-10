@@ -12,6 +12,7 @@ namespace Sports.Domain.Test
     [TestClass]
     public class UserTest
     {
+        const bool ADMINUSER = true;
         User user;
 
         [TestInitialize]
@@ -103,7 +104,7 @@ namespace Sports.Domain.Test
         [TestMethod]
         public void CreateAdmin()
         {
-            User admin = new User(true)
+            User admin = new User(ADMINUSER)
             {
                 FirstName = "Itai",
                 LastName = "Miller",
