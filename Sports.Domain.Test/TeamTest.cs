@@ -25,7 +25,7 @@ namespace Sports.Domain.Test
         {
             Assert.IsNotNull(team);
         }
-        /*
+        
         [TestMethod]
         public void InvalidName()
         {
@@ -36,6 +36,6 @@ namespace Sports.Domain.Test
             };
             invalidNameTeam.IsValidName();
         }
-        */
+        
     }
 }
