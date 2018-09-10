@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sports.Exceptions;
+using Sports.Domain;
 
 
 
@@ -50,7 +51,7 @@ namespace Sports.Domain.Test
                 Password = "root",
                 IsAdmin = false
             };
-            user.IsValidLastName();
+            invalidUser.IsValidLastName();
         }
 
 

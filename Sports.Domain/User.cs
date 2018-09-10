@@ -32,5 +32,11 @@ namespace Sports.Domain
                 throw new InvalidUserDataException("Invalid Name");
         }
 
+        public void IsValidLastName()
+        {
+            if (string.IsNullOrEmpty(LastName))
+                throw new InvalidUserDataException("Invalid LastName");
+        }
+
     }
 }
