@@ -14,10 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Sports.Domain\Sports.Domain.csproj" />
-<<<<<<< HEAD
     <ProjectReference Include="..\Sports.Exceptions\Sports.Exceptions.csproj" />
-=======
->>>>>>> feature/team_domain
   </ItemGroup>
 
 </Project>

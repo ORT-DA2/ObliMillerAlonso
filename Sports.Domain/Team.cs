@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Sports.Exceptions;
 
 namespace Sports.Domain
 {
@@ -21,7 +22,7 @@ namespace Sports.Domain
         {
             if (string.IsNullOrWhiteSpace(this.Name))
             {
-                throw new Exception();
+                throw new InvalidTeamDataException("Invalid Name");
             }
         }
 
@@ -43,7 +44,7 @@ namespace Sports.Domain
         {
             if (!filePath.EndsWith(".png") && !filePath.EndsWith(".jpg"))
             {
-                throw new Exception();
+                throw new InvalidTeamDataException("Invalid file extension");
             }
         }
 
@@ -51,7 +52,7 @@ namespace Sports.Domain
         {
             if (!File.Exists(filePath))
             {
-                throw new Exception();
+                throw new InvalidTeamDataException("Invalid file path");
             }
         }
 
@@ -60,7 +61,7 @@ namespace Sports.Domain
             FileInfo file = new FileInfo(filePath);
             if (file.Length > MAX_FILE_SIZE)
             {
-                throw new Exception();
+                throw new InvalidTeamDataException("Invalid file size");
             }
         }
 
