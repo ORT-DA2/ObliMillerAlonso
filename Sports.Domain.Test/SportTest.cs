@@ -72,7 +72,7 @@ namespace Sports.Domain.Test
             {
                 Name = "Real"
             };
-            sport.Teams.Remove(secondTeam);
+            sport.RemoveTeam(secondTeam);
         }
     }
 }

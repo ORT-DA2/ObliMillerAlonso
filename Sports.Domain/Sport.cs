@@ -27,7 +27,14 @@ namespace Sports.Domain
                 throw new InvalidSportDataException("Invalid Name");
         }
 
-
+        public void RemoveTeam(Team team)
+        {
+            if (!Teams.Contains(team))
+            {
+                throw new InvalidSportDataException("Team does not exist in Sport");
+            }
+            Teams.Remove(team);
+        }
 
        
     }
