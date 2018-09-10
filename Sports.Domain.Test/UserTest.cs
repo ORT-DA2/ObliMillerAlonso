@@ -133,6 +133,19 @@ namespace Sports.Domain.Test
             Assert.AreNotEqual(firstUser, secondUser);
         }
 
+        [TestMethod]
+        public void ToStringIsOk()
+        {
+            User user = new User
+            {
+                UserName = "Pablito",
+                FirstName = "Pablo",
+                LastName = "Garcia"
+            };
+            String expectedToString = string.Format("Name: {0} LastName: {1} UserName: {2}", user.FirstName, user.LastName, user.UserName);
+            Assert.AreEqual(expectedToString, user.ToString());
+        }
+
 
 
 
