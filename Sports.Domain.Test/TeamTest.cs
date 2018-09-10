@@ -80,5 +80,18 @@ namespace Sports.Domain.Test
         {
             team.AddPictureFromPath(LARGE_IMAGE_PATH);
         }
+
+        [TestMethod]
+        public void EqualsIsTrue()
+        {
+            Team secondTeam = new Team()
+            {
+                Name = "Test Team",
+
+            };
+            Assert.IsTrue(team.Equals(secondTeam));
+        }
+
+
     }
 }
