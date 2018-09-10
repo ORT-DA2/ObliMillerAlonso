@@ -45,5 +45,17 @@ namespace Sports.Domain.Test
             sport.Teams.Add(team);
             Assert.AreEqual(1, sport.Teams.Count);
         }
+
+        [TestMethod]
+        public void ValidateRemoveTeam()
+        {
+            Team team = new Team()
+            {
+                Name = "Barcelona"
+            };
+            sport.Teams.Add(team);
+            sport.Teams.Remove(team);
+            Assert.AreEqual(0, sport.Teams.Count);
+        }
     }
 }
