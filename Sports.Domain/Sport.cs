@@ -29,13 +29,17 @@ namespace Sports.Domain
 
         public void RemoveTeam(Team team)
         {
+            CheckIfTeamExists(team);
+            Teams.Remove(team);
+        }
+
+        private void CheckIfTeamExists(Team team)
+        {
             if (!Teams.Contains(team))
             {
                 throw new InvalidSportDataException("Team does not exist in Sport");
             }
-            Teams.Remove(team);
         }
 
-       
     }
 }

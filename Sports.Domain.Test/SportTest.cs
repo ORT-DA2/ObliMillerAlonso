@@ -10,6 +10,7 @@ namespace Sports.Domain.Test
     [TestClass]
     public class SportTest
     {
+        Team team;
         Sport sport;
 
         [TestInitialize]
@@ -18,6 +19,10 @@ namespace Sports.Domain.Test
             sport = new Sport()
             {
                 Name = "Test sport"
+            };
+            team = new Team()
+            {
+                Name = "Barcelona"
             };
         }
 
@@ -38,10 +43,6 @@ namespace Sports.Domain.Test
         [TestMethod]
         public void ValidateAddTeam()
         {
-            Team team = new Team()
-            {
-                Name = "Barcelona"
-            };
             sport.Teams.Add(team);
             Assert.AreEqual(1, sport.Teams.Count);
         }
@@ -49,10 +50,6 @@ namespace Sports.Domain.Test
         [TestMethod]
         public void ValidateRemoveTeam()
         {
-            Team team = new Team()
-            {
-                Name = "Barcelona"
-            };
             sport.Teams.Add(team);
             sport.Teams.Remove(team);
             Assert.AreEqual(0, sport.Teams.Count);
@@ -62,12 +59,7 @@ namespace Sports.Domain.Test
         [ExpectedException(typeof(InvalidSportDataException))]
         public void InvalidRemoveTeam()
         {
-            Team team = new Team()
-            {
-                Name = "Barcelona"
-            };
             sport.Teams.Add(team);
-
             Team secondTeam = new Team()
             {
                 Name = "Real"
