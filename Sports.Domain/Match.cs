@@ -13,7 +13,12 @@ namespace Sports.Domain
         public Team Visitor { get; set; }
         public ICollection<Comment> Comments { get; set; }
 
-        public void IsValidMatch(Team localTeam, Team visitorTeam)
+        public void IsValid(Team localTeam, Team visitorTeam)
+        {
+            IsValidMatch(localTeam, visitorTeam);
+        }
+
+        private void IsValidMatch(Team localTeam, Team visitorTeam)
         {
             if(localTeam.Name == visitorTeam.Name)
                 throw new InvalidMatchDataException ("Invalid Match");

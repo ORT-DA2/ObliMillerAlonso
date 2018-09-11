@@ -42,8 +42,7 @@ namespace Sports.Domain.Test
             {
                 Name = "Local team"
             };
-            match.IsValidMatch(localTeam, team);
-
+            match.IsValid(localTeam, team);
         }
     }
 }
