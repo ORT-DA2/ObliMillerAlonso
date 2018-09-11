@@ -4,4 +4,9 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Sports.Persistence.Interface\Sports.Persistence.Interface.csproj" />
+    <ProjectReference Include="..\Sports.Persistence\Sports.Persistence.csproj" />
+  </ItemGroup>
+
 </Project>

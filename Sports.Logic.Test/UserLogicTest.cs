@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sports.Domain;
+using Sports.Logic;
+using Sports.Persistence.Factory;
 
 
 namespace Sports.Logic.Test
@@ -13,7 +15,7 @@ namespace Sports.Logic.Test
         [TestMethod]
         public void AddUser()
         {
-            User user = new User()
+            User user = new User(true)
             {
                 FirstName = "Itai",
                 LastName = "Miller",
@@ -21,8 +23,10 @@ namespace Sports.Logic.Test
                 UserName = "iMiller",
                 Password = "root"
             };
-            user.Id = UserLogic.AddUser(user);
-            Assert.IsNotNull(UserLogic.GetUserById(user.Id));
+            PersistenceFactory factory = new PersistenceFactory();
+            UserLogic userLogic = new UserLogic(factory);
+            userLogic.AddUser(user);
+            Assert.IsNotNull(userLogic.GetUserById(user.Id));
         }
     }
 }
