@@ -23,5 +23,11 @@ namespace Sports.Domain
             if(localTeam.Name == visitorTeam.Name)
                 throw new InvalidMatchDataException ("Invalid Match");
         }
+
+        public override string ToString()
+        {
+            string tostring = "Sport: " + Sport + " Local Team: " + Local + " Visitor Team: " + Visitor + " Date: " + Date;
+            return tostring;
+        }
     }
 }
