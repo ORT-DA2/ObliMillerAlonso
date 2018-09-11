@@ -65,7 +65,7 @@ namespace Sports.Domain.Test
         }
 
         [TestMethod]
-        public void ValidateAddComment()
+        public void AddComment()
         {
             match.Comments.Add(comment);
             Assert.AreEqual(1, match.Comments.Count);
