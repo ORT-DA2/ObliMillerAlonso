@@ -6,15 +6,17 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using System.Linq;
 using Sports.Exceptions;
+using System.Reflection;
 
 namespace Sports.Domain.Test
 {
     [TestClass]
     public class TeamTest
     {
-        const string TEST_IMAGE_PATH = "C:/Users/Rafael/Documents/Diseno2/MillerAlonso/Sports.Domain.Test/TestImage/gun.png";
-        const string INVALID_FILE_PATH = "C:/Users/Rafael/Documents/Diseno2/MillerAlonso/Sports.Domain.Test/TestImage/example.txt";
-        const string LARGE_IMAGE_PATH = "C:/Users/Rafael/Documents/Diseno2/MillerAlonso/Sports.Domain.Test/TestImage/BigImg.jpg";
+        static string mypath = AppDomain.CurrentDomain.BaseDirectory;
+        string _testImagePath = mypath + "/TestImage/gun.png";
+        string _invalidFilePath = mypath + "/TestImage/example.txt";
+        string _largeFilePath = mypath+"/TestImage/BigImg.jpg";
         Team team;
         [TestInitialize]
         public void SetUp()
@@ -54,8 +56,8 @@ namespace Sports.Domain.Test
         [TestMethod]
         public void AddPictureFromPath()
         {
-            team.AddPictureFromPath(TEST_IMAGE_PATH);
-            byte[] file = File.ReadAllBytes(TEST_IMAGE_PATH);
+            team.AddPictureFromPath(_testImagePath);
+            byte[] file = File.ReadAllBytes(_testImagePath);
             string fileString = System.Text.Encoding.UTF8.GetString(file);
             Assert.AreEqual<string>(fileString, team.Picture);
         }
@@ -72,14 +74,14 @@ namespace Sports.Domain.Test
         [TestMethod]
         public void InvalidFile()
         {
-            team.AddPictureFromPath(INVALID_FILE_PATH);
+            team.AddPictureFromPath(_invalidFilePath);
         }
 
         [ExpectedException(typeof(InvalidTeamDataException))]
         [TestMethod]
         public void OversizedFile()
         {
-            team.AddPictureFromPath(LARGE_IMAGE_PATH);
+            team.AddPictureFromPath(_largeFilePath);
         }
 
         [TestMethod]
