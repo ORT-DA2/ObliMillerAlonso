@@ -38,11 +38,11 @@ namespace Sports.Domain.Test
         [ExpectedException(typeof(InvalidMatchDataException))]
         public void InvalidMatch()
         {
-            Team visitorTeam = new Team()
+            Team team = new Team()
             {
-                Name = "Visitor team"
+                Name = "Local team"
             };
-            match.IsValidMatch();
+            match.IsValidMatch(localTeam, team);
 
         }
     }
