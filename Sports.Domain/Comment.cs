@@ -10,7 +10,7 @@ namespace Sports.Domain
         public int Id { get; private set; }
         public string Text { get; set; }
         public DateTime Date { get; set; }
-        private User user;
+        public User Author { get; set; }
         
 
         public void IsValid()
