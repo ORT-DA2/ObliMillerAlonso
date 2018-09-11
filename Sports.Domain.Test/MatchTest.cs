@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Sports.Domain.Test
 {
+    [TestClass]
     public class MatchTest
     {
         Match match;
@@ -14,6 +15,12 @@ namespace Sports.Domain.Test
         public void SetUp()
         {
             match = new Match();
+        }
+
+        [TestMethod]
+        public void NewMatch()
+        {
+            Assert.IsNotNull(match);
         }
     }
 }
