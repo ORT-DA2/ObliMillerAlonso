@@ -13,6 +13,11 @@ namespace Sports.Domain
         public Team Visitor { get; set; }
         public ICollection<Comment> Comments { get; set; }
 
+        public Match()
+        {
+            Comments = new List<Comment>();
+        }
+
         public void IsValid(Team localTeam, Team visitorTeam)
         {
             IsValidMatch(localTeam, visitorTeam);
@@ -21,7 +26,7 @@ namespace Sports.Domain
         private void IsValidMatch(Team localTeam, Team visitorTeam)
         {
             if(localTeam.Name == visitorTeam.Name)
-                throw new InvalidMatchDataException ("Invalid Match");
+                throw new InvalidMatchDataException ("Invalid Match. Local and Visitor must be different.");
         }
 
         public override string ToString()

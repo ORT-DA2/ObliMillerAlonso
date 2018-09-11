@@ -14,6 +14,7 @@ namespace Sports.Domain.Test
         Team localTeam;
         Team visitorTeam;
         Sport sport;
+        Comment comment;
 
         [TestInitialize]
         public void SetUp()
@@ -39,6 +40,11 @@ namespace Sports.Domain.Test
                 Visitor = visitorTeam,
                 Date = DateTime.Now
             };
+            comment = new Comment()
+            {
+                Text = "comment",
+                Date = DateTime.Now
+            };
         }
 
         [TestMethod]
@@ -59,10 +65,19 @@ namespace Sports.Domain.Test
         }
 
         [TestMethod]
+        public void ValidateAddComment()
+        {
+            match.Comments.Add(comment);
+            Assert.AreEqual(1, match.Comments.Count);
+        }
+
+        [TestMethod]
         public void ToStringIsOk()
         {
             String expectedToString = string.Format("Sport: {0} Local Team: {1} Visitor Team: {2} Date: {3}", match.Sport, match.Local, match.Visitor, match.Date);
             Assert.AreEqual(expectedToString, match.ToString());
         }
+
+
     }
 }
