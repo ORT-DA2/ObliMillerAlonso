@@ -7,6 +7,7 @@ namespace Sports.Domain
 {
     public class Match
     {
+        public int Id { get; private set; }
         public DateTime Date { get; set; }
         public Sport Sport { get; set; }
         public Team Local { get; set; }
