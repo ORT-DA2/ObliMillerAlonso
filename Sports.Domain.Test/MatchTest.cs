@@ -13,11 +13,11 @@ namespace Sports.Domain.Test
         Match match;
         Team localTeam;
         Team visitorTeam;
+        Sport sport;
 
         [TestInitialize]
         public void SetUp()
         {
-            match = new Match();
             localTeam = new Team()
             {
                 Name = "Local team"
@@ -25,6 +25,19 @@ namespace Sports.Domain.Test
             visitorTeam = new Team()
             {
                 Name = "Visitor team"
+            };
+            sport = new Sport()
+            {
+                Name = "Tennis"
+            };
+            sport.AddTeam(localTeam);
+            sport.AddTeam(visitorTeam);
+            match = new Match()
+            {
+                Sport = sport,
+                Local = localTeam,
+                Visitor = visitorTeam,
+                Date = DateTime.Now
             };
         }
 
@@ -43,6 +56,13 @@ namespace Sports.Domain.Test
                 Name = "Local team"
             };
             match.IsValid(localTeam, team);
+        }
+
+        [TestMethod]
+        public void ToStringIsOk()
+        {
+            String expectedToString = string.Format("Sport: {0} Local Team: {1} Visitor Team: {2} Date: {3}", match.Sport, match.Local, match.Visitor, match.Date);
+            Assert.AreEqual(expectedToString, match.ToString());
         }
     }
 }
