@@ -5,8 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Sports.Domain\Sports.Domain.csproj" />
-    <ProjectReference Include="..\Sports.Persistence.Factory\Sports.Persistence.Factory.csproj" />
+    <ProjectReference Include="..\Sports.Persistence.Context\Sports.Persistence.Context.csproj" />
     <ProjectReference Include="..\Sports.Persistence.Interface\Sports.Persistence.Interface.csproj" />
   </ItemGroup>
 
