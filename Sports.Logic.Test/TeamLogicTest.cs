@@ -109,6 +109,12 @@ namespace Sports.Logic.Test
             _teamLogic.Modify(_team);
         }
 
+        [TestMethod]
+        public void DeleteTeam()
+        {
+            _teamLogic.AddTeam(_team);
+            _teamLogic.Delete(_team);
+        }
 
     }
 }
