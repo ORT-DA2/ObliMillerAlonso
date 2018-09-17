@@ -109,6 +109,13 @@ namespace Sports.Domain.Test
             Assert.IsFalse(team.Equals(secondTeam));
         }
 
+
+        [TestMethod]
+        public void EqualsNull()
+        {
+            Assert.IsFalse(team.Equals(null));
+        }
+
         [TestMethod]
         public void ToStringRedefined()
         {
