@@ -96,6 +96,18 @@ namespace Sports.Logic.Test
             Assert.AreEqual<string>(_userLogic.GetUserById(_user.Id).LastName, userChanges.LastName);
         }
 
+        [TestMethod]
+        public void UpdateUserEmail()
+        {
+            _userLogic.AddUser(_user);
+            User userChanges = new User()
+            {
+                Email = "pepealonso@gmail.com"
+            };
+            _userLogic.UpdateUser(_user.Id, userChanges);
+            Assert.AreEqual<string>(_userLogic.GetUserById(_user.Id).Email, userChanges.Email);
+        }
+
 
     }
 }
