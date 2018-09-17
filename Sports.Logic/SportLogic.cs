@@ -56,5 +56,12 @@ namespace Sports.Logic
             return sports.First();
         }
 
+        public void UpdateSport(int id, Sport updatedSport)
+        {
+            Sport originalsport = GetSportById(id);
+            originalsport.UpdateData(updatedSport);
+            ValidateSport(originalsport);
+            _repository.Update(originalsport);
+        }
     }
 }
