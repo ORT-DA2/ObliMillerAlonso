@@ -63,5 +63,15 @@ namespace Sports.Logic
             ValidateTeam(realTeam);
             _repository.Update(realTeam);
         }
+
+        public void Delete(Team team)
+        {
+            _repository.Delete(team);
+        }
+
+        public ICollection<Team> GetAll()
+        {
+            return _repository.FindAll();
+        }
     }
 }

@@ -114,6 +114,7 @@ namespace Sports.Logic.Test
         {
             _teamLogic.AddTeam(_team);
             _teamLogic.Delete(_team);
+            Assert.AreEqual(_teamLogic.GetAll().Count, 0);
         }
 
     }
