@@ -51,5 +51,13 @@ namespace Sports.Logic.Test
             _teamLogic.AddTeam(_team);
             Assert.IsNotNull(_teamLogic.GetTeamById(_team.Id));
         }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidUserDataException))]
+        public void AddNullTeam()
+        {
+            _teamLogic.AddTeam(null);
+        }
     }
 }
