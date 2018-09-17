@@ -26,6 +26,7 @@ namespace Sports.Logic
         private void ValidateTeam(Team team)
         {
             CheckNotNull(team);
+            team.IsValid();
         }
 
         private void CheckNotNull(Team team)
