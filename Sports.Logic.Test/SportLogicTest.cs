@@ -75,5 +75,17 @@ namespace Sports.Logic.Test
             Assert.AreEqual<string>(_sportLogic.GetSportById(_sport.Id).Name, sportChanges.Name);
         }
 
+        [TestMethod]
+        public void UpdateIgnoreEmptyFields()
+        {
+            _sportLogic.AddSport(_sport);
+            Sport sportChanges = new Sport()
+            {
+                Name = ""
+            };
+            _sportLogic.UpdateSport(_sport.Id, sportChanges);
+            Assert.AreNotEqual<string>(_sportLogic.GetSportById(_sport.Id).Name, sportChanges.Name);
+        }
+
     }
 }
