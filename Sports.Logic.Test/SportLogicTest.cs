@@ -106,5 +106,13 @@ namespace Sports.Logic.Test
             Assert.AreEqual<string>(_sportLogic.GetSportByName(_sport.Name).Name, _sport.Name);
         }
 
+        [TestMethod]
+        public void DeleteSport()
+        {
+            _sportLogic.AddSport(_sport);
+            _sportLogic.RemoveSport(_sport.Id);
+            Assert.AreEqual(_sportLogic.GetAll().Count, 0);
+        }
+
     }
 }
