@@ -25,6 +25,7 @@ namespace Sports.Logic
             CheckNotNull(match);
             match.IsValid();
             match.Local = GetRealTeam(match.Local);
+            match.Visitor = GetRealTeam(match.Local);
             _repository.Create(match);
         }
 
