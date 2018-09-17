@@ -73,5 +73,16 @@ namespace Sports.Logic
             ValidateSport(originalsport);
             _repository.Update(originalsport);
         }
+
+        public void RemoveSport(int id)
+        {
+            Sport sport = GetSportById(id);
+            _repository.Delete(sport);
+        }
+
+        public ICollection<Sport> GetAll()
+        {
+            return _repository.FindAll();
+        }
     }
 }
