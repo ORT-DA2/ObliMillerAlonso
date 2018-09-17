@@ -84,5 +84,10 @@ namespace Sports.Logic
         {
             return _repository.FindAll();
         }
+
+        public void AddTeam(Sport sport, Team team)
+        {
+            sport.AddTeam(team);
+        }
     }
 }

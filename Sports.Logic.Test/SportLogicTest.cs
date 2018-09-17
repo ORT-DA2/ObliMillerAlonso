@@ -122,19 +122,15 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidSportDataException))]
-        public void AddDuplicatedTeam()
+        public void AddTeam()
         {
+            _sportLogic.AddSport(_sport);
             Team _team = new Team()
             {
                 Name = "Barcelona"
             };
-            Team _identicalTeam = new Team()
-            {
-                Name = "Barcelona"
-            };
-            _teamLogic.AddTeam(_team);
-            _teamLogic.AddTeam(_identicalTeam);
+            _sportLogic.AddTeam(_sport, _team);
+            Assert.AreEqual(_sportLogic.GetSportById(_sport.Id).Teams.Count, 1);
         }
     }
 }

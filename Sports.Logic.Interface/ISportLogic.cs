@@ -12,6 +12,7 @@ namespace Sports.Logic.Interface
         void UpdateSport(int id, Sport updatedSport);
         void RemoveSport(int id);
         ICollection<Sport> GetAll();
+        void AddTeam(Sport sport, Team team);
 
 
 
