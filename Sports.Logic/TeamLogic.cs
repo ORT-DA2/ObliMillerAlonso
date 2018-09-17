@@ -66,7 +66,8 @@ namespace Sports.Logic
 
         public void Delete(Team team)
         {
-            _repository.Delete(team);
+            Team realTeam = GetTeamById(team.Id);
+            _repository.Delete(realTeam);
         }
 
         public ICollection<Team> GetAll()
