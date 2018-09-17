@@ -22,11 +22,16 @@ namespace Sports.Logic
         }
         public void AddMatch(Match match)
         {
+            ValidateMatch(match);
+            _repository.Create(match);
+        }
+
+        private void ValidateMatch(Match match)
+        {
             CheckNotNull(match);
             match.IsValid();
             match.Local = GetRealTeam(match.Local);
-            match.Visitor = GetRealTeam(match.Local);
-            _repository.Create(match);
+            match.Visitor = GetRealTeam(match.Visitor);
         }
 
         private Team GetRealTeam(Team team)
