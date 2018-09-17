@@ -82,5 +82,19 @@ namespace Sports.Domain
             return this.Name;
         }
 
+        public void UpdateData(Team team)
+        {
+            this.Name = IgnoreWhiteSpace(this.Name, team.Name);
+        }
+
+        private string IgnoreWhiteSpace(string originalText, string updatedText)
+        {
+            if (string.IsNullOrWhiteSpace(updatedText))
+            {
+                return originalText;
+            }
+            return updatedText;
+        }
+
     }
 }
