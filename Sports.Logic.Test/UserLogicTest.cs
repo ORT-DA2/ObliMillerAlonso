@@ -127,10 +127,24 @@ namespace Sports.Logic.Test
             User userChanges = new User()
             {
                 UserName = "pepealonso"
-        };
+            };
             _userLogic.UpdateUser(_user.Id, userChanges);
             Assert.AreEqual<string>(_userLogic.GetUserById(_user.Id).UserName, userChanges.UserName);
         }
+
+        [TestMethod]
+        public void UpdateIgnoreEmptyFields()
+        {
+            _userLogic.AddUser(_user);
+            User userChanges = new User()
+            {
+                UserName = ""
+            };
+            _userLogic.UpdateUser(_user.Id, userChanges);
+            Assert.AreNotEqual<string>(_userLogic.GetUserById(_user.Id).UserName, userChanges.UserName);
+        }
+
+
 
 
     }
