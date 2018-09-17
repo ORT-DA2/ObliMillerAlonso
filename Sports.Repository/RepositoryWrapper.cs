@@ -11,6 +11,7 @@ namespace Sports.Repository
     {
         private RepositoryContext _repositoryContext;
         private IUserRepository _user;
+        private ITeamRepository _team;
 
         public RepositoryWrapper(RepositoryContext repositoryContext)
         {
@@ -23,6 +24,13 @@ namespace Sports.Repository
                 if (_user == null)
                     _user = new UserRepository(_repositoryContext);
                 return _user;
+            }
+        }
+        public ITeamRepository Team {
+            get {
+                if (_team == null)
+                    _team = new TeamRepository(_repositoryContext);
+                return _team;
             }
         }
 

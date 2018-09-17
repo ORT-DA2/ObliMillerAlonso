@@ -18,6 +18,10 @@ namespace Sports.Repository.Context
 
             modelBuilder.Entity<User>().HasKey(u => u.Id);
             modelBuilder.Entity<User>().Property(u => u.Id).ValueGeneratedOnAdd();
+
+
+            modelBuilder.Entity<Team>().HasKey(t => t.Id);
+            modelBuilder.Entity<Team>().Property(t => t.Id).ValueGeneratedOnAdd();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

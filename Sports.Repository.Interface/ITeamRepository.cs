@@ -5,9 +5,7 @@ using Sports.Domain;
 
 namespace Sports.Repository.Interface
 {
-    public interface IRepositoryWrapper
+    public interface ITeamRepository : IRepositoryBase<Team>
     {
-        IUserRepository User { get; }
-        ITeamRepository Team { get; }
     }
 }

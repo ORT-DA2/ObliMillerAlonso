@@ -18,6 +18,21 @@ namespace Sports.Logic.Test
     [TestClass]
     public class TeamLogicTest
     {
+        private IRepositoryWrapper _wrapper;
+        private RepositoryContext _repository;
+        private TeamLogic _teamLogic;
+
+        [TestInitialize]
+        public void SetUp()
+        {
+            var options = new DbContextOptionsBuilder<RepositoryContext>()
+                .UseInMemoryDatabase<RepositoryContext>(databaseName: "TeamLogicTestDB")
+                .Options;
+            _repository = new RepositoryContext(options);
+            _wrapper = new RepositoryWrapper(_repository);
+            _teamLogic = new TeamLogic(_wrapper);
+        }
+
         [TestMethod]
         public void AddTeam()
         {
@@ -25,7 +40,7 @@ namespace Sports.Logic.Test
             {
                 Name = "name"
             };
-            _teamLogic.AddUser(team);
+            _teamLogic.AddTeam(team);
             Assert.IsNotNull(_teamLogic.GetTeamById(team.Id));
         }
     }
