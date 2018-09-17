@@ -53,5 +53,12 @@ namespace Sports.Logic.Test
             _matchLogic.AddMatch(_match);
             Assert.IsNotNull(_matchLogic.GetMatchById(_match.Id));
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidMatchDataException))]
+        public void AddNullMatch()
+        {
+            _matchLogic.AddMatch(null);
+        }
     }
 }
