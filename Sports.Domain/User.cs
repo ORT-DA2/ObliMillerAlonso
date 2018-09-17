@@ -121,6 +121,7 @@ namespace Sports.Domain
         public void UpdateData(User user)
         {
             this.FirstName = user.FirstName;
+            this.LastName = user.LastName;
         }
 
 

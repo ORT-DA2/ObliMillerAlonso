@@ -83,7 +83,19 @@ namespace Sports.Logic.Test
             _userLogic.UpdateUser(_user.Id, userChanges);
             Assert.AreEqual<string>(_userLogic.GetUserById(_user.Id).FirstName,userChanges.FirstName);
         }
-        
+
+        [TestMethod]
+        public void UpdateUserLastName()
+        {
+            _userLogic.AddUser(_user);
+            User userChanges = new User()
+            {
+                LastName = "Alonso"
+            };
+            _userLogic.UpdateUser(_user.Id, userChanges);
+            Assert.AreEqual<string>(_userLogic.GetUserById(_user.Id).LastName, userChanges.LastName);
+        }
+
 
     }
 }
