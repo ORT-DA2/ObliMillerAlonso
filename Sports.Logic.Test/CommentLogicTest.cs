@@ -21,6 +21,7 @@ namespace Sports.Logic.Test
         private IRepositoryWrapper _wrapper;
         private RepositoryContext _repository;
         private CommentLogic _commentLogic;
+        private UserLogic _userLogic;
         private Comment _comment;
         private User _user;
 
@@ -49,12 +50,15 @@ namespace Sports.Logic.Test
             _repository = new RepositoryContext(options);
             _wrapper = new RepositoryWrapper(_repository);
             _commentLogic = new CommentLogic(_wrapper);
+            _userLogic = new UserLogic(_wrapper);
+            _userLogic.AddUser(_user);
         }
 
         [TestCleanup]
         public void TearDown()
         {
             _repository.Comments.RemoveRange(_repository.Comments);
+            _repository.Users.RemoveRange(_repository.Users);
             _repository.SaveChanges();
         }
 

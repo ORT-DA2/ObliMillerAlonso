@@ -5,10 +5,12 @@ using System.Linq;
 using Sports.Domain;
 using Sports.Exceptions;
 using Sports.Repository.Interface;
+using Sports.Logic.Interface;
+
 
 namespace Sports.Logic
 {
-    public class UserLogic
+    public class UserLogic : IUserLogic
     {
         IUserRepository _repository;
 

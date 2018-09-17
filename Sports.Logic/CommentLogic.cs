@@ -5,13 +5,14 @@ using System.Linq;
 using Sports.Domain;
 using Sports.Exceptions;
 using Sports.Repository.Interface;
+using Sports.Logic.Interface;
 
 namespace Sports.Logic
 {
-    public class CommentLogic
+    public class CommentLogic : ICommentLogic
     {
         ICommentRepository _repository;
-        UserLogic _userLogic;
+        IUserLogic _userLogic;
 
         public CommentLogic(IRepositoryWrapper wrapper)
         {
@@ -26,8 +27,9 @@ namespace Sports.Logic
 
         private void ValidateComment(Comment comment)
         {
-            comment.User =_userLogic.GetUserById(comment.User.Id);
             CheckNotNull(comment);
+            comment.User =_userLogic.GetUserById(comment.User.Id);
+           
         }
 
         private void CheckNotNull(Comment comment)
