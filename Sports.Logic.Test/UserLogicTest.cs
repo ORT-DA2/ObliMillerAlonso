@@ -156,6 +156,20 @@ namespace Sports.Logic.Test
             _userLogic.UpdateUser(_user.Id, userChanges);
         }
 
-
+        [TestMethod]
+        [ExpectedException(typeof(InvalidUserDataException))]
+        public void AddDuplicatedUsername()
+        {
+            _userLogic.AddUser(_user);
+            User identicalUser = new User()
+            {
+                FirstName = "Itai",
+                LastName = "Miller",
+                Email = "itaimiller@gmail.com",
+                UserName = "iMiller",
+                Password = "root"
+            };
+            _userLogic.AddUser(identicalUser);
+        }
     }
 }
