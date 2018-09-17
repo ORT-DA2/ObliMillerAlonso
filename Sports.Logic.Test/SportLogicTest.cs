@@ -63,5 +63,17 @@ namespace Sports.Logic.Test
             _sportLogic.AddSport(null);
         }
 
+        [TestMethod]
+        public void UpdateSportName()
+        {
+            _sportLogic.AddSport(_sport);
+            Sport sportChanges = new Sport()
+            {
+                Name = "Basketball"
+            };
+            _sportLogic.UpdateSport(_sport.Id, sportChanges);
+            Assert.AreEqual<string>(_sportLogic.GetSportById(_sport.Id).Name, sportChanges.Name);
+        }
+
     }
 }
