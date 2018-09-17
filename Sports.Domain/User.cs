@@ -124,6 +124,7 @@ namespace Sports.Domain
             this.LastName = user.LastName;
             this.Email = user.Email;
             this.Password = user.Password;
+            this.UserName = user.UserName;
         }
 
 
