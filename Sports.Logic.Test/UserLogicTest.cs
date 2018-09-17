@@ -71,15 +71,15 @@ namespace Sports.Logic.Test
             };
             _userLogic.AddUser(invalidUser);
         }
-        /*
+        
         [TestMethod]
         public void UpdateUserFirstName()
         {
             _user.FirstName = "Juan";
-            _userLogic.UpdateUser(_user);
-            Assert.IsNotNull(userLogic.GetUserById(_user.Id));
+            _userLogic.UpdateUser(_user.Id,_user);
+            Assert.Equals(_userLogic.GetUserById(_user.Id).FirstName,_user.FirstName);
         }
-        */
+        
 
     }
 }
