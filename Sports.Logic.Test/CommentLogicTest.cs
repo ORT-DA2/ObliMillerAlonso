@@ -22,15 +22,27 @@ namespace Sports.Logic.Test
         private RepositoryContext _repository;
         private CommentLogic _commentLogic;
         private Comment _comment;
+        private User _user;
 
         [TestInitialize]
         public void SetUp()
         {
-            _comment = new Comment()
+            _user = new User(true)
             {
-                Text = "comment"
+                FirstName = "Itai",
+                LastName = "Miller",
+                Email = "itaimiller@gmail.com",
+                UserName = "iMiller",
+                Password = "root"
             };
 
+            _comment = new Comment()
+            {
+                Text = "comment",
+                User = _user
+            };
+
+            
             var options = new DbContextOptionsBuilder<RepositoryContext>()
                 .UseInMemoryDatabase<RepositoryContext>(databaseName: "UserLogicTestDB")
                 .Options;
@@ -58,6 +70,19 @@ namespace Sports.Logic.Test
         public void AddNullComment()
         {
             _commentLogic.AddComment(null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidUserDataException))]
+        public void VerifyCommentUser()
+        {
+            User testUser = new User(){ };
+            Comment userComment = new Comment()
+            {
+                Text = "comment",
+                User = testUser
+            };
+            _commentLogic.AddComment(userComment);
         }
     }
 
