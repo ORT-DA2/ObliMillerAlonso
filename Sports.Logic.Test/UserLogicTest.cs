@@ -187,7 +187,7 @@ namespace Sports.Logic.Test
         public void DeleteUser()
         {
             _userLogic.AddUser(_user);
-            _userLogic.RemoveUser(_user);
+            _userLogic.RemoveUser(_user.Id);
             Assert.AreEqual(_userLogic.GetAll().Count, 0);
         }
 
@@ -197,15 +197,7 @@ namespace Sports.Logic.Test
         public void DeleteNonExistingUser()
         {
             _userLogic.AddUser(_user);
-            User identicalUser = new User()
-            {
-                FirstName = "Itai",
-                LastName = "Miller",
-                Email = "itaimiller@gmail.com",
-                UserName = "iMiller",
-                Password = "root"
-            };
-            _userLogic.RemoveUser(identicalUser);
+            _userLogic.RemoveUser(_user.Id+1);
         }
     }
 }

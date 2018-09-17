@@ -36,7 +36,8 @@ namespace Sports.Logic
                 throw new InvalidUserDataException("Cannot repeat username");
             }
         }
-            
+        
+
         private void CheckNotNull(User user)
         {
             if (user == null)
@@ -48,6 +49,10 @@ namespace Sports.Logic
         public User GetUserById(int id)
         { 
             ICollection<User> users = _repository.FindByCondition(u => u.Id==id);
+            if(users.Count == 0)
+            {
+                throw new InvalidUserDataException("Id does not match any existing users");
+            }
             return users.First();
 
         }
@@ -66,8 +71,9 @@ namespace Sports.Logic
             return users.First();
         }
 
-        public void RemoveUser(User user)
+        public void RemoveUser(int id)
         {
+            User user = GetUserById(id);
             _repository.Delete(user);
         }
 
