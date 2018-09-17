@@ -79,5 +79,17 @@ namespace Sports.Logic.Test
             _match.Date = DateTime.Now.AddDays(-1);
             _matchLogic.AddMatch(_match);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidMatchDataException))]
+        public void AddMatchInvalidLocalTeam()
+        {
+            Team invalidTeam = new Team()
+            {
+                Name = "Unregistered team"
+            };
+            _match.Local = invalidTeam;
+            _matchLogic.AddMatch(_match);
+        }
     }
 }
