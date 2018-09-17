@@ -17,10 +17,15 @@ namespace Sports.Logic
         }
         public void AddTeam(Team team)
         {
-            CheckNotNull(team);
+            ValidateTeam(team);
             _repository.Create(team);
         }
-        
+
+        private void ValidateTeam(Team team)
+        {
+            CheckNotNull(team);
+        }
+
         private void CheckNotNull(Team team)
         {
             if (team == null)
