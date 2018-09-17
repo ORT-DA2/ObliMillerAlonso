@@ -20,7 +20,16 @@ namespace Sports.Logic
         }
         public void AddMatch(Match match)
         {
+            CheckNotNull(match);
             _repository.Create(match);
+        }
+
+        private void CheckNotNull(Match match)
+        {
+            if (match == null)
+            {
+                throw new InvalidMatchDataException("Cannot add null match");
+            }
         }
 
         public Match GetMatchById(int id)
