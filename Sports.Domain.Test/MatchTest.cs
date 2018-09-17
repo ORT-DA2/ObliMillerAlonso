@@ -56,13 +56,24 @@ namespace Sports.Domain.Test
 
         [TestMethod]
         [ExpectedException(typeof(InvalidMatchDataException))]
-        public void InvalidMatch()
+        public void InvalidMatchTeams()
         {
             Team team = new Team()
             {
                 Name = "Local team"
             };
-            match.IsValid(localTeam, team);
+            match.Visitor = team;
+            match.IsValid();
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidMatchDataException))]
+        public void InvalidMatchDate()
+        {
+            DateTime yesterday = DateTime.Now.AddDays(-1);
+            match.Date = yesterday;
+            match.IsValid();
         }
 
         [TestMethod]

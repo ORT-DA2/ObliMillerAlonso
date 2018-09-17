@@ -19,15 +19,26 @@ namespace Sports.Domain
             Comments = new List<Comment>();
         }
 
-        public void IsValid(Team localTeam, Team visitorTeam)
+        public void IsValid()
         {
-            IsValidMatch(localTeam, visitorTeam);
+            IsValidMatch(this.Local, this.Visitor);
+            IsValidDate(this.Date);
+        }
+
+        private void IsValidDate(DateTime date)
+        {
+            if (date.Subtract(DateTime.Now).TotalSeconds<0)
+            {
+                throw new InvalidMatchDataException("Cant set past matches");
+            }
         }
 
         private void IsValidMatch(Team localTeam, Team visitorTeam)
         {
             if(localTeam.Name == visitorTeam.Name)
-                throw new InvalidMatchDataException ("Invalid Match. Local and Visitor must be different.");
+            {
+                throw new InvalidMatchDataException("Invalid Match. Local and Visitor must be different.");
+            }
         }
 
         public override string ToString()

@@ -23,10 +23,15 @@ namespace Sports.Logic.Test
         private IRepositoryWrapper _wrapper;
         private RepositoryContext _repository;
         private IMatchLogic _matchLogic;
+        private Match _match;
 
         [TestInitialize]
         public void SetUp()
         {
+            _match = new Match()
+            {
+
+            };
             var options = new DbContextOptionsBuilder<RepositoryContext>()
                 .UseInMemoryDatabase<RepositoryContext>(databaseName: "UserLogicTestDB")
                 .Options;
@@ -35,15 +40,18 @@ namespace Sports.Logic.Test
             _matchLogic = new MatchLogic(_wrapper);
         }
 
+        [TestCleanup]
+        public void TearDown()
+        {
+            _repository.Matches.RemoveRange(_repository.Matches);
+            _repository.SaveChanges();
+        }
+
         [TestMethod]
         public void AddMatch()
         {
-            Match match = new Match()
-            {
-
-            };
-            _matchLogic.AddMatch(match);
-            Assert.IsNotNull(_matchLogic.GetMatchById(match.Id));
+            _matchLogic.AddMatch(_match);
+            Assert.IsNotNull(_matchLogic.GetMatchById(_match.Id));
         }
     }
 }
