@@ -116,5 +116,13 @@ namespace Sports.Logic.Test
             _matchLogic.ModifyMatch(_match);
             Assert.AreEqual(_matchLogic.GetMatchById(_match.Id).Date, _match.Date);
         }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidMatchDataException))]
+        public void ModifyInvalidMatch()
+        {
+            _matchLogic.ModifyMatch(_match);
+        }
     }
 }
