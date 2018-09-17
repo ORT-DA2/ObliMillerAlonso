@@ -90,9 +90,8 @@ namespace Sports.Logic
         public void AddTeam(Sport sport, Team team)
         {
             Sport realSport = GetSportById(sport.Id);
-            Team realTeam = _teamLogic.GetTeamById(team.Id);
-            realSport.AddTeam(realTeam);
-            
+           // Team realTeam = _teamLogic.GetTeamById(team.Id);
+            realSport.AddTeam(team);
         }
     }
 }

@@ -143,5 +143,17 @@ namespace Sports.Logic.Test
             };
             _sportLogic.AddTeam(_sport, _team);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidTeamDataException))]
+        public void AddInvalidTeam()
+        {
+            _sportLogic.AddSport(_sport);
+            Team _team = new Team()
+            {
+                Name = "Barcelona"
+            };
+            _sportLogic.AddTeam(_sport, _team);
+        }
     }
 }
