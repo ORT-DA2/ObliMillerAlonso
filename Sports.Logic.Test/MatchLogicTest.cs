@@ -95,5 +95,17 @@ namespace Sports.Logic.Test
             _match.Local = invalidTeam;
             _matchLogic.AddMatch(_match);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidTeamDataException))]
+        public void AddMatchInvalidVisitorTeam()
+        {
+            Team invalidTeam = new Team()
+            {
+                Name = "Unregistered team"
+            };
+            _match.Visitor = invalidTeam;
+            _matchLogic.AddMatch(_match);
+        }
     }
 }
