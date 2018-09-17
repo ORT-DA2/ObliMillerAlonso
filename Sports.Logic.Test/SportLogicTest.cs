@@ -87,5 +87,17 @@ namespace Sports.Logic.Test
             Assert.AreNotEqual<string>(_sportLogic.GetSportById(_sport.Id).Name, sportChanges.Name);
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(InvalidSportDataException))]
+        public void AddDuplicatedName()
+        {
+            _sportLogic.AddSport(_sport);
+            Sport identicalSport = new Sport()
+            {
+                Name = "Tennis"
+            };
+            _sportLogic.AddSport(identicalSport);
+        }
+
     }
 }
