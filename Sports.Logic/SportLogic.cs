@@ -56,6 +56,16 @@ namespace Sports.Logic
             return sports.First();
         }
 
+        public Sport GetSportByName(string name)
+        {
+            ICollection<Sport> sports = _repository.FindByCondition(s => s.Name == name);
+            if (sports.Count == 0)
+            {
+                throw new InvalidSportDataException("Id does not match any existing sports");
+            }
+            return sports.First();
+        }
+
         public void UpdateSport(int id, Sport updatedSport)
         {
             Sport originalsport = GetSportById(id);

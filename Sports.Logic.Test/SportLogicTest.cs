@@ -100,10 +100,10 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        public void GetSportById()
+        public void GetSportByName()
         {
             _sportLogic.AddSport(_sport);
-            Assert.AreEqual<string>(_sportLogic.GetSportById(_sport.Id).Id, _sport.Id);
+            Assert.AreEqual<string>(_sportLogic.GetSportByName(_sport.Name).Name, _sport.Name);
         }
 
     }
