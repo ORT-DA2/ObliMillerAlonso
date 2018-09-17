@@ -28,9 +28,20 @@ namespace Sports.Logic.Test
         [TestInitialize]
         public void SetUp()
         {
+            Team localTeam = new Team()
+            {
+                Name = "Local team"
+            };
+            Team visitorTeam = new Team()
+            {
+                Name = "Visitor team",
+
+            };
             _match = new Match()
             {
-                Date = DateTime.Now.AddDays(-1)
+                Local = localTeam,
+                Visitor = visitorTeam,
+                Date = DateTime.Now.AddDays(1)
             };
             var options = new DbContextOptionsBuilder<RepositoryContext>()
                 .UseInMemoryDatabase<RepositoryContext>(databaseName: "UserLogicTestDB")
@@ -65,7 +76,7 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(InvalidMatchDataException))]
         public void AddMatchInvalidDate()
         {
-            _match.Date = DateTime.Now.AddDays(1);
+            _match.Date = DateTime.Now.AddDays(-1);
             _matchLogic.AddMatch(_match);
         }
     }

@@ -21,6 +21,7 @@ namespace Sports.Logic
         public void AddMatch(Match match)
         {
             CheckNotNull(match);
+            match.IsValid();
             _repository.Create(match);
         }
 
