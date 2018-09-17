@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Sports.Domain;
-using Sports.Logic;
+using Sports.Logic.Interface;
 using Sports.Repository;
 using Sports.Repository.Interface;
 using Sports.Repository.Context;
@@ -18,9 +18,11 @@ namespace Sports.Logic.Test
     [TestClass]
     public class TeamLogicTest
     {
+        static string mypath = AppDomain.CurrentDomain.BaseDirectory;
+        string _testImagePath = mypath + "/TestImage/gun.png";
         private IRepositoryWrapper _wrapper;
         private RepositoryContext _repository;
-        private TeamLogic _teamLogic;
+        private ITeamLogic _teamLogic;
         private Team _team;
 
         [TestInitialize]
@@ -69,6 +71,13 @@ namespace Sports.Logic.Test
                 Name = ""
             };
             _teamLogic.AddTeam(invalidNameTeam);
+        }
+
+        [TestMethod]
+        public void AddTeamPicture()
+        {
+            _teamLogic.AddTeam(_team);
+            _teamLogic.SetPictureFromPath(_testImagePath);
         }
     }
 }
