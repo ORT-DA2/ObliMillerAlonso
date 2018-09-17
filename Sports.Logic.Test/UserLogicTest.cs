@@ -182,5 +182,13 @@ namespace Sports.Logic.Test
             _userLogic.AddUser(_user);
             Assert.AreEqual<string>(_userLogic.GetUserByUserName(_user.UserName).UserName, _user.UserName);
         }
+
+        [TestMethod]
+        public void DeleteUser()
+        {
+            _userLogic.AddUser(_user);
+            _userLogic.RemoveUser(_user);
+            Assert.AreEqual(_userLogic.GetAll(), 0);
+        }
     }
 }
