@@ -59,5 +59,11 @@ namespace Sports.Logic
             ValidateUser(originalUser);
             _repository.Update(originalUser);
         }
+
+        public User GetUserByUserName(string userName)
+        {
+            ICollection<User> users = _repository.FindByCondition(u => u.UserName == userName);
+            return users.First();
+        }
     }
 }
