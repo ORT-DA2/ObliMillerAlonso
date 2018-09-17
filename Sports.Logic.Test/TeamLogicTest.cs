@@ -21,10 +21,15 @@ namespace Sports.Logic.Test
         private IRepositoryWrapper _wrapper;
         private RepositoryContext _repository;
         private TeamLogic _teamLogic;
+        private Team _team;
 
         [TestInitialize]
         public void SetUp()
         {
+            _team = new Team()
+            {
+                Name = "Team"
+            };
             var options = new DbContextOptionsBuilder<RepositoryContext>()
                 .UseInMemoryDatabase<RepositoryContext>(databaseName: "TeamLogicTestDB")
                 .Options;
@@ -33,15 +38,18 @@ namespace Sports.Logic.Test
             _teamLogic = new TeamLogic(_wrapper);
         }
 
+        [TestCleanup]
+        public void TearDown()
+        {
+            _repository.Teams.RemoveRange(_repository.Teams);
+            _repository.SaveChanges();
+        }
+
         [TestMethod]
         public void AddTeam()
         {
-            Team team = new Team()
-            {
-                Name = "name"
-            };
-            _teamLogic.AddTeam(team);
-            Assert.IsNotNull(_teamLogic.GetTeamById(team.Id));
+            _teamLogic.AddTeam(_team);
+            Assert.IsNotNull(_teamLogic.GetTeamById(_team.Id));
         }
     }
 }

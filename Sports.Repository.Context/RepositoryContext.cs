@@ -11,6 +11,7 @@ namespace Sports.Repository.Context
         public RepositoryContext(DbContextOptions options) : base(options) {
         }
         public DbSet<User> Users { get; set; }
+        public DbSet<Team> Teams { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
