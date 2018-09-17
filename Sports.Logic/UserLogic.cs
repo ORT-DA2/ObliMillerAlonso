@@ -26,17 +26,17 @@ namespace Sports.Logic
         {
             CheckNotNull(user);
             user.IsValid();
-            CheckNotExists(user.UserName);
+            CheckNotExists(user.UserName, user.Id);
         }
 
-        private void CheckNotExists(string username)
+        private void CheckNotExists(string username, int id = 0)
         {
-            if (_repository.FindByCondition(u => u.UserName == username).Count!=0)
+            if (_repository.FindByCondition(u => u.UserName == username && u.Id != id).Count!=0)
             {
                 throw new InvalidUserDataException("Cannot repeat username");
             }
         }
-
+            
         private void CheckNotNull(User user)
         {
             if (user == null)

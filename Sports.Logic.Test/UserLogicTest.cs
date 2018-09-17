@@ -41,7 +41,11 @@ namespace Sports.Logic.Test
         }
 
         [TestCleanup]
-        public void TearDown() { }
+        public void TearDown()
+        {
+            _repository.Users.RemoveRange(_repository.Users);
+            _repository.SaveChanges();
+        }
 
         [TestMethod]
         public void AddUser()
