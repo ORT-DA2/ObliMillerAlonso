@@ -100,6 +100,15 @@ namespace Sports.Logic.Test
             Assert.AreEqual<string>(_teamLogic.GetTeamById(_team.Id).Name,_team.Name);
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(InvalidTeamDataException))]
+        public void ChangeTeamNameInvalid()
+        {
+            _teamLogic.AddTeam(_team);
+            _team.Name = "";
+            _teamLogic.Modify(_team);
+        }
+
 
     }
 }
