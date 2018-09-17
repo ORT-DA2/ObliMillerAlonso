@@ -9,5 +9,6 @@ namespace Sports.Logic.Interface
     {
         void AddMatch(Match match);
         Match GetMatchById(int id);
+        void ModifyMatch(Match match);
     }
 }

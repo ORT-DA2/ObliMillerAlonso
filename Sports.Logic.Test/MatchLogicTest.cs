@@ -113,7 +113,8 @@ namespace Sports.Logic.Test
         {
             _matchLogic.AddMatch(_match);
             _match.Date = DateTime.Now.AddDays(+2);
-            _matchLogic.UpdateTime(_match);
+            _matchLogic.ModifyMatch(_match);
+            Assert.AreEqual(_matchLogic.GetMatchById(_match.Id).Date, _match.Date);
         }
     }
 }

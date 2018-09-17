@@ -49,9 +49,13 @@ namespace Sports.Logic
 
         public Match GetMatchById(int id)
         {
-
             ICollection<Match> matches = _repository.FindByCondition(m => m.Id == id);
             return matches.First();
+        }
+
+        public void ModifyMatch(Match match)
+        {
+            _repository.Update(match);
         }
     }
 }
