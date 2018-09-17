@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Text;
 using Sports.Exceptions;
 using System.Net.Mail;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Sports.Domain
 {
+    [Table("User")]
     public class User
     {
+        [Key]
         public int Id { get; set; }
         public string FirstName { get; set; }
         public bool IsAdmin { get; private set; }

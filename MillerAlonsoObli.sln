@@ -13,17 +13,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sports.Logic.Test", "Sports
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sports.Exceptions", "Sports.Exceptions\Sports.Exceptions.csproj", "{15F6E04E-A50E-4A45-9EC2-E91E2336C55A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sports.Logic.Interface", "Sports.Logic.Interface\Sports.Logic.Interface.csproj", "{14FA486A-D300-4DDC-AB47-1D6DFB843DA8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sports.Logic.Interface", "Sports.Logic.Interface\Sports.Logic.Interface.csproj", "{14FA486A-D300-4DDC-AB47-1D6DFB843DA8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sports.Logic.Factory", "Sports.Logic.Factory\Sports.Logic.Factory.csproj", "{6A9CBE7E-B553-4A60-8390-D9898C2E2B93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sports.Logic.Factory", "Sports.Logic.Factory\Sports.Logic.Factory.csproj", "{6A9CBE7E-B553-4A60-8390-D9898C2E2B93}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sports.Persistence.Context", "Sports.Persistence.Context\Sports.Persistence.Context.csproj", "{BD290F45-2C5A-4CB5-A199-2699D6DAF5F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sports.Persistence.Context", "Sports.Persistence.Context\Sports.Persistence.Context.csproj", "{BD290F45-2C5A-4CB5-A199-2699D6DAF5F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sports.Persistence", "Sports.Persistence\Sports.Persistence.csproj", "{347C388A-D8C5-48DC-AE49-8681466E35DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sports.Repository", "Sports.Persistence\Sports.Repository.csproj", "{347C388A-D8C5-48DC-AE49-8681466E35DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sports.Persistence.Interface", "Sports.Persistence.Interface\Sports.Persistence.Interface.csproj", "{99613677-80B4-435D-B50B-1CECB92D4ACB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sports.Repository.Interface", "Sports.Persistence.Interface\Sports.Repository.Interface.csproj", "{99613677-80B4-435D-B50B-1CECB92D4ACB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sports.Persistence.Factory", "Sports.Persistence.Factory\Sports.Persistence.Factory.csproj", "{5914368E-6108-4EFF-BE6B-9FB899AB2322}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sports.WAC.WebApi.Tests", "Sports.WAC.WebApi.Tests\Sports.WAC.WebApi.Tests.csproj", "{5A02D454-32BA-4FE9-B2B6-270462994DFA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sports.WAC.WebApi", "Sports.WAC.WebApi\Sports.WAC.WebApi.csproj", "{8A681634-E25D-4572-98FE-7FEF567D379A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,10 +73,14 @@ Global
 		{99613677-80B4-435D-B50B-1CECB92D4ACB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99613677-80B4-435D-B50B-1CECB92D4ACB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99613677-80B4-435D-B50B-1CECB92D4ACB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5914368E-6108-4EFF-BE6B-9FB899AB2322}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5914368E-6108-4EFF-BE6B-9FB899AB2322}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5914368E-6108-4EFF-BE6B-9FB899AB2322}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5914368E-6108-4EFF-BE6B-9FB899AB2322}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A02D454-32BA-4FE9-B2B6-270462994DFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A02D454-32BA-4FE9-B2B6-270462994DFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A02D454-32BA-4FE9-B2B6-270462994DFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A02D454-32BA-4FE9-B2B6-270462994DFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A681634-E25D-4572-98FE-7FEF567D379A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A681634-E25D-4572-98FE-7FEF567D379A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A681634-E25D-4572-98FE-7FEF567D379A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A681634-E25D-4572-98FE-7FEF567D379A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

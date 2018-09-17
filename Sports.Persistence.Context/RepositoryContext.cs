@@ -6,28 +6,25 @@ using Sports.Domain;
 
 namespace Sports.Persistence.Context
 {
-    public class ContextDB : DbContext
+    public class RepositoryContext : DbContext
     {
-        public ContextDB(DbContextOptions options) : base(options) {
+        public RepositoryContext(DbContextOptions options) : base(options) {
         }
         public DbSet<User> Users { get; set; }
-        //public object ContextOption { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<User>().HasKey(u => u.Id);
             modelBuilder.Entity<User>().HasAlternateKey(u => u.UserName);
-            
+            modelBuilder.Entity<User>().Property(u => u.Id).ValueGeneratedOnAdd();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=EFGetStarted.ConsoleApp.NewDb;Trusted_Connection=True;");
-            }
-            optionsBuilder.UseLazyLoadingProxies(true);
-
-            //this.Database.EnsureCreated();
+          // optionsBuilder.UseSqlServer(@"Server=(localdb)\SQLEXPRESS;Database=SPORTS;User Id =Rafael;Password=Rafael;");
+           //optionsBuilder.UseLazyLoadingProxies(true);
         }
     }
 }

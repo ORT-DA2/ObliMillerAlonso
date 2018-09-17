@@ -1,27 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using Sports.Domain;
-using Sports.Persistence.Interface;
+using Sports.Repository.Interface;
 
 namespace Sports.Logic
 {
     public class UserLogic
     {
-        IUserPersistence persistence;
+        IUserRepository _repository;
 
-        public UserLogic(IPersistenceFactory factoryImplementation)
+        public UserLogic(IRepositoryWrapper wrapper)
         {
-            persistence = factoryImplementation.GetUserImplementation();
+            _repository = wrapper.User;
         }
         public void AddUser(User user)
         {
-            persistence.Add(user);
+            _repository.Create(user);
         }
 
         public User GetUserById(int id)
         {
-            return persistence.GetById(id);
+            //ICollection<User> users = _repository.FindByCondition(u => u.Id==id);
+            ICollection<User> users = _repository.FindAll();
+            return users.First();
+
         }
     }
 }

@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Sports.Persistence.Interface;
-using Sports.Persistence;
+using Sports.Repository.Interface;
+using Sports.Repository;
 
 namespace Sports.Persistence.Factory
 {
     public class PersistenceFactory : IPersistenceFactory
     {
-        public IUserPersistence GetUserImplementation()
+        public IUserRepository GetUserImplementation()
         {
-            return new UserPersistence();
+            return new UserRepository();
         }
         
     }
