@@ -89,5 +89,15 @@ namespace Sports.Logic.Test
             _teamLogic.SetPictureFromPath(_team, _testImagePath);
             Assert.IsNotNull(_teamLogic.GetTeamById(_team.Id).Picture);
         }
+
+
+        [TestMethod]
+        public void ChangeTeamName()
+        {
+            _teamLogic.AddTeam(_team);
+            _team.Name = "new name";
+            _teamLogic.Modify(_team);
+            Assert.AreEqual<string>(_teamLogic.GetTeamById(_team.Id).Name,_team.Name);
+        }
     }
 }
