@@ -40,14 +40,20 @@ namespace Sports.Logic
         public Team GetTeamById(int id)
         {
             ICollection<Team> teams = _repository.FindByCondition(t => t.Id == id);
+            if (teams.Count == 0)
+            {
+                throw new InvalidTeamDataException("Id does not match any existing teams");
+            }
             return teams.First();
 
         }
 
         public void SetPictureFromPath(Team team, string testImagePath)
         {
-            team.AddPictureFromPath(testImagePath);
-            _repository.Update(team);
+            Team realTeam = GetTeamById(team.Id);
+            ValidateTeam(realTeam);
+            realTeam.AddPictureFromPath(testImagePath);
+            _repository.Update(realTeam);
         }
     }
 }
