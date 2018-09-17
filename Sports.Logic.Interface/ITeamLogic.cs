@@ -10,5 +10,6 @@ namespace Sports.Logic.Interface
     {
         void AddTeam(Team team);
         Team GetTeamById(int id);
+        void SetPictureFromPath(Team team, string testImagePath);
     }
 }

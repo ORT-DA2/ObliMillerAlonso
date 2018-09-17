@@ -43,5 +43,11 @@ namespace Sports.Logic
             return teams.First();
 
         }
+
+        public void SetPictureFromPath(Team team, string testImagePath)
+        {
+            team.AddPictureFromPath(testImagePath);
+            _repository.Update(team);
+        }
     }
 }

@@ -77,7 +77,8 @@ namespace Sports.Logic.Test
         public void AddTeamPicture()
         {
             _teamLogic.AddTeam(_team);
-            _teamLogic.SetPictureFromPath(_testImagePath);
+            _teamLogic.SetPictureFromPath(_team,_testImagePath);
+            Assert.IsNotNull(_teamLogic.GetTeamById(_team.Id).Picture);
         }
     }
 }
