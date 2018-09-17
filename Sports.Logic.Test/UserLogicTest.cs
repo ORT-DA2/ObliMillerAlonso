@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Sports.Domain;
-using Sports.Logic;
+using Sports.Logic.Interface;
 using Sports.Repository;
 using Sports.Repository.Interface;
 using Sports.Repository.Context;
@@ -20,7 +20,7 @@ namespace Sports.Logic.Test
     {
         private IRepositoryWrapper _wrapper;
         private RepositoryContext _repository;
-        private UserLogic _userLogic;
+        private IUserLogic _userLogic;
         User _user;
 
         [TestInitialize]

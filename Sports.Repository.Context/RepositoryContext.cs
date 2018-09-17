@@ -13,6 +13,7 @@ namespace Sports.Repository.Context
         public DbSet<User> Users { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Match> Matches { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -29,6 +30,10 @@ namespace Sports.Repository.Context
             modelBuilder.Entity<Comment>().Property(c => c.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<Comment>().HasOne<User>(u => u.User);
 
+            modelBuilder.Entity<Match>().HasKey(m => m.Id);
+            modelBuilder.Entity<Match>().Property(m => m.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<Match>().HasOne<Team>(m => m.Local);
+            modelBuilder.Entity<Match>().HasOne<Team>(m => m.Visitor);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

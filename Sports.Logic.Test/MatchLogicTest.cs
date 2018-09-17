@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Sports.Domain;
-using Sports.Logic;
+using Sports.Logic.Interface;
 using Sports.Repository;
 using Sports.Repository.Interface;
 using Sports.Repository.Context;
@@ -14,6 +14,8 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Sports.Logic.Test
 {
+    //chequear que no se dupliquen en la bd
+    //agregar sport despues
     [ExcludeFromCodeCoverage]
     [TestClass]
     public class MatchLogicTest
@@ -40,7 +42,7 @@ namespace Sports.Logic.Test
             {
 
             };
-            _matchLogic.AddUser(match);
+            _matchLogic.AddMatch(match);
             Assert.IsNotNull(_matchLogic.GetMatchById(match.Id));
         }
     }
