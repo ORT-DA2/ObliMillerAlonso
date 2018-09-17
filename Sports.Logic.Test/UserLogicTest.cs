@@ -56,6 +56,21 @@ namespace Sports.Logic.Test
         {
             _userLogic.AddUser(null);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidUserDataException))]
+        public void AddUserWithInvalidData()
+        {
+            User invalidUser = new User()
+            {
+                FirstName = "",
+                LastName = "",
+                Email = "itaimil",
+                UserName = "iMiller",
+                Password = "root"
+            };
+            _userLogic.AddUser(invalidUser);
+        }
         /*
         [TestMethod]
         public void UpdateUserFirstName()
