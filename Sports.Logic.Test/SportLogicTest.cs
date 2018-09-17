@@ -23,9 +23,7 @@ namespace Sports.Logic.Test
         private SportLogic _sportLogic;
         private TeamLogic _teamLogic;
         Sport _sport;
-        Team _team;
         
-
         [TestInitialize]
         public void SetUp()
         {
@@ -33,6 +31,7 @@ namespace Sports.Logic.Test
             {
                 Name = "Tennis"
             };
+
 
             var options = new DbContextOptionsBuilder<RepositoryContext>()
                 .UseInMemoryDatabase<RepositoryContext>(databaseName: "SportLogicTestDB")
@@ -122,5 +121,20 @@ namespace Sports.Logic.Test
             _sportLogic.RemoveSport(_sport.Id + 1);
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(InvalidSportDataException))]
+        public void AddDuplicatedTeam()
+        {
+            Team _team = new Team()
+            {
+                Name = "Barcelona"
+            };
+            Team _identicalTeam = new Team()
+            {
+                Name = "Barcelona"
+            };
+            _teamLogic.AddTeam(_team);
+            _teamLogic.AddTeam(_identicalTeam);
+        }
     }
 }
