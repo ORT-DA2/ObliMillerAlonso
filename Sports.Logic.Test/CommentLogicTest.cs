@@ -52,6 +52,13 @@ namespace Sports.Logic.Test
             _commentLogic.AddComment(_comment);
             Assert.IsNotNull(_commentLogic.GetCommentById(_comment.Id));
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidCommentDataException))]
+        public void AddNullComment()
+        {
+            _commentLogic.AddComment(null);
+        }
     }
 
 }
