@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sports.Exceptions;
 
 
 namespace Sports.Domain.Test
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class SportTest
     {

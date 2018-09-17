@@ -10,9 +10,11 @@ using Sports.Repository;
 using Sports.Repository.Interface;
 using Sports.Repository.Context;
 using Sports.Exceptions;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Sports.Logic.Test
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class UserLogicTest
     {

@@ -41,10 +41,6 @@ namespace Sports.Domain
                 return this.UserName.Equals(((User)obj).UserName);
             }
         }
-        public override int GetHashCode()
-        {
-            return this.UserName.GetHashCode();
-        }
 
         public override string ToString()
         {

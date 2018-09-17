@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sports.Exceptions;
 using Sports.Domain;
@@ -9,6 +10,7 @@ using Sports.Domain;
 
 namespace Sports.Domain.Test
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class UserTest
     {
