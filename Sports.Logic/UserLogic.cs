@@ -43,11 +43,11 @@ namespace Sports.Logic
 
         }
 
-        public void UpdateUser(int id, User user)
+        public void UpdateUser(int id, User updatedUser)
         {
             User originalUser = GetUserById(id);
-            user.Id = originalUser.Id;
-            _repository.Update(user);
+            originalUser.UpdateData(updatedUser);
+            _repository.Update(originalUser);
         }
     }
 }

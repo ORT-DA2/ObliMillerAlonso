@@ -17,7 +17,6 @@ namespace Sports.Repository.Context
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<User>().HasKey(u => u.Id);
-            modelBuilder.Entity<User>().HasAlternateKey(u => u.UserName);
             modelBuilder.Entity<User>().Property(u => u.Id).ValueGeneratedOnAdd();
         }
 

@@ -118,6 +118,11 @@ namespace Sports.Domain
             return true;
         }
 
+        public void UpdateData(User user)
+        {
+            this.FirstName = user.FirstName;
+        }
+
 
     }
 }
