@@ -88,6 +88,13 @@ namespace Sports.Logic.Test
             };
             _commentLogic.AddComment(userComment);
         }
+
+        [TestMethod]
+        public void CommentGetAll()
+        {
+            _commentLogic.AddComment(_comment);
+            Assert.AreEqual(_commentLogic.GetAll().Count, 1);
+        }
     }
 
 }

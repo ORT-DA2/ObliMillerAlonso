@@ -37,5 +37,15 @@ namespace Sports.Domain.Test
             invalidText.IsValid();
         }
 
+        [TestMethod]
+        public void ValidCommentText()
+        {
+            Comment invalidText = new Comment()
+            {
+                Text = "comment"
+            };
+            invalidText.IsValid();
+        }
+
     }
 }
