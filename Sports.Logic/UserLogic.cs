@@ -42,5 +42,12 @@ namespace Sports.Logic
             return users.First();
 
         }
+
+        public void UpdateUser(int id, User user)
+        {
+            User originalUser = GetUserById(id);
+            user.Id = originalUser.Id;
+            _repository.Update(user);
+        }
     }
 }
