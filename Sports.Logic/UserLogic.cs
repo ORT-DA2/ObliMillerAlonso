@@ -19,6 +19,7 @@ namespace Sports.Logic
         public void AddUser(User user)
         {
             ValidateUser(user);
+            user.IsValid();
             _repository.Create(user);
         }
 
