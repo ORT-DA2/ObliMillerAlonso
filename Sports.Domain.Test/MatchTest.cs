@@ -45,7 +45,6 @@ namespace Sports.Domain.Test
             comment = new Comment()
             {
                 Text = "comment",
-                Date = DateTime.Now
             };
         }
 
