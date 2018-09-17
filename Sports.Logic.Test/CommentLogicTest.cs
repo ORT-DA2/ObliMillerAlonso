@@ -45,7 +45,7 @@ namespace Sports.Logic.Test
 
             
             var options = new DbContextOptionsBuilder<RepositoryContext>()
-                .UseInMemoryDatabase<RepositoryContext>(databaseName: "UserLogicTestDB")
+                .UseInMemoryDatabase<RepositoryContext>(databaseName: "CommentLogicTestDB")
                 .Options;
             _repository = new RepositoryContext(options);
             _wrapper = new RepositoryWrapper(_repository);
