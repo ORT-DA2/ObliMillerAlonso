@@ -54,7 +54,7 @@ namespace Sports.Logic.Test
 
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidUserDataException))]
+        [ExpectedException(typeof(InvalidTeamDataException))]
         public void AddNullTeam()
         {
             _teamLogic.AddTeam(null);

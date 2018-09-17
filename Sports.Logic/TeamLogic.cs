@@ -17,7 +17,16 @@ namespace Sports.Logic
         }
         public void AddTeam(Team team)
         {
+            CheckNotNull(team);
             _repository.Create(team);
+        }
+        
+        private void CheckNotNull(Team team)
+        {
+            if (team == null)
+            {
+                throw new InvalidTeamDataException("Cannot add null user");
+            }
         }
 
         public Team GetTeamById(int id)
