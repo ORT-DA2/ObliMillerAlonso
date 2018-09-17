@@ -80,5 +80,14 @@ namespace Sports.Logic.Test
             _teamLogic.SetPictureFromPath(_team,_testImagePath);
             Assert.IsNotNull(_teamLogic.GetTeamById(_team.Id).Picture);
         }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidTeamDataException))]
+        public void AddPictureToInvalidTeam()
+        {
+            _teamLogic.SetPictureFromPath(_team, _testImagePath);
+            Assert.IsNotNull(_teamLogic.GetTeamById(_team.Id).Picture);
+        }
     }
 }
