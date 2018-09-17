@@ -56,5 +56,12 @@ namespace Sports.Logic.Test
             Assert.IsNotNull(_sportLogic.GetSportById(_sport.Id));
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(InvalidSportDataException))]
+        public void AddNullSport()
+        {
+            _sportLogic.AddSport(null);
+        }
+
     }
 }

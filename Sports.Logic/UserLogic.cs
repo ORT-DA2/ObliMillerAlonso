@@ -39,7 +39,6 @@ namespace Sports.Logic
             }
         }
         
-
         private void CheckNotNull(User user)
         {
             if (user == null)
@@ -56,7 +55,6 @@ namespace Sports.Logic
                 throw new InvalidUserDataException("Id does not match any existing users");
             }
             return users.First();
-
         }
 
         public void UpdateUser(int id, User updatedUser)
