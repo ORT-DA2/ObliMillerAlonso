@@ -11,10 +11,12 @@ namespace Sports.Logic
     public class CommentLogic
     {
         ICommentRepository _repository;
+        UserLogic _userLogic;
 
         public CommentLogic(IRepositoryWrapper wrapper)
         {
             _repository = wrapper.Comment;
+            _userLogic = new UserLogic(wrapper);
         }
         public void AddComment(Comment comment)
         {
@@ -24,6 +26,7 @@ namespace Sports.Logic
 
         private void ValidateComment(Comment comment)
         {
+            comment.User =_userLogic.GetUserById(comment.User.Id);
             CheckNotNull(comment);
         }
 
