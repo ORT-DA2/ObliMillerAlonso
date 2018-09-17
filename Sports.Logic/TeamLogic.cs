@@ -55,5 +55,13 @@ namespace Sports.Logic
             realTeam.AddPictureFromPath(testImagePath);
             _repository.Update(realTeam);
         }
+
+        public void Modify(Team team)
+        {
+            Team realTeam = GetTeamById(team.Id);
+            realTeam.Name = team.Name;
+            ValidateTeam(realTeam);
+            _repository.Update(realTeam);
+        }
     }
 }
