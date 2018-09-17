@@ -10,5 +10,6 @@ namespace Sports.Repository.Interface
         IUserRepository User { get; }
         ITeamRepository Team { get; }
         ICommentRepository Comment { get; }
+        ISportRepository Sport { get; }
     }
 }

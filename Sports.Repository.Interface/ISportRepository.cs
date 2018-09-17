@@ -5,7 +5,7 @@ using Sports.Domain;
 
 namespace Sports.Repository.Interface
 {
-    interface ISportRepository : IRepositoryBase<Sport>
+    public interface ISportRepository : IRepositoryBase<Sport>
     {
     }
 }

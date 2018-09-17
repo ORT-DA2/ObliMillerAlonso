@@ -52,7 +52,7 @@ namespace Sports.Repository
             {
                 if (_sport == null)
                     _sport = new SportRepository(_repositoryContext);
-                return _comment;
+                return _sport;
             }
         }
 
