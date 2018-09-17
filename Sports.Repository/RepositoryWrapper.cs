@@ -12,6 +12,7 @@ namespace Sports.Repository
         private RepositoryContext _repositoryContext;
         private IUserRepository _user;
         private ITeamRepository _team;
+        private ICommentRepository _comment;
 
         public RepositoryWrapper(RepositoryContext repositoryContext)
         {
@@ -31,6 +32,16 @@ namespace Sports.Repository
                 if (_team == null)
                     _team = new TeamRepository(_repositoryContext);
                 return _team;
+            }
+        }
+
+        public ICommentRepository Comment
+        {
+            get
+            {
+                if (_comment == null)
+                    _comment = new CommentRepository(_repositoryContext);
+                return _comment;
             }
         }
 
