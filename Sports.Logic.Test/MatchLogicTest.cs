@@ -30,7 +30,7 @@ namespace Sports.Logic.Test
         {
             _match = new Match()
             {
-
+                Date = DateTime.Now.AddDays(-1)
             };
             var options = new DbContextOptionsBuilder<RepositoryContext>()
                 .UseInMemoryDatabase<RepositoryContext>(databaseName: "UserLogicTestDB")
@@ -59,6 +59,14 @@ namespace Sports.Logic.Test
         public void AddNullMatch()
         {
             _matchLogic.AddMatch(null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidMatchDataException))]
+        public void AddMatchInvalidDate()
+        {
+            _match.Date = DateTime.Now.AddDays(1);
+            _matchLogic.AddMatch(_match);
         }
     }
 }
