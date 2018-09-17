@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Sports.Domain;
 using Sports.Repository.Interface;
-using Sports.Persistence.Context;
+using Sports.Repository.Context;
 using System.Linq;
 
 namespace Sports.Repository

@@ -17,9 +17,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Sports.Domain\Sports.Domain.csproj" />
     <ProjectReference Include="..\Sports.Logic\Sports.Logic.csproj" />
-    <ProjectReference Include="..\Sports.Persistence.Context\Sports.Persistence.Context.csproj" />
-    <ProjectReference Include="..\Sports.Persistence.Interface\Sports.Repository.Interface.csproj" />
-    <ProjectReference Include="..\Sports.Persistence\Sports.Repository.csproj" />
+    <ProjectReference Include="..\Sports.Repository.Context\Sports.Repository.Context.csproj" />
+    <ProjectReference Include="..\Sports.Repository.Interface\Sports.Repository.Interface.csproj" />
+    <ProjectReference Include="..\Sports.Repository\Sports.Repository.csproj" />
   </ItemGroup>
 
 </Project>

@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Sports.Domain;
 
-namespace Sports.Persistence.Context
+namespace Sports.Repository.Context
 {
     public class RepositoryContext : DbContext
     {

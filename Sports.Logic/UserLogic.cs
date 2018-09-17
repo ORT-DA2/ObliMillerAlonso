@@ -21,9 +21,8 @@ namespace Sports.Logic
         }
 
         public User GetUserById(int id)
-        {
-            //ICollection<User> users = _repository.FindByCondition(u => u.Id==id);
-            ICollection<User> users = _repository.FindAll();
+        { 
+            ICollection<User> users = _repository.FindByCondition(u => u.Id==id);
             return users.First();
 
         }

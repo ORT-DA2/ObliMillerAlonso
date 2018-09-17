@@ -8,7 +8,7 @@ using Sports.Domain;
 using Sports.Logic;
 using Sports.Repository;
 using Sports.Repository.Interface;
-using Sports.Persistence.Context;
+using Sports.Repository.Context;
 
 namespace Sports.Logic.Test
 {
@@ -17,21 +17,12 @@ namespace Sports.Logic.Test
     {
         private IRepositoryWrapper _wrapper;
         private RepositoryContext _repository;
+        User _user;
 
         [TestInitialize]
         public void SetUp()
         {
-            var options = new DbContextOptionsBuilder<RepositoryContext>()
-                .UseInMemoryDatabase<RepositoryContext>(databaseName: "UserLogicTestDB")
-                .Options;
-            _repository = new RepositoryContext(options);
-            _wrapper = new RepositoryWrapper(_repository);
-        }
-
-        [TestMethod]
-        public void AddUser()
-        {
-            User user = new User(true)
+            _user = new User(true)
             {
                 FirstName = "Itai",
                 LastName = "Miller",
@@ -39,9 +30,22 @@ namespace Sports.Logic.Test
                 UserName = "iMiller",
                 Password = "root"
             };
+            var options = new DbContextOptionsBuilder<RepositoryContext>()
+                .UseInMemoryDatabase<RepositoryContext>(databaseName: "UserLogicTestDB")
+                .Options;
+            _repository = new RepositoryContext(options);
+            _wrapper = new RepositoryWrapper(_repository);
+        }
+
+        [TestCleanup]
+        public void TearDown() { }
+
+        [TestMethod]
+        public void AddUser()
+        {
             UserLogic userLogic = new UserLogic(_wrapper);
-            userLogic.AddUser(user);
-            Assert.IsNotNull(userLogic.GetUserById(user.Id));
+            userLogic.AddUser(_user);
+            Assert.IsNotNull(userLogic.GetUserById(_user.Id));
         }
     }
 }

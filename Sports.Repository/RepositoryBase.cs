@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
 using Sports.Repository.Interface;
-using Sports.Persistence.Context;
+using Sports.Repository.Context;
 using System.Linq;
 
 namespace Sports.Repository
