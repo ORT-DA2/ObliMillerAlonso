@@ -21,10 +21,16 @@ namespace Sports.Logic.Test
         private IRepositoryWrapper _wrapper;
         private RepositoryContext _repository;
         private CommentLogic _commentLogic;
+        private Comment _comment;
 
         [TestInitialize]
         public void SetUp()
         {
+            _comment = new Comment()
+            {
+                Text = "comment"
+            };
+
             var options = new DbContextOptionsBuilder<RepositoryContext>()
                 .UseInMemoryDatabase<RepositoryContext>(databaseName: "UserLogicTestDB")
                 .Options;
@@ -33,15 +39,18 @@ namespace Sports.Logic.Test
             _commentLogic = new CommentLogic(_wrapper);
         }
 
+        [TestCleanup]
+        public void TearDown()
+        {
+            _repository.Comments.RemoveRange(_repository.Comments);
+            _repository.SaveChanges();
+        }
+
         [TestMethod]
         public void AddComment()
         {
-            Comment comment = new Comment()
-            {
-                Text = "comment"
-            };
-            _commentLogic.AddComment(comment);
-            Assert.IsNotNull(_commentLogic.GetCommentById(comment.Id));
+            _commentLogic.AddComment(_comment);
+            Assert.IsNotNull(_commentLogic.GetCommentById(_comment.Id));
         }
     }
 
