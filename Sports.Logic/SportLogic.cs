@@ -12,10 +12,12 @@ namespace Sports.Logic
     public class SportLogic : ISportLogic
     {
         ISportRepository _repository;
+        ITeamLogic _teamLogic;
 
         public SportLogic(IRepositoryWrapper wrapper)
         {
             _repository = wrapper.Sport;
+            _teamLogic = new TeamLogic(wrapper);
         }
         public void AddSport(Sport sport)
         {
@@ -37,7 +39,6 @@ namespace Sports.Logic
                 throw new InvalidSportDataException("Cannot repeat name");
             }
         }
-
         private void CheckNotNull(Sport sport)
         {
             if (sport == null)
@@ -85,9 +86,13 @@ namespace Sports.Logic
             return _repository.FindAll();
         }
 
+        
         public void AddTeam(Sport sport, Team team)
         {
-            sport.AddTeam(team);
+            Sport realSport = GetSportById(sport.Id);
+            Team realTeam = _teamLogic.GetTeamById(team.Id);
+            realSport.AddTeam(realTeam);
+            
         }
     }
 }
