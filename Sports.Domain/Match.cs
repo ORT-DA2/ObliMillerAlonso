@@ -50,5 +50,6 @@ namespace Sports.Domain
             string tostring = "Sport: " + Sport + " Local Team: " + Local + " Visitor Team: " + Visitor + " Date: " + Date;
             return tostring;
         }
+        
     }
 }

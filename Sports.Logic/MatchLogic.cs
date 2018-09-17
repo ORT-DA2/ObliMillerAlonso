@@ -50,12 +50,23 @@ namespace Sports.Logic
         public Match GetMatchById(int id)
         {
             ICollection<Match> matches = _repository.FindByCondition(m => m.Id == id);
+            if (matches.Count == 0)
+            {
+                throw new InvalidMatchDataException("Match Id does not exist");
+            }
             return matches.First();
         }
 
         public void ModifyMatch(Match match)
         {
-            _repository.Update(match);
+            Match realMatch = GetMatchById(match.Id);
+            UpdateDate(realMatch,match.Date);
+            _repository.Update(realMatch);
+        }
+
+        private void UpdateDate(Match realMatch, DateTime date)
+        {
+            realMatch.Date = date;
         }
     }
 }
