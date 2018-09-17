@@ -132,5 +132,16 @@ namespace Sports.Logic.Test
             _sportLogic.AddTeam(_sport, _team);
             Assert.AreEqual(_sportLogic.GetSportById(_sport.Id).Teams.Count, 1);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidSportDataException))]
+        public void AddTeamToInvalidSport()
+        {
+            Team _team = new Team()
+            {
+                Name = "Barcelona"
+            };
+            _sportLogic.AddTeam(_sport, _team);
+        }
     }
 }
