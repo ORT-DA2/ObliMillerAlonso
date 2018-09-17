@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sports.Exceptions;
@@ -7,6 +8,7 @@ using Sports.Exceptions;
 
 namespace Sports.Domain.Test
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class CommentTest
     {

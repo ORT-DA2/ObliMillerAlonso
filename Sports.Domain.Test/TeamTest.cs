@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Sports.Domain;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using System.Linq;
@@ -10,6 +11,7 @@ using System.Reflection;
 
 namespace Sports.Domain.Test
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class TeamTest
     {

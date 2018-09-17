@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Text;
 using Sports.Exceptions;
 using System.Net.Mail;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Sports.Domain
 {
+    [Table("User")]
     public class User
     {
+        [Key]
         public int Id { get; set; }
         public string FirstName { get; set; }
         public bool IsAdmin { get; private set; }
@@ -36,10 +40,6 @@ namespace Sports.Domain
             {
                 return this.UserName.Equals(((User)obj).UserName);
             }
-        }
-        public override int GetHashCode()
-        {
-            return this.UserName.GetHashCode();
         }
 
         public override string ToString()
@@ -112,6 +112,24 @@ namespace Sports.Domain
                 return false;
             }
             return true;
+        }
+
+        public void UpdateData(User user)
+        {
+            this.FirstName = IgnoreWhiteSpace(this.FirstName, user.FirstName);
+            this.LastName = IgnoreWhiteSpace(this.LastName, user.LastName);
+            this.Email = IgnoreWhiteSpace(this.Email, user.Email);
+            this.Password = IgnoreWhiteSpace(this.Password, user.Password);
+            this.UserName = IgnoreWhiteSpace(this.UserName,user.UserName);
+        }
+
+        private string IgnoreWhiteSpace(string originalText, string updatedText)
+        {
+            if (string.IsNullOrWhiteSpace(updatedText))
+            {
+                return originalText;
+            }
+            return updatedText;
         }
 
 
