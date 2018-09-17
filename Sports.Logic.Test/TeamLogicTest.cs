@@ -117,5 +117,12 @@ namespace Sports.Logic.Test
             Assert.AreEqual(_teamLogic.GetAll().Count, 0);
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(InvalidTeamDataException))]
+        public void DeleteInvalidTeam()
+        {
+            _teamLogic.Delete(_team);
+        }
+
     }
 }
