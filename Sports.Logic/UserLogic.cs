@@ -22,13 +22,22 @@ namespace Sports.Logic
             _repository.Create(user);
         }
 
-        private static void ValidateUser(User user)
+        private void ValidateUser(User user)
         {
             CheckNotNull(user);
             user.IsValid();
+            CheckNotExists(user.UserName);
         }
 
-        private static void CheckNotNull(User user)
+        private void CheckNotExists(string username)
+        {
+            if (_repository.FindByCondition(u => u.UserName == username).Count!=0)
+            {
+                throw new InvalidUserDataException("Cannot repeat username");
+            }
+        }
+
+        private void CheckNotNull(User user)
         {
             if (user == null)
             {
@@ -47,7 +56,7 @@ namespace Sports.Logic
         {
             User originalUser = GetUserById(id);
             originalUser.UpdateData(updatedUser);
-            originalUser.IsValid();
+            ValidateUser(originalUser);
             _repository.Update(originalUser);
         }
     }
