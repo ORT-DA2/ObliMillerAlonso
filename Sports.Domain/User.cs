@@ -123,6 +123,7 @@ namespace Sports.Domain
             this.FirstName = user.FirstName;
             this.LastName = user.LastName;
             this.Email = user.Email;
+            this.Password = user.Password;
         }
 
 

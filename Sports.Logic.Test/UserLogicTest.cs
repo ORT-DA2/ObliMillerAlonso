@@ -108,6 +108,18 @@ namespace Sports.Logic.Test
             Assert.AreEqual<string>(_userLogic.GetUserById(_user.Id).Email, userChanges.Email);
         }
 
+        [TestMethod]
+        public void UpdateUserPassword()
+        {
+            _userLogic.AddUser(_user);
+            User userChanges = new User()
+            {
+                Password = "abcd"
+            };
+            _userLogic.UpdateUser(_user.Id, userChanges);
+            Assert.AreEqual<string>(_userLogic.GetUserById(_user.Id).Password, userChanges.Password);
+        }
+
 
     }
 }
