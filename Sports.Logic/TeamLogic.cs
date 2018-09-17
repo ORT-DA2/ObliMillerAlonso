@@ -59,7 +59,7 @@ namespace Sports.Logic
         public void Modify(Team team)
         {
             Team realTeam = GetTeamById(team.Id);
-            realTeam.Name = team.Name;
+            realTeam.UpdateData(team);
             ValidateTeam(realTeam);
             _repository.Update(realTeam);
         }
