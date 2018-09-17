@@ -9,8 +9,9 @@ namespace Sports.Logic.Interface
     {
         void AddSport(Sport sport);
         Sport GetSportById(int id);
-       
-        
+        void UpdateSport(int id, Sport updatedSport);
+
+
 
     }
 }

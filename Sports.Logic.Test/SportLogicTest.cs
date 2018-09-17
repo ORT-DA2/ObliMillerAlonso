@@ -99,5 +99,12 @@ namespace Sports.Logic.Test
             _sportLogic.AddSport(identicalSport);
         }
 
+        [TestMethod]
+        public void GetSportById()
+        {
+            _sportLogic.AddSport(_sport);
+            Assert.AreEqual<string>(_sportLogic.GetSportById(_sport.Id).Id, _sport.Id);
+        }
+
     }
 }
