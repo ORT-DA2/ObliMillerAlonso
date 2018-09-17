@@ -143,8 +143,18 @@ namespace Sports.Logic.Test
             _userLogic.UpdateUser(_user.Id, userChanges);
             Assert.AreNotEqual<string>(_userLogic.GetUserById(_user.Id).UserName, userChanges.UserName);
         }
-
-
+        
+        [TestMethod]
+        [ExpectedException(typeof(InvalidUserDataException))]
+        public void UpdateInvalidData()
+        {
+            _userLogic.AddUser(_user);
+            User userChanges = new User()
+            {
+                Email = "fakeEmail"
+            };
+            _userLogic.UpdateUser(_user.Id, userChanges);
+        }
 
 
     }
