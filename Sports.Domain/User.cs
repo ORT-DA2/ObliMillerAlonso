@@ -120,15 +120,20 @@ namespace Sports.Domain
 
         public void UpdateData(User user)
         {
-            
-            this.FirstName = user.FirstName;
-            this.LastName = user.LastName;
-            this.Email = user.Email;
-            this.Password = user.Password;
-            if (!string.IsNullOrWhiteSpace(user.UserName))
+            this.FirstName = IgnoreWhiteSpace(this.FirstName, user.FirstName);
+            this.LastName = IgnoreWhiteSpace(this.LastName, user.LastName);
+            this.Email = IgnoreWhiteSpace(this.Email, user.Email);
+            this.Password = IgnoreWhiteSpace(this.Password, user.Password);
+            this.UserName = IgnoreWhiteSpace(this.UserName,user.UserName);
+        }
+
+        private string IgnoreWhiteSpace(string originalText, string updatedText)
+        {
+            if (string.IsNullOrWhiteSpace(updatedText))
             {
-                this.UserName = user.UserName;
+                return originalText;
             }
+            return updatedText;
         }
 
 
