@@ -23,6 +23,7 @@ namespace Sports.Logic.Test
         private IRepositoryWrapper _wrapper;
         private RepositoryContext _repository;
         private IMatchLogic _matchLogic;
+        private ITeamLogic _teamLogic;
         private Match _match;
 
         [TestInitialize]
@@ -49,6 +50,9 @@ namespace Sports.Logic.Test
             _repository = new RepositoryContext(options);
             _wrapper = new RepositoryWrapper(_repository);
             _matchLogic = new MatchLogic(_wrapper);
+            _teamLogic = new TeamLogic(_wrapper);
+            _teamLogic.AddTeam(localTeam);
+            _teamLogic.AddTeam(visitorTeam);
         }
 
         [TestCleanup]
