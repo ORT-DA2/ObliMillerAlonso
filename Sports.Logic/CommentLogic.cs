@@ -46,5 +46,10 @@ namespace Sports.Logic
             return comments.First();
 
         }
+
+        public ICollection<Comment> GetAll()
+        {
+            return _repository.FindAll();
+        }
     }
 }
