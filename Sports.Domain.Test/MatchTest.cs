@@ -80,5 +80,12 @@ namespace Sports.Domain.Test
         }
 
 
+
+        [TestMethod]
+        public void EqualsNull()
+        {
+            Assert.IsFalse(match.Equals(null));
+        }
+
     }
 }

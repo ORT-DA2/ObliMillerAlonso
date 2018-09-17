@@ -81,5 +81,13 @@ namespace Sports.Domain.Test
             };
             Assert.IsFalse(favorite.Equals(secondFavorite));
         }
+
+
+
+        [TestMethod]
+        public void EqualsNull()
+        {
+            Assert.IsFalse(favorite.Equals(null));
+        }
     }
 }
