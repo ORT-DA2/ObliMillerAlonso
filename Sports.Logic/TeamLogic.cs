@@ -5,9 +5,11 @@ using System.Linq;
 using Sports.Domain;
 using Sports.Exceptions;
 using Sports.Repository.Interface;
+using Sports.Logic.Interface;
+
 namespace Sports.Logic
 {
-    public class TeamLogic
+    public class TeamLogic : ITeamLogic
     {
         ITeamRepository _repository;
 
@@ -30,7 +32,7 @@ namespace Sports.Logic
         {
             if (team == null)
             {
-                throw new InvalidTeamDataException("Cannot add null user");
+                throw new InvalidTeamDataException("Cannot add null team");
             }
         }
 
