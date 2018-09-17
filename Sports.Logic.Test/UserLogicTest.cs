@@ -9,6 +9,7 @@ using Sports.Logic;
 using Sports.Repository;
 using Sports.Repository.Interface;
 using Sports.Repository.Context;
+using Sports.Exceptions;
 
 namespace Sports.Logic.Test
 {
@@ -17,6 +18,7 @@ namespace Sports.Logic.Test
     {
         private IRepositoryWrapper _wrapper;
         private RepositoryContext _repository;
+        private UserLogic _userLogic;
         User _user;
 
         [TestInitialize]
@@ -35,6 +37,7 @@ namespace Sports.Logic.Test
                 .Options;
             _repository = new RepositoryContext(options);
             _wrapper = new RepositoryWrapper(_repository);
+            _userLogic = new UserLogic(_wrapper);
         }
 
         [TestCleanup]
@@ -43,9 +46,25 @@ namespace Sports.Logic.Test
         [TestMethod]
         public void AddUser()
         {
-            UserLogic userLogic = new UserLogic(_wrapper);
-            userLogic.AddUser(_user);
+            _userLogic.AddUser(_user);
+            Assert.IsNotNull(_userLogic.GetUserById(_user.Id));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidUserDataException))]
+        public void AddNullUser()
+        {
+            _userLogic.AddUser(null);
+        }
+        /*
+        [TestMethod]
+        public void UpdateUserFirstName()
+        {
+            _user.FirstName = "Juan";
+            _userLogic.UpdateUser(_user);
             Assert.IsNotNull(userLogic.GetUserById(_user.Id));
         }
+        */
+
     }
 }
