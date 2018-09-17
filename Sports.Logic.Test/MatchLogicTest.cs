@@ -14,7 +14,6 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Sports.Logic.Test
 {
-    //chequear que no se dupliquen en la bd
     //agregar sport despues
     [ExcludeFromCodeCoverage]
     [TestClass]
@@ -106,6 +105,15 @@ namespace Sports.Logic.Test
             };
             _match.Visitor = invalidTeam;
             _matchLogic.AddMatch(_match);
+        }
+
+
+        [TestMethod]
+        public void ModifyDate()
+        {
+            _matchLogic.AddMatch(_match);
+            _match.Date = DateTime.Now.AddDays(+2);
+            _matchLogic.UpdateTime(_match);
         }
     }
 }
