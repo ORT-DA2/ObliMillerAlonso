@@ -114,5 +114,13 @@ namespace Sports.Logic.Test
             Assert.AreEqual(_sportLogic.GetAll().Count, 0);
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(InvalidSportDataException))]
+        public void DeleteNonExistingSport()
+        {
+            _sportLogic.AddSport(_sport);
+            _sportLogic.RemoveSport(_sport.Id + 1);
+        }
+
     }
 }
