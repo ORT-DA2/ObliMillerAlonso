@@ -190,5 +190,22 @@ namespace Sports.Logic.Test
             _userLogic.RemoveUser(_user);
             Assert.AreEqual(_userLogic.GetAll().Count, 0);
         }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidUserDataException))]
+        public void DeleteNonExistingUser()
+        {
+            _userLogic.AddUser(_user);
+            User identicalUser = new User()
+            {
+                FirstName = "Itai",
+                LastName = "Miller",
+                Email = "itaimiller@gmail.com",
+                UserName = "iMiller",
+                Password = "root"
+            };
+            _userLogic.RemoveUser(identicalUser);
+        }
     }
 }
