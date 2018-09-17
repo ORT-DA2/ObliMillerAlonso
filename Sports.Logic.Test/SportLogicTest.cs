@@ -29,6 +29,11 @@ namespace Sports.Logic.Test
         [TestInitialize]
         public void SetUp()
         {
+            _sport = new Sport()
+            {
+                Name = "Tennis"
+            };
+
             var options = new DbContextOptionsBuilder<RepositoryContext>()
                 .UseInMemoryDatabase<RepositoryContext>(databaseName: "SportLogicTestDB")
                 .Options;
@@ -47,10 +52,6 @@ namespace Sports.Logic.Test
         [TestMethod]
         public void AddSport()
         {
-            _sport = new Sport()
-            {
-               Name = "Tennis"
-            };
             _sportLogic.AddSport(_sport);
             Assert.IsNotNull(_sportLogic.GetSportById(_sport.Id));
         }

@@ -8,5 +8,6 @@ namespace Sports.Logic.Interface
     public interface ISportLogic
     {
         void AddSport(Sport sport);
+        Sport GetSportById(int id);
     }
 }
