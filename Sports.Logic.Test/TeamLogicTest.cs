@@ -59,5 +59,16 @@ namespace Sports.Logic.Test
         {
             _teamLogic.AddTeam(null);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidTeamDataException))]
+        public void AddInvalidTeam()
+        {
+            Team invalidNameTeam = new Team()
+            {
+                Name = ""
+            };
+            _teamLogic.AddTeam(invalidNameTeam);
+        }
     }
 }
