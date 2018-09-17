@@ -13,16 +13,24 @@ namespace Sports.Logic
     {
 
         IMatchRepository _repository;
+        ITeamLogic _teamLogic;
 
         public MatchLogic(IRepositoryWrapper wrapper)
         {
             _repository = wrapper.Match;
+            _teamLogic = new TeamLogic(wrapper);
         }
         public void AddMatch(Match match)
         {
             CheckNotNull(match);
             match.IsValid();
+            match.Local = GetRealTeam(match.Local);
             _repository.Create(match);
+        }
+
+        private Team GetRealTeam(Team team)
+        {
+            return _teamLogic.GetTeamById(team.Id);
         }
 
         private void CheckNotNull(Match match)

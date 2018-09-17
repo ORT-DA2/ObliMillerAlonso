@@ -81,7 +81,7 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidMatchDataException))]
+        [ExpectedException(typeof(InvalidTeamDataException))]
         public void AddMatchInvalidLocalTeam()
         {
             Team invalidTeam = new Team()
