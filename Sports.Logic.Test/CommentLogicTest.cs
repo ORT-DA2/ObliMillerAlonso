@@ -18,6 +18,20 @@ namespace Sports.Logic.Test
     [TestClass]
     public class CommentLogicTest
     {
+        private IRepositoryWrapper _wrapper;
+        private RepositoryContext _repository;
+        private CommentLogic _commentLogic;
+
+        [TestInitialize]
+        public void SetUp()
+        {
+            var options = new DbContextOptionsBuilder<RepositoryContext>()
+                .UseInMemoryDatabase<RepositoryContext>(databaseName: "UserLogicTestDB")
+                .Options;
+            _repository = new RepositoryContext(options);
+            _wrapper = new RepositoryWrapper(_repository);
+            _commentLogic = new CommentLogic(_wrapper);
+        }
 
         [TestMethod]
         public void AddComment()
