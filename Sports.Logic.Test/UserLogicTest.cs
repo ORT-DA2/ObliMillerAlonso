@@ -188,7 +188,7 @@ namespace Sports.Logic.Test
         {
             _userLogic.AddUser(_user);
             _userLogic.RemoveUser(_user);
-            Assert.AreEqual(_userLogic.GetAll(), 0);
+            Assert.AreEqual(_userLogic.GetAll().Count, 0);
         }
     }
 }

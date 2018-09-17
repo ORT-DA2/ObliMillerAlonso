@@ -42,6 +42,7 @@ namespace Sports.Repository
         public void Delete(T entity)
         {
             this.RepositoryContext.Set<T>().Remove(entity);
+            this.Save();
         }
 
         public void Save()
