@@ -18,7 +18,21 @@ namespace Sports.Logic
         }
         public void AddComment(Comment comment)
         {
+            ValidateComment(comment);
             _repository.Create(comment);
+        }
+
+        private void ValidateComment(Comment comment)
+        {
+            CheckNotNull(comment);
+        }
+
+        private void CheckNotNull(Comment comment)
+        {
+            if (comment == null)
+            {
+                throw new InvalidCommentDataException("Cannot add null comment");
+            }
         }
 
         public Comment GetCommentById(int id)
