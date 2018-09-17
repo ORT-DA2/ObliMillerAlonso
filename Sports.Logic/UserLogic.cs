@@ -47,6 +47,7 @@ namespace Sports.Logic
         {
             User originalUser = GetUserById(id);
             originalUser.UpdateData(updatedUser);
+            originalUser.IsValid();
             _repository.Update(originalUser);
         }
     }
