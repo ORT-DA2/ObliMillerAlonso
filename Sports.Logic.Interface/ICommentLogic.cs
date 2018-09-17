@@ -9,5 +9,6 @@ namespace Sports.Logic.Interface
     {
         void AddComment(Comment comment);
         Comment GetCommentById(int id);
+        ICollection<Comment> GetAll();
     }
 }
