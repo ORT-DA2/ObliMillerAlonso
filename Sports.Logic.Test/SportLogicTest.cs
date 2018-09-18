@@ -75,6 +75,15 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
+        public void UpdateSportNameInvalid()
+        {
+            _sportLogic.AddSport(_sport);
+            _sport.Name = "";
+            _sportLogic.Modify(_sport);
+        }
+
+
+        [TestMethod]
         public void UpdateIgnoreEmptyFields()
         {
             _sportLogic.AddSport(_sport);
