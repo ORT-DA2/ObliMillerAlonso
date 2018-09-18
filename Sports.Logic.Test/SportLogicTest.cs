@@ -179,6 +179,22 @@ namespace Sports.Logic.Test
             _sportLogic.AddTeam(_sport, _team);
         }
 
-
+        [TestMethod]
+        [ExpectedException(typeof(InvalidSportDataException))]
+        public void AddDuplicateTeamToSport()
+        {
+            _sportLogic.AddSport(_sport);
+            Team _team = new Team()
+            {
+                Name = "Barcelona"
+            };
+            Team _identicalTeam = new Team()
+            {
+                Name = "Barcelona"
+            };
+            _sportLogic.AddTeam(_sport, _team);
+            _sportLogic.AddTeam(_sport, _identicalTeam);
+        }
+        
     }
 }
