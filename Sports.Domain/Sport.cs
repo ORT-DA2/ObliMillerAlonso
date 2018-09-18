@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Sports.Exceptions;
+using System.Linq;
 
 namespace Sports.Domain
 {
@@ -76,6 +77,12 @@ namespace Sports.Domain
             {
                 throw new InvalidSportDataException("Team already exists in Sport");
             }
+        }
+
+        public Team GetTeam(Team team)
+        {
+            CheckIfTeamDoesntExist(team);
+            return Teams.First(team);
         }
 
         public void UpdateData(Sport sport)

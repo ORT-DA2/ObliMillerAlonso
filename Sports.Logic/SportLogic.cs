@@ -57,6 +57,16 @@ namespace Sports.Logic
             return sports.First();
         }
 
+        /*
+       
+        public Team GetTeamFromSport(Sport sport, Team team)
+        {
+            Sport realSport = GetSportById(sport.Id);
+            return _teamLogic.GetTeamById(realSport.GetTeam(team).Id);
+        }
+        */
+
+
         public Sport GetSportByName(string name)
         {
             ICollection<Sport> sports = _repository.FindByCondition(s => s.Name == name);
@@ -93,9 +103,8 @@ namespace Sports.Logic
         {
             return _repository.FindAll();
         }
-
         
-        public void AddTeam(Sport sport, Team team)
+        public void AddTeamToSport(Sport sport, Team team)
         {
             Sport realSport = GetSportById(sport.Id);
             CheckTeamIsNotUsed(sport, team);

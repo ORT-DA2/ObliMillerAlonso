@@ -131,7 +131,7 @@ namespace Sports.Logic.Test
             {
                 Name = "Barcelona"
             };
-            _sportLogic.AddTeam(_sport, _team);
+            _sportLogic.AddTeamToSport(_sport, _team);
             _sportLogic.DeleteTeamFromSport(_sport, _team);
             Assert.AreEqual(_sportLogic.GetSportById(_sport.Id).Teams.Count, 0);
         }
@@ -145,14 +145,14 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        public void AddTeam()
+        public void AddTeamtoSport()
         {
             _sportLogic.AddSport(_sport);
             Team _team = new Team()
             {
                 Name = "Barcelona"
             };
-            _sportLogic.AddTeam(_sport, _team);
+            _sportLogic.AddTeamToSport(_sport, _team);
             Assert.AreEqual(_sportLogic.GetSportById(_sport.Id).Teams.Count, 1);
         }
 
@@ -164,7 +164,7 @@ namespace Sports.Logic.Test
             {
                 Name = "Barcelona"
             };
-            _sportLogic.AddTeam(_sport, _team);
+            _sportLogic.AddTeamToSport(_sport, _team);
         }
 
         [TestMethod]
@@ -176,7 +176,7 @@ namespace Sports.Logic.Test
             {
                 Name = ""
             };
-            _sportLogic.AddTeam(_sport, _team);
+            _sportLogic.AddTeamToSport(_sport, _team);
         }
 
         [TestMethod]
@@ -192,8 +192,21 @@ namespace Sports.Logic.Test
             {
                 Name = "Barcelona"
             };
-            _sportLogic.AddTeam(_sport, _team);
-            _sportLogic.AddTeam(_sport, _identicalTeam);
+            _sportLogic.AddTeamToSport(_sport, _team);
+            _sportLogic.AddTeamToSport(_sport, _identicalTeam);
+        }
+
+        [TestMethod]
+        public void GetTeamFromSport()
+        {
+            _sportLogic.AddSport(_sport);
+            Team _team = new Team()
+            {
+                Name = "Barcelona"
+            };
+            _sportLogic.AddTeamToSport(_sport, _team);
+            Team returnedTeam = _sportLogic.GetTeamFromSport(_sport, _team);
+            
         }
         
     }
