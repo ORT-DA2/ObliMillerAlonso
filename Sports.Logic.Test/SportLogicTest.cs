@@ -124,6 +124,21 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
+        public void DeleteTeamFromSport()
+        {
+            _sportLogic.AddSport(_sport);
+            Team _team = new Team()
+            {
+                Name = "Barcelona"
+            };
+            _sportLogic.AddTeam(_sport, _team);
+            _sportLogic.RemoveSport(_sport, _team);
+            Assert.AreEqual(_sportLogic.GetSportById(_sport.Id).Teams.Count, 0);
+        }
+
+
+
+        [TestMethod]
         [ExpectedException(typeof(InvalidSportDataException))]
         public void DeleteNonExistingSport()
         {
