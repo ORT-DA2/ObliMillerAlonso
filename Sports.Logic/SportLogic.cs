@@ -98,8 +98,27 @@ namespace Sports.Logic
         public void AddTeam(Sport sport, Team team)
         {
             Sport realSport = GetSportById(sport.Id);
+            CheckTeamIsNotUsed(sport, team);
+            _teamLogic.AddTeam(team);
+            realSport.AddTeam(team);
+            _repository.Update(realSport);
+        }
+
+        private void CheckTeamIsNotUsed(Sport sport, Team team)
+        {
+            if (sport.Teams.Contains(team))
+            {
+                throw new InvalidSportDataException("Team already in sport");
+            }
+        }
+
+        public void DeleteTeamFromSport(Sport sport, Team team)
+        {
+            Sport realSport = GetSportById(sport.Id);
             Team realTeam = _teamLogic.GetTeamById(team.Id);
-            realSport.AddTeam(realTeam);
+            realSport.DeleteTeam(realTeam);
+            _repository.Update(realSport);
+            _teamLogic.Delete(realTeam);
         }
     }
 }

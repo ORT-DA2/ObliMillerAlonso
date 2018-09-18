@@ -132,11 +132,9 @@ namespace Sports.Logic.Test
                 Name = "Barcelona"
             };
             _sportLogic.AddTeam(_sport, _team);
-            _sportLogic.RemoveSport(_sport, _team);
+            _sportLogic.DeleteTeamFromSport(_sport, _team);
             Assert.AreEqual(_sportLogic.GetSportById(_sport.Id).Teams.Count, 0);
         }
-
-
 
         [TestMethod]
         [ExpectedException(typeof(InvalidSportDataException))]
@@ -176,9 +174,11 @@ namespace Sports.Logic.Test
             _sportLogic.AddSport(_sport);
             Team _team = new Team()
             {
-                Name = "Barcelona"
+                Name = ""
             };
             _sportLogic.AddTeam(_sport, _team);
         }
+
+
     }
 }
