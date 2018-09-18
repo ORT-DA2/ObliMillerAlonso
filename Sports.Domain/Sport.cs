@@ -82,7 +82,7 @@ namespace Sports.Domain
         public Team GetTeam(Team team)
         {
             CheckIfTeamDoesntExist(team);
-            return Teams.First(team);
+            return Teams.First(t=>t.Name == team.Name|| t.Id == team.Id);
         }
 
         public void UpdateData(Sport sport)

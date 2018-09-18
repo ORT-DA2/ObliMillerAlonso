@@ -206,7 +206,6 @@ namespace Sports.Logic.Test
             };
             _sportLogic.AddTeamToSport(_sport, _team);
             Team returnedTeam = _sportLogic.GetTeamFromSport(_sport, _team);
-            
         }
         
     }
