@@ -75,6 +75,7 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
+        [ExpectedException(typeof(InvalidSportDataException))]
         public void UpdateSportNameInvalid()
         {
             _sportLogic.AddSport(_sport);

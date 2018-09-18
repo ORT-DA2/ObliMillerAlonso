@@ -81,6 +81,14 @@ namespace Sports.Logic
             _repository.Delete(sport);
         }
 
+        public void Modify(Sport sport)
+        {
+            Sport realSport = GetSportById(sport.Id);
+            realSport.UpdateData(sport);
+            ValidateSport(realSport);
+            _repository.Update(realSport);
+        }
+
         public ICollection<Sport> GetAll()
         {
             return _repository.FindAll();
