@@ -25,8 +25,31 @@ namespace Sports.Domain
 
         public void IsValid()
         {
+            CheckSportNotEmpty();
             IsValidMatch(this.Local, this.Visitor);
             IsValidDate(this.Date);
+        }
+
+        private void CheckSportNotEmpty()
+        {
+            if (this.Sport == null)
+            {
+                throw new InvalidMatchDataException("Match should include a sport.");
+            }
+        }
+        private void CheckVisitorNotEmpty()
+        {
+            if (this.Visitor == null)
+            {
+                throw new InvalidMatchDataException("Match should include a visitor team.");
+            }
+        }
+        private void CheckLocalNotEmpty()
+        {
+            if (this.Local == null)
+            {
+                throw new InvalidMatchDataException("Match should include a local team.");
+            }
         }
 
         private void IsValidDate(DateTime date)

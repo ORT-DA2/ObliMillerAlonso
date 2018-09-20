@@ -146,7 +146,7 @@ namespace Sports.Logic.Test
         }
         //add match without sport
         [TestMethod]
-        [ExpectedException(typeof(InvalidSportDataException))]
+        [ExpectedException(typeof(InvalidMatchDataException))]
         public void AddMatchWithoutSport()
         {
             _match.Sport = null;
@@ -157,6 +157,8 @@ namespace Sports.Logic.Test
         //modify invalid sport
         //modify teams
         //add teams not of sport
+        //add without local
+        //add without visitor
         //delete match
     }
 }

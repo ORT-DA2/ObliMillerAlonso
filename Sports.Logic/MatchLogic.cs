@@ -36,6 +36,7 @@ namespace Sports.Logic
         private void ValidateSport(Match match)
         {
             Sport sport = match.Sport;
+
             Team local = match.Local;
             Team visitor = match.Visitor;
             match.Sport = _sportLogic.GetSportById(sport.Id);
