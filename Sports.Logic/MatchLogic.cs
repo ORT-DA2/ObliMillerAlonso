@@ -13,12 +13,12 @@ namespace Sports.Logic
     {
 
         IMatchRepository _repository;
-        ITeamLogic _teamLogic;
+        ISportLogic _sportLogic;
 
         public MatchLogic(IRepositoryUnitOfWork unit)
         {
             _repository = unit.Match;
-            _teamLogic = new TeamLogic(unit);
+            _sportLogic = new SportLogic(unit);
         }
         public void AddMatch(Match match)
         {
@@ -30,13 +30,18 @@ namespace Sports.Logic
         {
             CheckNotNull(match);
             match.IsValid();
-            match.Local = GetRealTeam(match.Local);
-            match.Visitor = GetRealTeam(match.Visitor);
+            ValidateSport(match);
         }
 
-        private Team GetRealTeam(Team team)
+        private void ValidateSport(Match match)
         {
-            return _teamLogic.GetTeamById(team.Id);
+            Sport sport = match.Sport;
+
+            Team local = match.Local;
+            Team visitor = match.Visitor;
+            match.Sport = _sportLogic.GetSportById(sport.Id);
+            match.Local = _sportLogic.GetTeamFromSport(sport, local);
+            match.Visitor = _sportLogic.GetTeamFromSport(sport, visitor);
         }
 
         private void CheckNotNull(Match match)
@@ -57,16 +62,23 @@ namespace Sports.Logic
             return matches.First();
         }
 
-        public void ModifyMatch(Match match)
+        public void ModifyMatch(int id, Match match)
         {
-            Match realMatch = GetMatchById(match.Id);
-            UpdateDate(realMatch,match.Date);
+            Match realMatch = GetMatchById(id);
+            realMatch.UpdateMatch(match);
+            ValidateMatch(realMatch);
             _repository.Update(realMatch);
         }
 
-        private void UpdateDate(Match realMatch, DateTime date)
+        public void DeleteMatch(Match match)
         {
-            realMatch.Date = date;
+            Match realMatch = GetMatchById(match.Id);
+            _repository.Delete(realMatch);
+        }
+
+        public ICollection<Match> GetAllMatches()
+        {
+            return _repository.FindAll();
         }
     }
 }

@@ -25,8 +25,33 @@ namespace Sports.Domain
 
         public void IsValid()
         {
+            CheckSportNotEmpty();
+            CheckLocalNotEmpty();
+            CheckVisitorNotEmpty();
             IsValidMatch(this.Local, this.Visitor);
             IsValidDate(this.Date);
+        }
+
+        private void CheckSportNotEmpty()
+        {
+            if (this.Sport == null)
+            {
+                throw new InvalidMatchDataException("Match should include a sport.");
+            }
+        }
+        private void CheckVisitorNotEmpty()
+        {
+            if (this.Visitor == null)
+            {
+                throw new InvalidMatchDataException("Match should include a visitor team.");
+            }
+        }
+        private void CheckLocalNotEmpty()
+        {
+            if (this.Local == null)
+            {
+                throw new InvalidMatchDataException("Match should include a local team.");
+            }
         }
 
         private void IsValidDate(DateTime date)
@@ -50,6 +75,33 @@ namespace Sports.Domain
             string tostring = "Sport: " + Sport + " Local Team: " + Local + " Visitor Team: " + Visitor + " Date: " + Date;
             return tostring;
         }
-        
+
+        public void UpdateMatch(Match updatedMatch)
+        {
+            this.Date = IgnoreNullDate(this.Date,updatedMatch.Date);
+            this.Sport = (Sport)IgnoreNull(this.Sport, updatedMatch.Sport);
+            this.Local = (Team)IgnoreNull(this.Local, updatedMatch.Local);
+            this.Visitor = (Team)IgnoreNull(this.Visitor, updatedMatch.Visitor);
+            
+        }
+
+        private DateTime IgnoreNullDate(DateTime originalDate, DateTime updatedDate)
+        {
+            if (updatedDate.Equals(DateTime.MinValue))
+            {
+                return originalDate;
+            }
+            return updatedDate;
+        }
+
+        private Object IgnoreNull(Object original, Object updated)
+        {
+            if (updated==null)
+            {
+                return original;
+            }
+            return updated;
+        }
+
     }
 }
