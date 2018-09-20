@@ -39,6 +39,7 @@ namespace Sports.Logic.Test
             _repository = new RepositoryContext(options);
             _unitOfWork = new RepositoryUnitOfWork(_repository);
             _sportLogic = new SportLogic(_unitOfWork);
+            _teamLogic = new TeamLogic(_unitOfWork);
         }
 
         [TestCleanup]
@@ -156,6 +157,25 @@ namespace Sports.Logic.Test
             _sportLogic.AddTeamToSport(_sport, _team);
             Assert.AreEqual(_sportLogic.GetSportById(_sport.Id).Teams.Count, 1);
         }
+
+        
+        [TestMethod]
+        public void UpdateTeamtSport()
+        {
+            _sportLogic.AddSport(_sport);
+            Team team = new Team()
+            {
+                Name = "Barcelona"
+            };
+            Team teamChanges = new Team()
+            {
+                Name = "Villareal"
+            };
+            _sportLogic.AddTeamToSport(_sport, team);
+            _sportLogic.UpdateTeamSport(team.Id, teamChanges);
+            Assert.AreEqual<string>(_teamLogic.GetTeamById(team.Id).Name, teamChanges.Name);
+        }
+        
 
         [TestMethod]
         [ExpectedException(typeof(InvalidSportDataException))]
