@@ -65,14 +65,10 @@ namespace Sports.Logic
         public void ModifyMatch(int id, Match match)
         {
             Match realMatch = GetMatchById(id);
-            UpdateDate(realMatch,match.Date);
-            realMatch.IsValid();
+            realMatch.UpdateMatch(match);
+            ValidateMatch(realMatch);
             _repository.Update(realMatch);
         }
-
-        private void UpdateDate(Match realMatch, DateTime date)
-        {
-            realMatch.Date = date;
-        }
+        
     }
 }

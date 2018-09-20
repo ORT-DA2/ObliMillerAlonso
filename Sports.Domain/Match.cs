@@ -73,6 +73,24 @@ namespace Sports.Domain
             string tostring = "Sport: " + Sport + " Local Team: " + Local + " Visitor Team: " + Visitor + " Date: " + Date;
             return tostring;
         }
-        
+
+        public void UpdateMatch(Match updatedMatch)
+        {
+            this.Date = (DateTime)IgnoreNull(this.Date,updatedMatch.Date);
+            this.Sport = (Sport)IgnoreNull(this.Sport, updatedMatch.Sport);
+            this.Local = (Team)IgnoreNull(this.Local, updatedMatch.Local);
+            this.Visitor = (Team)IgnoreNull(this.Visitor, updatedMatch.Visitor);
+        }
+
+
+        private Object IgnoreNull(Object original, Object updated)
+        {
+            if (updated==null)
+            {
+                return original;
+            }
+            return updated;
+        }
+
     }
 }

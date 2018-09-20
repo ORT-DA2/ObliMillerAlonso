@@ -39,7 +39,7 @@ namespace Sports.Logic.Test
             };
             Sport sport = new Sport()
             {
-                Name = "Test Sport"
+                Name = "Match Sport"
             };
             _match = new Match()
             {
@@ -163,9 +163,21 @@ namespace Sports.Logic.Test
                 Name = "Test Sport"
             };
             _sportLogic.AddSport(sport);
-            _sportLogic.AddTeamToSport(sport, _match.Local);
-            _sportLogic.AddTeamToSport(sport, _match.Visitor);
+
+            Team localTeam = new Team()
+            {
+                Name = "New Local team"
+            };
+            Team visitorTeam = new Team()
+            {
+                Name = "New Visitor team",
+
+            };
+            _sportLogic.AddTeamToSport(sport, localTeam);
+            _sportLogic.AddTeamToSport(sport, visitorTeam);
             _match.Sport = sport;
+            _match.Local = localTeam;
+            _match.Visitor = visitorTeam;
             _matchLogic.ModifyMatch(_match.Id, _match);
             Assert.AreEqual(_matchLogic.GetMatchById(_match.Id).Sport, sport);
         }

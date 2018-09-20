@@ -22,6 +22,7 @@ namespace Sports.Logic
         public void AddSport(Sport sport)
         {
             ValidateSport(sport);
+            CheckNotExists(sport.Name, sport.Id);
             _repository.Create(sport);
         }
 
@@ -29,7 +30,6 @@ namespace Sports.Logic
         {
             CheckNotNull(sport);
             sport.IsValid();
-            CheckNotExists(sport.Name, sport.Id);
         }
 
         private void CheckNotExists(string name, int id = 0)
