@@ -270,6 +270,16 @@ namespace Sports.Logic.Test
         }
 
         //ignore null fields
+        [TestMethod]
+        public void ModifyIgnoresNullFields()
+        {
+            _matchLogic.AddMatch(_match);
+            Team original = _match.Local;
+            _match.Local = null;
+            _matchLogic.ModifyMatch(_match.Id, _match);
+            Assert.AreEqual(_matchLogic.GetMatchById(_match.Id).Local, original);
+        }
+
         //delete match
     }
 }
