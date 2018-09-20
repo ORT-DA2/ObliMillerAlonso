@@ -144,7 +144,7 @@ namespace Sports.Logic.Test
             _match.Sport = sport;
             _matchLogic.AddMatch(_match);
         }
-        //add match without sport
+
         [TestMethod]
         [ExpectedException(typeof(InvalidMatchDataException))]
         public void AddMatchWithoutSport()
@@ -154,6 +154,22 @@ namespace Sports.Logic.Test
         }
 
         //modify sport
+        [TestMethod]
+        public void ModifySport()
+        {
+            _matchLogic.AddMatch(_match);
+            Sport sport = new Sport()
+            {
+                Name = "Test Sport"
+            };
+            _sportLogic.AddSport(sport);
+            _sportLogic.AddTeamToSport(sport, _match.Local);
+            _sportLogic.AddTeamToSport(sport, _match.Visitor);
+            _match.Sport = sport;
+            _matchLogic.ModifyMatch(_match.Id, _match);
+            Assert.AreEqual(_matchLogic.GetMatchById(_match.Id).Sport, sport);
+        }
+
         //modify invalid sport
         //modify teams
         //add teams not of sport
