@@ -15,6 +15,7 @@ namespace Sports.Repository
         private ICommentRepository _comment;
         private ISportRepository _sport;
         private IMatchRepository _match;
+        private ILoginRepository _login;
 
         public RepositoryUnitOfWork(RepositoryContext repositoryContext)
         {
@@ -47,7 +48,8 @@ namespace Sports.Repository
             }
         }
         
-        public ISportRepository Sport {
+        public ISportRepository Sport
+        {
             get {
                 if (_sport == null)
                     _sport = new SportRepository(_repositoryContext);
@@ -55,11 +57,22 @@ namespace Sports.Repository
             }
         }
 
-        public IMatchRepository Match {
+        public IMatchRepository Match
+        {
             get {
                 if (_match == null)
                     _match = new MatchRepository(_repositoryContext);
                 return _match;
+            }
+        }
+
+        public ILoginRepository Login
+        {
+            get
+            {
+                if (_login == null)
+                    _login = new LoginRepository(_repositoryContext);
+                return _login;
             }
         }
 
