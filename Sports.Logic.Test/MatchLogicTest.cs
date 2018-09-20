@@ -210,6 +210,21 @@ namespace Sports.Logic.Test
             Assert.AreEqual(_matchLogic.GetMatchById(_match.Id).Visitor, visitorTeam);
         }
 
+        [TestMethod]
+        public void ModifyLocalTeam()
+        {
+            _matchLogic.AddMatch(_match);
+            Team localTeam = new Team()
+            {
+                Name = "New Local team",
+
+            };
+            _sportLogic.AddTeamToSport(_match.Sport, localTeam);
+            _match.Local = localTeam;
+            _matchLogic.ModifyMatch(_match.Id, _match);
+            Assert.AreEqual(_matchLogic.GetMatchById(_match.Id).Local, localTeam);
+        }
+
         //add teams not of sport
         //modify teams not of sport
         //add without local
