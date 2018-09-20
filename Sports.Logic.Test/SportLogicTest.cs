@@ -175,7 +175,24 @@ namespace Sports.Logic.Test
             _sportLogic.UpdateTeamSport(_sport.Id, team, teamChanges);
             Assert.AreEqual<string>(_sportLogic.GetTeamFromSport(_sport, team).Name, teamChanges.Name);
         }
-        
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidTeamDataException))]
+        public void UpdateInvalidTeamSport()
+        {
+            _sportLogic.AddSport(_sport);
+            Team team = new Team()
+            {
+                Name = "Barcelona"
+            };
+            Team teamChanges = new Team()
+            {
+                Name = ""
+            };
+            _sportLogic.AddTeamToSport(_sport, team);
+            _sportLogic.UpdateTeamSport(_sport.Id, team, teamChanges);
+        }
+
 
         [TestMethod]
         [ExpectedException(typeof(InvalidSportDataException))]
