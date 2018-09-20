@@ -280,14 +280,13 @@ namespace Sports.Logic.Test
             _matchLogic.ModifyMatch(_match.Id, updatedMatch);
             Assert.AreEqual(_matchLogic.GetMatchById(_match.Id).Local, original);
         }
-
-        //delete match
+        
         [TestMethod]
         public void DeleteMatch()
         {
             _matchLogic.AddMatch(_match);
             _matchLogic.DeleteMatch(_match);
-            Assert.AreEqual(_matchLogic.GetMatchById(_match.Id).Local, original);
+            Assert.AreEqual(_matchLogic.GetAllMatches().Count, 0);
         }
     }
 }

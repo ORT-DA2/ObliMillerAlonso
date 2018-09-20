@@ -10,5 +10,7 @@ namespace Sports.Logic.Interface
         void AddMatch(Match match);
         Match GetMatchById(int id);
         void ModifyMatch(int id, Match match);
+        void DeleteMatch(Match match);
+        ICollection<Match> GetAllMatches();
     }
 }

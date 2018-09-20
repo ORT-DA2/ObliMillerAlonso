@@ -69,6 +69,16 @@ namespace Sports.Logic
             ValidateMatch(realMatch);
             _repository.Update(realMatch);
         }
-        
+
+        public void DeleteMatch(Match match)
+        {
+            Match realMatch = GetMatchById(match.Id);
+            _repository.Delete(realMatch);
+        }
+
+        public ICollection<Match> GetAllMatches()
+        {
+            return _repository.FindAll();
+        }
     }
 }
