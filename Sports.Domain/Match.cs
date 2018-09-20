@@ -78,12 +78,21 @@ namespace Sports.Domain
 
         public void UpdateMatch(Match updatedMatch)
         {
-            this.Date = (DateTime)IgnoreNull(this.Date,updatedMatch.Date);
+            this.Date = IgnoreNullDate(this.Date,updatedMatch.Date);
             this.Sport = (Sport)IgnoreNull(this.Sport, updatedMatch.Sport);
             this.Local = (Team)IgnoreNull(this.Local, updatedMatch.Local);
             this.Visitor = (Team)IgnoreNull(this.Visitor, updatedMatch.Visitor);
+            
         }
 
+        private DateTime IgnoreNullDate(DateTime originalDate, DateTime updatedDate)
+        {
+            if (updatedDate.Equals(DateTime.MinValue))
+            {
+                return originalDate;
+            }
+            return updatedDate;
+        }
 
         private Object IgnoreNull(Object original, Object updated)
         {

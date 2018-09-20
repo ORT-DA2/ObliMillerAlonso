@@ -275,8 +275,10 @@ namespace Sports.Logic.Test
         {
             _matchLogic.AddMatch(_match);
             Team original = _match.Local;
-            _match.Local = null;
-            _matchLogic.ModifyMatch(_match.Id, _match);
+            Match updatedMatch = new Match()
+            {
+            };
+            _matchLogic.ModifyMatch(_match.Id, updatedMatch);
             Assert.AreEqual(_matchLogic.GetMatchById(_match.Id).Local, original);
         }
 
