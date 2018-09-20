@@ -226,6 +226,20 @@ namespace Sports.Logic.Test
         }
 
         //add teams not of sport
+        [TestMethod]
+        [ExpectedException(typeof(InvalidSportDataException))]
+        public void ModifyInvalidVisitorTeam()
+        {
+            _matchLogic.AddMatch(_match);
+            Team visitorTeam = new Team()
+            {
+                Name = "New Visitor team",
+
+            };
+            _match.Visitor = visitorTeam;
+            _matchLogic.ModifyMatch(_match.Id, _match);
+        }
+
         //modify teams not of sport
         //add without local
         //add without visitor
