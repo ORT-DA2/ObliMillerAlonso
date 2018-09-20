@@ -268,8 +268,7 @@ namespace Sports.Logic.Test
             _match.Visitor = null;
             _matchLogic.AddMatch(_match);
         }
-
-        //ignore null fields
+        
         [TestMethod]
         public void ModifyIgnoresNullFields()
         {
@@ -283,5 +282,12 @@ namespace Sports.Logic.Test
         }
 
         //delete match
+        [TestMethod]
+        public void DeleteMatch()
+        {
+            _matchLogic.AddMatch(_match);
+            _matchLogic.DeleteMatch(_match);
+            Assert.AreEqual(_matchLogic.GetMatchById(_match.Id).Local, original);
+        }
     }
 }
