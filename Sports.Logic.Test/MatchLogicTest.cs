@@ -288,5 +288,12 @@ namespace Sports.Logic.Test
             _matchLogic.DeleteMatch(_match);
             Assert.AreEqual(_matchLogic.GetAllMatches().Count, 0);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidMatchDataException))]
+        public void DeleteNonExistingMatch()
+        {
+            _matchLogic.DeleteMatch(_match);
+        }
     }
 }
