@@ -253,7 +253,6 @@ namespace Sports.Logic.Test
             _matchLogic.ModifyMatch(_match.Id, _match);
         }
 
-        //add without local
         [TestMethod]
         [ExpectedException(typeof(InvalidMatchDataException))]
         public void AddWithoutLocalTeam()
@@ -261,7 +260,15 @@ namespace Sports.Logic.Test
             _match.Local = null;
             _matchLogic.AddMatch(_match);
         }
-        //add without visitor
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidMatchDataException))]
+        public void AddWithoutVisitorTeam()
+        {
+            _match.Visitor = null;
+            _matchLogic.AddMatch(_match);
+        }
+
         //ignore null fields
         //delete match
     }
