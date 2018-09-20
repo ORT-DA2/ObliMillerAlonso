@@ -11,6 +11,7 @@ using Sports.Repository.Interface;
 using Sports.Repository.Context;
 using Sports.Exceptions;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace Sports.Logic.Test
 {
@@ -22,10 +23,19 @@ namespace Sports.Logic.Test
         private RepositoryContext _repository;
         private ILoginLogic _loginLogic;
         private IUserLogic _userLogic;
+        User _admin;
 
         [TestInitialize]
         public void SetUp()
         {
+            _admin = new User(true)
+            {
+                Id = Guid.NewGuid().GetHashCode(),
+                FirstName = "",
+                UserName = "Admin",
+                Password = ""
+            };
+            
             var options = new DbContextOptionsBuilder<RepositoryContext>()
                 .UseInMemoryDatabase<RepositoryContext>(databaseName: "LoginLogicTestDB")
                 .Options;
@@ -34,7 +44,32 @@ namespace Sports.Logic.Test
             _loginLogic = new LoginLogic(_unitOfWork);
         }
 
+        [TestCleanup]
+        public void TearDown()
+        {
+            _repository.Logins.RemoveRange(_repository.Logins);
+            _repository.SaveChanges();
+        }
 
+        [TestMethod]
+        public void TestLoginUser()
+        {
+            User user = LogNewUser();
+            Guid token = LoginLogic.LogInUser(user.UserName, user.Password);
+            Guid tokenFromDb = _repository.Logins.FirstOrDefault(l => l.TokenId.Equals(token)).TokenId;
+            Assert.AreEqual(token, tokenFromDb);
+        }
+
+        private User LogNewUser()
+        {
+            User user = new User
+            {
+                UserName = "User",
+                Password = "test"
+            };
+            _userLogic.AddUser(user);
+            return user;
+        }
 
     }
 }

@@ -12,5 +12,6 @@ namespace Sports.Repository.Interface
         ICommentRepository Comment { get; }
         ISportRepository Sport { get; }
         IMatchRepository Match { get; }
+        ILoginRepository Login { get; }
     }
 }
