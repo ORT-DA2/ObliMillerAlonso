@@ -11,7 +11,7 @@ namespace Sports.Logic.Interface
         void AddTeam(Team team);
         Team GetTeamById(int id);
         void SetPictureFromPath(Team team, string testImagePath);
-        void Modify(Team team);
+        void Modify(Team team, Team originalTeam);
         void Delete(Team team);
         ICollection<Team> GetAll();
     }

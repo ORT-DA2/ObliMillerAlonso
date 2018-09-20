@@ -126,5 +126,13 @@ namespace Sports.Logic
             _repository.Update(realSport);
             _teamLogic.Delete(realTeam);
         }
+
+        public void UpdateTeamSport(int id, Team originalTeam, Team teamChanges)
+        {
+            Sport originalsport = GetSportById(id);
+            Team original = GetTeamFromSport(originalsport, originalTeam);
+            _teamLogic.Modify(teamChanges, originalTeam);
+            _repository.Update(originalsport);
+        }
     }
 }

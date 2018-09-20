@@ -95,8 +95,11 @@ namespace Sports.Logic.Test
         public void ChangeTeamName()
         {
             _teamLogic.AddTeam(_team);
-            _team.Name = "new name";
-            _teamLogic.Modify(_team);
+            Team changeTeam = new Team()
+            {
+                Name = ""
+            };
+            _teamLogic.Modify(changeTeam, _team);
             Assert.AreEqual<string>(_teamLogic.GetTeamById(_team.Id).Name,_team.Name);
         }
 
@@ -105,8 +108,11 @@ namespace Sports.Logic.Test
         public void ChangeTeamNameInvalid()
         {
             _teamLogic.AddTeam(_team);
-            _team.Name = "";
-            _teamLogic.Modify(_team);
+            Team changeTeam = new Team()
+            {
+                Name = ""
+            };
+            _teamLogic.Modify(changeTeam, _team);
         }
 
         [TestMethod]

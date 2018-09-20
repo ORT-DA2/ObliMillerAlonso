@@ -160,7 +160,7 @@ namespace Sports.Logic.Test
 
         
         [TestMethod]
-        public void UpdateTeamtSport()
+        public void UpdateTeamSport()
         {
             _sportLogic.AddSport(_sport);
             Team team = new Team()
@@ -172,8 +172,8 @@ namespace Sports.Logic.Test
                 Name = "Villareal"
             };
             _sportLogic.AddTeamToSport(_sport, team);
-            _sportLogic.UpdateTeamSport(team.Id, teamChanges);
-            Assert.AreEqual<string>(_teamLogic.GetTeamById(team.Id).Name, teamChanges.Name);
+            _sportLogic.UpdateTeamSport(_sport.Id, team, teamChanges);
+            Assert.AreEqual<string>(_sportLogic.GetTeamFromSport(_sport, team).Name, teamChanges.Name);
         }
         
 
