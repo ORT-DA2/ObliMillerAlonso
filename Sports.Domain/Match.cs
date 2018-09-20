@@ -26,6 +26,7 @@ namespace Sports.Domain
         public void IsValid()
         {
             CheckSportNotEmpty();
+            CheckLocalNotEmpty();
             IsValidMatch(this.Local, this.Visitor);
             IsValidDate(this.Date);
         }
