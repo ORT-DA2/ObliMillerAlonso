@@ -145,7 +145,13 @@ namespace Sports.Logic.Test
             _matchLogic.AddMatch(_match);
         }
         //add match without sport
-
+        [TestMethod]
+        [ExpectedException(typeof(InvalidSportDataException))]
+        public void AddMatchWithoutSport()
+        {
+            _match.Sport = null;
+            _matchLogic.AddMatch(_match);
+        }
 
         //modify sport
         //modify invalid sport
