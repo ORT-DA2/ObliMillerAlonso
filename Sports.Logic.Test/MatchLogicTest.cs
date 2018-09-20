@@ -224,8 +224,7 @@ namespace Sports.Logic.Test
             _matchLogic.ModifyMatch(_match.Id, _match);
             Assert.AreEqual(_matchLogic.GetMatchById(_match.Id).Local, localTeam);
         }
-
-        //add teams not of sport
+        
         [TestMethod]
         [ExpectedException(typeof(InvalidSportDataException))]
         public void ModifyInvalidVisitorTeam()
@@ -237,6 +236,20 @@ namespace Sports.Logic.Test
 
             };
             _match.Visitor = visitorTeam;
+            _matchLogic.ModifyMatch(_match.Id, _match);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidSportDataException))]
+        public void ModifyInvalidLocalTeam()
+        {
+            _matchLogic.AddMatch(_match);
+            Team localTeam = new Team()
+            {
+                Name = "New Local team",
+
+            };
+            _match.Local = localTeam;
             _matchLogic.ModifyMatch(_match.Id, _match);
         }
 
