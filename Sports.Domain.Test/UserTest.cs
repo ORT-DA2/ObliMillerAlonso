@@ -143,6 +143,20 @@ namespace Sports.Domain.Test
         }
 
 
+        [TestMethod]
+        [ExpectedException(typeof(InvalidUserDataException))]
+        public void InvalidUserEMailFormatCom()
+        {
+            user.Email = "itaimiller@gmail";
+            user.IsValid();
+        }
+
+
+        [TestMethod]
+        public void EqualsNull()
+        {
+            Assert.IsFalse(user.Equals(null));
+        }
 
 
 

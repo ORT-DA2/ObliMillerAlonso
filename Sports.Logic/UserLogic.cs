@@ -52,7 +52,7 @@ namespace Sports.Logic
             ICollection<User> users = _repository.FindByCondition(u => u.Id==id);
             if(users.Count == 0)
             {
-                throw new InvalidUserDataException("Id does not match any existing users");
+                throw new InvalidUserDataException("User Id does not exist");
             }
             return users.First();
         }

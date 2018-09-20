@@ -44,7 +44,7 @@ namespace Sports.Repository
             this.RepositoryContext.Set<T>().Remove(entity);
             this.Save();
         }
-
+        //esta bien que el save sea publico?
         public void Save()
         {
             this.RepositoryContext.SaveChanges();

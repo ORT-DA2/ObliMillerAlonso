@@ -45,15 +45,15 @@ namespace Sports.Domain.Test
         [TestMethod]
         public void ValidateAddTeam()
         {
-            sport.Teams.Add(team);
+            sport.AddTeam(team);
             Assert.AreEqual(1, sport.Teams.Count);
         }
 
         [TestMethod]
         public void ValidateRemoveTeam()
         {
-            sport.Teams.Add(team);
-            sport.Teams.Remove(team);
+            sport.AddTeam(team);
+            sport.RemoveTeam(team);
             Assert.AreEqual(0, sport.Teams.Count);
         }
 
@@ -61,7 +61,7 @@ namespace Sports.Domain.Test
         [ExpectedException(typeof(InvalidSportDataException))]
         public void InvalidRemoveTeam()
         {
-            sport.Teams.Add(team);
+            sport.AddTeam(team);
             Team secondTeam = new Team()
             {
                 Name = "Real"
@@ -101,6 +101,13 @@ namespace Sports.Domain.Test
         public void ToStringRedefined()
         {
             Assert.AreEqual<string>(sport.ToString(), sport.Name);
+        }
+
+
+        [TestMethod]
+        public void EqualsNull()
+        {
+            Assert.IsFalse(sport.Equals(null));
         }
     }
 }
