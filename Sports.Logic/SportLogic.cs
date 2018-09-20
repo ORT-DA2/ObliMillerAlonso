@@ -14,10 +14,10 @@ namespace Sports.Logic
         ISportRepository _repository;
         ITeamLogic _teamLogic;
 
-        public SportLogic(IRepositoryUnitOfWork wrapper)
+        public SportLogic(IRepositoryUnitOfWork unitOfwork)
         {
-            _repository = wrapper.Sport;
-            _teamLogic = new TeamLogic(wrapper);
+            _repository = unitOfwork.Sport;
+            _teamLogic = new TeamLogic(unitOfwork);
         }
         public void AddSport(Sport sport)
         {

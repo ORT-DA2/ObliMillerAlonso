@@ -193,7 +193,6 @@ namespace Sports.Logic.Test
             _sportLogic.UpdateTeamSport(_sport.Id, team, teamChanges);
         }
 
-
         [TestMethod]
         [ExpectedException(typeof(InvalidSportDataException))]
         public void AddTeamToInvalidSport()
