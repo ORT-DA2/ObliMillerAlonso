@@ -5,10 +5,11 @@ using Sports.Domain;
 
 namespace Sports.Repository.Interface
 {
-    public interface IRepositoryWrapper
+    public interface IRepositoryUnitOfWork
     {
         IUserRepository User { get; }
         ITeamRepository Team { get; }
         ICommentRepository Comment { get; }
+        ISportRepository Sport { get; }
     }
 }

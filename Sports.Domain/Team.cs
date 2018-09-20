@@ -84,6 +84,7 @@ namespace Sports.Domain
 
         public void UpdateData(Team team)
         {
+            team.IsValid();
             this.Name = IgnoreWhiteSpace(this.Name, team.Name);
         }
 

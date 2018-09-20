@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Sports.Exceptions;
+using System.Linq;
 
 namespace Sports.Domain
 {
@@ -64,12 +65,38 @@ namespace Sports.Domain
             Teams.Add(team);
         }
 
+        public void DeleteTeam(Team team)
+        {
+            CheckIfTeamDoesntExist(team);
+            Teams.Remove(team);
+        }
+
         private void CheckDuplicateTeam(Team team)
         {
             if (Teams.Contains(team))
             {
                 throw new InvalidSportDataException("Team already exists in Sport");
             }
+        }
+
+        public Team GetTeam(Team team)
+        {
+            CheckIfTeamDoesntExist(team);
+            return Teams.First(t=>t.Name == team.Name|| t.Id == team.Id);
+        }
+
+        public void UpdateData(Sport sport)
+        {
+            this.Name = IgnoreWhiteSpace(this.Name, sport.Name);
+        }
+
+        private string IgnoreWhiteSpace(string originalText, string updatedText)
+        {
+            if (string.IsNullOrWhiteSpace(updatedText))
+            {
+                return originalText;
+            }
+            return updatedText;
         }
 
 

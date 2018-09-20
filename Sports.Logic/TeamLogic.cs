@@ -13,9 +13,9 @@ namespace Sports.Logic
     {
         ITeamRepository _repository;
 
-        public TeamLogic(IRepositoryWrapper wrapper)
+        public TeamLogic(IRepositoryUnitOfWork unitOfwork)
         {
-            _repository = wrapper.Team;
+            _repository = unitOfwork.Team;
         }
         public void AddTeam(Team team)
         {
@@ -56,9 +56,9 @@ namespace Sports.Logic
             _repository.Update(realTeam);
         }
 
-        public void Modify(Team team)
+        public void Modify(int id, Team team)
         {
-            Team realTeam = GetTeamById(team.Id);
+            Team realTeam = GetTeamById(id);
             realTeam.UpdateData(team);
             ValidateTeam(realTeam);
             _repository.Update(realTeam);
