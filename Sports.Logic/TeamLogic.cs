@@ -56,9 +56,9 @@ namespace Sports.Logic
             _repository.Update(realTeam);
         }
 
-        public void Modify(Team team, Team originalTeam)
+        public void Modify(int id, Team team)
         {
-            Team realTeam = GetTeamById(originalTeam.Id);
+            Team realTeam = GetTeamById(id);
             realTeam.UpdateData(team);
             ValidateTeam(realTeam);
             _repository.Update(realTeam);

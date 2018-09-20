@@ -131,7 +131,7 @@ namespace Sports.Logic
         {
             Sport originalsport = GetSportById(id);
             Team original = GetTeamFromSport(originalsport, originalTeam);
-            _teamLogic.Modify(teamChanges, originalTeam);
+            _teamLogic.Modify(original.Id, teamChanges);
             _repository.Update(originalsport);
         }
     }
