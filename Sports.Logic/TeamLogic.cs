@@ -13,7 +13,7 @@ namespace Sports.Logic
     {
         ITeamRepository _repository;
 
-        public TeamLogic(IRepositoryWrapper wrapper)
+        public TeamLogic(IRepositoryUnitOfWork wrapper)
         {
             _repository = wrapper.Team;
         }

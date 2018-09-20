@@ -7,7 +7,7 @@ using Sports.Repository.Context;
 
 namespace Sports.Repository
 {
-    public class RepositoryWrapper : IRepositoryWrapper
+    public class RepositoryUnitOfWork : IRepositoryUnitOfWork
     {
         private RepositoryContext _repositoryContext;
         private IUserRepository _user;
@@ -15,7 +15,7 @@ namespace Sports.Repository
         private ICommentRepository _comment;
         private ISportRepository _sport;
 
-        public RepositoryWrapper(RepositoryContext repositoryContext)
+        public RepositoryUnitOfWork(RepositoryContext repositoryContext)
         {
             _repositoryContext = repositoryContext;
         }

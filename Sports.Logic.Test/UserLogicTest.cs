@@ -18,7 +18,7 @@ namespace Sports.Logic.Test
     [TestClass]
     public class UserLogicTest
     {
-        private IRepositoryWrapper _wrapper;
+        private IRepositoryUnitOfWork _unitOfWork;
         private RepositoryContext _repository;
         private UserLogic _userLogic;
         User _user;
@@ -38,8 +38,8 @@ namespace Sports.Logic.Test
                 .UseInMemoryDatabase<RepositoryContext>(databaseName: "UserLogicTestDB")
                 .Options;
             _repository = new RepositoryContext(options);
-            _wrapper = new RepositoryWrapper(_repository);
-            _userLogic = new UserLogic(_wrapper);
+            _unitOfWork = new RepositoryUnitOfWork(_repository);
+            _userLogic = new UserLogic(_unitOfWork);
         }
 
         [TestCleanup]

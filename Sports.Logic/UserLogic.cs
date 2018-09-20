@@ -14,7 +14,7 @@ namespace Sports.Logic
     {
         IUserRepository _repository;
 
-        public UserLogic(IRepositoryWrapper wrapper)
+        public UserLogic(IRepositoryUnitOfWork wrapper)
         {
             _repository = wrapper.User;
         }

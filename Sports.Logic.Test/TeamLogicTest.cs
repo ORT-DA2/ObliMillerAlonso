@@ -20,7 +20,7 @@ namespace Sports.Logic.Test
     {
         static string mypath = AppDomain.CurrentDomain.BaseDirectory;
         string _testImagePath = mypath + "/TestImage/gun.png";
-        private IRepositoryWrapper _wrapper;
+        private IRepositoryUnitOfWork _unitOfWork;
         private RepositoryContext _repository;
         private ITeamLogic _teamLogic;
         private Team _team;
@@ -36,8 +36,8 @@ namespace Sports.Logic.Test
                 .UseInMemoryDatabase<RepositoryContext>(databaseName: "TeamLogicTestDB")
                 .Options;
             _repository = new RepositoryContext(options);
-            _wrapper = new RepositoryWrapper(_repository);
-            _teamLogic = new TeamLogic(_wrapper);
+            _unitOfWork = new RepositoryUnitOfWork(_repository);
+            _teamLogic = new TeamLogic(_unitOfWork);
         }
 
         [TestCleanup]

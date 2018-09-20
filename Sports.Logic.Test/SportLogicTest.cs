@@ -18,7 +18,7 @@ namespace Sports.Logic.Test
     [TestClass]
     public class SportLogicTest
     {
-        private IRepositoryWrapper _wrapper;
+        private IRepositoryUnitOfWork _unitOfWork;
         private RepositoryContext _repository;
         private SportLogic _sportLogic;
         private TeamLogic _teamLogic;
@@ -37,8 +37,8 @@ namespace Sports.Logic.Test
                 .UseInMemoryDatabase<RepositoryContext>(databaseName: "SportLogicTestDB")
                 .Options;
             _repository = new RepositoryContext(options);
-            _wrapper = new RepositoryWrapper(_repository);
-            _sportLogic = new SportLogic(_wrapper);
+            _unitOfWork = new RepositoryUnitOfWork(_repository);
+            _sportLogic = new SportLogic(_unitOfWork);
         }
 
         [TestCleanup]
@@ -74,6 +74,7 @@ namespace Sports.Logic.Test
             Assert.AreEqual<string>(_sportLogic.GetSportById(_sport.Id).Name, sportChanges.Name);
         }
 
+        
         [TestMethod]
         [ExpectedException(typeof(InvalidSportDataException))]
         public void UpdateSportNameInvalid()

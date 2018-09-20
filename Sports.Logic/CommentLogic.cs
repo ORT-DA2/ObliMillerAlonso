@@ -14,7 +14,7 @@ namespace Sports.Logic
         ICommentRepository _repository;
         IUserLogic _userLogic;
 
-        public CommentLogic(IRepositoryWrapper wrapper)
+        public CommentLogic(IRepositoryUnitOfWork wrapper)
         {
             _repository = wrapper.Comment;
             _userLogic = new UserLogic(wrapper);

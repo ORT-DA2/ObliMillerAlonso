@@ -14,7 +14,7 @@ namespace Sports.Logic
         ISportRepository _repository;
         ITeamLogic _teamLogic;
 
-        public SportLogic(IRepositoryWrapper wrapper)
+        public SportLogic(IRepositoryUnitOfWork wrapper)
         {
             _repository = wrapper.Sport;
             _teamLogic = new TeamLogic(wrapper);

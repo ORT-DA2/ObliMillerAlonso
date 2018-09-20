@@ -18,7 +18,7 @@ namespace Sports.Logic.Test
     [TestClass]
     public class CommentLogicTest
     {
-        private IRepositoryWrapper _wrapper;
+        private IRepositoryUnitOfWork _unitOfWork;
         private RepositoryContext _repository;
         private CommentLogic _commentLogic;
         private UserLogic _userLogic;
@@ -48,9 +48,9 @@ namespace Sports.Logic.Test
                 .UseInMemoryDatabase<RepositoryContext>(databaseName: "CommentLogicTestDB")
                 .Options;
             _repository = new RepositoryContext(options);
-            _wrapper = new RepositoryWrapper(_repository);
-            _commentLogic = new CommentLogic(_wrapper);
-            _userLogic = new UserLogic(_wrapper);
+            _unitOfWork = new RepositoryUnitOfWork(_repository);
+            _commentLogic = new CommentLogic(_unitOfWork);
+            _userLogic = new UserLogic(_unitOfWork);
             _userLogic.AddUser(_user);
         }
 
