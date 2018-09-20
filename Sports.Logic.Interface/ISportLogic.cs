@@ -16,6 +16,7 @@ namespace Sports.Logic.Interface
         void AddTeamToSport(Sport sport, Team team);
         void DeleteTeamFromSport(Sport sport, Team team);
         void Modify(Sport sport);
+        Team GetTeamFromSport(Sport sport, Team team);
 
 
 

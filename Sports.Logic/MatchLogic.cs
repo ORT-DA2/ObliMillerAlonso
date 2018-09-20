@@ -13,12 +13,12 @@ namespace Sports.Logic
     {
 
         IMatchRepository _repository;
-        ITeamLogic _teamLogic;
+        ISportLogic _sportLogic;
 
         public MatchLogic(IRepositoryUnitOfWork unit)
         {
             _repository = unit.Match;
-            _teamLogic = new TeamLogic(unit);
+            _sportLogic = new SportLogic(unit);
         }
         public void AddMatch(Match match)
         {
@@ -30,13 +30,17 @@ namespace Sports.Logic
         {
             CheckNotNull(match);
             match.IsValid();
-            match.Local = GetRealTeam(match.Local);
-            match.Visitor = GetRealTeam(match.Visitor);
+            ValidateSport(match);
         }
 
-        private Team GetRealTeam(Team team)
+        private void ValidateSport(Match match)
         {
-            return _teamLogic.GetTeamById(team.Id);
+            Sport sport = match.Sport;
+            Team local = match.Local;
+            Team visitor = match.Visitor;
+            match.Sport = _sportLogic.GetSportById(sport.Id);
+            match.Local = _sportLogic.GetTeamFromSport(sport, local);
+            match.Visitor = _sportLogic.GetTeamFromSport(sport, visitor);
         }
 
         private void CheckNotNull(Match match)

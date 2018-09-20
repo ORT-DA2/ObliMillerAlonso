@@ -22,7 +22,6 @@ namespace Sports.Logic.Test
         private IRepositoryUnitOfWork _unit;
         private RepositoryContext _repository;
         private IMatchLogic _matchLogic;
-        private ITeamLogic _teamLogic;
         private ISportLogic _sportLogic;
         private Match _match;
 
@@ -38,8 +37,13 @@ namespace Sports.Logic.Test
                 Name = "Visitor team",
 
             };
+            Sport sport = new Sport()
+            {
+                Name = "Test Sport"
+            };
             _match = new Match()
             {
+                Sport = sport,
                 Local = localTeam,
                 Visitor = visitorTeam,
                 Date = DateTime.Now.AddDays(1)
@@ -50,21 +54,23 @@ namespace Sports.Logic.Test
             _repository = new RepositoryContext(options);
             _unit = new RepositoryUnitOfWork(_repository);
             _matchLogic = new MatchLogic(_unit);
-            _teamLogic = new TeamLogic(_unit);
             _sportLogic = new SportLogic(_unit);
-            _teamLogic.AddTeam(localTeam);
-            _teamLogic.AddTeam(visitorTeam);
+            _sportLogic.AddSport(sport);
+            _sportLogic.AddTeamToSport(sport,localTeam);
+            _sportLogic.AddTeamToSport(sport, visitorTeam);
         }
 
         [TestCleanup]
         public void TearDown()
         {
             _repository.Matches.RemoveRange(_repository.Matches);
+            _repository.Sports.RemoveRange(_repository.Sports);
+            _repository.Teams.RemoveRange(_repository.Teams);
             _repository.SaveChanges();
         }
 
         [TestMethod]
-        public void AddMatch()
+        public void AddFullMatch()
         {
             _matchLogic.AddMatch(_match);
             Assert.IsNotNull(_matchLogic.GetMatchById(_match.Id));
@@ -86,7 +92,7 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidTeamDataException))]
+        [ExpectedException(typeof(InvalidSportDataException))]
         public void AddMatchInvalidLocalTeam()
         {
             Team invalidTeam = new Team()
@@ -98,7 +104,7 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidTeamDataException))]
+        [ExpectedException(typeof(InvalidSportDataException))]
         public void AddMatchInvalidVisitorTeam()
         {
             Team invalidTeam = new Team()
@@ -126,18 +132,15 @@ namespace Sports.Logic.Test
         {
             _matchLogic.ModifyMatch(_match.Id, _match);
         }
+       
 
-        [TestMethod]
-        public void AddMatchWithSport()
-        {
-            Sport sport = new Sport()
-            {
-                Name = "Test Sport"
-            };
-            _sportLogic.AddSport(sport);
-            _match.Sport = sport;
-            _matchLogic.AddMatch(_match);
-            Assert.AreEqual(_matchLogic.GetMatchById(_match.Id).Sport, sport);
-        }
+        //add invalid sport
+
+        //modify sport
+        //modify invalid sport
+        //add match without sport
+        //modify teams
+        //add teams not of sport
+        //delete match
     }
 }
