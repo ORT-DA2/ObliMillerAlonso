@@ -23,6 +23,7 @@ namespace Sports.Logic.Test
         private RepositoryContext _repository;
         private IMatchLogic _matchLogic;
         private ITeamLogic _teamLogic;
+        private ISportLogic _sportLogic;
         private Match _match;
 
         [TestInitialize]
@@ -44,12 +45,13 @@ namespace Sports.Logic.Test
                 Date = DateTime.Now.AddDays(1)
             };
             var options = new DbContextOptionsBuilder<RepositoryContext>()
-                .UseInMemoryDatabase<RepositoryContext>(databaseName: "UserLogicTestDB")
+                .UseInMemoryDatabase<RepositoryContext>(databaseName: "MatchLogicTestDB")
                 .Options;
             _repository = new RepositoryContext(options);
             _unit = new RepositoryUnitOfWork(_repository);
             _matchLogic = new MatchLogic(_unit);
             _teamLogic = new TeamLogic(_unit);
+            _sportLogic = new SportLogic(_unit);
             _teamLogic.AddTeam(localTeam);
             _teamLogic.AddTeam(visitorTeam);
         }
@@ -113,7 +115,7 @@ namespace Sports.Logic.Test
         {
             _matchLogic.AddMatch(_match);
             _match.Date = DateTime.Now.AddDays(+2);
-            _matchLogic.ModifyMatch(_match);
+            _matchLogic.ModifyMatch(_match.Id, _match);
             Assert.AreEqual(_matchLogic.GetMatchById(_match.Id).Date, _match.Date);
         }
 
@@ -122,7 +124,20 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(InvalidMatchDataException))]
         public void ModifyInvalidMatch()
         {
-            _matchLogic.ModifyMatch(_match);
+            _matchLogic.ModifyMatch(_match.Id, _match);
+        }
+
+        [TestMethod]
+        public void AddMatchWithSport()
+        {
+            Sport sport = new Sport()
+            {
+                Name = "Test Sport"
+            };
+            _sportLogic.AddSport(sport);
+            _match.Sport = sport;
+            _matchLogic.AddMatch(_match);
+            Assert.AreEqual(_matchLogic.GetMatchById(_match.Id).Sport, sport);
         }
     }
 }

@@ -57,10 +57,11 @@ namespace Sports.Logic
             return matches.First();
         }
 
-        public void ModifyMatch(Match match)
+        public void ModifyMatch(int id, Match match)
         {
-            Match realMatch = GetMatchById(match.Id);
+            Match realMatch = GetMatchById(id);
             UpdateDate(realMatch,match.Date);
+            realMatch.IsValid();
             _repository.Update(realMatch);
         }
 
