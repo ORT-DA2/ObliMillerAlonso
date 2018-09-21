@@ -5,7 +5,9 @@ using Sports.Domain;
 
 namespace Sports.Logic.Interface
 {
-    public interface ILoginLogic
+    public interface ISessionLogic
     {
+        Guid LogInUser(string username, string password);
+        User GetUserFromToken(Guid token);
     }
 }

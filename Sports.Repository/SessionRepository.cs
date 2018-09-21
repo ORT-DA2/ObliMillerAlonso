@@ -8,9 +8,9 @@ using System.Linq;
 
 namespace Sports.Repository
 {
-    public class LoginRepository : RepositoryBase<Login>, ILoginRepository
+    public class SessionRepository : RepositoryBase<Session>, ISessionRepository
     {
-        public LoginRepository(RepositoryContext repositoryContext) : base(repositoryContext)
+        public SessionRepository(RepositoryContext repositoryContext) : base(repositoryContext)
         {
         }
     }

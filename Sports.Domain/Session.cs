@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Sports.Domain
 {
-    public class Login
+    public class Session
     {
         public User User { get; set; }
-        public Guid TokenId { get; set; }
+        public Guid Token { get; set; }
     }
 }

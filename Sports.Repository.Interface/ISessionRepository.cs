@@ -5,7 +5,7 @@ using Sports.Domain;
 
 namespace Sports.Repository.Interface
 {
-    public interface ILoginRepository : IRepositoryBase<Login>
+    public interface ISessionRepository : IRepositoryBase<Session>
     {
     }
 }
