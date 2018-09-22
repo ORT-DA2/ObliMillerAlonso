@@ -37,7 +37,11 @@ namespace Sports.Logic.Test
                 UserName = "iMiller",
                 Password = "root"
             };
-            
+            _session = new Session()
+            {
+                User = _user,
+                Token = Guid.NewGuid()
+            };
 
             var options = new DbContextOptionsBuilder<RepositoryContext>()
                 .UseInMemoryDatabase<RepositoryContext>(databaseName: "SessionLogicTestDB")
@@ -139,11 +143,6 @@ namespace Sports.Logic.Test
         [TestMethod]
         public void TestRelogUser()
         {
-            _session = new Session()
-            {
-                User = _user,
-                Token = Guid.NewGuid()
-            };
             Guid createToken = _sessionLogic.CreateSession(_user);
             Guid token = _sessionLogic.LogInUser(_user.UserName, _user.Password);
             _sessionLogic.LogoutByUser(_user);
