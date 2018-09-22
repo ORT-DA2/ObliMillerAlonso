@@ -68,7 +68,7 @@ namespace Sports.Logic
         public User GetUserByUserName(string userName)
         {
             ICollection<User> users = _repository.FindByCondition(u => u.UserName == userName);
-            return users.First();
+            return users.FirstOrDefault();
         }
 
         public void RemoveUser(int id)

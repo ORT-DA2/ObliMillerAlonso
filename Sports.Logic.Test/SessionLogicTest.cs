@@ -70,5 +70,17 @@ namespace Sports.Logic.Test
             Guid token = _sessionLogic.LogInUser(_user.UserName, _user.Password);
             Assert.AreEqual(_user, _sessionLogic.GetUserFromToken(token));
         }
+
+        [ExpectedException(typeof(InvalidUserDataException))]
+        [TestMethod]
+        public void TestLoginNonExistingUser()
+        {
+            User user = new User
+            {
+                UserName = "User",
+                Password = "Prueba"
+            };
+            Guid token = _sessionLogic.LogInUser(user.UserName, user.Password);
+        }
     }
 }
