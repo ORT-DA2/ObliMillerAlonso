@@ -124,6 +124,13 @@ namespace Sports.Logic.Test
             Assert.AreEqual(token, anotherGuid);
         }
 
+        [TestMethod]
+        public void TestLogoutUser()
+        {
+            _sessionLogic.Logout(_user);
+            Assert.IsNull(_user);
+        }
+
 
     }
 }
