@@ -9,5 +9,6 @@ namespace Sports.Logic.Interface
     {
         Guid LogInUser(string username, string password);
         User GetUserFromToken(Guid token);
+        Guid CreateSession(User user);
     }
 }

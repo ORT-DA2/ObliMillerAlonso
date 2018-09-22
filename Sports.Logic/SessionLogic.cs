@@ -35,7 +35,7 @@ namespace Sports.Logic
             return token;
         }
 
-        private Guid CreateSession(User user)
+        public Guid CreateSession(User user)
         {
             Session newSession = new Session
             {
@@ -68,7 +68,6 @@ namespace Sports.Logic
         {
             if (session == null)
             {
-                //refactorear a session
                 throw new InvalidUserDataException("Session token does not exist");
             }
         }

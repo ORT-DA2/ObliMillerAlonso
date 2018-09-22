@@ -62,7 +62,13 @@ namespace Sports.Logic.Test
             User sessionUser = _sessionLogic.GetUserFromToken(token);
             Assert.AreEqual(sessionUser, _user);
         }
-        
 
+        [TestMethod]
+        public void TestGetUserLogin()
+        {
+            Guid newToken = _sessionLogic.CreateSession(_user);
+            Guid token = _sessionLogic.LogInUser(_user.UserName, _user.Password);
+            Assert.AreEqual(_user, _sessionLogic.GetUserFromToken(token));
+        }
     }
 }
