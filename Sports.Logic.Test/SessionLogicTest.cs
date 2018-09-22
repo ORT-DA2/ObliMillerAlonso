@@ -106,6 +106,24 @@ namespace Sports.Logic.Test
             _sessionLogic.GetUserFromToken(Guid.NewGuid());
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(InvalidUserDataException))]
+        public void TestLoginUserAlreadyExist()
+        {
+            User identicalUser = new User(true)
+            {
+                FirstName = "Itai",
+                LastName = "Miller",
+                Email = "itaimiller@gmail.com",
+                UserName = "iMiller",
+                Password = "root"
+            };
+            _userLogic.AddUser(identicalUser);
+            Guid token = _sessionLogic.LogInUser(_user.UserName, _user.Password);
+            Guid anotherGuid = _sessionLogic.LogInUser(identicalUser.UserName, identicalUser.Password);
+            Assert.AreEqual(token, anotherGuid);
+        }
+
 
     }
 }
