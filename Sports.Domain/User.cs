@@ -132,6 +132,14 @@ namespace Sports.Domain
             return updatedText;
         }
 
+        public void ValidatePassword(string password)
+        {
+            if(!this.Password.Equals(password))
+            {
+                //login password exception
+                throw new InvalidUserDataException("Invalid password");
+            }
+        }
 
     }
 }

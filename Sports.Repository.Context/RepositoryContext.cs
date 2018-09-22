@@ -15,6 +15,7 @@ namespace Sports.Repository.Context
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Sport> Sports { get; set; }
         public DbSet<Match> Matches { get; set; }
+        public DbSet<Session> Logins { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -39,6 +40,9 @@ namespace Sports.Repository.Context
             modelBuilder.Entity<Match>().Property(m => m.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<Match>().HasOne<Team>(m => m.Local);
             modelBuilder.Entity<Match>().HasOne<Team>(m => m.Visitor);
+
+            modelBuilder.Entity<Session>().HasKey(l => l.Token);
+            modelBuilder.Entity<Session>().Property(l => l.Token).ValueGeneratedOnAdd();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
