@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sports.Exceptions;
-using Sports.Domain;
+using Sports.Domain.Exceptions;
 
 
 
@@ -37,7 +36,7 @@ namespace Sports.Domain.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidUserDataException))]
+        [ExpectedException(typeof(InvalidEmptyTextFieldException))]
         public void InvalidUserName()
         {
             user.FirstName = "";
@@ -45,7 +44,7 @@ namespace Sports.Domain.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidUserDataException))]
+        [ExpectedException(typeof(InvalidEmptyTextFieldException))]
         public void InvalidUserLastName()
         {
             user.LastName = "";
@@ -53,7 +52,7 @@ namespace Sports.Domain.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidUserDataException))]
+        [ExpectedException(typeof(InvalidEmptyTextFieldException))]
         public void InvalidUserUserName()
         {
             user.UserName = "";
@@ -61,7 +60,7 @@ namespace Sports.Domain.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidUserDataException))]
+        [ExpectedException(typeof(InvalidEmptyTextFieldException))]
         public void InvalidUserPassword()
         {
             user.Password = "";
@@ -69,7 +68,7 @@ namespace Sports.Domain.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidUserDataException))]
+        [ExpectedException(typeof(InvalidEmptyTextFieldException))]
         public void InvalidUserEMail()
         {
             user.Email = "";
@@ -77,7 +76,7 @@ namespace Sports.Domain.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidUserDataException))]
+        [ExpectedException(typeof(InvalidUserDataFormatException))]
         public void InvalidUserEMailFormat()
         {
             user.Email = "itaimillergmail";
@@ -144,7 +143,7 @@ namespace Sports.Domain.Test
 
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidUserDataException))]
+        [ExpectedException(typeof(InvalidUserDataFormatException))]
         public void InvalidUserEMailFormatCom()
         {
             user.Email = "itaimiller@gmail";

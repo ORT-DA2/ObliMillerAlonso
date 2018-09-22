@@ -9,8 +9,9 @@ using Sports.Logic.Interface;
 using Sports.Repository;
 using Sports.Repository.Interface;
 using Sports.Repository.Context;
-using Sports.Exceptions;
 using System.Diagnostics.CodeAnalysis;
+using Sports.Domain.Exceptions;
+using Sports.Logic.Exceptions;
 
 namespace Sports.Logic.Test
 {
@@ -56,14 +57,14 @@ namespace Sports.Logic.Test
 
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidTeamDataException))]
+        [ExpectedException(typeof(InvalidNullValueException))]
         public void AddNullTeam()
         {
             _teamLogic.AddTeam(null);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidTeamDataException))]
+        [ExpectedException(typeof(InvalidEmptyTextFieldException))]
         public void AddInvalidTeam()
         {
             Team invalidNameTeam = new Team()
@@ -83,7 +84,7 @@ namespace Sports.Logic.Test
 
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidTeamDataException))]
+        [ExpectedException(typeof(TeamDoesNotExistException))]
         public void AddPictureToInvalidTeam()
         {
             _teamLogic.SetPictureFromPath(_team, _testImagePath);
@@ -104,7 +105,7 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidTeamDataException))]
+        [ExpectedException(typeof(InvalidEmptyTextFieldException))]
         public void ChangeTeamNameInvalid()
         {
             _teamLogic.AddTeam(_team);
@@ -124,7 +125,7 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidTeamDataException))]
+        [ExpectedException(typeof(TeamDoesNotExistException))]
         public void DeleteInvalidTeam()
         {
             _teamLogic.Delete(_team);

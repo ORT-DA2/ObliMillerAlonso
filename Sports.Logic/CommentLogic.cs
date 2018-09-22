@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using Sports.Domain;
-using Sports.Exceptions;
 using Sports.Repository.Interface;
 using Sports.Logic.Interface;
+using Sports.Logic.Exceptions;
 
 namespace Sports.Logic
 {
@@ -36,7 +36,7 @@ namespace Sports.Logic
         {
             if (comment == null)
             {
-                throw new InvalidCommentDataException("Cannot add null comment");
+                throw new InvalidNullValueException("Cannot add null comment");
             }
         }
 

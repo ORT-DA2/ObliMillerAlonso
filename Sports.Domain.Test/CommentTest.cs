@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sports.Exceptions;
-
+using Sports.Domain.Exceptions;
 
 namespace Sports.Domain.Test
 {
@@ -27,7 +26,7 @@ namespace Sports.Domain.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidCommentDataException))]
+        [ExpectedException(typeof(InvalidEmptyTextFieldException))]
         public void InvalidCommentText()
         {
             Comment invalidText = new Comment()

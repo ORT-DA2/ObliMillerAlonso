@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Sports.Exceptions;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Sports.Domain.Exceptions;
 
 namespace Sports.Domain
 {
@@ -36,21 +36,21 @@ namespace Sports.Domain
         {
             if (this.Sport == null)
             {
-                throw new InvalidMatchDataException("Match should include a sport.");
+                throw new InvalidSportIsEmptyException("Match should include a sport.");
             }
         }
         private void CheckVisitorNotEmpty()
         {
             if (this.Visitor == null)
             {
-                throw new InvalidMatchDataException("Match should include a visitor team.");
+                throw new InvalidTeamIsEmptyException("Match should include a visitor team.");
             }
         }
         private void CheckLocalNotEmpty()
         {
             if (this.Local == null)
             {
-                throw new InvalidMatchDataException("Match should include a local team.");
+                throw new InvalidTeamIsEmptyException("Match should include a local team.");
             }
         }
 
@@ -58,7 +58,7 @@ namespace Sports.Domain
         {
             if (date.Subtract(DateTime.Now).TotalSeconds<0)
             {
-                throw new InvalidMatchDataException("Cant set past matches");
+                throw new InvalidMatchDateFormatException("Cant set past matches");
             }
         }
 
@@ -66,7 +66,7 @@ namespace Sports.Domain
         {
             if(localTeam.Name == visitorTeam.Name)
             {
-                throw new InvalidMatchDataException("Invalid Match. Local and Visitor must be different.");
+                throw new InvalidTeamVersusException("Invalid Match. Local and Visitor must be different.");
             }
         }
 

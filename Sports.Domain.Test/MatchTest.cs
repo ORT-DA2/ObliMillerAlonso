@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sports.Exceptions;
-
+using Sports.Domain.Exceptions;
 
 namespace Sports.Domain.Test
 {
@@ -55,7 +54,7 @@ namespace Sports.Domain.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidMatchDataException))]
+        [ExpectedException(typeof(InvalidTeamVersusException))]
         public void InvalidMatchTeams()
         {
             Team team = new Team()
@@ -68,7 +67,7 @@ namespace Sports.Domain.Test
 
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidMatchDataException))]
+        [ExpectedException(typeof(InvalidMatchDateFormatException))]
         public void InvalidMatchDate()
         {
             DateTime yesterday = DateTime.Now.AddDays(-1);

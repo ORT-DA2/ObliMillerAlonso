@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Sports.Exceptions;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Sports.Domain.Exceptions;
 
 namespace Sports.Domain
 {
@@ -26,7 +26,7 @@ namespace Sports.Domain
         private void IsValidCommentText()
         {
             if (string.IsNullOrWhiteSpace(Text))
-                throw new InvalidCommentDataException("Invalid Text");
+                throw new InvalidEmptyTextFieldException("Text cannot be empty");
         }
     }
 }

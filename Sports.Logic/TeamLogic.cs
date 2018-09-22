@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using Sports.Domain;
-using Sports.Exceptions;
 using Sports.Repository.Interface;
 using Sports.Logic.Interface;
+using Sports.Logic.Exceptions;
 
 namespace Sports.Logic
 {
@@ -33,7 +33,7 @@ namespace Sports.Logic
         {
             if (team == null)
             {
-                throw new InvalidTeamDataException("Cannot add null team");
+                throw new InvalidNullValueException("Cannot add null team");
             }
         }
 
@@ -42,7 +42,7 @@ namespace Sports.Logic
             ICollection<Team> teams = _repository.FindByCondition(t => t.Id == id);
             if (teams.Count == 0)
             {
-                throw new InvalidTeamDataException("Id does not match any existing teams");
+                throw new TeamDoesNotExistException("Id does not match any existing teams");
             }
             return teams.First();
 

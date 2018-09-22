@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Sports.Domain\Sports.Domain.csproj" />
-    <ProjectReference Include="..\Sports.Exceptions\Sports.Exceptions.csproj" />
   </ItemGroup>
 
 </Project>

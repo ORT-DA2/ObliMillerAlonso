@@ -9,7 +9,8 @@ using Sports.Logic;
 using Sports.Repository;
 using Sports.Repository.Interface;
 using Sports.Repository.Context;
-using Sports.Exceptions;
+using Sports.Logic.Exceptions;
+using Sports.Domain.Exceptions;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Sports.Logic.Test
@@ -57,7 +58,7 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidSportDataException))]
+        [ExpectedException(typeof(InvalidNullValueException))]
         public void AddNullSport()
         {
             _sportLogic.AddSport(null);
@@ -71,18 +72,18 @@ namespace Sports.Logic.Test
             {
                 Name = "Basketball"
             };
-            _sportLogic.UpdateSport(_sport.Id, sportChanges);
+            _sportLogic.ModifySport(_sport.Id, sportChanges);
             Assert.AreEqual<string>(_sportLogic.GetSportById(_sport.Id).Name, sportChanges.Name);
         }
 
         
         [TestMethod]
-        [ExpectedException(typeof(InvalidSportDataException))]
+        [ExpectedException(typeof(InvalidEmptyTextFieldException))]
         public void UpdateSportNameInvalid()
         {
             _sportLogic.AddSport(_sport);
             _sport.Name = "";
-            _sportLogic.Modify(_sport);
+            _sportLogic.ModifySport(_sport.Id, _sport);
         }
 
 
@@ -94,12 +95,12 @@ namespace Sports.Logic.Test
             {
                 Name = ""
             };
-            _sportLogic.UpdateSport(_sport.Id, sportChanges);
+            _sportLogic.ModifySport(_sport.Id, sportChanges);
             Assert.AreNotEqual<string>(_sportLogic.GetSportById(_sport.Id).Name, sportChanges.Name);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidSportDataException))]
+        [ExpectedException(typeof(SportAlreadyExistsException))]
         public void AddDuplicatedName()
         {
             _sportLogic.AddSport(_sport);
@@ -115,6 +116,13 @@ namespace Sports.Logic.Test
         {
             _sportLogic.AddSport(_sport);
             Assert.AreEqual<string>(_sportLogic.GetSportByName(_sport.Name).Name, _sport.Name);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(SportDoesNotExistException))]
+        public void GetSportByInvalidName()
+        {
+            _sportLogic.GetSportByName("fakeName");
         }
 
         [TestMethod]
@@ -139,7 +147,7 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidSportDataException))]
+        [ExpectedException(typeof(SportDoesNotExistException))]
         public void DeleteNonExistingSport()
         {
             _sportLogic.AddSport(_sport);
@@ -177,7 +185,7 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidTeamDataException))]
+        [ExpectedException(typeof(InvalidEmptyTextFieldException))]
         public void UpdateInvalidTeamSport()
         {
             _sportLogic.AddSport(_sport);
@@ -194,7 +202,7 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidSportDataException))]
+        [ExpectedException(typeof(SportDoesNotExistException))]
         public void AddTeamToInvalidSport()
         {
             Team _team = new Team()
@@ -205,7 +213,7 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidTeamDataException))]
+        [ExpectedException(typeof(InvalidEmptyTextFieldException))]
         public void AddInvalidTeam()
         {
             _sportLogic.AddSport(_sport);
@@ -217,7 +225,7 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidSportDataException))]
+        [ExpectedException(typeof(TeamAlreadyInSportException))]
         public void AddDuplicateTeamToSport()
         {
             _sportLogic.AddSport(_sport);
@@ -246,7 +254,7 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidTeamDataException))]
+        [ExpectedException(typeof(InvalidEmptyTextFieldException))]
         public void GetInvalidTeamFromSport()
         {
             _sportLogic.AddSport(_sport);

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using Sports.Domain;
-using Sports.Exceptions;
 using Sports.Repository.Interface;
 using Sports.Logic.Interface;
+using Sports.Logic.Exceptions;
 namespace Sports.Logic
+
 {
     public class SessionLogic : ISessionLogic
     {
@@ -35,7 +36,7 @@ namespace Sports.Logic
             return token;
         }
 
-        public Guid CreateSession(User user)
+        private Guid CreateSession(User user)
         {
             Session newSession = new Session
             {
@@ -59,7 +60,7 @@ namespace Sports.Logic
         {
             if (user == null)
             {
-                throw new InvalidUserDataException("User deleted or not exist");
+                throw new UserDoesNotExistException("User deleted or not exist");
             }
         }
 
@@ -68,7 +69,7 @@ namespace Sports.Logic
         {
             if (session == null)
             {
-                throw new InvalidUserDataException("Session token does not exist");
+                throw new SessionDoesNotExistException("Session token does not exist");
             }
         }
     }
