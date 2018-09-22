@@ -20,7 +20,7 @@ namespace Sports.Logic
 
         public User GetUserFromToken(Guid token)
         {
-            Session session = _repository.FindByCondition(s => s.Token == token).First();
+            Session session = _repository.FindByCondition(s => s.Token == token).FirstOrDefault();
             ValidateNotNullSession(session);
             return session.User;
         }
@@ -46,7 +46,7 @@ namespace Sports.Logic
             return newSession.Token;
         }
 
-        private void LogoutByUser(User user)
+        public void LogoutByUser(User user)
         {
             ICollection<Session> sessions = _repository.FindByCondition(s => s.User.Equals(user));
             foreach (Session existingSession in sessions)

@@ -24,6 +24,7 @@ namespace Sports.Logic.Test
         private ISessionLogic _sessionLogic;
         private IUserLogic _userLogic;
         User _user;
+        Session _session;
 
         [TestInitialize]
         public void SetUp()
@@ -36,6 +37,7 @@ namespace Sports.Logic.Test
                 UserName = "iMiller",
                 Password = "root"
             };
+            
 
             var options = new DbContextOptionsBuilder<RepositoryContext>()
                 .UseInMemoryDatabase<RepositoryContext>(databaseName: "SessionLogicTestDB")
@@ -125,10 +127,28 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
+        [ExpectedException(typeof(InvalidUserDataException))]
         public void TestLogoutUser()
         {
-            _sessionLogic.Logout(_user);
-            Assert.IsNull(_user);
+            Guid newToken = _sessionLogic.CreateSession(_user);
+            Guid token = _sessionLogic.LogInUser(_user.UserName, _user.Password);
+            _sessionLogic.LogoutByUser(_user);
+           _sessionLogic.GetUserFromToken(token);
+        }
+
+        [TestMethod]
+        public void TestRelogUser()
+        {
+            _session = new Session()
+            {
+                User = _user,
+                Token = Guid.NewGuid()
+            };
+            Guid createToken = _sessionLogic.CreateSession(_user);
+            Guid token = _sessionLogic.LogInUser(_user.UserName, _user.Password);
+            _sessionLogic.LogoutByUser(_user);
+            Guid newToken = _sessionLogic.LogInUser(_user.UserName, _user.Password);
+            Assert.AreNotEqual(_session.Token, token);
         }
 
 
