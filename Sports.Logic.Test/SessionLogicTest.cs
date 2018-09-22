@@ -79,12 +79,12 @@ namespace Sports.Logic.Test
 
         [ExpectedException(typeof(InvalidUserDataException))]
         [TestMethod]
-        public void TestLoginNonExistingUser()
+        public void TestLoginNonExistingUsernameLogin()
         {
             User user = new User
             {
                 UserName = "User",
-                Password = "test"
+                Password = "root"
             };
             Guid token = _sessionLogic.LogInUser(user.UserName, user.Password);
         }
