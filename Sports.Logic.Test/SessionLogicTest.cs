@@ -64,7 +64,7 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        public void TestGetUserLogin()
+        public void TestUserLogin()
         {
             Guid newToken = _sessionLogic.CreateSession(_user);
             Guid token = _sessionLogic.LogInUser(_user.UserName, _user.Password);
@@ -78,9 +78,25 @@ namespace Sports.Logic.Test
             User user = new User
             {
                 UserName = "User",
-                Password = "Prueba"
+                Password = "test"
             };
             Guid token = _sessionLogic.LogInUser(user.UserName, user.Password);
+        }
+
+        [TestMethod]
+        public void TestGetUserLogin()
+        {
+            User user = new User(true)
+            {
+                FirstName = "rafael",
+                LastName = "alonso",
+                Email = "rafa@gmail.com",
+                UserName = "rafa",
+                Password = "abcd"
+            };
+            _userLogic.AddUser(user);
+            Guid token = _sessionLogic.LogInUser(user.UserName, user.Password);
+            Assert.AreEqual(user, _sessionLogic.GetUserFromToken(token));
         }
     }
 }
