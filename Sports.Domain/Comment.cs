@@ -4,6 +4,7 @@ using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Sports.Domain.Exceptions;
+using Sports.Domain.Constants;
 
 namespace Sports.Domain
 {
@@ -26,7 +27,7 @@ namespace Sports.Domain
         private void IsValidCommentText()
         {
             if (string.IsNullOrWhiteSpace(Text))
-                throw new InvalidEmptyTextFieldException("Text cannot be empty");
+                throw new InvalidEmptyTextFieldException(EmptyField.EMPTY_TEXT_MESSAGE);
         }
     }
 }

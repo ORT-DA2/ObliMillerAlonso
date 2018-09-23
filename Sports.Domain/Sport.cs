@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using Sports.Domain.Exceptions;
+using Sports.Domain.Constants;
 
 
 namespace Sports.Domain
@@ -43,7 +44,7 @@ namespace Sports.Domain
         private void IsValidSportName()
         {
             if (string.IsNullOrWhiteSpace(Name))
-                throw new InvalidEmptyTextFieldException("Name cannot be empty");
+                throw new InvalidEmptyTextFieldException(EmptyField.EMPTY_NAME_MESSAGE);
         }
 
         public void RemoveTeam(Team team)
@@ -56,7 +57,7 @@ namespace Sports.Domain
         {
             if (!Teams.Contains(team))
             {
-                throw new TeamDoesNotExistInSportException("Team does not exist in Sport");
+                throw new TeamDoesNotExistInSportException(TeamValidation.TEAM_NOT_EXIST_IN_SPORT_MESSAGE);
             }
         }
 
@@ -76,7 +77,7 @@ namespace Sports.Domain
         {
             if (Teams.Contains(team))
             {
-                throw new TeamAlreadyExistException("Team already exists in Sport");
+                throw new TeamAlreadyExistException(UniqueTeam.DUPLICATE_TEAM_IN_SPORT_MESSAGE);
             }
         }
 

@@ -6,7 +6,9 @@ using Sports.Domain;
 using Sports.Repository.Interface;
 using Sports.Logic.Interface;
 using Sports.Logic.Exceptions;
+using Sports.Logic.Constants;
 namespace Sports.Logic
+
 
 {
     public class SessionLogic : ISessionLogic
@@ -60,7 +62,7 @@ namespace Sports.Logic
         {
             if (user == null)
             {
-                throw new UserDoesNotExistException("User deleted or not exist");
+                throw new UserDoesNotExistException(UserNotFound.USER_NOT_FOUND_MESSAGE);
             }
         }
 
@@ -69,7 +71,7 @@ namespace Sports.Logic
         {
             if (session == null)
             {
-                throw new SessionDoesNotExistException("Session token does not exist");
+                throw new SessionDoesNotExistException(SessionValidation.TOKEN_NOT_EXIST_MESSAGE);
             }
         }
     }

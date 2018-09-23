@@ -6,6 +6,7 @@ using Sports.Domain;
 using Sports.Repository.Interface;
 using Sports.Logic.Interface;
 using Sports.Logic.Exceptions;
+using Sports.Logic.Constants;
 
 namespace Sports.Logic
 {
@@ -36,14 +37,14 @@ namespace Sports.Logic
         {
             if (_repository.FindByCondition(s => s.Name == name && s.Id != id).Count != 0)
             {
-                throw new SportAlreadyExistsException("Cannot repeat name");
+                throw new SportAlreadyExistsException(UniqueSport.DUPLICATE_SPORT_MESSAGE);
             }
         }
         private void CheckNotNull(Sport sport)
         {
             if (sport == null)
             {
-                throw new InvalidNullValueException("Cannot add null sport");
+                throw new InvalidNullValueException(NullValue.INVALID_SPORT_NULL_VALUE_MESSAGE);
             }
         }
 
@@ -52,7 +53,7 @@ namespace Sports.Logic
             ICollection<Sport> sports = _repository.FindByCondition(s => s.Id == id);
             if (sports.Count == 0)
             {
-                throw new SportDoesNotExistException("Id does not match any existing sports");
+                throw new SportDoesNotExistException(SportNotFound.SPORT_NOT_FOUND_MESSAGE);
             }
             return sports.First();
         }
@@ -69,7 +70,7 @@ namespace Sports.Logic
             ICollection<Sport> sports = _repository.FindByCondition(s => s.Name == name);
             if (sports.Count == 0)
             {
-                throw new SportDoesNotExistException("Name does not match any existing sports");
+                throw new SportDoesNotExistException(SportNotFound.SPORT_NOT_FOUND_MESSAGE);
             }
             return sports.First();
         }
@@ -107,7 +108,7 @@ namespace Sports.Logic
         {
             if (sport.Teams.Contains(team))
             {
-                throw new TeamAlreadyInSportException("Team already in sport");
+                throw new TeamAlreadyInSportException(UniqueTeam.DUPLICATE_TEAM_IN_SPORT_MESSAGE);
             }
         }
 

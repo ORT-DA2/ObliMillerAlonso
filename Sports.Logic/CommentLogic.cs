@@ -6,6 +6,7 @@ using Sports.Domain;
 using Sports.Repository.Interface;
 using Sports.Logic.Interface;
 using Sports.Logic.Exceptions;
+using Sports.Logic.Constants;
 
 namespace Sports.Logic
 {
@@ -36,7 +37,7 @@ namespace Sports.Logic
         {
             if (comment == null)
             {
-                throw new InvalidNullValueException("Cannot add null comment");
+                throw new InvalidNullValueException(NullValue.INVALID_COMMENT_NULL_VALUE_MESSAGE);
             }
         }
 

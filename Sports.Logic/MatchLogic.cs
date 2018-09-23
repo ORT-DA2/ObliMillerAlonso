@@ -6,6 +6,7 @@ using Sports.Domain;
 using Sports.Repository.Interface;
 using Sports.Logic.Interface;
 using Sports.Logic.Exceptions;
+using Sports.Logic.Constants;
 
 namespace Sports.Logic
 {
@@ -48,7 +49,7 @@ namespace Sports.Logic
         {
             if (match == null)
             {
-                throw new InvalidNullValueException("Cannot add null match");
+                throw new InvalidNullValueException(NullValue.INVALID_MATCH_NULL_VALUE_MESSAGE);
             }
         }
 
@@ -57,7 +58,7 @@ namespace Sports.Logic
             ICollection<Match> matches = _repository.FindByCondition(m => m.Id == id);
             if (matches.Count == 0)
             {
-                throw new MatchDoesNotExistException("Match Id does not exist");
+                throw new MatchDoesNotExistException(MatchId.MATCH_ID_NOT_EXIST_MESSAGE);
             }
             return matches.First();
         }
