@@ -103,5 +103,17 @@ namespace Sports.Domain.Test
            Assert.IsNotNull(match.GetAllComments());
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(InvalidEmptyTextFieldException))]
+        public void AddCommentNoText()
+        {
+            Comment testComment = new Comment
+            {
+                Text = "",
+                User = new User()
+            };
+            match.AddComment(testComment);
+        }
+
     }
 }
