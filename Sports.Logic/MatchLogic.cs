@@ -15,11 +15,13 @@ namespace Sports.Logic
 
         IMatchRepository _repository;
         ISportLogic _sportLogic;
+        ICommentLogic _commentLogic;
 
         public MatchLogic(IRepositoryUnitOfWork unit)
         {
             _repository = unit.Match;
             _sportLogic = new SportLogic(unit);
+            _commentLogic = new CommentLogic(unit);
         }
         public void AddMatch(Match match)
         {
@@ -80,6 +82,21 @@ namespace Sports.Logic
         public ICollection<Match> GetAllMatches()
         {
             return _repository.FindAll();
+        }
+
+        public void AddCommentToMatch(int id, Comment comment)
+        {
+            _commentLogic.AddComment(comment);
+            Match commentedMatch = GetMatchById(id);
+            ValidateMatch(commentedMatch);
+            commentedMatch.AddComment(comment);
+            _repository.Update(commentedMatch);
+        }
+
+        public ICollection<Comment> GetAllComments(int id)
+        {
+            Match commentedMatch = GetMatchById(id);
+            return commentedMatch.GetAllComments();
         }
     }
 }

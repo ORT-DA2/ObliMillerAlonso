@@ -74,13 +74,7 @@ namespace Sports.Domain.Test
             match.Date = yesterday;
             match.IsValid();
         }
-
-        [TestMethod]
-        public void AddComment()
-        {
-            match.Comments.Add(comment);
-            Assert.AreEqual(1, match.Comments.Count);
-        }
+        
 
         [TestMethod]
         public void ToStringIsOk()
@@ -97,5 +91,35 @@ namespace Sports.Domain.Test
             Assert.IsFalse(match.Equals(null));
         }
 
+        [TestMethod]
+        public void AddComment()
+        {
+            Comment testComment = new Comment
+            {
+                Text = "test comment",
+                User = new User()
+            };
+           match.AddComment(testComment);
+           Assert.IsNotNull(match.GetAllComments());
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidEmptyTextFieldException))]
+        public void AddCommentNoText()
+        {
+            Comment testComment = new Comment
+            {
+                Text = "",
+                User = new User()
+            };
+            match.AddComment(testComment);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidCommentIsEmptyException))]
+        public void AddNullCommentTest()
+        {
+            match.AddComment(null);
+        }
     }
 }

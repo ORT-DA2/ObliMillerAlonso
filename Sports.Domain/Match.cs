@@ -17,7 +17,7 @@ namespace Sports.Domain
         public Sport Sport { get; set; }
         public Team Local { get; set; }
         public Team Visitor { get; set; }
-        public ICollection<Comment> Comments { get; set; }
+        public ICollection<Comment> Comments {  get; private set; }
 
         public Match()
         {
@@ -52,6 +52,14 @@ namespace Sports.Domain
             if (this.Local == null)
             {
                 throw new InvalidTeamIsEmptyException(EmptyTeam.EMPTY_LOCAL_TEAM_MESSAGE);
+            }
+        }
+
+        private void CheckCommentNotEmpty(Comment comment)
+        {
+            if (comment == null)
+            {
+                throw new InvalidCommentIsEmptyException(EmptyComment.EMPTY_COMMENT);
             }
         }
 
@@ -93,6 +101,18 @@ namespace Sports.Domain
                 return originalDate;
             }
             return updatedDate;
+        }
+
+        public ICollection<Comment> GetAllComments()
+        {
+            return this.Comments;
+        }
+
+        public void AddComment(Comment comment)
+        {
+            CheckCommentNotEmpty(comment);
+            comment.IsValid();
+            this.Comments.Add(comment);
         }
 
         private Object IgnoreNull(Object original, Object updated)

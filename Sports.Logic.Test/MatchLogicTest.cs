@@ -12,6 +12,7 @@ using Sports.Repository.Context;
 using System.Diagnostics.CodeAnalysis;
 using Sports.Logic.Exceptions;
 using Sports.Domain.Exceptions;
+using System.Linq;
 
 namespace Sports.Logic.Test
 {
@@ -23,6 +24,7 @@ namespace Sports.Logic.Test
         private RepositoryContext _repository;
         private IMatchLogic _matchLogic;
         private ISportLogic _sportLogic;
+        private IUserLogic _userLogic;
         private Match _match;
 
         [TestInitialize]
@@ -55,6 +57,7 @@ namespace Sports.Logic.Test
             _unit = new RepositoryUnitOfWork(_repository);
             _matchLogic = new MatchLogic(_unit);
             _sportLogic = new SportLogic(_unit);
+            _userLogic = new UserLogic(_unit);
             _sportLogic.AddSport(sport);
             _sportLogic.AddTeamToSport(sport,localTeam);
             _sportLogic.AddTeamToSport(sport, visitorTeam);
@@ -295,5 +298,92 @@ namespace Sports.Logic.Test
         {
             _matchLogic.DeleteMatch(_match);
         }
+
+
+        [TestMethod]
+        public void AddCommentToMatch()
+        {
+            _matchLogic.AddMatch(_match);
+            User user = new User()
+            {
+                FirstName = "Itai",
+                LastName = "Miller",
+                Email = "itaimiller@gmail.com",
+                UserName = "iMiller",
+                Password = "root"
+            };
+            _userLogic.AddUser(user);
+            Comment comment = new Comment
+            {
+                Text = "Text",
+                User = user
+            };
+            _matchLogic.AddCommentToMatch(_match.Id, comment);
+            Comment commentInMatchStored = _matchLogic.GetAllComments(_match.Id).FirstOrDefault();
+            Assert.AreEqual(commentInMatchStored.Id, comment.Id);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(MatchDoesNotExistException))]
+        public void AddCommentToInexistentMatch()
+        {
+            User user = new User()
+            {
+                FirstName = "Itai",
+                LastName = "Miller",
+                Email = "itaimiller@gmail.com",
+                UserName = "iMiller",
+                Password = "root"
+            };
+            _userLogic.AddUser(user);
+            Comment comment = new Comment
+            {
+                Text = "Text",
+                User = user
+            };
+            _matchLogic.AddCommentToMatch(_match.Id, comment);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(UserDoesNotExistException))]
+        public void AddCommentWithInexistentUserToMatch()
+        {
+            _matchLogic.AddMatch(_match);
+            User user = new User()
+            {
+                FirstName = "Itai",
+                LastName = "Miller",
+                Email = "itaimiller@gmail.com",
+                UserName = "iMiller",
+                Password = "root"
+            };
+            Comment comment = new Comment
+            {
+                Text = "Text",
+                User = user
+            };
+            _matchLogic.AddCommentToMatch(_match.Id, comment);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidNullValueException))]
+        public void AddCommentWithNullUserToMatch()
+        {
+            _matchLogic.AddMatch(_match);
+            Comment comment = new Comment
+            {
+                Text = "Text",
+            };
+            _matchLogic.AddCommentToMatch(_match.Id, comment);
+        }
+
+        [TestMethod]
+        public void CheckSportIsNotDuplicated()
+        {
+            _matchLogic.AddMatch(_match);
+            Assert.AreEqual(_sportLogic.GetAll().Count,1);
+        }
+
+        //verify add team/ sport/ comment no duplica datos
     }
 }
