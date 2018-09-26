@@ -74,13 +74,7 @@ namespace Sports.Domain.Test
             match.Date = yesterday;
             match.IsValid();
         }
-
-        [TestMethod]
-        public void AddComment()
-        {
-            match.Comments.Add(comment);
-            Assert.AreEqual(1, match.Comments.Count);
-        }
+        
 
         [TestMethod]
         public void ToStringIsOk()
@@ -106,6 +100,7 @@ namespace Sports.Domain.Test
                 User = new User()
             };
            match.AddComment(testComment);
+           Assert.IsNotNull(match.GetAllComments());
         }
 
     }

@@ -95,6 +95,16 @@ namespace Sports.Domain
             return updatedDate;
         }
 
+        public ICollection<Comment> GetAllComments()
+        {
+            return this.Comments;
+        }
+
+        public void AddComment(Comment comment)
+        {
+            this.Comments.Add(comment);
+        }
+
         private Object IgnoreNull(Object original, Object updated)
         {
             if (updated==null)
