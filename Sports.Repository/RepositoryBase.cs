@@ -5,6 +5,9 @@ using System.Text;
 using Sports.Repository.Interface;
 using Sports.Repository.Context;
 using System.Linq;
+using Sports.Repository.Exceptions;
+using Sports.Repository.Constants;
+using System.Data.SqlClient;
 
 namespace Sports.Repository
 {
@@ -29,25 +32,54 @@ namespace Sports.Repository
 
         public void Create(T entity)
         {
-            this.RepositoryContext.Set<T>().Add(entity);
+            try
+            {
+                this.RepositoryContext.Set<T>().Add(entity);
+            }
+            catch (SqlException sqlEx)
+            {
+                throw new InvalidDatabaseAccessException(AccessValidation.INVALID_ACCESS_MESSAGE);
+            }
             this.Save();
         }
 
         public void Update(T entity)
         {
-            this.RepositoryContext.Set<T>().Update(entity);
+            try
+            {
+                this.RepositoryContext.Set<T>().Update(entity);
+            }
+            catch (SqlException sqlEx)
+            {
+                throw new InvalidDatabaseAccessException(AccessValidation.INVALID_ACCESS_MESSAGE);
+            }
             this.Save();
         }
 
         public void Delete(T entity)
         {
-            this.RepositoryContext.Set<T>().Remove(entity);
+            try
+            {
+                this.RepositoryContext.Set<T>().Remove(entity);
+            }
+            catch (SqlException sqlEx)
+            {
+                throw new InvalidDatabaseAccessException(AccessValidation.INVALID_ACCESS_MESSAGE);
+            }
             this.Save();
         }
         //esta bien que el save sea publico?
         public void Save()
         {
-            this.RepositoryContext.SaveChanges();
+            try
+            {
+                this.RepositoryContext.SaveChanges();
+            }
+            catch (SqlException sqlEx)
+            {
+                throw new InvalidDatabaseAccessException(AccessValidation.INVALID_ACCESS_MESSAGE);
+            }
+            
         }
     }
 }
