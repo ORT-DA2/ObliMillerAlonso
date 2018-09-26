@@ -25,7 +25,15 @@ namespace Sports.Domain.Constants
         public const string EMPTY_VISITOR_TEAM_MESSAGE = "Match should include a visitor team.";
         public const string EMPTY_LOCAL_TEAM_MESSAGE = "Match should include a local team.";
     }
+    public static class EmptyComment
+    {
+        public const string EMPTY_COMMENT = "Comment to add must be valid.";
+    }
 
+    public static class EmptyUser
+    {
+        public const string EMPTY_USER = "User must be included.";
+    }
     public static class TeamValidation
     {
         public const string TEAM_NOT_EXIST_IN_SPORT_MESSAGE = "Team does not exist in Sport";

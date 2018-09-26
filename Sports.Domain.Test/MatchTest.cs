@@ -115,5 +115,11 @@ namespace Sports.Domain.Test
             match.AddComment(testComment);
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(InvalidCommentIsEmptyException))]
+        public void AddNullCommentTest()
+        {
+            match.AddComment(null);
+        }
     }
 }
