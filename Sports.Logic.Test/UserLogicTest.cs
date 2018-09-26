@@ -9,8 +9,9 @@ using Sports.Logic.Interface;
 using Sports.Repository;
 using Sports.Repository.Interface;
 using Sports.Repository.Context;
-using Sports.Exceptions;
 using System.Diagnostics.CodeAnalysis;
+using Sports.Domain.Exceptions;
+using Sports.Logic.Exceptions;
 
 namespace Sports.Logic.Test
 {
@@ -57,14 +58,14 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidUserDataException))]
+        [ExpectedException(typeof(InvalidNullValueException))]
         public void AddNullUser()
         {
             _userLogic.AddUser(null);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidUserDataException))]
+        [ExpectedException(typeof(InvalidEmptyTextFieldException))]
         public void AddUserWithInvalidData()
         {
             User invalidUser = new User()
@@ -151,7 +152,7 @@ namespace Sports.Logic.Test
         }
         
         [TestMethod]
-        [ExpectedException(typeof(InvalidUserDataException))]
+        [ExpectedException(typeof(InvalidUserDataFormatException))]
         public void UpdateInvalidData()
         {
             _userLogic.AddUser(_user);
@@ -163,7 +164,7 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidUserDataException))]
+        [ExpectedException(typeof(UserAlreadyExistException))]
         public void AddDuplicatedUsername()
         {
             _userLogic.AddUser(_user);
@@ -195,7 +196,7 @@ namespace Sports.Logic.Test
 
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidUserDataException))]
+        [ExpectedException(typeof(UserDoesNotExistException))]
         public void DeleteNonExistingUser()
         {
             _userLogic.AddUser(_user);

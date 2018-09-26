@@ -9,9 +9,10 @@ using Sports.Logic.Interface;
 using Sports.Repository;
 using Sports.Repository.Interface;
 using Sports.Repository.Context;
-using Sports.Exceptions;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using Sports.Logic.Exceptions;
+using Sports.Domain.Exceptions;
 
 namespace Sports.Logic.Test
 {
@@ -72,12 +73,12 @@ namespace Sports.Logic.Test
         [TestMethod]
         public void TestUserLogin()
         {
-            Guid newToken = _sessionLogic.CreateSession(_user);
+            Guid newToken = _sessionLogic.LogInUser(_user.UserName,_user.Password);
             Guid token = _sessionLogic.LogInUser(_user.UserName, _user.Password);
             Assert.AreEqual(_user, _sessionLogic.GetUserFromToken(token));
         }
 
-        [ExpectedException(typeof(InvalidUserDataException))]
+        [ExpectedException(typeof(UserDoesNotExistException))]
         [TestMethod]
         public void TestLoginNonExistingUsernameLogin()
         {
@@ -89,7 +90,7 @@ namespace Sports.Logic.Test
             Guid token = _sessionLogic.LogInUser(user.UserName, user.Password);
         }
 
-        [ExpectedException(typeof(InvalidUserDataException))]
+        [ExpectedException(typeof(InvalidAuthenticationException))]
         [TestMethod]
         public void TestLoginNonExistingPasswordLogin()
         {
@@ -108,7 +109,7 @@ namespace Sports.Logic.Test
             Assert.AreEqual(_user, _sessionLogic.GetUserFromToken(token));
         }
 
-        [ExpectedException(typeof(InvalidUserDataException))]
+        [ExpectedException(typeof(UserDoesNotExistException))]
         [TestMethod]
         public void TestGeUserNonExistingLogin()
         {
@@ -125,7 +126,6 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidUserDataException))]
         public void TestLoginUserAlreadyExist()
         {
             User identicalUser = new User(true)
@@ -136,31 +136,20 @@ namespace Sports.Logic.Test
                 UserName = "iMiller",
                 Password = "root"
             };
-            _userLogic.AddUser(identicalUser);
             Guid token = _sessionLogic.LogInUser(_user.UserName, _user.Password);
             Guid anotherGuid = _sessionLogic.LogInUser(identicalUser.UserName, identicalUser.Password);
-            Assert.AreEqual(token, anotherGuid);
+            Assert.AreNotEqual(token, anotherGuid);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidUserDataException))]
+        [ExpectedException(typeof(SessionDoesNotExistException))]
         public void TestLogoutUser()
         {
-            Guid newToken = _sessionLogic.CreateSession(_user);
             Guid token = _sessionLogic.LogInUser(_user.UserName, _user.Password);
             _sessionLogic.LogoutByUser(_user);
            _sessionLogic.GetUserFromToken(token);
         }
-
-        [TestMethod]
-        public void TestRelogUser()
-        {
-            Guid createToken = _sessionLogic.CreateSession(_user);
-            Guid token = _sessionLogic.LogInUser(_user.UserName, _user.Password);
-            _sessionLogic.LogoutByUser(_user);
-            Guid newToken = _sessionLogic.LogInUser(_user.UserName, _user.Password);
-            Assert.AreNotEqual(_session.Token, token);
-        }
+        
 
 
     }

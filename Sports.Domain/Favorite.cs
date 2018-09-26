@@ -6,6 +6,7 @@ namespace Sports.Domain
 {
     public class Favorite
     {
+        //chequear que user y team no sean null
         public int Id { get; private set; }
         public User User { get; set; }
         public Team Team { get; set; }

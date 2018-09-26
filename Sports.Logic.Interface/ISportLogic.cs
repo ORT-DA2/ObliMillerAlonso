@@ -10,12 +10,11 @@ namespace Sports.Logic.Interface
         void AddSport(Sport sport);
         Sport GetSportById(int id);
         Sport GetSportByName(string name);
-        void UpdateSport(int id, Sport updatedSport);
         void RemoveSport(int id);
         ICollection<Sport> GetAll();
         void AddTeamToSport(Sport sport, Team team);
         void DeleteTeamFromSport(Sport sport, Team team);
-        void Modify(Sport sport);
+        void ModifySport(int id, Sport sport);
         Team GetTeamFromSport(Sport sport, Team team);
 
 

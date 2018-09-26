@@ -9,12 +9,12 @@ using Sports.Logic.Interface;
 using Sports.Repository;
 using Sports.Repository.Interface;
 using Sports.Repository.Context;
-using Sports.Exceptions;
 using System.Diagnostics.CodeAnalysis;
+using Sports.Logic.Exceptions;
+using Sports.Domain.Exceptions;
 
 namespace Sports.Logic.Test
 {
-    //agregar sport despues
     [ExcludeFromCodeCoverage]
     [TestClass]
     public class MatchLogicTest
@@ -77,14 +77,14 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidMatchDataException))]
+        [ExpectedException(typeof(InvalidNullValueException))]
         public void AddNullMatch()
         {
             _matchLogic.AddMatch(null);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidMatchDataException))]
+        [ExpectedException(typeof(InvalidMatchDateFormatException))]
         public void AddMatchInvalidDate()
         {
             _match.Date = DateTime.Now.AddDays(-1);
@@ -92,7 +92,7 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidSportDataException))]
+        [ExpectedException(typeof(TeamDoesNotExistInSportException))]
         public void AddMatchInvalidLocalTeam()
         {
             Team invalidTeam = new Team()
@@ -104,7 +104,7 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidSportDataException))]
+        [ExpectedException(typeof(TeamDoesNotExistInSportException))]
         public void AddMatchInvalidVisitorTeam()
         {
             Team invalidTeam = new Team()
@@ -127,14 +127,14 @@ namespace Sports.Logic.Test
 
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidMatchDataException))]
+        [ExpectedException(typeof(MatchDoesNotExistException))]
         public void ModifyInvalidMatch()
         {
             _matchLogic.ModifyMatch(_match.Id, _match);
         }
         
         [TestMethod]
-        [ExpectedException(typeof(InvalidSportDataException))]
+        [ExpectedException(typeof(SportDoesNotExistException))]
         public void AddMatchWithInvalidSport()
         {
             Sport sport = new Sport()
@@ -146,7 +146,7 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidMatchDataException))]
+        [ExpectedException(typeof(InvalidSportIsEmptyException))]
         public void AddMatchWithoutSport()
         {
             _match.Sport = null;
@@ -182,7 +182,7 @@ namespace Sports.Logic.Test
         }
         
         [TestMethod]
-        [ExpectedException(typeof(InvalidSportDataException))]
+        [ExpectedException(typeof(SportDoesNotExistException))]
         public void ModifyInvalidSport()
         {
             _matchLogic.AddMatch(_match);
@@ -226,7 +226,7 @@ namespace Sports.Logic.Test
         }
         
         [TestMethod]
-        [ExpectedException(typeof(InvalidSportDataException))]
+        [ExpectedException(typeof(TeamDoesNotExistInSportException))]
         public void ModifyInvalidVisitorTeam()
         {
             _matchLogic.AddMatch(_match);
@@ -240,7 +240,7 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidSportDataException))]
+        [ExpectedException(typeof(TeamDoesNotExistInSportException))]
         public void ModifyInvalidLocalTeam()
         {
             _matchLogic.AddMatch(_match);
@@ -254,7 +254,7 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidMatchDataException))]
+        [ExpectedException(typeof(InvalidTeamIsEmptyException))]
         public void AddWithoutLocalTeam()
         {
             _match.Local = null;
@@ -262,7 +262,7 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidMatchDataException))]
+        [ExpectedException(typeof(InvalidTeamIsEmptyException))]
         public void AddWithoutVisitorTeam()
         {
             _match.Visitor = null;
@@ -290,7 +290,7 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidMatchDataException))]
+        [ExpectedException(typeof(MatchDoesNotExistException))]
         public void DeleteNonExistingMatch()
         {
             _matchLogic.DeleteMatch(_match);

@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using Sports.Domain;
-using Sports.Exceptions;
 using Sports.Repository.Interface;
 using Sports.Logic.Interface;
+using Sports.Logic.Exceptions;
+using Sports.Logic.Constants;
 
 namespace Sports.Logic
 {
@@ -36,14 +37,14 @@ namespace Sports.Logic
         {
             if (_repository.FindByCondition(s => s.Name == name && s.Id != id).Count != 0)
             {
-                throw new InvalidSportDataException("Cannot repeat name");
+                throw new SportAlreadyExistsException(UniqueSport.DUPLICATE_SPORT_MESSAGE);
             }
         }
         private void CheckNotNull(Sport sport)
         {
             if (sport == null)
             {
-                throw new InvalidSportDataException("Cannot add null sport");
+                throw new InvalidNullValueException(NullValue.INVALID_SPORT_NULL_VALUE_MESSAGE);
             }
         }
 
@@ -52,7 +53,7 @@ namespace Sports.Logic
             ICollection<Sport> sports = _repository.FindByCondition(s => s.Id == id);
             if (sports.Count == 0)
             {
-                throw new InvalidSportDataException("Id does not match any existing sports");
+                throw new SportDoesNotExistException(SportNotFound.SPORT_NOT_FOUND_MESSAGE);
             }
             return sports.First();
         }
@@ -69,18 +70,11 @@ namespace Sports.Logic
             ICollection<Sport> sports = _repository.FindByCondition(s => s.Name == name);
             if (sports.Count == 0)
             {
-                throw new InvalidSportDataException("Id does not match any existing sports");
+                throw new SportDoesNotExistException(SportNotFound.SPORT_NOT_FOUND_MESSAGE);
             }
             return sports.First();
         }
-
-        public void UpdateSport(int id, Sport updatedSport)
-        {
-            Sport originalsport = GetSportById(id);
-            originalsport.UpdateData(updatedSport);
-            ValidateSport(originalsport);
-            _repository.Update(originalsport);
-        }
+        
 
         public void RemoveSport(int id)
         {
@@ -88,9 +82,9 @@ namespace Sports.Logic
             _repository.Delete(sport);
         }
 
-        public void Modify(Sport sport)
+        public void ModifySport(int id, Sport sport)
         {
-            Sport realSport = GetSportById(sport.Id);
+            Sport realSport = GetSportById(id);
             realSport.UpdateData(sport);
             ValidateSport(realSport);
             _repository.Update(realSport);
@@ -114,7 +108,7 @@ namespace Sports.Logic
         {
             if (sport.Teams.Contains(team))
             {
-                throw new InvalidSportDataException("Team already in sport");
+                throw new TeamAlreadyInSportException(UniqueTeam.DUPLICATE_TEAM_IN_SPORT_MESSAGE);
             }
         }
 

@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Sports.Exceptions;
+using Sports.Domain.Exceptions;
+using Sports.Domain.Constants;
+
 
 namespace Sports.Domain
 {
@@ -22,7 +24,7 @@ namespace Sports.Domain
         {
             if (string.IsNullOrWhiteSpace(this.Name))
             {
-                throw new InvalidTeamDataException("Invalid Name");
+                throw new InvalidEmptyTextFieldException(EmptyField.EMPTY_NAME_MESSAGE);
             }
         }
 
@@ -44,7 +46,7 @@ namespace Sports.Domain
         {
             if (!filePath.EndsWith(".png") && !filePath.EndsWith(".jpg"))
             {
-                throw new InvalidTeamDataException("Invalid file extension");
+                throw new InvalidTeamImageException(ImageTeamValidation.INVALID_FILE_EXTENSION_MESSAGE);
             }
         }
 
@@ -52,7 +54,7 @@ namespace Sports.Domain
         {
             if (!File.Exists(filePath))
             {
-                throw new InvalidTeamDataException("Invalid file path");
+                throw new InvalidTeamImageException(ImageTeamValidation.INVALID_FILE_PATH_MESSAGE);
             }
         }
 
@@ -61,7 +63,7 @@ namespace Sports.Domain
             FileInfo file = new FileInfo(filePath);
             if (file.Length > MAX_FILE_SIZE)
             {
-                throw new InvalidTeamDataException("Invalid file size");
+                throw new InvalidTeamImageException(ImageTeamValidation.INVALID_FILE_PATH_MESSAGE);
             }
         }
 

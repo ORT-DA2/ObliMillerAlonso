@@ -9,8 +9,9 @@ using Sports.Logic.Interface;
 using Sports.Repository;
 using Sports.Repository.Interface;
 using Sports.Repository.Context;
-using Sports.Exceptions;
 using System.Diagnostics.CodeAnalysis;
+using Sports.Logic.Exceptions;
+
 
 namespace Sports.Logic.Test
 {
@@ -70,14 +71,14 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidCommentDataException))]
+        [ExpectedException(typeof(InvalidNullValueException))]
         public void AddNullComment()
         {
             _commentLogic.AddComment(null);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidUserDataException))]
+        [ExpectedException(typeof(UserDoesNotExistException))]
         public void VerifyCommentUser()
         {
             User testUser = new User(){ };

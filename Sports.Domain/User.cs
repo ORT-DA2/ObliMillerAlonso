@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Sports.Exceptions;
 using System.Net.Mail;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Sports.Domain.Exceptions;
+using Sports.Domain.Constants;
 
 namespace Sports.Domain
 {
@@ -61,37 +62,37 @@ namespace Sports.Domain
         private void IsValidFirstName()
         {
             if (string.IsNullOrWhiteSpace(FirstName))
-                throw new InvalidUserDataException("Invalid Name");
+                throw new InvalidEmptyTextFieldException(EmptyField.EMPTY_NAME_MESSAGE);
         }
 
         private void IsValidLastName()
         {
             if (string.IsNullOrWhiteSpace(LastName))
-                throw new InvalidUserDataException("Invalid LastName");
+                throw new InvalidEmptyTextFieldException(EmptyField.EMPTY_LASTNAME_MESSAGE);
         }
 
         private void IsValidUserUserName()
         {
             if (string.IsNullOrWhiteSpace(UserName))
-                throw new InvalidUserDataException("Invalid UserName");
+                throw new InvalidEmptyTextFieldException(EmptyField.EMPTY_USERNAME_MESSAGE);
         }
 
         private void IsValidUserPassword()
         {
             if (string.IsNullOrWhiteSpace(Password))
-                throw new InvalidUserDataException("Invalid Password");
+                throw new InvalidEmptyTextFieldException(EmptyField.EMPTY_PASSWORD_MESSAGE);
         }
 
         private void IsValidUserEMail()
         {
             if (string.IsNullOrWhiteSpace(Email))
-                throw new InvalidUserDataException("Invalid EMail");
+                throw new InvalidEmptyTextFieldException(EmptyField.EMPTY_EMAIL_MESSAGE);
         }
 
         private void IsValidUserEmailFormat(string emailaddress)
         {
            if(!IsValidEmailAt(emailaddress) || !IsValidEmailDotCom(emailaddress))
-                throw new InvalidUserDataException("Invalid EMail");
+                throw new InvalidUserDataFormatException(EmailUserValidation.INVALID_EMAIL_FORMAT_MESSAGE);
         }
 
         private bool IsValidEmailAt(string emailaddress)
@@ -134,10 +135,9 @@ namespace Sports.Domain
 
         public void ValidatePassword(string password)
         {
-            if(!this.Password.Equals(password))
+            if (!this.Password.Equals(password))
             {
-                //login password exception
-                throw new InvalidUserDataException("Invalid password");
+                throw new InvalidAuthenticationException(AuthenticationValidation.INVALID_PASSWORD_MESSAGE);
             }
         }
 

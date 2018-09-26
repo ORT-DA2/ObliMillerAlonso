@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sports.Exceptions;
-
+using Sports.Domain.Exceptions;
 
 namespace Sports.Domain.Test
 {
@@ -35,7 +34,7 @@ namespace Sports.Domain.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidSportDataException))]
+        [ExpectedException(typeof(InvalidEmptyTextFieldException))]
         public void InvalidSportName()
         {
             sport.Name = "";
@@ -58,7 +57,7 @@ namespace Sports.Domain.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidSportDataException))]
+        [ExpectedException(typeof(TeamDoesNotExistInSportException))]
         public void InvalidRemoveTeam()
         {
             sport.AddTeam(team);
@@ -70,7 +69,7 @@ namespace Sports.Domain.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidSportDataException))]
+        [ExpectedException(typeof(TeamAlreadyExistException))]
         public void InvalidAddTeam()
         {
             sport.AddTeam(team);

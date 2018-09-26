@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using Sports.Domain;
-using Sports.Exceptions;
 using Sports.Repository.Interface;
 using Sports.Logic.Interface;
+using Sports.Logic.Exceptions;
+using Sports.Logic.Constants;
 
 
 namespace Sports.Logic
@@ -35,7 +36,7 @@ namespace Sports.Logic
         {
             if (_repository.FindByCondition(u => u.UserName == username && u.Id != id).Count!=0)
             {
-                throw new InvalidUserDataException("Cannot repeat username");
+                throw new UserAlreadyExistException(UniqueUsername.DUPLICATE_USERNAME_MESSAGE);
             }
         }
         
@@ -43,7 +44,7 @@ namespace Sports.Logic
         {
             if (user == null)
             {
-                throw new InvalidUserDataException("Cannot add null user");
+                throw new InvalidNullValueException(NullValue.INVALID_USER_NULL_VALUE_MESSAGE);
             }
         }
 
@@ -52,7 +53,7 @@ namespace Sports.Logic
             ICollection<User> users = _repository.FindByCondition(u => u.Id==id);
             if(users.Count == 0)
             {
-                throw new InvalidUserDataException("User Id does not exist");
+                throw new UserDoesNotExistException(UserNotFound.USER_ID_NOT_FOUND_MESSAGE);
             }
             return users.First();
         }
