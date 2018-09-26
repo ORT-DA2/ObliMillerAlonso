@@ -97,5 +97,16 @@ namespace Sports.Domain.Test
             Assert.IsFalse(match.Equals(null));
         }
 
+        [TestMethod]
+        public void AddComment()
+        {
+            Comment testComment = new Comment
+            {
+                Text = "test comment",
+                User = new User()
+            };
+           match.AddComment(testComment);
+        }
+
     }
 }
