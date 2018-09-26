@@ -375,6 +375,13 @@ namespace Sports.Logic.Test
             _matchLogic.AddCommentToMatch(_match.Id, comment);
         }
 
+        [TestMethod]
+        public void CheckSportIsNotDuplicated()
+        {
+            _matchLogic.AddMatch(_match);
+            Assert.AreEqual(_sportLogic.GetAll().Count,1);
+        }
+
         //verify add team/ sport/ comment no duplica datos
     }
 }
