@@ -23,11 +23,23 @@ namespace Sports.Domain
         public void IsValid()
         {
             IsValidCommentText();
+            IsNotNullUser();
         }
+
+        private void IsNotNullUser()
+        {
+            if (this.User == null)
+            {
+                throw new InvalidEmptyUserException(EmptyUser.EMPTY_USER);
+            }
+        }
+
         private void IsValidCommentText()
         {
             if (string.IsNullOrWhiteSpace(Text))
+            {
                 throw new InvalidEmptyTextFieldException(EmptyField.EMPTY_TEXT_MESSAGE);
+            }
         }
     }
 }

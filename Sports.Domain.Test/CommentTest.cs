@@ -31,13 +31,15 @@ namespace Sports.Domain.Test
         {
             Comment invalidText = new Comment()
             {
-               Text = ""
+               Text = "",
+                User = new User()
             };
             invalidText.IsValid();
         }
 
         [TestMethod]
-        public void ValidCommentText()
+        [ExpectedException(typeof(InvalidEmptyUserException))]
+        public void InvalidCommentUser()
         {
             Comment invalidText = new Comment()
             {
