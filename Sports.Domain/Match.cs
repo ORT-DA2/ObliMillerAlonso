@@ -102,6 +102,7 @@ namespace Sports.Domain
 
         public void AddComment(Comment comment)
         {
+            comment.IsValid();
             this.Comments.Add(comment);
         }
 
