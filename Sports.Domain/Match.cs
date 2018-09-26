@@ -17,7 +17,7 @@ namespace Sports.Domain
         public Sport Sport { get; set; }
         public Team Local { get; set; }
         public Team Visitor { get; set; }
-        public ICollection<Comment> Comments { get; set; }
+        public ICollection<Comment> Comments {  get; private set; }
 
         public Match()
         {

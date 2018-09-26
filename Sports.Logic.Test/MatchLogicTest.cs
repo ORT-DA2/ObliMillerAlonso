@@ -318,7 +318,7 @@ namespace Sports.Logic.Test
                 User = user
             };
             _matchLogic.AddCommentToMatch(_match.Id, comment);
-            Assert.AreEqual(_matchLogic.GetAllComments(_match.id).Count, 1);
+            Assert.AreEqual(_matchLogic.GetAllComments(_match.Id).Count, 1);
         }
 
         //verify add team/ sport/ comment no duplica datos
