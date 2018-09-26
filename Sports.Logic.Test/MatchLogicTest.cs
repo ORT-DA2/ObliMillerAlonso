@@ -364,21 +364,13 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
+        [ExpectedException(typeof(InvalidNullValueException))]
         public void AddCommentWithNullUserToMatch()
         {
             _matchLogic.AddMatch(_match);
-            User user = new User()
-            {
-                FirstName = "Itai",
-                LastName = "Miller",
-                Email = "itaimiller@gmail.com",
-                UserName = "iMiller",
-                Password = "root"
-            };
             Comment comment = new Comment
             {
                 Text = "Text",
-                User = user
             };
             _matchLogic.AddCommentToMatch(_match.Id, comment);
         }
