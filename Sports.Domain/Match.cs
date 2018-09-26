@@ -55,6 +55,14 @@ namespace Sports.Domain
             }
         }
 
+        private void CheckCommentNotEmpty(Comment comment)
+        {
+            if (comment == null)
+            {
+                throw new InvalidCommentIsEmptyException(EmptyComment.EMPTY_COMMENT);
+            }
+        }
+
         private void IsValidDate(DateTime date)
         {
             if (date.Subtract(DateTime.Now).TotalSeconds<0)
@@ -102,6 +110,7 @@ namespace Sports.Domain
 
         public void AddComment(Comment comment)
         {
+            CheckCommentNotEmpty(comment);
             comment.IsValid();
             this.Comments.Add(comment);
         }
