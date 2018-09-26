@@ -13,5 +13,6 @@ namespace Sports.Repository.Interface
         ISportRepository Sport { get; }
         IMatchRepository Match { get; }
         ISessionRepository Session { get; }
+        IFavoriteRepository Favorite {get; }
     }
 }

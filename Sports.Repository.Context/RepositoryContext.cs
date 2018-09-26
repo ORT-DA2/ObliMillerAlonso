@@ -16,6 +16,7 @@ namespace Sports.Repository.Context
         public DbSet<Sport> Sports { get; set; }
         public DbSet<Match> Matches { get; set; }
         public DbSet<Session> Logins { get; set; }
+        public DbSet<Favorite> Favorites { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -43,6 +44,9 @@ namespace Sports.Repository.Context
 
             modelBuilder.Entity<Session>().HasKey(l => l.Token);
             modelBuilder.Entity<Session>().Property(l => l.Token).ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Favorite>().HasKey(f => f.Id);
+            modelBuilder.Entity<Favorite>().Property(f => f.Id).ValueGeneratedOnAdd();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

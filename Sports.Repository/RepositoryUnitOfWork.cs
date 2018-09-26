@@ -16,6 +16,7 @@ namespace Sports.Repository
         private ISportRepository _sport;
         private IMatchRepository _match;
         private ISessionRepository _session;
+        private IFavoriteRepository _favorite;
 
         public RepositoryUnitOfWork(RepositoryContext repositoryContext)
         {
@@ -73,6 +74,16 @@ namespace Sports.Repository
                 if (_session == null)
                     _session = new SessionRepository(_repositoryContext);
                 return _session;
+            }
+        }
+
+        public IFavoriteRepository Favorite
+        {
+            get
+            {
+                if (_favorite == null)
+                    _favorite = new FavoriteRepository(_repositoryContext);
+                return _favorite;
             }
         }
 
