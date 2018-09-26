@@ -322,7 +322,8 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        public void AddCommentToInexistentMatchMatch()
+        [ExpectedException(typeof(MatchDoesNotExistException))]
+        public void AddCommentToInexistentMatch()
         {
             User user = new User()
             {
@@ -333,6 +334,27 @@ namespace Sports.Logic.Test
                 Password = "root"
             };
             _userLogic.AddUser(user);
+            Comment comment = new Comment
+            {
+                Text = "Text",
+                User = user
+            };
+            _matchLogic.AddCommentToMatch(_match.Id, comment);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(UserDoesNotExistException))]
+        public void AddCommentWithInexistentUserToMatch()
+        {
+            _matchLogic.AddMatch(_match);
+            User user = new User()
+            {
+                FirstName = "Itai",
+                LastName = "Miller",
+                Email = "itaimiller@gmail.com",
+                UserName = "iMiller",
+                Password = "root"
+            };
             Comment comment = new Comment
             {
                 Text = "Text",
