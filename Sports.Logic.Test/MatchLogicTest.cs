@@ -321,6 +321,26 @@ namespace Sports.Logic.Test
             Assert.AreEqual(_matchLogic.GetAllComments(_match.Id).Count, 1);
         }
 
+        [TestMethod]
+        public void AddCommentToInexistentMatchMatch()
+        {
+            User user = new User()
+            {
+                FirstName = "Itai",
+                LastName = "Miller",
+                Email = "itaimiller@gmail.com",
+                UserName = "iMiller",
+                Password = "root"
+            };
+            _userLogic.AddUser(user);
+            Comment comment = new Comment
+            {
+                Text = "Text",
+                User = user
+            };
+            _matchLogic.AddCommentToMatch(_match.Id, comment);
+        }
+
         //verify add team/ sport/ comment no duplica datos
     }
 }
