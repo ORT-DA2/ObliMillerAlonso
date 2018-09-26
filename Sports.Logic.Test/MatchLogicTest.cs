@@ -12,6 +12,7 @@ using Sports.Repository.Context;
 using System.Diagnostics.CodeAnalysis;
 using Sports.Logic.Exceptions;
 using Sports.Domain.Exceptions;
+using System.Linq;
 
 namespace Sports.Logic.Test
 {
@@ -318,7 +319,8 @@ namespace Sports.Logic.Test
                 User = user
             };
             _matchLogic.AddCommentToMatch(_match.Id, comment);
-            Assert.AreEqual(_matchLogic.GetAllComments(_match.Id).Count, 1);
+            Comment commentInMatchStored = _matchLogic.GetAllComments(_match.Id).FirstOrDefault();
+            Assert.AreEqual(commentInMatchStored.Id, comment.Id);
         }
 
         [TestMethod]
