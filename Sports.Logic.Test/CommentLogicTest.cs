@@ -19,17 +19,17 @@ namespace Sports.Logic.Test
     [TestClass]
     public class CommentLogicTest
     {
-        private IRepositoryUnitOfWork _unitOfWork;
-        private RepositoryContext _repository;
-        private ICommentLogic _commentLogic;
-        private IUserLogic _userLogic;
-        private Comment _comment;
-        private User _user;
+        private IRepositoryUnitOfWork unitOfWork;
+        private RepositoryContext repository;
+        private ICommentLogic commentLogic;
+        private IUserLogic userLogic;
+        private Comment comment;
+        private User user;
 
         [TestInitialize]
         public void SetUp()
         {
-            _user = new User(true)
+            user = new User(true)
             {
                 FirstName = "Itai",
                 LastName = "Miller",
@@ -38,43 +38,43 @@ namespace Sports.Logic.Test
                 Password = "root"
             };
 
-            _comment = new Comment()
+            comment = new Comment()
             {
                 Text = "comment",
-                User = _user
+                User = user
             };
 
             
             var options = new DbContextOptionsBuilder<RepositoryContext>()
                 .UseInMemoryDatabase<RepositoryContext>(databaseName: "CommentLogicTestDB")
                 .Options;
-            _repository = new RepositoryContext(options);
-            _unitOfWork = new RepositoryUnitOfWork(_repository);
-            _commentLogic = new CommentLogic(_unitOfWork);
-            _userLogic = new UserLogic(_unitOfWork);
-            _userLogic.AddUser(_user);
+            repository = new RepositoryContext(options);
+            unitOfWork = new RepositoryUnitOfWork(repository);
+            commentLogic = new CommentLogic(unitOfWork);
+            userLogic = new UserLogic(unitOfWork);
+            userLogic.AddUser(user);
         }
 
         [TestCleanup]
         public void TearDown()
         {
-            _repository.Comments.RemoveRange(_repository.Comments);
-            _repository.Users.RemoveRange(_repository.Users);
-            _repository.SaveChanges();
+            repository.Comments.RemoveRange(repository.Comments);
+            repository.Users.RemoveRange(repository.Users);
+            repository.SaveChanges();
         }
 
         [TestMethod]
         public void AddComment()
         {
-            _commentLogic.AddComment(_comment);
-            Assert.IsNotNull(_commentLogic.GetCommentById(_comment.Id));
+            commentLogic.AddComment(comment);
+            Assert.IsNotNull(commentLogic.GetCommentById(comment.Id));
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidNullValueException))]
         public void AddNullComment()
         {
-            _commentLogic.AddComment(null);
+            commentLogic.AddComment(null);
         }
 
         [TestMethod]
@@ -87,14 +87,14 @@ namespace Sports.Logic.Test
                 Text = "comment",
                 User = testUser
             };
-            _commentLogic.AddComment(userComment);
+            commentLogic.AddComment(userComment);
         }
 
         [TestMethod]
         public void CommentGetAll()
         {
-            _commentLogic.AddComment(_comment);
-            Assert.AreEqual(_commentLogic.GetAll().Count, 1);
+            commentLogic.AddComment(comment);
+            Assert.AreEqual(commentLogic.GetAll().Count, 1);
         }
     }
 

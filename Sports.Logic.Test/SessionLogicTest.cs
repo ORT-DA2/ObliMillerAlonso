@@ -20,17 +20,17 @@ namespace Sports.Logic.Test
     [TestClass]
     public class SessionLogicTest
     {
-        private IRepositoryUnitOfWork _unitOfWork;
-        private RepositoryContext _repository;
-        private ISessionLogic _sessionLogic;
-        private IUserLogic _userLogic;
-        User _user;
-        Session _session;
+        private IRepositoryUnitOfWork unitOfWork;
+        private RepositoryContext repository;
+        private ISessionLogic sessionLogic;
+        private IUserLogic userLogic;
+        User user;
+        Session session;
 
         [TestInitialize]
         public void SetUp()
         {
-            _user = new User(true)
+            user = new User(true)
             {
                 FirstName = "Itai",
                 LastName = "Miller",
@@ -38,44 +38,44 @@ namespace Sports.Logic.Test
                 UserName = "iMiller",
                 Password = "root"
             };
-            _session = new Session()
+            session = new Session()
             {
-                User = _user,
+                User = user,
                 Token = Guid.NewGuid()
             };
 
             var options = new DbContextOptionsBuilder<RepositoryContext>()
                 .UseInMemoryDatabase<RepositoryContext>(databaseName: "SessionLogicTestDB")
                 .Options;
-            _repository = new RepositoryContext(options);
-            _unitOfWork = new RepositoryUnitOfWork(_repository);
-            _sessionLogic = new SessionLogic(_unitOfWork);
-            _userLogic = new UserLogic(_unitOfWork);
-            _userLogic.AddUser(_user);
+            repository = new RepositoryContext(options);
+            unitOfWork = new RepositoryUnitOfWork(repository);
+            sessionLogic = new SessionLogic(unitOfWork);
+            userLogic = new UserLogic(unitOfWork);
+            userLogic.AddUser(user);
         }
 
         [TestCleanup]
         public void TearDown()
         {
-            _repository.Logins.RemoveRange(_repository.Logins);
-            _repository.Users.RemoveRange(_repository.Users);
-            _repository.SaveChanges();
+            repository.Logins.RemoveRange(repository.Logins);
+            repository.Users.RemoveRange(repository.Users);
+            repository.SaveChanges();
         }
 
         [TestMethod]
         public void TestLoginUser()
         {
-            Guid token = _sessionLogic.LogInUser(_user.UserName, _user.Password);
-            User sessionUser = _sessionLogic.GetUserFromToken(token);
-            Assert.AreEqual(sessionUser, _user);
+            Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
+            User sessionUser = sessionLogic.GetUserFromToken(token);
+            Assert.AreEqual(sessionUser, user);
         }
 
         [TestMethod]
         public void TestUserLogin()
         {
-            Guid newToken = _sessionLogic.LogInUser(_user.UserName,_user.Password);
-            Guid token = _sessionLogic.LogInUser(_user.UserName, _user.Password);
-            Assert.AreEqual(_user, _sessionLogic.GetUserFromToken(token));
+            Guid newToken = sessionLogic.LogInUser(user.UserName,user.Password);
+            Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
+            Assert.AreEqual(user, sessionLogic.GetUserFromToken(token));
         }
 
         [ExpectedException(typeof(UserDoesNotExistException))]
@@ -87,7 +87,7 @@ namespace Sports.Logic.Test
                 UserName = "pepe",
                 Password = "root"
             };
-            Guid token = _sessionLogic.LogInUser(user.UserName, user.Password);
+            Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
         }
 
         [ExpectedException(typeof(InvalidAuthenticationException))]
@@ -99,14 +99,14 @@ namespace Sports.Logic.Test
                 UserName = "iMiller",
                 Password = "abcd"
             };
-            Guid token = _sessionLogic.LogInUser(user.UserName, user.Password);
+            Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
         }
 
         [TestMethod]
         public void TestGetUserLogin()
         {
-            Guid token = _sessionLogic.LogInUser(_user.UserName, _user.Password);
-            Assert.AreEqual(_user, _sessionLogic.GetUserFromToken(token));
+            Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
+            Assert.AreEqual(user, sessionLogic.GetUserFromToken(token));
         }
 
         [ExpectedException(typeof(UserDoesNotExistException))]
@@ -121,8 +121,8 @@ namespace Sports.Logic.Test
                 UserName = "sergiom",
                 Password = "abcd"
             };
-            Guid token = _sessionLogic.LogInUser(user.UserName, user.Password);
-            _sessionLogic.GetUserFromToken(Guid.NewGuid());
+            Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
+            sessionLogic.GetUserFromToken(Guid.NewGuid());
         }
 
         [TestMethod]
@@ -136,8 +136,8 @@ namespace Sports.Logic.Test
                 UserName = "iMiller",
                 Password = "root"
             };
-            Guid token = _sessionLogic.LogInUser(_user.UserName, _user.Password);
-            Guid anotherGuid = _sessionLogic.LogInUser(identicalUser.UserName, identicalUser.Password);
+            Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
+            Guid anotherGuid = sessionLogic.LogInUser(identicalUser.UserName, identicalUser.Password);
             Assert.AreNotEqual(token, anotherGuid);
         }
 
@@ -145,9 +145,9 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(SessionDoesNotExistException))]
         public void TestLogoutUser()
         {
-            Guid token = _sessionLogic.LogInUser(_user.UserName, _user.Password);
-            _sessionLogic.LogoutByUser(_user);
-           _sessionLogic.GetUserFromToken(token);
+            Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
+            sessionLogic.LogoutByUser(user);
+           sessionLogic.GetUserFromToken(token);
         }
         
 

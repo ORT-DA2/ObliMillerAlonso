@@ -20,39 +20,39 @@ namespace Sports.Logic.Test
     public class TeamLogicTest
     {
         static string mypath = AppDomain.CurrentDomain.BaseDirectory;
-        string _testImagePath = mypath + "/TestImage/gun.png";
-        private IRepositoryUnitOfWork _unitOfWork;
-        private RepositoryContext _repository;
-        private ITeamLogic _teamLogic;
-        private Team _team;
+        string testImagePath = mypath + "/TestImage/gun.png";
+        private IRepositoryUnitOfWork unitOfWork;
+        private RepositoryContext repository;
+        private ITeamLogic teamLogic;
+        private Team team;
 
         [TestInitialize]
         public void SetUp()
         {
-            _team = new Team()
+            team = new Team()
             {
                 Name = "Team"
             };
             var options = new DbContextOptionsBuilder<RepositoryContext>()
                 .UseInMemoryDatabase<RepositoryContext>(databaseName: "TeamLogicTestDB")
                 .Options;
-            _repository = new RepositoryContext(options);
-            _unitOfWork = new RepositoryUnitOfWork(_repository);
-            _teamLogic = new TeamLogic(_unitOfWork);
+            repository = new RepositoryContext(options);
+            unitOfWork = new RepositoryUnitOfWork(repository);
+            teamLogic = new TeamLogic(unitOfWork);
         }
 
         [TestCleanup]
         public void TearDown()
         {
-            _repository.Teams.RemoveRange(_repository.Teams);
-            _repository.SaveChanges();
+            repository.Teams.RemoveRange(repository.Teams);
+            repository.SaveChanges();
         }
 
         [TestMethod]
         public void AddTeam()
         {
-            _teamLogic.AddTeam(_team);
-            Assert.IsNotNull(_teamLogic.GetTeamById(_team.Id));
+            teamLogic.AddTeam(team);
+            Assert.IsNotNull(teamLogic.GetTeamById(team.Id));
         }
 
 
@@ -60,7 +60,7 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(InvalidNullValueException))]
         public void AddNullTeam()
         {
-            _teamLogic.AddTeam(null);
+            teamLogic.AddTeam(null);
         }
 
         [TestMethod]
@@ -71,15 +71,15 @@ namespace Sports.Logic.Test
             {
                 Name = ""
             };
-            _teamLogic.AddTeam(invalidNameTeam);
+            teamLogic.AddTeam(invalidNameTeam);
         }
 
         [TestMethod]
         public void AddTeamPicture()
         {
-            _teamLogic.AddTeam(_team);
-            _teamLogic.SetPictureFromPath(_team,_testImagePath);
-            Assert.IsNotNull(_teamLogic.GetTeamById(_team.Id).Picture);
+            teamLogic.AddTeam(team);
+            teamLogic.SetPictureFromPath(team,testImagePath);
+            Assert.IsNotNull(teamLogic.GetTeamById(team.Id).Picture);
         }
 
 
@@ -87,48 +87,48 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(TeamDoesNotExistException))]
         public void AddPictureToInvalidTeam()
         {
-            _teamLogic.SetPictureFromPath(_team, _testImagePath);
-            Assert.IsNotNull(_teamLogic.GetTeamById(_team.Id).Picture);
+            teamLogic.SetPictureFromPath(team, testImagePath);
+            Assert.IsNotNull(teamLogic.GetTeamById(team.Id).Picture);
         }
 
 
         [TestMethod]
         public void ChangeTeamName()
         {
-            _teamLogic.AddTeam(_team);
+            teamLogic.AddTeam(team);
             Team changeTeam = new Team()
             {
                 Name = "New Name"
             };
-            _teamLogic.Modify(_team.Id, changeTeam);
-            Assert.AreEqual<string>(_teamLogic.GetTeamById(_team.Id).Name,_team.Name);
+            teamLogic.Modify(team.Id, changeTeam);
+            Assert.AreEqual<string>(teamLogic.GetTeamById(team.Id).Name,team.Name);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidEmptyTextFieldException))]
         public void ChangeTeamNameInvalid()
         {
-            _teamLogic.AddTeam(_team);
+            teamLogic.AddTeam(team);
             Team changeTeam = new Team()
             {
                 Name = ""
             };
-            _teamLogic.Modify(_team.Id, changeTeam);
+            teamLogic.Modify(team.Id, changeTeam);
         }
 
         [TestMethod]
         public void DeleteTeam()
         {
-            _teamLogic.AddTeam(_team);
-            _teamLogic.Delete(_team);
-            Assert.AreEqual(_teamLogic.GetAll().Count, 0);
+            teamLogic.AddTeam(team);
+            teamLogic.Delete(team);
+            Assert.AreEqual(teamLogic.GetAll().Count, 0);
         }
 
         [TestMethod]
         [ExpectedException(typeof(TeamDoesNotExistException))]
         public void DeleteInvalidTeam()
         {
-            _teamLogic.Delete(_team);
+            teamLogic.Delete(team);
         }
         
     }

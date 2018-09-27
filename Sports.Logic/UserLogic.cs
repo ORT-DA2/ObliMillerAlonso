@@ -13,16 +13,17 @@ namespace Sports.Logic
 {
     public class UserLogic : IUserLogic
     {
-        IUserRepository _repository;
+        IUserRepository repository;
 
         public UserLogic(IRepositoryUnitOfWork unitOfwork)
         {
-            _repository = unitOfwork.User;
+            repository = unitOfwork.User;
         }
         public void AddUser(User user)
         {
             ValidateUser(user);
-            _repository.Create(user);
+            repository.Create(user);
+            repository.Save();
         }
 
         private void ValidateUser(User user)
@@ -34,7 +35,7 @@ namespace Sports.Logic
 
         private void CheckNotExists(string username, int id = 0)
         {
-            if (_repository.FindByCondition(u => u.UserName == username && u.Id != id).Count!=0)
+            if (repository.FindByCondition(u => u.UserName == username && u.Id != id).Count!=0)
             {
                 throw new UserAlreadyExistException(UniqueUsername.DUPLICATE_USERNAME_MESSAGE);
             }
@@ -50,7 +51,7 @@ namespace Sports.Logic
 
         public User GetUserById(int id)
         { 
-            ICollection<User> users = _repository.FindByCondition(u => u.Id==id);
+            ICollection<User> users = repository.FindByCondition(u => u.Id==id);
             if(users.Count == 0)
             {
                 throw new UserDoesNotExistException(UserNotFound.USER_ID_NOT_FOUND_MESSAGE);
@@ -63,24 +64,26 @@ namespace Sports.Logic
             User originalUser = GetUserById(id);
             originalUser.UpdateData(updatedUser);
             ValidateUser(originalUser);
-            _repository.Update(originalUser);
+            repository.Update(originalUser);
+            repository.Save();
         }
 
         public User GetUserByUserName(string userName)
         {
-            ICollection<User> users = _repository.FindByCondition(u => u.UserName == userName);
+            ICollection<User> users = repository.FindByCondition(u => u.UserName == userName);
             return users.FirstOrDefault();
         }
 
         public void RemoveUser(int id)
         {
             User user = GetUserById(id);
-            _repository.Delete(user);
+            repository.Delete(user);
+            repository.Save();
         }
 
         public ICollection<User> GetAll()
         {
-            return _repository.FindAll();
+            return repository.FindAll();
         }
     }
 }

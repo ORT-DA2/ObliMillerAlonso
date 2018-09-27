@@ -12,16 +12,17 @@ namespace Sports.Logic
 {
     public class TeamLogic : ITeamLogic
     {
-        ITeamRepository _repository;
+        ITeamRepository repository;
 
         public TeamLogic(IRepositoryUnitOfWork unitOfwork)
         {
-            _repository = unitOfwork.Team;
+            repository = unitOfwork.Team;
         }
         public void AddTeam(Team team)
         {
             ValidateTeam(team);
-            _repository.Create(team);
+            repository.Create(team);
+            repository.Save();
         }
 
         private void ValidateTeam(Team team)
@@ -40,7 +41,7 @@ namespace Sports.Logic
 
         public Team GetTeamById(int id)
         {
-            ICollection<Team> teams = _repository.FindByCondition(t => t.Id == id);
+            ICollection<Team> teams = repository.FindByCondition(t => t.Id == id);
             if (teams.Count == 0)
             {
                 throw new TeamDoesNotExistException(TeamNotFound.TEAM_ID_NOT_FOUND_MESSAGE);
@@ -54,7 +55,8 @@ namespace Sports.Logic
             Team realTeam = GetTeamById(team.Id);
             ValidateTeam(realTeam);
             realTeam.AddPictureFromPath(testImagePath);
-            _repository.Update(realTeam);
+            repository.Update(realTeam);
+            repository.Save();
         }
 
         public void Modify(int id, Team team)
@@ -62,18 +64,19 @@ namespace Sports.Logic
             Team realTeam = GetTeamById(id);
             realTeam.UpdateData(team);
             ValidateTeam(realTeam);
-            _repository.Update(realTeam);
+            repository.Update(realTeam);
         }
 
         public void Delete(Team team)
         {
             Team realTeam = GetTeamById(team.Id);
-            _repository.Delete(realTeam);
+            repository.Delete(realTeam);
+            repository.Save();
         }
 
         public ICollection<Team> GetAll()
         {
-            return _repository.FindAll();
+            return repository.FindAll();
         }
     }
 }

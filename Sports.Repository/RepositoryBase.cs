@@ -36,11 +36,10 @@ namespace Sports.Repository
             {
                 this.RepositoryContext.Set<T>().Add(entity);
             }
-            catch (SqlException sqlEx)
+            catch (Exception)
             {
                 throw new InvalidDatabaseAccessException(AccessValidation.INVALID_ACCESS_MESSAGE);
             }
-            this.Save();
         }
 
         public void Update(T entity)
@@ -49,11 +48,10 @@ namespace Sports.Repository
             {
                 this.RepositoryContext.Set<T>().Update(entity);
             }
-            catch (SqlException sqlEx)
+            catch (Exception)
             {
                 throw new InvalidDatabaseAccessException(AccessValidation.INVALID_ACCESS_MESSAGE);
             }
-            this.Save();
         }
 
         public void Delete(T entity)
@@ -62,20 +60,19 @@ namespace Sports.Repository
             {
                 this.RepositoryContext.Set<T>().Remove(entity);
             }
-            catch (SqlException sqlEx)
+            catch (Exception)
             {
                 throw new InvalidDatabaseAccessException(AccessValidation.INVALID_ACCESS_MESSAGE);
             }
-            this.Save();
         }
-        //esta bien que el save sea publico?
+
         public void Save()
         {
             try
             {
                 this.RepositoryContext.SaveChanges();
             }
-            catch (SqlException sqlEx)
+            catch (Exception)
             {
                 throw new InvalidDatabaseAccessException(AccessValidation.INVALID_ACCESS_MESSAGE);
             }

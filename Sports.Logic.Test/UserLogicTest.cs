@@ -19,15 +19,15 @@ namespace Sports.Logic.Test
     [TestClass]
     public class UserLogicTest
     {
-        private IRepositoryUnitOfWork _unitOfWork;
-        private RepositoryContext _repository;
-        private IUserLogic _userLogic;
-        User _user;
+        private IRepositoryUnitOfWork unitOfWork;
+        private RepositoryContext repository;
+        private IUserLogic userLogic;
+        User user;
 
         [TestInitialize]
         public void SetUp()
         {
-            _user = new User(true)
+            user = new User(true)
             {
                 FirstName = "Itai",
                 LastName = "Miller",
@@ -38,30 +38,30 @@ namespace Sports.Logic.Test
             var options = new DbContextOptionsBuilder<RepositoryContext>()
                 .UseInMemoryDatabase<RepositoryContext>(databaseName: "UserLogicTestDB")
                 .Options;
-            _repository = new RepositoryContext(options);
-            _unitOfWork = new RepositoryUnitOfWork(_repository);
-            _userLogic = new UserLogic(_unitOfWork);
+            repository = new RepositoryContext(options);
+            unitOfWork = new RepositoryUnitOfWork(repository);
+            userLogic = new UserLogic(unitOfWork);
         }
 
         [TestCleanup]
         public void TearDown()
         {
-            _repository.Users.RemoveRange(_repository.Users);
-            _repository.SaveChanges();
+            repository.Users.RemoveRange(repository.Users);
+            repository.SaveChanges();
         }
 
         [TestMethod]
         public void AddUser()
         {
-            _userLogic.AddUser(_user);
-            Assert.IsNotNull(_userLogic.GetUserById(_user.Id));
+            userLogic.AddUser(user);
+            Assert.IsNotNull(userLogic.GetUserById(user.Id));
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidNullValueException))]
         public void AddNullUser()
         {
-            _userLogic.AddUser(null);
+            userLogic.AddUser(null);
         }
 
         [TestMethod]
@@ -76,98 +76,98 @@ namespace Sports.Logic.Test
                 UserName = "iMiller",
                 Password = "root"
             };
-            _userLogic.AddUser(invalidUser);
+            userLogic.AddUser(invalidUser);
         }
         
         [TestMethod]
         public void UpdateUserFirstName()
         {
-            _userLogic.AddUser(_user);
+            userLogic.AddUser(user);
             User userChanges = new User()
             {
                 FirstName = "Pepe"
             };
-            _userLogic.UpdateUser(_user.Id, userChanges);
-            Assert.AreEqual<string>(_userLogic.GetUserById(_user.Id).FirstName,userChanges.FirstName);
+            userLogic.UpdateUser(user.Id, userChanges);
+            Assert.AreEqual<string>(userLogic.GetUserById(user.Id).FirstName,userChanges.FirstName);
         }
 
         [TestMethod]
         public void UpdateUserLastName()
         {
-            _userLogic.AddUser(_user);
+            userLogic.AddUser(user);
             User userChanges = new User()
             {
                 LastName = "Alonso"
             };
-            _userLogic.UpdateUser(_user.Id, userChanges);
-            Assert.AreEqual<string>(_userLogic.GetUserById(_user.Id).LastName, userChanges.LastName);
+            userLogic.UpdateUser(user.Id, userChanges);
+            Assert.AreEqual<string>(userLogic.GetUserById(user.Id).LastName, userChanges.LastName);
         }
 
         [TestMethod]
         public void UpdateUserEmail()
         {
-            _userLogic.AddUser(_user);
+            userLogic.AddUser(user);
             User userChanges = new User()
             {
                 Email = "pepealonso@gmail.com"
             };
-            _userLogic.UpdateUser(_user.Id, userChanges);
-            Assert.AreEqual<string>(_userLogic.GetUserById(_user.Id).Email, userChanges.Email);
+            userLogic.UpdateUser(user.Id, userChanges);
+            Assert.AreEqual<string>(userLogic.GetUserById(user.Id).Email, userChanges.Email);
         }
 
         [TestMethod]
         public void UpdateUserPassword()
         {
-            _userLogic.AddUser(_user);
+            userLogic.AddUser(user);
             User userChanges = new User()
             {
                 Password = "abcd"
             };
-            _userLogic.UpdateUser(_user.Id, userChanges);
-            Assert.AreEqual<string>(_userLogic.GetUserById(_user.Id).Password, userChanges.Password);
+            userLogic.UpdateUser(user.Id, userChanges);
+            Assert.AreEqual<string>(userLogic.GetUserById(user.Id).Password, userChanges.Password);
         }
 
         [TestMethod]
         public void UpdateUserUserName()
         {
-            _userLogic.AddUser(_user);
+            userLogic.AddUser(user);
             User userChanges = new User()
             {
                 UserName = "pepealonso"
             };
-            _userLogic.UpdateUser(_user.Id, userChanges);
-            Assert.AreEqual<string>(_userLogic.GetUserById(_user.Id).UserName, userChanges.UserName);
+            userLogic.UpdateUser(user.Id, userChanges);
+            Assert.AreEqual<string>(userLogic.GetUserById(user.Id).UserName, userChanges.UserName);
         }
 
         [TestMethod]
         public void UpdateIgnoreEmptyFields()
         {
-            _userLogic.AddUser(_user);
+            userLogic.AddUser(user);
             User userChanges = new User()
             {
                 UserName = ""
             };
-            _userLogic.UpdateUser(_user.Id, userChanges);
-            Assert.AreNotEqual<string>(_userLogic.GetUserById(_user.Id).UserName, userChanges.UserName);
+            userLogic.UpdateUser(user.Id, userChanges);
+            Assert.AreNotEqual<string>(userLogic.GetUserById(user.Id).UserName, userChanges.UserName);
         }
         
         [TestMethod]
         [ExpectedException(typeof(InvalidUserDataFormatException))]
         public void UpdateInvalidData()
         {
-            _userLogic.AddUser(_user);
+            userLogic.AddUser(user);
             User userChanges = new User()
             {
                 Email = "fakeEmail"
             };
-            _userLogic.UpdateUser(_user.Id, userChanges);
+            userLogic.UpdateUser(user.Id, userChanges);
         }
 
         [TestMethod]
         [ExpectedException(typeof(UserAlreadyExistException))]
         public void AddDuplicatedUsername()
         {
-            _userLogic.AddUser(_user);
+            userLogic.AddUser(user);
             User identicalUser = new User()
             {
                 FirstName = "Itai",
@@ -176,22 +176,22 @@ namespace Sports.Logic.Test
                 UserName = "iMiller",
                 Password = "root"
             };
-            _userLogic.AddUser(identicalUser);
+            userLogic.AddUser(identicalUser);
         }
 
         [TestMethod]
         public void GetUserByUsername()
         {
-            _userLogic.AddUser(_user);
-            Assert.AreEqual<string>(_userLogic.GetUserByUserName(_user.UserName).UserName, _user.UserName);
+            userLogic.AddUser(user);
+            Assert.AreEqual<string>(userLogic.GetUserByUserName(user.UserName).UserName, user.UserName);
         }
 
         [TestMethod]
         public void DeleteUser()
         {
-            _userLogic.AddUser(_user);
-            _userLogic.RemoveUser(_user.Id);
-            Assert.AreEqual(_userLogic.GetAll().Count, 0);
+            userLogic.AddUser(user);
+            userLogic.RemoveUser(user.Id);
+            Assert.AreEqual(userLogic.GetAll().Count, 0);
         }
 
 
@@ -199,8 +199,8 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(UserDoesNotExistException))]
         public void DeleteNonExistingUser()
         {
-            _userLogic.AddUser(_user);
-            _userLogic.RemoveUser(_user.Id+1);
+            userLogic.AddUser(user);
+            userLogic.RemoveUser(user.Id+1);
         }
     }
 }

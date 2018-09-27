@@ -12,26 +12,26 @@ namespace Sports.Logic
 {
     public class CommentLogic : ICommentLogic
     {
-        ICommentRepository _repository;
-        IUserLogic _userLogic;
+        ICommentRepository repository;
+        IUserLogic userLogic;
 
         public CommentLogic(IRepositoryUnitOfWork unitOfWork)
         {
-            _repository = unitOfWork.Comment;
-            _userLogic = new UserLogic(unitOfWork);
+            repository = unitOfWork.Comment;
+            userLogic = new UserLogic(unitOfWork);
         }
         public void AddComment(Comment comment)
         {
             ValidateComment(comment);
-            _repository.Create(comment);
+            repository.Create(comment);
+            repository.Save();
         }
 
         private void ValidateComment(Comment comment)
         {
             CheckNotNull(comment);
             CheckUserNotNull(comment);
-            comment.User =_userLogic.GetUserById(comment.User.Id);
-           
+            comment.User =userLogic.GetUserById(comment.User.Id);
         }
 
         private void CheckUserNotNull(Comment comment)
@@ -52,14 +52,13 @@ namespace Sports.Logic
 
         public Comment GetCommentById(int id)
         {
-            ICollection<Comment> comments = _repository.FindByCondition(c => c.Id == id);
+            ICollection<Comment> comments = repository.FindByCondition(c => c.Id == id);
             return comments.First();
-
         }
 
         public ICollection<Comment> GetAll()
         {
-            return _repository.FindAll();
+            return repository.FindAll();
         }
     }
 }
