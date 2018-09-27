@@ -17,10 +17,10 @@ namespace Sports.Repository.Test
     [TestClass]
     public class RepositoryBaseTest
     {
+       
         [TestMethod]
         [ExpectedException(typeof(InvalidDatabaseAccessException))]
-        [ExpectedException(typeof(InvalidDatabaseAccessException))]
-        public void DisconnectedDatabase()
+        public void DisconnectedDatabaseSave()
         {
             var options = new DbContextOptionsBuilder<RepositoryContext>().Options;
             RepositoryContext repository = new RepositoryContext(options);
