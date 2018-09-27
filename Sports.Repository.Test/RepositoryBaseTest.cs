@@ -18,6 +18,22 @@ namespace Sports.Repository.Test
     [TestClass]
     public class RepositoryBaseTest
     {
+        IRepositoryUnitOfWork unit;
+        ITeamRepository teamRepository;
+        Team team;
+
+     [TestInitialize]
+        public void SetUp()
+        {
+            var options = new DbContextOptionsBuilder<RepositoryContext>().Options;
+            RepositoryContext repository = new RepositoryContext(options);
+            unit = new RepositoryUnitOfWork(repository);
+            teamRepository = unit.Team;
+            team = new Team()
+            {
+                Name = "Team"
+            };
+        }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidDatabaseAccessException))]
@@ -34,14 +50,6 @@ namespace Sports.Repository.Test
         [ExpectedException(typeof(InvalidDatabaseAccessException))]
         public void AddTeam()
         {
-            Team team = new Team()
-            {
-                Name = "Team"
-            };
-            var options = new DbContextOptionsBuilder<RepositoryContext>().Options;
-            RepositoryContext repository = new RepositoryContext(options);
-            IRepositoryUnitOfWork unit = new RepositoryUnitOfWork(repository);
-            ITeamRepository teamRepository = unit.Team;
             teamRepository.Create(team);
             teamRepository.Save();
         }
