@@ -4,9 +4,9 @@ using System.Runtime.Serialization;
 namespace Sports.Repository.Exceptions
 {
     [Serializable]
-    public class InvalidSaveException : Exception
+    public class InvalidDatabaseAccessException : Exception
     {
-        public InvalidSaveException(string message) : base(message)
+        public InvalidDatabaseAccessException(string message) : base(message)
         {
         }
     }
