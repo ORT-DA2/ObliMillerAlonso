@@ -25,6 +25,7 @@ namespace Sports.Logic
             ValidateSport(sport);
             CheckNotExists(sport.Name, sport.Id);
             repository.Create(sport);
+            repository.Save();
         }
 
         private void ValidateSport(Sport sport)
@@ -79,6 +80,7 @@ namespace Sports.Logic
         {
             Sport sport = GetSportById(id);
             repository.Delete(sport);
+            repository.Save();
         }
 
         public void ModifySport(int id, Sport sport)
@@ -87,6 +89,7 @@ namespace Sports.Logic
             realSport.UpdateData(sport);
             ValidateSport(realSport);
             repository.Update(realSport);
+            repository.Save();
         }
 
         public ICollection<Sport> GetAll()
@@ -101,6 +104,7 @@ namespace Sports.Logic
             teamLogic.AddTeam(team);
             realSport.AddTeam(team);
             repository.Update(realSport);
+            repository.Save();
         }
 
         private void CheckTeamIsNotUsed(Sport sport, Team team)
@@ -117,6 +121,7 @@ namespace Sports.Logic
             Team realTeam = teamLogic.GetTeamById(team.Id);
             realSport.DeleteTeam(realTeam);
             repository.Update(realSport);
+            repository.Save();
             teamLogic.Delete(realTeam);
         }
 
@@ -126,6 +131,7 @@ namespace Sports.Logic
             Team original = GetTeamFromSport(originalsport, originalTeam);
             teamLogic.Modify(original.Id, teamChanges);
             repository.Update(originalsport);
+            repository.Save();
         }
     }
 }

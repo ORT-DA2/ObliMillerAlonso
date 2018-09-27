@@ -23,6 +23,7 @@ namespace Sports.Logic
         {
             ValidateUser(user);
             repository.Create(user);
+            repository.Save();
         }
 
         private void ValidateUser(User user)
@@ -64,6 +65,7 @@ namespace Sports.Logic
             originalUser.UpdateData(updatedUser);
             ValidateUser(originalUser);
             repository.Update(originalUser);
+            repository.Save();
         }
 
         public User GetUserByUserName(string userName)
@@ -76,6 +78,7 @@ namespace Sports.Logic
         {
             User user = GetUserById(id);
             repository.Delete(user);
+            repository.Save();
         }
 
         public ICollection<User> GetAll()

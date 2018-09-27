@@ -24,6 +24,7 @@ namespace Sports.Logic
         {
             ValidateComment(comment);
             repository.Create(comment);
+            repository.Save();
         }
 
         private void ValidateComment(Comment comment)

@@ -22,6 +22,7 @@ namespace Sports.Logic
         {
             ValidateTeam(team);
             repository.Create(team);
+            repository.Save();
         }
 
         private void ValidateTeam(Team team)
@@ -55,6 +56,7 @@ namespace Sports.Logic
             ValidateTeam(realTeam);
             realTeam.AddPictureFromPath(testImagePath);
             repository.Update(realTeam);
+            repository.Save();
         }
 
         public void Modify(int id, Team team)
@@ -69,6 +71,7 @@ namespace Sports.Logic
         {
             Team realTeam = GetTeamById(team.Id);
             repository.Delete(realTeam);
+            repository.Save();
         }
 
         public ICollection<Team> GetAll()

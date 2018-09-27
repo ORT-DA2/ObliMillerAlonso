@@ -46,6 +46,7 @@ namespace Sports.Logic
                 Token = Guid.NewGuid()
             };
             repository.Create(newSession);
+            repository.Save();
             return newSession.Token;
         }
 
@@ -55,6 +56,7 @@ namespace Sports.Logic
             foreach (Session existingSession in sessions)
             {
                 repository.Delete(existingSession);
+                repository.Save();
             }
         }
 

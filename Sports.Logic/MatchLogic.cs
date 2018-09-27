@@ -27,6 +27,7 @@ namespace Sports.Logic
         {
             ValidateMatch(match);
             repository.Create(match);
+            repository.Save();
         }
 
         private void ValidateMatch(Match match)
@@ -70,12 +71,14 @@ namespace Sports.Logic
             realMatch.UpdateMatch(match);
             ValidateMatch(realMatch);
             repository.Update(realMatch);
+            repository.Save();
         }
 
         public void DeleteMatch(Match match)
         {
             Match realMatch = GetMatchById(match.Id);
             repository.Delete(realMatch);
+            repository.Save();
         }
 
         public ICollection<Match> GetAllMatches()
@@ -90,6 +93,7 @@ namespace Sports.Logic
             ValidateMatch(commentedMatch);
             commentedMatch.AddComment(comment);
             repository.Update(commentedMatch);
+            repository.Save();
         }
 
         public ICollection<Comment> GetAllComments(int id)
