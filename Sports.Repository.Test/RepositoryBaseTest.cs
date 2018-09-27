@@ -36,38 +36,32 @@ namespace Sports.Repository.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidDatabaseAccessException))]
+        [ExpectedException(typeof(DisconnectedDatabaseException))]
         public void DisconnectedDatabaseSave()
         {
-            var options = new DbContextOptionsBuilder<RepositoryContext>().Options;
-            RepositoryContext repository = new RepositoryContext(options);
-            IRepositoryUnitOfWork unit = new RepositoryUnitOfWork(repository);
-            ITeamRepository teamRepository = unit.Team;
             teamRepository.Save();
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidDatabaseAccessException))]
+        [ExpectedException(typeof(DisconnectedDatabaseException))]
         public void AddTeam()
         {
             teamRepository.Create(team);
-            teamRepository.Save();
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidDatabaseAccessException))]
+        [ExpectedException(typeof(DisconnectedDatabaseException))]
         public void DeleteTeam()
         {
             teamRepository.Delete(team);
-            teamRepository.Save();
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidDatabaseAccessException))]
+        [ExpectedException(typeof(DisconnectedDatabaseException))]
         public void UpdateTeam()
         {
             teamRepository.Update(team);
-            teamRepository.Save();
         }
+        
     }
 }
