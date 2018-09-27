@@ -63,6 +63,7 @@ namespace Sports.Repository.Test
         }
 
         [TestMethod]
+        [ExpectedException(typeof(InvalidDatabaseAccessException))]
         public void UpdateTeam()
         {
             teamRepository.Update(team);
