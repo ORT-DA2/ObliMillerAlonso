@@ -55,9 +55,11 @@ namespace Sports.Repository.Test
         }
 
         [TestMethod]
+        [ExpectedException(typeof(InvalidDatabaseAccessException))]
         public void DeleteTeam()
         {
             teamRepository.Delete(team);
+            teamRepository.Save();
         }
     }
 }
