@@ -19,6 +19,7 @@ namespace Sports.Repository.Test
     {
         [TestMethod]
         [ExpectedException(typeof(InvalidDatabaseAccessException))]
+        [ExpectedException(typeof(InvalidDatabaseAccessException))]
         public void DisconnectedDatabase()
         {
             var options = new DbContextOptionsBuilder<RepositoryContext>().Options;
