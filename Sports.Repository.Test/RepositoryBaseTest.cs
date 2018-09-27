@@ -53,5 +53,11 @@ namespace Sports.Repository.Test
             teamRepository.Create(team);
             teamRepository.Save();
         }
+
+        [TestMethod]
+        public void DeleteTeam()
+        {
+            teamRepository.Delete(team);
+        }
     }
 }
