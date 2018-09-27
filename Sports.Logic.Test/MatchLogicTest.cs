@@ -20,12 +20,12 @@ namespace Sports.Logic.Test
     [TestClass]
     public class MatchLogicTest
     {
-        private IRepositoryUnitOfWork _unit;
-        private RepositoryContext _repository;
-        private IMatchLogic _matchLogic;
-        private ISportLogic _sportLogic;
-        private IUserLogic _userLogic;
-        private Match _match;
+        private IRepositoryUnitOfWork unit;
+        private RepositoryContext repository;
+        private IMatchLogic matchLogic;
+        private ISportLogic sportLogic;
+        private IUserLogic userLogic;
+        private Match match;
 
         [TestInitialize]
         public void SetUp()
@@ -43,7 +43,7 @@ namespace Sports.Logic.Test
             {
                 Name = "Match Sport"
             };
-            _match = new Match()
+            match = new Match()
             {
                 Sport = sport,
                 Local = localTeam,
@@ -53,45 +53,45 @@ namespace Sports.Logic.Test
             var options = new DbContextOptionsBuilder<RepositoryContext>()
                 .UseInMemoryDatabase<RepositoryContext>(databaseName: "MatchLogicTestDB")
                 .Options;
-            _repository = new RepositoryContext(options);
-            _unit = new RepositoryUnitOfWork(_repository);
-            _matchLogic = new MatchLogic(_unit);
-            _sportLogic = new SportLogic(_unit);
-            _userLogic = new UserLogic(_unit);
-            _sportLogic.AddSport(sport);
-            _sportLogic.AddTeamToSport(sport,localTeam);
-            _sportLogic.AddTeamToSport(sport, visitorTeam);
+            repository = new RepositoryContext(options);
+            unit = new RepositoryUnitOfWork(repository);
+            matchLogic = new MatchLogic(unit);
+            sportLogic = new SportLogic(unit);
+            userLogic = new UserLogic(unit);
+            sportLogic.AddSport(sport);
+            sportLogic.AddTeamToSport(sport,localTeam);
+            sportLogic.AddTeamToSport(sport, visitorTeam);
         }
 
         [TestCleanup]
         public void TearDown()
         {
-            _repository.Matches.RemoveRange(_repository.Matches);
-            _repository.Sports.RemoveRange(_repository.Sports);
-            _repository.Teams.RemoveRange(_repository.Teams);
-            _repository.SaveChanges();
+            repository.Matches.RemoveRange(repository.Matches);
+            repository.Sports.RemoveRange(repository.Sports);
+            repository.Teams.RemoveRange(repository.Teams);
+            repository.SaveChanges();
         }
 
         [TestMethod]
         public void AddFullMatch()
         {
-            _matchLogic.AddMatch(_match);
-            Assert.IsNotNull(_matchLogic.GetMatchById(_match.Id));
+            matchLogic.AddMatch(match);
+            Assert.IsNotNull(matchLogic.GetMatchById(match.Id));
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidNullValueException))]
         public void AddNullMatch()
         {
-            _matchLogic.AddMatch(null);
+            matchLogic.AddMatch(null);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidMatchDateFormatException))]
         public void AddMatchInvalidDate()
         {
-            _match.Date = DateTime.Now.AddDays(-1);
-            _matchLogic.AddMatch(_match);
+            match.Date = DateTime.Now.AddDays(-1);
+            matchLogic.AddMatch(match);
         }
 
         [TestMethod]
@@ -102,8 +102,8 @@ namespace Sports.Logic.Test
             {
                 Name = "Unregistered team"
             };
-            _match.Local = invalidTeam;
-            _matchLogic.AddMatch(_match);
+            match.Local = invalidTeam;
+            matchLogic.AddMatch(match);
         }
 
         [TestMethod]
@@ -114,18 +114,18 @@ namespace Sports.Logic.Test
             {
                 Name = "Unregistered team"
             };
-            _match.Visitor = invalidTeam;
-            _matchLogic.AddMatch(_match);
+            match.Visitor = invalidTeam;
+            matchLogic.AddMatch(match);
         }
 
 
         [TestMethod]
         public void ModifyDate()
         {
-            _matchLogic.AddMatch(_match);
-            _match.Date = DateTime.Now.AddDays(+2);
-            _matchLogic.ModifyMatch(_match.Id, _match);
-            Assert.AreEqual(_matchLogic.GetMatchById(_match.Id).Date, _match.Date);
+            matchLogic.AddMatch(match);
+            match.Date = DateTime.Now.AddDays(+2);
+            matchLogic.ModifyMatch(match.Id, match);
+            Assert.AreEqual(matchLogic.GetMatchById(match.Id).Date, match.Date);
         }
 
 
@@ -133,7 +133,7 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(MatchDoesNotExistException))]
         public void ModifyInvalidMatch()
         {
-            _matchLogic.ModifyMatch(_match.Id, _match);
+            matchLogic.ModifyMatch(match.Id, match);
         }
         
         [TestMethod]
@@ -144,27 +144,27 @@ namespace Sports.Logic.Test
             {
                 Name = "Test Sport"
             };
-            _match.Sport = sport;
-            _matchLogic.AddMatch(_match);
+            match.Sport = sport;
+            matchLogic.AddMatch(match);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidSportIsEmptyException))]
         public void AddMatchWithoutSport()
         {
-            _match.Sport = null;
-            _matchLogic.AddMatch(_match);
+            match.Sport = null;
+            matchLogic.AddMatch(match);
         }
         
         [TestMethod]
         public void ModifySportAndTeams()
         {
-            _matchLogic.AddMatch(_match);
+            matchLogic.AddMatch(match);
             Sport sport = new Sport()
             {
                 Name = "Test Sport"
             };
-            _sportLogic.AddSport(sport);
+            sportLogic.AddSport(sport);
 
             Team localTeam = new Team()
             {
@@ -175,135 +175,135 @@ namespace Sports.Logic.Test
                 Name = "New Visitor team",
 
             };
-            _sportLogic.AddTeamToSport(sport, localTeam);
-            _sportLogic.AddTeamToSport(sport, visitorTeam);
-            _match.Sport = sport;
-            _match.Local = localTeam;
-            _match.Visitor = visitorTeam;
-            _matchLogic.ModifyMatch(_match.Id, _match);
-            Assert.AreEqual(_matchLogic.GetMatchById(_match.Id).Sport, sport);
+            sportLogic.AddTeamToSport(sport, localTeam);
+            sportLogic.AddTeamToSport(sport, visitorTeam);
+            match.Sport = sport;
+            match.Local = localTeam;
+            match.Visitor = visitorTeam;
+            matchLogic.ModifyMatch(match.Id, match);
+            Assert.AreEqual(matchLogic.GetMatchById(match.Id).Sport, sport);
         }
         
         [TestMethod]
         [ExpectedException(typeof(SportDoesNotExistException))]
         public void ModifyInvalidSport()
         {
-            _matchLogic.AddMatch(_match);
+            matchLogic.AddMatch(match);
             Sport sport = new Sport()
             {
                 Name = "Test Sport"
             };
             
-            _match.Sport = sport;
-            _matchLogic.ModifyMatch(_match.Id, _match);
+            match.Sport = sport;
+            matchLogic.ModifyMatch(match.Id, match);
         }
 
         [TestMethod]
         public void ModifyVisitorTeam()
         {
-            _matchLogic.AddMatch(_match);
+            matchLogic.AddMatch(match);
             Team visitorTeam = new Team()
             {
                 Name = "New Visitor team",
 
             };
-            _sportLogic.AddTeamToSport(_match.Sport, visitorTeam);
-            _match.Visitor = visitorTeam;
-            _matchLogic.ModifyMatch(_match.Id, _match);
-            Assert.AreEqual(_matchLogic.GetMatchById(_match.Id).Visitor, visitorTeam);
+            sportLogic.AddTeamToSport(match.Sport, visitorTeam);
+            match.Visitor = visitorTeam;
+            matchLogic.ModifyMatch(match.Id, match);
+            Assert.AreEqual(matchLogic.GetMatchById(match.Id).Visitor, visitorTeam);
         }
 
         [TestMethod]
         public void ModifyLocalTeam()
         {
-            _matchLogic.AddMatch(_match);
+            matchLogic.AddMatch(match);
             Team localTeam = new Team()
             {
                 Name = "New Local team",
 
             };
-            _sportLogic.AddTeamToSport(_match.Sport, localTeam);
-            _match.Local = localTeam;
-            _matchLogic.ModifyMatch(_match.Id, _match);
-            Assert.AreEqual(_matchLogic.GetMatchById(_match.Id).Local, localTeam);
+            sportLogic.AddTeamToSport(match.Sport, localTeam);
+            match.Local = localTeam;
+            matchLogic.ModifyMatch(match.Id, match);
+            Assert.AreEqual(matchLogic.GetMatchById(match.Id).Local, localTeam);
         }
         
         [TestMethod]
         [ExpectedException(typeof(TeamDoesNotExistInSportException))]
         public void ModifyInvalidVisitorTeam()
         {
-            _matchLogic.AddMatch(_match);
+            matchLogic.AddMatch(match);
             Team visitorTeam = new Team()
             {
                 Name = "New Visitor team",
 
             };
-            _match.Visitor = visitorTeam;
-            _matchLogic.ModifyMatch(_match.Id, _match);
+            match.Visitor = visitorTeam;
+            matchLogic.ModifyMatch(match.Id, match);
         }
 
         [TestMethod]
         [ExpectedException(typeof(TeamDoesNotExistInSportException))]
         public void ModifyInvalidLocalTeam()
         {
-            _matchLogic.AddMatch(_match);
+            matchLogic.AddMatch(match);
             Team localTeam = new Team()
             {
                 Name = "New Local team",
 
             };
-            _match.Local = localTeam;
-            _matchLogic.ModifyMatch(_match.Id, _match);
+            match.Local = localTeam;
+            matchLogic.ModifyMatch(match.Id, match);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidTeamIsEmptyException))]
         public void AddWithoutLocalTeam()
         {
-            _match.Local = null;
-            _matchLogic.AddMatch(_match);
+            match.Local = null;
+            matchLogic.AddMatch(match);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidTeamIsEmptyException))]
         public void AddWithoutVisitorTeam()
         {
-            _match.Visitor = null;
-            _matchLogic.AddMatch(_match);
+            match.Visitor = null;
+            matchLogic.AddMatch(match);
         }
         
         [TestMethod]
         public void ModifyIgnoresNullFields()
         {
-            _matchLogic.AddMatch(_match);
-            Team original = _match.Local;
+            matchLogic.AddMatch(match);
+            Team original = match.Local;
             Match updatedMatch = new Match()
             {
             };
-            _matchLogic.ModifyMatch(_match.Id, updatedMatch);
-            Assert.AreEqual(_matchLogic.GetMatchById(_match.Id).Local, original);
+            matchLogic.ModifyMatch(match.Id, updatedMatch);
+            Assert.AreEqual(matchLogic.GetMatchById(match.Id).Local, original);
         }
         
         [TestMethod]
         public void DeleteMatch()
         {
-            _matchLogic.AddMatch(_match);
-            _matchLogic.DeleteMatch(_match);
-            Assert.AreEqual(_matchLogic.GetAllMatches().Count, 0);
+            matchLogic.AddMatch(match);
+            matchLogic.DeleteMatch(match);
+            Assert.AreEqual(matchLogic.GetAllMatches().Count, 0);
         }
 
         [TestMethod]
         [ExpectedException(typeof(MatchDoesNotExistException))]
         public void DeleteNonExistingMatch()
         {
-            _matchLogic.DeleteMatch(_match);
+            matchLogic.DeleteMatch(match);
         }
 
 
         [TestMethod]
         public void AddCommentToMatch()
         {
-            _matchLogic.AddMatch(_match);
+            matchLogic.AddMatch(match);
             User user = new User()
             {
                 FirstName = "Itai",
@@ -312,14 +312,14 @@ namespace Sports.Logic.Test
                 UserName = "iMiller",
                 Password = "root"
             };
-            _userLogic.AddUser(user);
+            userLogic.AddUser(user);
             Comment comment = new Comment
             {
                 Text = "Text",
                 User = user
             };
-            _matchLogic.AddCommentToMatch(_match.Id, comment);
-            Comment commentInMatchStored = _matchLogic.GetAllComments(_match.Id).FirstOrDefault();
+            matchLogic.AddCommentToMatch(match.Id, comment);
+            Comment commentInMatchStored = matchLogic.GetAllComments(match.Id).FirstOrDefault();
             Assert.AreEqual(commentInMatchStored.Id, comment.Id);
         }
 
@@ -335,20 +335,20 @@ namespace Sports.Logic.Test
                 UserName = "iMiller",
                 Password = "root"
             };
-            _userLogic.AddUser(user);
+            userLogic.AddUser(user);
             Comment comment = new Comment
             {
                 Text = "Text",
                 User = user
             };
-            _matchLogic.AddCommentToMatch(_match.Id, comment);
+            matchLogic.AddCommentToMatch(match.Id, comment);
         }
 
         [TestMethod]
         [ExpectedException(typeof(UserDoesNotExistException))]
         public void AddCommentWithInexistentUserToMatch()
         {
-            _matchLogic.AddMatch(_match);
+            matchLogic.AddMatch(match);
             User user = new User()
             {
                 FirstName = "Itai",
@@ -362,26 +362,26 @@ namespace Sports.Logic.Test
                 Text = "Text",
                 User = user
             };
-            _matchLogic.AddCommentToMatch(_match.Id, comment);
+            matchLogic.AddCommentToMatch(match.Id, comment);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidNullValueException))]
         public void AddCommentWithNullUserToMatch()
         {
-            _matchLogic.AddMatch(_match);
+            matchLogic.AddMatch(match);
             Comment comment = new Comment
             {
                 Text = "Text",
             };
-            _matchLogic.AddCommentToMatch(_match.Id, comment);
+            matchLogic.AddCommentToMatch(match.Id, comment);
         }
 
         [TestMethod]
         public void CheckSportIsNotDuplicated()
         {
-            _matchLogic.AddMatch(_match);
-            Assert.AreEqual(_sportLogic.GetAll().Count,1);
+            matchLogic.AddMatch(match);
+            Assert.AreEqual(sportLogic.GetAll().Count,1);
         }
 
         //verify add team/ sport/ comment no duplica datos

@@ -13,24 +13,24 @@ namespace Sports.Logic
 {
     public class SessionLogic : ISessionLogic
     {
-        ISessionRepository _repository; 
-        IUserLogic _userLogic;
+        ISessionRepository repository; 
+        IUserLogic userLogic;
         public SessionLogic(IRepositoryUnitOfWork unitOfWork)
         {
-            _repository = unitOfWork.Session;
-            _userLogic = new UserLogic(unitOfWork);
+            repository = unitOfWork.Session;
+            userLogic = new UserLogic(unitOfWork);
         }
 
         public User GetUserFromToken(Guid token)
         {
-            Session session = _repository.FindByCondition(s => s.Token == token).FirstOrDefault();
+            Session session = repository.FindByCondition(s => s.Token == token).FirstOrDefault();
             ValidateNotNullSession(session);
             return session.User;
         }
 
         public Guid LogInUser(string username, string password)
         {
-            User user = _userLogic.GetUserByUserName(username);
+            User user = userLogic.GetUserByUserName(username);
             ValidateNotNullUser(user);
             user.ValidatePassword(password);
             LogoutByUser(user);
@@ -45,16 +45,16 @@ namespace Sports.Logic
                 User = user,
                 Token = Guid.NewGuid()
             };
-            _repository.Create(newSession);
+            repository.Create(newSession);
             return newSession.Token;
         }
 
         public void LogoutByUser(User user)
         {
-            ICollection<Session> sessions = _repository.FindByCondition(s => s.User.Equals(user));
+            ICollection<Session> sessions = repository.FindByCondition(s => s.User.Equals(user));
             foreach (Session existingSession in sessions)
             {
-                _repository.Delete(existingSession);
+                repository.Delete(existingSession);
             }
         }
 

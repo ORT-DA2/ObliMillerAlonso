@@ -19,16 +19,16 @@ namespace Sports.Logic.Test
     [TestClass]
     public class SportLogicTest
     {
-        private IRepositoryUnitOfWork _unitOfWork;
-        private RepositoryContext _repository;
-        private SportLogic _sportLogic;
-        private TeamLogic _teamLogic;
-        Sport _sport;
+        private IRepositoryUnitOfWork unitOfWork;
+        private RepositoryContext repository;
+        private SportLogic sportLogic;
+        private TeamLogic teamLogic;
+        Sport sport;
         
         [TestInitialize]
         public void SetUp()
         {
-            _sport = new Sport()
+            sport = new Sport()
             {
                 Name = "Tennis"
             };
@@ -37,43 +37,43 @@ namespace Sports.Logic.Test
             var options = new DbContextOptionsBuilder<RepositoryContext>()
                 .UseInMemoryDatabase<RepositoryContext>(databaseName: "SportLogicTestDB")
                 .Options;
-            _repository = new RepositoryContext(options);
-            _unitOfWork = new RepositoryUnitOfWork(_repository);
-            _sportLogic = new SportLogic(_unitOfWork);
-            _teamLogic = new TeamLogic(_unitOfWork);
+            repository = new RepositoryContext(options);
+            unitOfWork = new RepositoryUnitOfWork(repository);
+            sportLogic = new SportLogic(unitOfWork);
+            teamLogic = new TeamLogic(unitOfWork);
         }
 
         [TestCleanup]
         public void TearDown()
         {
-            _repository.Sports.RemoveRange(_repository.Sports);
-            _repository.SaveChanges();
+            repository.Sports.RemoveRange(repository.Sports);
+            repository.SaveChanges();
         }
 
         [TestMethod]
         public void AddSport()
         {
-            _sportLogic.AddSport(_sport);
-            Assert.IsNotNull(_sportLogic.GetSportById(_sport.Id));
+            sportLogic.AddSport(sport);
+            Assert.IsNotNull(sportLogic.GetSportById(sport.Id));
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidNullValueException))]
         public void AddNullSport()
         {
-            _sportLogic.AddSport(null);
+            sportLogic.AddSport(null);
         }
 
         [TestMethod]
         public void UpdateSportName()
         {
-            _sportLogic.AddSport(_sport);
+            sportLogic.AddSport(sport);
             Sport sportChanges = new Sport()
             {
                 Name = "Basketball"
             };
-            _sportLogic.ModifySport(_sport.Id, sportChanges);
-            Assert.AreEqual<string>(_sportLogic.GetSportById(_sport.Id).Name, sportChanges.Name);
+            sportLogic.ModifySport(sport.Id, sportChanges);
+            Assert.AreEqual<string>(sportLogic.GetSportById(sport.Id).Name, sportChanges.Name);
         }
 
         
@@ -81,96 +81,96 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(InvalidEmptyTextFieldException))]
         public void UpdateSportNameInvalid()
         {
-            _sportLogic.AddSport(_sport);
-            _sport.Name = "";
-            _sportLogic.ModifySport(_sport.Id, _sport);
+            sportLogic.AddSport(sport);
+            sport.Name = "";
+            sportLogic.ModifySport(sport.Id, sport);
         }
 
 
         [TestMethod]
         public void UpdateIgnoreEmptyFields()
         {
-            _sportLogic.AddSport(_sport);
+            sportLogic.AddSport(sport);
             Sport sportChanges = new Sport()
             {
                 Name = ""
             };
-            _sportLogic.ModifySport(_sport.Id, sportChanges);
-            Assert.AreNotEqual<string>(_sportLogic.GetSportById(_sport.Id).Name, sportChanges.Name);
+            sportLogic.ModifySport(sport.Id, sportChanges);
+            Assert.AreNotEqual<string>(sportLogic.GetSportById(sport.Id).Name, sportChanges.Name);
         }
 
         [TestMethod]
         [ExpectedException(typeof(SportAlreadyExistsException))]
         public void AddDuplicatedName()
         {
-            _sportLogic.AddSport(_sport);
+            sportLogic.AddSport(sport);
             Sport identicalSport = new Sport()
             {
                 Name = "Tennis"
             };
-            _sportLogic.AddSport(identicalSport);
+            sportLogic.AddSport(identicalSport);
         }
 
         [TestMethod]
         public void GetSportByName()
         {
-            _sportLogic.AddSport(_sport);
-            Assert.AreEqual<string>(_sportLogic.GetSportByName(_sport.Name).Name, _sport.Name);
+            sportLogic.AddSport(sport);
+            Assert.AreEqual<string>(sportLogic.GetSportByName(sport.Name).Name, sport.Name);
         }
 
         [TestMethod]
         [ExpectedException(typeof(SportDoesNotExistException))]
         public void GetSportByInvalidName()
         {
-            _sportLogic.GetSportByName("fakeName");
+            sportLogic.GetSportByName("fakeName");
         }
 
         [TestMethod]
         public void DeleteSport()
         {
-            _sportLogic.AddSport(_sport);
-            _sportLogic.RemoveSport(_sport.Id);
-            Assert.AreEqual(_sportLogic.GetAll().Count, 0);
+            sportLogic.AddSport(sport);
+            sportLogic.RemoveSport(sport.Id);
+            Assert.AreEqual(sportLogic.GetAll().Count, 0);
         }
 
         [TestMethod]
         public void DeleteTeamFromSport()
         {
-            _sportLogic.AddSport(_sport);
+            sportLogic.AddSport(sport);
             Team _team = new Team()
             {
                 Name = "Barcelona"
             };
-            _sportLogic.AddTeamToSport(_sport, _team);
-            _sportLogic.DeleteTeamFromSport(_sport, _team);
-            Assert.AreEqual(_sportLogic.GetSportById(_sport.Id).Teams.Count, 0);
+            sportLogic.AddTeamToSport(sport, _team);
+            sportLogic.DeleteTeamFromSport(sport, _team);
+            Assert.AreEqual(sportLogic.GetSportById(sport.Id).Teams.Count, 0);
         }
 
         [TestMethod]
         [ExpectedException(typeof(SportDoesNotExistException))]
         public void DeleteNonExistingSport()
         {
-            _sportLogic.AddSport(_sport);
-            _sportLogic.RemoveSport(_sport.Id + 1);
+            sportLogic.AddSport(sport);
+            sportLogic.RemoveSport(sport.Id + 1);
         }
 
         [TestMethod]
         public void AddTeamtoSport()
         {
-            _sportLogic.AddSport(_sport);
+            sportLogic.AddSport(sport);
             Team _team = new Team()
             {
                 Name = "Barcelona"
             };
-            _sportLogic.AddTeamToSport(_sport, _team);
-            Assert.AreEqual(_sportLogic.GetSportById(_sport.Id).Teams.Count, 1);
+            sportLogic.AddTeamToSport(sport, _team);
+            Assert.AreEqual(sportLogic.GetSportById(sport.Id).Teams.Count, 1);
         }
 
         
         [TestMethod]
         public void UpdateTeamSport()
         {
-            _sportLogic.AddSport(_sport);
+            sportLogic.AddSport(sport);
             Team team = new Team()
             {
                 Name = "Barcelona"
@@ -179,16 +179,16 @@ namespace Sports.Logic.Test
             {
                 Name = "Villareal"
             };
-            _sportLogic.AddTeamToSport(_sport, team);
-            _sportLogic.UpdateTeamSport(_sport.Id, team, teamChanges);
-            Assert.AreEqual<string>(_sportLogic.GetTeamFromSport(_sport, team).Name, teamChanges.Name);
+            sportLogic.AddTeamToSport(sport, team);
+            sportLogic.UpdateTeamSport(sport.Id, team, teamChanges);
+            Assert.AreEqual<string>(sportLogic.GetTeamFromSport(sport, team).Name, teamChanges.Name);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidEmptyTextFieldException))]
         public void UpdateInvalidTeamSport()
         {
-            _sportLogic.AddSport(_sport);
+            sportLogic.AddSport(sport);
             Team team = new Team()
             {
                 Name = "Barcelona"
@@ -197,8 +197,8 @@ namespace Sports.Logic.Test
             {
                 Name = ""
             };
-            _sportLogic.AddTeamToSport(_sport, team);
-            _sportLogic.UpdateTeamSport(_sport.Id, team, teamChanges);
+            sportLogic.AddTeamToSport(sport, team);
+            sportLogic.UpdateTeamSport(sport.Id, team, teamChanges);
         }
 
         [TestMethod]
@@ -209,26 +209,26 @@ namespace Sports.Logic.Test
             {
                 Name = "Barcelona"
             };
-            _sportLogic.AddTeamToSport(_sport, _team);
+            sportLogic.AddTeamToSport(sport, _team);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidEmptyTextFieldException))]
         public void AddInvalidTeam()
         {
-            _sportLogic.AddSport(_sport);
+            sportLogic.AddSport(sport);
             Team _team = new Team()
             {
                 Name = ""
             };
-            _sportLogic.AddTeamToSport(_sport, _team);
+            sportLogic.AddTeamToSport(sport, _team);
         }
 
         [TestMethod]
         [ExpectedException(typeof(TeamAlreadyInSportException))]
         public void AddDuplicateTeamToSport()
         {
-            _sportLogic.AddSport(_sport);
+            sportLogic.AddSport(sport);
             Team _team = new Team()
             {
                 Name = "Barcelona"
@@ -237,33 +237,33 @@ namespace Sports.Logic.Test
             {
                 Name = "Barcelona"
             };
-            _sportLogic.AddTeamToSport(_sport, _team);
-            _sportLogic.AddTeamToSport(_sport, _identicalTeam);
+            sportLogic.AddTeamToSport(sport, _team);
+            sportLogic.AddTeamToSport(sport, _identicalTeam);
         }
 
         [TestMethod]
         public void GetTeamFromSport()
         {
-            _sportLogic.AddSport(_sport);
+            sportLogic.AddSport(sport);
             Team _team = new Team()
             {
                 Name = "Barcelona"
             };
-            _sportLogic.AddTeamToSport(_sport, _team);
-            Team returnedTeam = _sportLogic.GetTeamFromSport(_sport, _team);
+            sportLogic.AddTeamToSport(sport, _team);
+            Team returnedTeam = sportLogic.GetTeamFromSport(sport, _team);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidEmptyTextFieldException))]
         public void GetInvalidTeamFromSport()
         {
-            _sportLogic.AddSport(_sport);
+            sportLogic.AddSport(sport);
             Team _team = new Team()
             {
                 Name = ""
             };
-            _sportLogic.AddTeamToSport(_sport, _team);
-            Team returnedTeam = _sportLogic.GetTeamFromSport(_sport, _team);
+            sportLogic.AddTeamToSport(sport, _team);
+            Team returnedTeam = sportLogic.GetTeamFromSport(sport, _team);
         }
 
     }
