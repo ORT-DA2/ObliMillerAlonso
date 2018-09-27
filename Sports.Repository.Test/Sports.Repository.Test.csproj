@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Sports.Domain\Sports.Domain.csproj" />
     <ProjectReference Include="..\Sports.Logic.Interface\Sports.Logic.Interface.csproj" />
     <ProjectReference Include="..\Sports.Logic\Sports.Logic.csproj" />
     <ProjectReference Include="..\Sports.Repository.Context\Sports.Repository.Context.csproj" />

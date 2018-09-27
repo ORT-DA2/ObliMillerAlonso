@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Sports.Logic;
 using Sports.Repository.Exceptions;
 using Sports.Logic.Interface;
+using Sports.Domain;
 
 namespace Sports.Repository.Test
 {
@@ -17,7 +18,7 @@ namespace Sports.Repository.Test
     [TestClass]
     public class RepositoryBaseTest
     {
-       
+
         [TestMethod]
         [ExpectedException(typeof(InvalidDatabaseAccessException))]
         public void DisconnectedDatabaseSave()
@@ -27,6 +28,21 @@ namespace Sports.Repository.Test
             IRepositoryUnitOfWork unit = new RepositoryUnitOfWork(repository);
             ITeamRepository teamRepository = unit.Team;
             teamRepository.Save();
+        }
+
+        [TestMethod]
+        public void AddTeam()
+        {
+            Team team = new Team()
+            {
+                Name = "Team"
+            };
+            var options = new DbContextOptionsBuilder<RepositoryContext>().Options;
+            RepositoryContext repository = new RepositoryContext(options);
+            IRepositoryUnitOfWork unit = new RepositoryUnitOfWork(repository);
+            ITeamRepository teamRepository = unit.Team;
+            teamRepository.Create(team);
+            
         }
     }
 }
