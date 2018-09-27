@@ -5,7 +5,7 @@ using Sports.Domain;
 
 namespace Sports.Logic.Interface
 {
-    public interface IFixture
+    public interface IFixtureGeneratorStrategy
     {
         ICollection<Match> GenerateFixture(ICollection<Sport> sports);
     }
