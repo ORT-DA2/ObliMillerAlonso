@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sports.Repository", "Sports
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sports.Repository.Interface", "Sports.Repository.Interface\Sports.Repository.Interface.csproj", "{99613677-80B4-435D-B50B-1CECB92D4ACB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sports.Repository.Test", "Sports.Repository.Test\Sports.Repository.Test.csproj", "{141673F9-F849-4600-B2E4-92649FE12B07}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{99613677-80B4-435D-B50B-1CECB92D4ACB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99613677-80B4-435D-B50B-1CECB92D4ACB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99613677-80B4-435D-B50B-1CECB92D4ACB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{141673F9-F849-4600-B2E4-92649FE12B07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{141673F9-F849-4600-B2E4-92649FE12B07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{141673F9-F849-4600-B2E4-92649FE12B07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{141673F9-F849-4600-B2E4-92649FE12B07}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
