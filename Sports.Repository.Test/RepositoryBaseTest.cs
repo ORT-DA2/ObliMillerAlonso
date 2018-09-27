@@ -31,6 +31,7 @@ namespace Sports.Repository.Test
         }
 
         [TestMethod]
+        [ExpectedException(typeof(InvalidDatabaseAccessException))]
         public void AddTeam()
         {
             Team team = new Team()
@@ -42,7 +43,7 @@ namespace Sports.Repository.Test
             IRepositoryUnitOfWork unit = new RepositoryUnitOfWork(repository);
             ITeamRepository teamRepository = unit.Team;
             teamRepository.Create(team);
-            
+            teamRepository.Save();
         }
     }
 }
