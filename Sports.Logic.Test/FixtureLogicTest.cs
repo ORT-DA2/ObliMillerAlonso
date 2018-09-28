@@ -141,7 +141,7 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        public void ChangeFixture()
+        public void ChangeFixtureImplementation()
         {
             fixtureLogic.AddFixtureImplementations("C:/Users/Rafael/Documents/Diseno2/MillerAlonso/FixtureImplementations/bin/Debug/netcoreapp2.1");
             fixtureLogic.ChangeFixtureImplementation();

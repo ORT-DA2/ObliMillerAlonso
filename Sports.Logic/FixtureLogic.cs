@@ -69,7 +69,7 @@ namespace Sports.Logic
             {
                 throw new NoImportedFixtureStrategiesException("No strategies are imported");
             }
-            currentStrategy = (currentStrategy + 1) % fixtureGeneratorStrategies.Count;
+            currentStrategy = (currentStrategy + 1) % (fixtureGeneratorStrategies.Count);
         }
 
         public ICollection<Match> GenerateFixture(ICollection<Sport> sports)
