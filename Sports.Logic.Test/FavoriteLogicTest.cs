@@ -24,10 +24,24 @@ namespace Sports.Logic.Test
         private IUserLogic userLogic;
         private ITeamLogic teamLogic;
         Favorite favorite;
+        User user;
+        Team team;
 
         [TestInitialize]
         public void SetUp()
         {
+            user = new User()
+            {
+                FirstName = "itai",
+                LastName = "miller",
+                Email = "itai@gmail.com",
+                UserName = "iMiller",
+                Password = "root"
+            };
+            team = new Team()
+            {
+                Name = "Barcelona"
+            };
             var options = new DbContextOptionsBuilder<RepositoryContext>()
                 .UseInMemoryDatabase<RepositoryContext>(databaseName: "FavoriteLogicTestDB")
                 .Options;
@@ -50,18 +64,6 @@ namespace Sports.Logic.Test
         [TestMethod]
         public void FavoriteTeam()
         {
-            User user = new User()
-            {
-                FirstName = "itai",
-                LastName = "miller",
-                Email = "itai@gmail.com",
-                UserName = "iMiller",
-                Password = "root"
-            };
-            Team team = new Team()
-            {
-                Name = "Barcelona"
-            };
             userLogic.AddUser(user);
             teamLogic.AddTeam(team);
             favoriteLogic.AddFavoriteTeam(user, team);
