@@ -7,8 +7,8 @@ namespace Sports.Logic.Interface
 {
     public interface IFixtureLogic
     {
-        void AddFixtureImplementation(String path);
-        void GenerateFixture(ICollection<Sport> sports);
+        void AddFixtureImplementations(String path);
+        ICollection<Match> GenerateFixture(ICollection<Sport> sports);
         void ChangeFixtureImplementation();
     }
 }

@@ -2,47 +2,66 @@
 using System.Collections.Generic;
 using System.Text;
 using Sports.Domain;
+using System.Linq;
 
 namespace FixtureImplementations
 {
     public class FixtureBackAndForthWeekly : IFixtureGeneratorStrategy
     {
+        private List<Match> generatedMatches;
+        private List<Team> uncoveredTeams;
+        private Sport currentSport;
         public ICollection<Match> GenerateFixture(ICollection<Sport> sports)
         {
-            List<Match> generatedMatches = new List<Match>();
-            foreach (Sport sport in sports)
+            generatedMatches = new List<Match>();
+            foreach (Sport sport in sports.ToList())
             {
-                BackAndForthWeeklyMatch(sport, generatedMatches);
+                currentSport = sport;
+                uncoveredTeams = currentSport.Teams.ToList();
+                BackAndForthWeeklyMatch();
             }
             return generatedMatches;
         }
 
-        private void BackAndForthWeeklyMatch(Sport sport, List<Match> generatedMatches)
+        private void BackAndForthWeeklyMatch()
         {
-            ICollection<Team> uncoveredTeams = sport.Teams;
-            int amountOfTeams = sport.Teams.Count;
-            foreach (Team team in sport.Teams)
+            int amountOfTeams = uncoveredTeams.Count();
+            foreach (Team team in currentSport.Teams.ToList())
             {
-                int currentTeamDayBonus = CalculateWeeklyDaySkip(uncoveredTeams);
+                int currentTeamDayBonus = CalculateWeeklyDaySkip(amountOfTeams);
                 uncoveredTeams.Remove(team);
-                foreach (Team visitor in uncoveredTeams)
-                {
-                    Match localMatch = CreateNextMatch(sport, currentTeamDayBonus);
-                    localMatch.Local = team;
-                    localMatch.Visitor = visitor;
-                    currentTeamDayBonus = CreateNonDuplicatedMatch(generatedMatches, currentTeamDayBonus, localMatch);
-                }
-                foreach (Team local in uncoveredTeams)
-                {
-                    Match visitorMatch = CreateNextMatch(sport, currentTeamDayBonus);
-                    visitorMatch.Local = local;
-                    visitorMatch.Visitor = team;
-                    currentTeamDayBonus = CreateNonDuplicatedMatch(generatedMatches, currentTeamDayBonus, visitorMatch);
-                }
+                currentTeamDayBonus = GenerateLocalMatches(team, currentTeamDayBonus);
+                currentTeamDayBonus = GenerateVisitorMatches(team, currentTeamDayBonus);
             }
         }
 
-        private int CreateNonDuplicatedMatch(List<Match> generatedMatches, int currentTeamDayBonus, Match generatedMatch)
+        private int GenerateVisitorMatches(Team team, int currentTeamDayBonus)
+        {
+            foreach (Team local in uncoveredTeams)
+            {
+                Match visitorMatch = CreateNextMatch(currentTeamDayBonus);
+                visitorMatch.Local = local;
+                visitorMatch.Visitor = team;
+                currentTeamDayBonus = CreateNonDuplicatedMatch(currentTeamDayBonus, visitorMatch);
+            }
+
+            return currentTeamDayBonus;
+        }
+
+        private int GenerateLocalMatches(Team team, int currentTeamDayBonus)
+        {
+            foreach (Team visitor in uncoveredTeams)
+            {
+                Match localMatch = CreateNextMatch(currentTeamDayBonus);
+                localMatch.Local = team;
+                localMatch.Visitor = visitor;
+                currentTeamDayBonus = CreateNonDuplicatedMatch(currentTeamDayBonus, localMatch);
+            }
+
+            return currentTeamDayBonus;
+        }
+
+        private int CreateNonDuplicatedMatch(int currentTeamDayBonus, Match generatedMatch)
         {
             if (generatedMatches.FindAll(m => m.Local == generatedMatch.Local && m.Visitor == generatedMatch.Visitor).Count == 0)
             {
@@ -53,21 +72,21 @@ namespace FixtureImplementations
             return currentTeamDayBonus;
         }
 
-        private Match CreateNextMatch(Sport sport, int currentTeamDayBonus)
+        private Match CreateNextMatch(int currentTeamDayBonus)
         {
             return new Match()
             {
-                Sport = sport,
+                Sport = currentSport,
                 Date = DateTime.Now.AddDays(currentTeamDayBonus),
             };
         }
 
-        private int CalculateWeeklyDaySkip(ICollection<Team> uncoveredTeams)
+        private int CalculateWeeklyDaySkip(int amountOfTeams)
         {
-            int currentTeamDayBonus = (uncoveredTeams.Count / 2) + 1;
+            int currentTeamDayBonus = (amountOfTeams / 2) + 1;
             if (currentTeamDayBonus > 6)
             {
-                currentTeamDayBonus = (uncoveredTeams.Count / 2) % 7;
+                currentTeamDayBonus = (amountOfTeams / 2) % 7;
             }
 
             return currentTeamDayBonus;

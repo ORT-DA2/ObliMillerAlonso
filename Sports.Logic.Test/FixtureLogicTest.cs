@@ -28,7 +28,7 @@ namespace Sports.Logic.Test
                .Options;
             RepositoryContext _repository = new RepositoryContext(options);
             IRepositoryUnitOfWork _unit = new RepositoryUnitOfWork(_repository);
-            IFixtureLogic _fixtureLogic = new FixtureLogic(_unit);
+            IFixtureLogic _fixtureLogic = new FixtureLogic();
             ISportLogic _sportLogic = new SportLogic(_unit);
             IMatchLogic _matchLogic = new MatchLogic(_unit);
             Team localTeam = new Team()
@@ -47,11 +47,11 @@ namespace Sports.Logic.Test
             _sportLogic.AddSport(sport);
             _sportLogic.AddTeamToSport(sport, localTeam);
             _sportLogic.AddTeamToSport(sport, visitorTeam);
-            _fixtureLogic.AddFixtureImplementation("address");
+            _fixtureLogic.AddFixtureImplementations("C:/Users/Rafael/Documents/Diseno2/MillerAlonso/FixtureDlls");
             List<Sport> sports = new List<Sport>();
             sports.Add(sport);
-            _fixtureLogic.GenerateFixture();
-            Assert.Equals(_matchLogic.GetAllMatches().Count, 1);
+            ICollection<Match> matches = _fixtureLogic.GenerateFixture(sports);
+            Assert.AreEqual(2,matches.Count);
         }
     }
 }
