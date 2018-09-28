@@ -70,6 +70,15 @@ namespace Sports.Logic.Test
             ICollection<Favorite> favorites = favoriteLogic.GetFavoritesFromUser(user.Id);
             Assert.AreEqual(favorites.Count, 1);
         }
-        
+
+        [TestMethod]
+        public void GetFavoritesForInexistentUser()
+        {
+            userLogic.AddUser(user);
+            teamLogic.AddTeam(team);
+            ICollection<Favorite> favorites = favoriteLogic.GetFavoritesFromUser(user.Id);
+            Assert.AreEqual(favorites.Count, 0);
+        }
+
     }
 }
