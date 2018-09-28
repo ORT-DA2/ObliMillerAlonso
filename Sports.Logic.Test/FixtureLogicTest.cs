@@ -140,6 +140,15 @@ namespace Sports.Logic.Test
             Assert.AreEqual(0, invalidMatches);
         }
 
+        [TestMethod]
+        public void ChangeFixture()
+        {
+            fixtureLogic.AddFixtureImplementations("C:/Users/Rafael/Documents/Diseno2/MillerAlonso/FixtureImplementations/bin/Debug/netcoreapp2.1");
+            fixtureLogic.ChangeFixtureImplementation();
+            ICollection<Sport> sports = sportLogic.GetAll();
+            ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
+            Assert.AreEqual(21, matches.Count);
+        }
 
     }
 }
