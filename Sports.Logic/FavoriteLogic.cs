@@ -23,27 +23,18 @@ namespace Sports.Logic
             _teamLogic = new TeamLogic(unitOfWork);
         }
         
-        private void ValidateFavorite(Favorite favorite)
-        {
-            CheckUserNotNull(favorite);
-            CheckTeamNotNull(favorite);
-        }
-
-        private void CheckUserNotNull(Favorite favorite)
-        {
-            if (favorite.User == null)
-            {
-                throw new InvalidNullValueException(NullValue.INVALID_USER_NULL_VALUE_MESSAGE);
-            }
-        }
-
-        private void CheckTeamNotNull(Favorite favorite)
-        {
-            if (favorite.Team == null)
-            {
-                throw new InvalidNullValueException(NullValue.INVALID_USER_NULL_VALUE_MESSAGE);
-            }
-        }
         
+
+        public void AddFavoriteTeam(User user, Team team)
+        {
+            Favorite favorite = new Favorite()
+            {
+                User = _userLogic.GetUserById(user.Id),
+                Team = _teamLogic.GetTeamById(team.Id)
+            };
+            favorite.Validate();
+            _repository.FindByCondition(f=>f.Team.Equals(team) && f.User.Equals(user));
+        }
+
     }
 }

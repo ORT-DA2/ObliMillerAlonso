@@ -21,6 +21,8 @@ namespace Sports.Logic.Test
         private IRepositoryUnitOfWork unitOfWork;
         private RepositoryContext repository;
         private IFavoriteLogic favoriteLogic;
+        private IUserLogic userLogic;
+        private ITeamLogic teamLogic;
         Favorite favorite;
 
         [TestInitialize]
@@ -32,12 +34,16 @@ namespace Sports.Logic.Test
             repository = new RepositoryContext(options);
             unitOfWork = new RepositoryUnitOfWork(repository);
             favoriteLogic = new FavoriteLogic(unitOfWork);
+            userLogic = new UserLogic(unitOfWork);
+            teamLogic = new TeamLogic(unitOfWork);
         }
 
         [TestCleanup]
         public void TearDown()
         {
             repository.Favorites.RemoveRange(repository.Favorites);
+            repository.Users.RemoveRange(repository.Users);
+            repository.Teams.RemoveRange(repository.Teams);
             repository.SaveChanges();
         }
 
@@ -56,6 +62,8 @@ namespace Sports.Logic.Test
             {
                 Name = "Barcelona"
             };
+            userLogic.AddUser(user);
+            teamLogic.AddTeam(team);
             favoriteLogic.AddFavoriteTeam(user, team);
         }
     }
