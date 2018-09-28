@@ -74,8 +74,17 @@ namespace Sports.Logic
 
         public ICollection<Match> GenerateFixture(ICollection<Sport> sports)
         {
+            CheckFixtureImported();
             IFixtureGeneratorStrategy fixtureStrategy = fixtureGeneratorStrategies.ElementAt(currentStrategy);
             return fixtureStrategy.GenerateFixture(sports);
+        }
+
+        private void CheckFixtureImported()
+        {
+            if (fixtureGeneratorStrategies.Count == 0)
+            {
+                throw new NoFixturesImportedException("No fixtures have been imported");
+            }
         }
     }
 }
