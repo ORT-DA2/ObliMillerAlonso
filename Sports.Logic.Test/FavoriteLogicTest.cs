@@ -29,6 +29,11 @@ namespace Sports.Logic.Test
         Favorite favorite;
         User user;
         Team team;
+        Comment comment;
+        Team localTeam;
+        Team visitorTeam;
+        Sport sport;
+        Match match;
 
         [TestInitialize]
         public void SetUp()
@@ -44,6 +49,30 @@ namespace Sports.Logic.Test
             team = new Team()
             {
                 Name = "Barcelona"
+            };
+            comment = new Comment()
+            {
+                Text = "text",
+                User = user
+            };
+            localTeam = new Team()
+            {
+                Name = "Local team"
+            };
+            visitorTeam = new Team()
+            {
+                Name = "Visitor team"
+            };
+            sport = new Sport()
+            {
+                Name = "Match Sport"
+            };
+            match = new Match()
+            {
+                Sport = sport,
+                Local = localTeam,
+                Visitor = visitorTeam,
+                Date = DateTime.Now.AddDays(1)
             };
             var options = new DbContextOptionsBuilder<RepositoryContext>()
                 .UseInMemoryDatabase<RepositoryContext>(databaseName: "FavoriteLogicTestDB")
@@ -91,43 +120,16 @@ namespace Sports.Logic.Test
         [TestMethod]
         public void GetFavoritesTeamsComments()
         {
-            Comment comment = new Comment()
-            {
-                Text = "text",
-                User = user
-            };
-            Team localTeam = new Team()
-            {
-                Name = "Local team"
-            };
-            Team visitorTeam = new Team()
-            {
-                Name = "Visitor team",
-
-            };
-            Sport sport = new Sport()
-            {
-                Name = "Match Sport"
-            };
             userLogic.AddUser(user);
             sportLogic.AddSport(sport);
             sportLogic.AddTeamToSport(sport, localTeam);
             sportLogic.AddTeamToSport(sport, visitorTeam);
-            Match match = new Match()
-            {
-                Sport = sport,
-                Local = localTeam,
-                Visitor = visitorTeam,
-                Date = DateTime.Now.AddDays(1)
-            };
             matchLogic.AddMatch(match);
             favoriteLogic.AddFavoriteTeam(user, localTeam);
             matchLogic.AddCommentToMatch(match.Id, comment);
             ICollection<Comment> favoriteComments = favoriteLogic.GetFavoritesTeamsComments(user);
             Assert.AreEqual(favoriteComments.Count, 1);
-            
         }
-
-
+        
     }
 }
