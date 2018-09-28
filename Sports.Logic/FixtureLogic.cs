@@ -103,7 +103,7 @@ namespace Sports.Logic
         {
             if (fixtureGeneratorStrategies.Count == 0)
             {
-                throw new NoFixturesImportedException("No fixtures have been imported");
+                throw new NoImportedFixtureStrategiesException("No fixtures have been imported");
             }
         }
     }

@@ -112,7 +112,14 @@ namespace Sports.Logic.Test
             ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
         }
 
-        
+        [TestMethod]
+        public void GenerateWithMalfunctioningFixture()
+        {
+            fixtureLogic.AddFixtureImplementations("C:/Users/Rafael/Documents/Diseno2/MillerAlonso/FailingFixtureDll");
+            ICollection<Sport> sports = sportLogic.GetAll();
+            ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
+        }
+
 
     }
 }
