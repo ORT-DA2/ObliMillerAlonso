@@ -91,13 +91,7 @@ namespace Sports.Logic.Test
         {
             fixtureLogic.AddFixtureImplementations("InvalidPath");
         }
-
-        [TestMethod]
-        [ExpectedException(typeof(FixtureImportingException))]
-        public void FixtureImplementationUnknownException()
-        {
-            fixtureLogic.AddFixtureImplementations(null);
-        }
+        
         
         [TestMethod]
         [ExpectedException(typeof(InvalidNullValueException))]

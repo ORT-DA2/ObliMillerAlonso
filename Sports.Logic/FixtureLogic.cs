@@ -22,21 +22,16 @@ namespace Sports.Logic
         
         public void AddFixtureImplementations(string dllFilesPath)
         {
-            try
-            {
+                VerifyPath(dllFilesPath);
                 DirectoryInfo directory = new DirectoryInfo(dllFilesPath);
-                if (directory.Exists)
-                {
-                    EvaluateAllDlls(directory);
-                }
-                else
-                {
-                    throw new FixtureImportingException("Invalid fixture implementation path");
-                }
-            }
-            catch (Exception e)
+                EvaluateAllDlls(directory);
+        }
+
+        private void VerifyPath(string dllFilesPath)
+        {
+            if (!Directory.Exists(dllFilesPath))
             {
-                throw new FixtureImportingException("Unknown error ocurred while importing");
+                throw new FixtureImportingException("Invalid fixture implementation path");
             }
         }
 
