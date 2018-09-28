@@ -95,10 +95,21 @@ namespace Sports.Logic.Test
         
         [TestMethod]
         [ExpectedException(typeof(InvalidNullValueException))]
-        public void GenerateFixtureForInvalidSport()
+        public void GenerateFixtureForNullSport()
         {
             fixtureLogic.AddFixtureImplementations("C:/Users/Rafael/Documents/Diseno2/MillerAlonso/FixtureDlls");
             ICollection<Match> matches = fixtureLogic.GenerateFixture(null);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidNullValueException))]
+        public void GenerateFixtureForInvalidSport()
+        {
+            ICollection<Sport> sports = sportLogic.GetAll();
+            fixtureLogic.AddFixtureImplementations("C:/Users/Rafael/Documents/Diseno2/MillerAlonso/FixtureDlls");
+            Sport testSport = new Sport();
+            sports.Add(testSport);
+            ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
         }
 
     }
