@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace FixtureImplementations
 {
-    public class FixtureBackAndForthDaily : IFixtureGeneratorStrategy
+    public class FixtureWeekendMatches : IFixtureGeneratorStrategy
     {
         private List<Match> generatedMatches;
         private List<Team> uncoveredTeams;
@@ -18,30 +18,19 @@ namespace FixtureImplementations
             foreach (Sport sport in sports.ToList())
             {
                 currentSport = sport;
-                daysToAddToDate = 1;
-                LocalWeeklyMatches();
-                VisitorWeeklyMatches();
+                WeekendMatches();
             }
             return generatedMatches;
         }
 
-        private void LocalWeeklyMatches()
+        private void WeekendMatches()
         {
             uncoveredTeams = currentSport.Teams.ToList();
             foreach (Team team in currentSport.Teams.ToList())
             {
+                daysToAddToDate = 1;
                 uncoveredTeams.Remove(team);
                 GenerateLocalMatches(team);
-            }
-        }
-
-        private void VisitorWeeklyMatches()
-        {
-            uncoveredTeams = currentSport.Teams.ToList();
-            foreach (Team team in currentSport.Teams.ToList())
-            {
-                uncoveredTeams.Remove(team);
-                GenerateVisitorMatches(team);
             }
         }
 
@@ -58,7 +47,7 @@ namespace FixtureImplementations
         {
             foreach (Team visitor in uncoveredTeams)
             {
-                Match localMatch = CreateNextMatch(team,visitor);
+                Match localMatch = CreateNextMatch(team, visitor);
                 generatedMatches.Add(localMatch);
             }
         }
@@ -70,10 +59,8 @@ namespace FixtureImplementations
             {
                 Sport = currentSport,
                 Local = local,
-                Visitor = visitor,
-                Date = DateTime.Now.AddDays(daysToAddToDate),
+                Visitor = visitor
             };
-            daysToAddToDate++;
             return nextMatch;
         }
         
