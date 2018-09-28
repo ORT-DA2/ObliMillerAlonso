@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using Sports.Domain;
+using Sports.Repository.Interface;
 using Sports.Logic.Interface;
 using Sports.Logic.Exceptions;
+using Sports.Logic.Constants;
 using System.IO;
 using System.Reflection;
-using System.Linq;
 
 namespace Sports.Logic
 {
@@ -14,10 +16,13 @@ namespace Sports.Logic
     {
         private ICollection<IFixtureGeneratorStrategy> fixtureGeneratorStrategies;
         private int currentStrategy;
+        private ISportLogic sportLogic;
 
-        public FixtureLogic()
+        public FixtureLogic(IRepositoryUnitOfWork unit)
         {   
             fixtureGeneratorStrategies = new List<IFixtureGeneratorStrategy>();
+            sportLogic = new SportLogic(unit);
+
         }
         
         public void AddFixtureImplementations(string dllFilesPath)
@@ -71,8 +76,19 @@ namespace Sports.Logic
         {
             CheckFixtureImported();
             CheckListIsNotNull(sports);
+            ICollection<Sport> realSports = GetRealSports(sports);
             IFixtureGeneratorStrategy fixtureStrategy = fixtureGeneratorStrategies.ElementAt(currentStrategy);
-            return fixtureStrategy.GenerateFixture(sports);
+            return fixtureStrategy.GenerateFixture(realSports);
+        }
+
+        private ICollection<Sport> GetRealSports(ICollection<Sport> sports)
+        {
+            ICollection<Sport> realSports = new List<Sport>();
+            foreach (Sport sport in sports)
+            {
+                realSports.Add(sportLogic.GetSportByName(sport.Name));
+            }
+            return realSports;
         }
 
         private void CheckListIsNotNull(ICollection<Sport> sports)
