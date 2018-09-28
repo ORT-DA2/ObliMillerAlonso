@@ -133,8 +133,8 @@ namespace Sports.Logic.Test
             int invalidMatches = 0;
             foreach(Match match in matches)
             {
-                invalidMatches+= matches.Where(m => m.Date.Equals(match.Date) 
-                &&!m.Visitor.Equals(match.Visitor)&&!m.Local.Equals(match.Local))
+                invalidMatches += matches.Where(m => m.Id != match.Id && m.Date.Equals(match.Date)
+                 && (IsInMatch(match.Visitor, m) || IsInMatch(match.Local, m)))
                 .ToList().Count;
             }
             Assert.AreEqual(0, invalidMatches);
@@ -150,5 +150,33 @@ namespace Sports.Logic.Test
             Assert.AreEqual(21, matches.Count);
         }
 
+
+        [TestMethod]
+        public void TestFixtureWeekendMatchesOnlyOnWeekends()
+        {
+            fixtureLogic.AddFixtureImplementations("C:/Users/Rafael/Documents/Diseno2/MillerAlonso/FixtureImplementations/bin/Debug/netcoreapp2.1");
+            fixtureLogic.ChangeFixtureImplementation();
+            ICollection<Sport> sports = sportLogic.GetAll();
+            ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
+            int invalidMatches = 0;
+            foreach(Match match in matches)
+            {
+                invalidMatches += matches.Where(m => m.Id!=match.Id&&m.Date.Equals(match.Date)
+                 && (IsInMatch(match.Visitor,m) || IsInMatch(match.Local, m)))
+                .ToList().Count;
+            }
+            Assert.AreEqual(0, invalidMatches);
+        }
+
+        private bool IsWeekend(DateTime date)
+        {
+            return date.DayOfWeek.Equals(DayOfWeek.Sunday) || date.DayOfWeek.Equals(DayOfWeek.Saturday);
+        }
+
+
+        private static bool IsInMatch(Team team, Match match)
+        {
+            return match.Local.Equals(team) || match.Visitor.Equals(team);
+        }
     }
 }
