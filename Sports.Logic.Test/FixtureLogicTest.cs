@@ -78,7 +78,7 @@ namespace Sports.Logic.Test
 
 
         [TestMethod]
-        [ExpectedException(typeof(NoFixturesImportedException))]
+        [ExpectedException(typeof(NoImportedFixtureStrategiesException))]
         public void GenerateWithoutFixtureImplementations()
         {
             ICollection<Sport> sports = sportLogic.GetAll();
@@ -102,7 +102,7 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        //[ExpectedException(typeof(InvalidNullValueException))]
+        [ExpectedException(typeof(SportDoesNotExistException))]
         public void GenerateFixtureForInvalidSport()
         {
             ICollection<Sport> sports = sportLogic.GetAll();
@@ -111,6 +111,8 @@ namespace Sports.Logic.Test
             sports.Add(testSport);
             ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
         }
+
+        
 
     }
 }
