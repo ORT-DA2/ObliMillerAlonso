@@ -8,5 +8,6 @@ namespace Sports.Logic.Interface
     public interface IFavoriteLogic
     {
         void AddFavoriteTeam(User user, Team team);
+        ICollection<Favorite> GetFavoritesFromUser(int id);
     }
 }

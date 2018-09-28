@@ -24,7 +24,6 @@ namespace Sports.Logic
         }
         
         
-
         public void AddFavoriteTeam(User user, Team team)
         {
             Favorite favorite = new Favorite()
@@ -33,8 +32,31 @@ namespace Sports.Logic
                 Team = _teamLogic.GetTeamById(team.Id)
             };
             favorite.Validate();
-            _repository.FindByCondition(f=>f.Team.Equals(team) && f.User.Equals(user));
+            ValidateFavoriteDoesntExist(user, team);
+            _repository.Create(favorite);
+            _repository.Save();
+        }
+        
+
+        private void ValidateFavoriteDoesntExist(User user, Team team)
+        {
+            ICollection<Favorite> favorites =_repository.FindByCondition(f => f.Team.Equals(team) && f.User.Equals(user));
+            if (favorites.Count != 0)
+            {
+                throw new FavoriteAlreadyExistException(UniqueFavorite.UNIQUE_FAVORITE_MESSAGE);
+            }
         }
 
+        public ICollection<Favorite> GetFavoritesFromUser(int id)
+        {
+            ICollection<Favorite> favorites = _repository.FindByCondition(f => f.User.Id == id);
+            if (favorites.Count == 0)
+            {
+                throw new FavoriteDoesNotExistException(FavoriteNotFound.FAVORITE_NOT_FOUND_MESSAGE);
+            }
+            return favorites;
+        }
+        
+        
     }
 }

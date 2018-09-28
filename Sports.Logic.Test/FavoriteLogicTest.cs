@@ -60,13 +60,16 @@ namespace Sports.Logic.Test
             repository.Teams.RemoveRange(repository.Teams);
             repository.SaveChanges();
         }
-
+        
         [TestMethod]
-        public void FavoriteTeam()
+        public void GetFavoritesForUser()
         {
             userLogic.AddUser(user);
             teamLogic.AddTeam(team);
             favoriteLogic.AddFavoriteTeam(user, team);
+            ICollection<Favorite> favorites = favoriteLogic.GetFavoritesFromUser(user.Id);
+            Assert.AreEqual(favorites.Count, 1);
         }
+        
     }
 }
