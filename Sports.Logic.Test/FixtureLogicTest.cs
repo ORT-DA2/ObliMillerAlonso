@@ -85,5 +85,12 @@ namespace Sports.Logic.Test
             ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(FixtureImportingException))]
+        public void AddInvalidPathFixtureImplementation()
+        {
+            fixtureLogic.AddFixtureImplementations("InvalidPath");
+        }
+
     }
 }
