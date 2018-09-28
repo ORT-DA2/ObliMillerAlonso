@@ -72,10 +72,9 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
+        [ExpectedException(typeof(FavoriteDoesNotExistException))]
         public void GetFavoritesForInexistentUser()
         {
-            userLogic.AddUser(user);
-            teamLogic.AddTeam(team);
             ICollection<Favorite> favorites = favoriteLogic.GetFavoritesFromUser(user.Id);
             Assert.AreEqual(favorites.Count, 0);
         }
