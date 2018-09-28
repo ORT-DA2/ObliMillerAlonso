@@ -45,7 +45,10 @@ namespace Sports.Logic.Test
             AddTeam(sport,"First Team");
             AddTeam(sport, "Second Team");
             AddTeam(sport, "Third Team");
-            AddTeam(sport, "ForthTeam Team");
+            AddTeam(sport, "Forth Team");
+            AddTeam(sport, "Fifth Team");
+            AddTeam(sport, "Sixth Team");
+            AddTeam(sport, "Seventh Team");
         }
 
         private void AddTeam(Sport sport, string teamName)
@@ -70,10 +73,10 @@ namespace Sports.Logic.Test
         [TestMethod]
         public void GenerateFixture()
         {
-            fixtureLogic.AddFixtureImplementations("C:/Users/Rafael/Documents/Diseno2/MillerAlonso/FixtureDlls");
+            fixtureLogic.AddFixtureImplementations("C:/Users/Rafael/Documents/Diseno2/MillerAlonso/FixtureImplementations/bin/Debug/netcoreapp2.1");
             ICollection<Sport> sports = sportLogic.GetAll();
             ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
-            Assert.AreEqual(12,matches.Count);
+            Assert.AreEqual(42,matches.Count);
         }
 
 
@@ -113,11 +116,28 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
+        [ExpectedException(typeof(MalfunctioningImplementationException))]
         public void GenerateWithMalfunctioningFixture()
         {
             fixtureLogic.AddFixtureImplementations("C:/Users/Rafael/Documents/Diseno2/MillerAlonso/FailingFixtureDll");
             ICollection<Sport> sports = sportLogic.GetAll();
             ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
+        }
+
+        [TestMethod]
+        public void TestBackAndForthFixtureDailyNoMatchesOnSameDay()
+        {
+            fixtureLogic.AddFixtureImplementations("C:/Users/Rafael/Documents/Diseno2/MillerAlonso/FixtureImplementations/bin/Debug/netcoreapp2.1");
+            ICollection<Sport> sports = sportLogic.GetAll();
+            ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
+            int invalidMatches = 0;
+            foreach(Match match in matches)
+            {
+                invalidMatches+= matches.Where(m => m.Date.Equals(match.Date) 
+                &&!m.Visitor.Equals(match.Visitor)&&!m.Local.Equals(match.Local))
+                .ToList().Count;
+            }
+            Assert.AreEqual(0, invalidMatches);
         }
 
 

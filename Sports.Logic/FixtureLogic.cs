@@ -74,11 +74,23 @@ namespace Sports.Logic
 
         public ICollection<Match> GenerateFixture(ICollection<Sport> sports)
         {
-            CheckFixtureImported();
-            CheckListIsNotNull(sports);
+            FixtureGenerationValidations(sports);
             ICollection<Sport> realSports = GetRealSports(sports);
             IFixtureGeneratorStrategy fixtureStrategy = fixtureGeneratorStrategies.ElementAt(currentStrategy);
-            return fixtureStrategy.GenerateFixture(realSports);
+            try
+            {
+                return fixtureStrategy.GenerateFixture(realSports);
+            }
+            catch(Exception)
+            {
+                throw new MalfunctioningImplementationException("Fixture generation strategy is failing");
+            }
+        }
+
+        private void FixtureGenerationValidations(ICollection<Sport> sports)
+        {
+            CheckFixtureImported();
+            CheckListIsNotNull(sports);
         }
 
         private ICollection<Sport> GetRealSports(ICollection<Sport> sports)
