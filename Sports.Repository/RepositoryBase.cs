@@ -67,6 +67,7 @@ namespace Sports.Repository
             {
                 this.RepositoryContext.Set<T>().Add(entity);
             }
+
             catch (InvalidOperationException)
             {
                 throw new DisconnectedDatabaseException(AccessValidation.INVALID_ACCESS_MESSAGE);
@@ -87,6 +88,7 @@ namespace Sports.Repository
             {
                 this.RepositoryContext.Set<T>().Update(entity);
             }
+
             catch (InvalidOperationException)
             {
                 throw new DisconnectedDatabaseException(AccessValidation.INVALID_ACCESS_MESSAGE);
@@ -107,6 +109,7 @@ namespace Sports.Repository
             {
                 this.RepositoryContext.Set<T>().Remove(entity);
             }
+
             catch (InvalidOperationException)
             {
                 throw new DisconnectedDatabaseException(AccessValidation.INVALID_ACCESS_MESSAGE);

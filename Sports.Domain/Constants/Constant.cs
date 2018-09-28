@@ -24,6 +24,7 @@ namespace Sports.Domain.Constants
     {
         public const string EMPTY_VISITOR_TEAM_MESSAGE = "Match should include a visitor team.";
         public const string EMPTY_LOCAL_TEAM_MESSAGE = "Match should include a local team.";
+
     }
     public static class EmptyComment
     {
