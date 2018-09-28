@@ -150,6 +150,12 @@ namespace Sports.Logic.Test
             Assert.AreEqual(21, matches.Count);
         }
 
+        [TestMethod]
+        [ExpectedException(typeof(NoImportedFixtureStrategiesException))]
+        public void ChangeImplementationNoImports()
+        {
+            fixtureLogic.ChangeFixtureImplementation();
+        }
 
         [TestMethod]
         public void TestFixtureWeekendMatchesOnlyOnWeekends()
