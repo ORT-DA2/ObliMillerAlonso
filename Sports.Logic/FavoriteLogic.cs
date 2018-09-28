@@ -22,9 +22,7 @@ namespace Sports.Logic
             _userLogic = new UserLogic(unitOfWork);
             _teamLogic = new TeamLogic(unitOfWork);
         }
-
-
-        /*
+        
         private void ValidateFavorite(Favorite favorite)
         {
             CheckUserNotNull(favorite);
@@ -46,6 +44,6 @@ namespace Sports.Logic
                 throw new InvalidNullValueException(NullValue.INVALID_USER_NULL_VALUE_MESSAGE);
             }
         }
-        */
+        
     }
 }

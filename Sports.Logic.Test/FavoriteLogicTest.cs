@@ -18,10 +18,10 @@ namespace Sports.Logic.Test
     [TestClass]
     public class FavoriteLogicTest
     {
-        private IRepositoryUnitOfWork _unitOfWork;
-        private RepositoryContext _repository;
-        private IFavoriteLogic _favoriteLogic;
-        Favorite _favorite;
+        private IRepositoryUnitOfWork unitOfWork;
+        private RepositoryContext repository;
+        private IFavoriteLogic favoriteLogic;
+        Favorite favorite;
 
         [TestInitialize]
         public void SetUp()
@@ -29,16 +29,34 @@ namespace Sports.Logic.Test
             var options = new DbContextOptionsBuilder<RepositoryContext>()
                 .UseInMemoryDatabase<RepositoryContext>(databaseName: "FavoriteLogicTestDB")
                 .Options;
-            _repository = new RepositoryContext(options);
-            _unitOfWork = new RepositoryUnitOfWork(_repository);
-            _favoriteLogic = new FavoriteLogic(_unitOfWork);
+            repository = new RepositoryContext(options);
+            unitOfWork = new RepositoryUnitOfWork(repository);
+            favoriteLogic = new FavoriteLogic(unitOfWork);
         }
 
         [TestCleanup]
         public void TearDown()
         {
-            _repository.Favorites.RemoveRange(_repository.Favorites);
-            _repository.SaveChanges();
+            repository.Favorites.RemoveRange(repository.Favorites);
+            repository.SaveChanges();
+        }
+
+        [TestMethod]
+        public void FavoriteTeam()
+        {
+            User user = new User()
+            {
+                FirstName = "itai",
+                LastName = "miller",
+                Email = "itai@gmail.com",
+                UserName = "iMiller",
+                Password = "root"
+            };
+            Team team = new Team()
+            {
+                Name = "Barcelona"
+            };
+            favoriteLogic.AddFavoriteTeam(user, team);
         }
     }
 }
