@@ -8,6 +8,7 @@ using System.Linq;
 using Sports.Repository.Exceptions;
 using Sports.Repository.Constants;
 using System.Data.SqlClient;
+using System.Data.Common;
 
 namespace Sports.Repository
 {
@@ -17,17 +18,47 @@ namespace Sports.Repository
 
         public RepositoryBase(RepositoryContext repositoryContext)
         {
-            this.RepositoryContext = repositoryContext;
+           this.RepositoryContext = repositoryContext;
         }
 
         public ICollection<T> FindAll()
         {
-            return this.RepositoryContext.Set<T>().ToList<T>();
+            try
+            {
+                return this.RepositoryContext.Set<T>().ToList<T>();
+            }
+            catch (InvalidOperationException)
+            {
+                throw new DisconnectedDatabaseException(AccessValidation.INVALID_ACCESS_MESSAGE);
+            }
+            catch (DbException)
+            {
+                throw new DisconnectedDatabaseException(AccessValidation.INVALID_ACCESS_MESSAGE);
+            }
+            catch (Exception)
+            {
+                throw new UnknownDatabaseException(AccessValidation.UNKNOWN_ERROR_MESSAGE);
+            }
         }
 
         public ICollection<T> FindByCondition(Expression<Func<T, bool>> expression)
         {
-            return this.RepositoryContext.Set<T>().Where(expression).ToList<T>();
+            try
+            {
+                return this.RepositoryContext.Set<T>().Where(expression).ToList<T>();
+            }
+            catch (InvalidOperationException)
+            {
+                throw new DisconnectedDatabaseException(AccessValidation.INVALID_ACCESS_MESSAGE);
+            }
+            catch (DbException)
+            {
+                throw new DisconnectedDatabaseException(AccessValidation.INVALID_ACCESS_MESSAGE);
+            }
+            catch (Exception)
+            {
+                throw new UnknownDatabaseException(AccessValidation.UNKNOWN_ERROR_MESSAGE);
+            }
         }
 
         public void Create(T entity)
@@ -37,6 +68,10 @@ namespace Sports.Repository
                 this.RepositoryContext.Set<T>().Add(entity);
             }
             catch (InvalidOperationException)
+            {
+                throw new DisconnectedDatabaseException(AccessValidation.INVALID_ACCESS_MESSAGE);
+            }
+            catch(DbException)
             {
                 throw new DisconnectedDatabaseException(AccessValidation.INVALID_ACCESS_MESSAGE);
             }
@@ -56,6 +91,10 @@ namespace Sports.Repository
             {
                 throw new DisconnectedDatabaseException(AccessValidation.INVALID_ACCESS_MESSAGE);
             }
+            catch (DbException)
+            {
+                throw new DisconnectedDatabaseException(AccessValidation.INVALID_ACCESS_MESSAGE);
+            }
             catch (Exception)
             {
                 throw new UnknownDatabaseException(AccessValidation.UNKNOWN_ERROR_MESSAGE);
@@ -72,6 +111,10 @@ namespace Sports.Repository
             {
                 throw new DisconnectedDatabaseException(AccessValidation.INVALID_ACCESS_MESSAGE);
             }
+            catch (DbException)
+            {
+                throw new DisconnectedDatabaseException(AccessValidation.INVALID_ACCESS_MESSAGE);
+            }
             catch (Exception)
             {
                 throw new UnknownDatabaseException(AccessValidation.UNKNOWN_ERROR_MESSAGE);
@@ -84,10 +127,14 @@ namespace Sports.Repository
             {
                 this.RepositoryContext.SaveChanges();
             }
-             catch (InvalidOperationException)
-             {
+            catch (InvalidOperationException)
+            {
                  throw new DisconnectedDatabaseException(AccessValidation.INVALID_ACCESS_MESSAGE);
-             }
+            }
+            catch (DbException)
+            {
+                throw new DisconnectedDatabaseException(AccessValidation.INVALID_ACCESS_MESSAGE);
+            }
             catch (Exception)
             {
                 throw new UnknownDatabaseException(AccessValidation.UNKNOWN_ERROR_MESSAGE);
