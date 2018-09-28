@@ -70,8 +70,17 @@ namespace Sports.Logic
         public ICollection<Match> GenerateFixture(ICollection<Sport> sports)
         {
             CheckFixtureImported();
+            CheckListIsNotNull(sports);
             IFixtureGeneratorStrategy fixtureStrategy = fixtureGeneratorStrategies.ElementAt(currentStrategy);
             return fixtureStrategy.GenerateFixture(sports);
+        }
+
+        private void CheckListIsNotNull(ICollection<Sport> sports)
+        {
+            if (sports == null)
+            {
+                throw new InvalidNullValueException("List of sports is empty");
+            }
         }
 
         private void CheckFixtureImported()
