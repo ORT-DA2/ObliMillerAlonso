@@ -98,6 +98,14 @@ namespace Sports.Logic.Test
         {
             fixtureLogic.AddFixtureImplementations(null);
         }
+        
+        [TestMethod]
+        [ExpectedException(typeof(InvalidNullValueException))]
+        public void GenerateFixtureForInvalidSport()
+        {
+            fixtureLogic.AddFixtureImplementations("C:/Users/Rafael/Documents/Diseno2/MillerAlonso/FixtureDlls");
+            ICollection<Match> matches = fixtureLogic.GenerateFixture(null);
+        }
 
     }
 }
