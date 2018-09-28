@@ -23,6 +23,9 @@ namespace Sports.Logic.Test
         private IFavoriteLogic favoriteLogic;
         private IUserLogic userLogic;
         private ITeamLogic teamLogic;
+        private ICommentLogic commentLogic;
+        private IMatchLogic matchLogic;
+        private ISportLogic sportLogic;
         Favorite favorite;
         User user;
         Team team;
@@ -50,6 +53,9 @@ namespace Sports.Logic.Test
             favoriteLogic = new FavoriteLogic(unitOfWork);
             userLogic = new UserLogic(unitOfWork);
             teamLogic = new TeamLogic(unitOfWork);
+            commentLogic = new CommentLogic(unitOfWork);
+            matchLogic = new MatchLogic(unitOfWork);
+            sportLogic = new SportLogic(unitOfWork);
         }
 
         [TestCleanup]
@@ -58,6 +64,8 @@ namespace Sports.Logic.Test
             repository.Favorites.RemoveRange(repository.Favorites);
             repository.Users.RemoveRange(repository.Users);
             repository.Teams.RemoveRange(repository.Teams);
+            repository.Matches.RemoveRange(repository.Matches);
+            repository.Sports.RemoveRange(repository.Sports);
             repository.SaveChanges();
         }
         
@@ -67,7 +75,7 @@ namespace Sports.Logic.Test
             userLogic.AddUser(user);
             teamLogic.AddTeam(team);
             favoriteLogic.AddFavoriteTeam(user, team);
-            ICollection<Favorite> favorites = favoriteLogic.GetFavoritesFromUser(user.Id);
+            ICollection<Team> favorites = favoriteLogic.GetFavoritesFromUser(user.Id);
             Assert.AreEqual(favorites.Count, 1);
         }
 
@@ -75,9 +83,51 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(FavoriteDoesNotExistException))]
         public void GetFavoritesForInexistentUser()
         {
-            ICollection<Favorite> favorites = favoriteLogic.GetFavoritesFromUser(user.Id);
+            ICollection<Team> favorites = favoriteLogic.GetFavoritesFromUser(user.Id);
             Assert.AreEqual(favorites.Count, 0);
         }
+
+
+        [TestMethod]
+        public void GetFavoritesTeamsComments()
+        {
+            Comment comment = new Comment()
+            {
+                Text = "text",
+                User = user
+            };
+            Team localTeam = new Team()
+            {
+                Name = "Local team"
+            };
+            Team visitorTeam = new Team()
+            {
+                Name = "Visitor team",
+
+            };
+            Sport sport = new Sport()
+            {
+                Name = "Match Sport"
+            };
+            userLogic.AddUser(user);
+            sportLogic.AddSport(sport);
+            sportLogic.AddTeamToSport(sport, localTeam);
+            sportLogic.AddTeamToSport(sport, visitorTeam);
+            Match match = new Match()
+            {
+                Sport = sport,
+                Local = localTeam,
+                Visitor = visitorTeam,
+                Date = DateTime.Now.AddDays(1)
+            };
+            matchLogic.AddMatch(match);
+            favoriteLogic.AddFavoriteTeam(user, localTeam);
+            matchLogic.AddCommentToMatch(match.Id, comment);
+            ICollection<Comment> favoriteComments = favoriteLogic.GetFavoritesTeamsComments(user);
+            Assert.AreEqual(favoriteComments.Count, 1);
+            
+        }
+
 
     }
 }
