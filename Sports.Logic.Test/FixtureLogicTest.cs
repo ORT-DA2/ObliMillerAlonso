@@ -75,6 +75,15 @@ namespace Sports.Logic.Test
             ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
             Assert.AreEqual(12,matches.Count);
         }
-        
+
+
+        [TestMethod]
+        [ExpectedException(typeof(NoFixturesImportedException))]
+        public void GenerateWithoutFixtureImplementations()
+        {
+            ICollection<Sport> sports = sportLogic.GetAll();
+            ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
+        }
+
     }
 }
