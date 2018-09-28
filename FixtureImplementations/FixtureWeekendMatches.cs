@@ -12,6 +12,7 @@ namespace FixtureImplementations
         private List<Team> uncoveredTeams;
         private List<DateTime> occupiedDates;  
         private Sport currentSport;
+        private int lastFreeDate;
         public ICollection<Match> GenerateFixture(ICollection<Sport> sports)
         {
             generatedMatches = new List<Match>();
@@ -28,6 +29,7 @@ namespace FixtureImplementations
         {
             foreach (Team team in currentSport.Teams.ToList())
             {
+                lastFreeDate = 1;
                 uncoveredTeams.Remove(team);
                 GenerateMatches(team);
             }
@@ -51,7 +53,8 @@ namespace FixtureImplementations
             {
                 Sport = currentSport,
                 Local = local,
-                Visitor = visitor
+                Visitor = visitor,
+                Date = nextFreeDate
             };
             return nextMatch;
         }
@@ -59,19 +62,22 @@ namespace FixtureImplementations
         private DateTime GetNextFreeWeekendDate(Team local, Team visitor)
         {
             bool dateIsOcupied = true;
-            DateTime date = DateTime.Now.AddDays(1);
+            DateTime validDate = DateTime.Now;
             while (dateIsOcupied)
             {
+                DateTime date = DateTime.Now.AddDays(lastFreeDate);
                 if (IsWeekend(date) && UnoccupiedDateByTeams(date, local, visitor))
                 {
                     dateIsOcupied = false;
+                    validDate = date;
+                    lastFreeDate += 5;
                 }
                 else
                 {
-                    date.AddDays(1);
+                    lastFreeDate += 1;
                 }
             }
-            return date;
+            return validDate;
         }
 
         private bool IsWeekend(DateTime date)

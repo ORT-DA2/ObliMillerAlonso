@@ -17,12 +17,13 @@ namespace Sports.Logic
         private ICollection<IFixtureGeneratorStrategy> fixtureGeneratorStrategies;
         private int currentStrategy;
         private ISportLogic sportLogic;
+        private IMatchLogic matchLogic;
 
         public FixtureLogic(IRepositoryUnitOfWork unit)
         {   
             fixtureGeneratorStrategies = new List<IFixtureGeneratorStrategy>();
             sportLogic = new SportLogic(unit);
-
+            matchLogic = new MatchLogic(unit);
         }
         
         public void AddFixtureImplementations(string dllFilesPath)
@@ -76,15 +77,17 @@ namespace Sports.Logic
         {
             FixtureGenerationValidations(sports);
             ICollection<Sport> realSports = GetRealSports(sports);
+            ICollection<Match> fixtureMatches = new List<Match>();
             IFixtureGeneratorStrategy fixtureStrategy = fixtureGeneratorStrategies.ElementAt(currentStrategy);
             try
             {
-                return fixtureStrategy.GenerateFixture(realSports);
+                fixtureMatches = fixtureStrategy.GenerateFixture(realSports);
             }
             catch(Exception)
             {
                 throw new MalfunctioningImplementationException("Fixture generation strategy is failing");
             }
+            return fixtureMatches;
         }
 
         private void FixtureGenerationValidations(ICollection<Sport> sports)

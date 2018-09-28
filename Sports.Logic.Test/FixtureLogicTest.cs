@@ -133,8 +133,8 @@ namespace Sports.Logic.Test
             int invalidMatches = 0;
             foreach(Match match in matches)
             {
-                invalidMatches += matches.Where(m => m.Id != match.Id && m.Date.Equals(match.Date)
-                 && (IsInMatch(match.Visitor, m) || IsInMatch(match.Local, m)))
+                invalidMatches += matches.Where(m => m.Date.Equals(match.Date)
+                 && (IsInMatch(match.Visitor, m) || IsInMatch(match.Local, m)) && (!m.Local.Equals(match.Local) || !m.Visitor.Equals(match.Visitor)))
                 .ToList().Count;
             }
             Assert.AreEqual(0, invalidMatches);
@@ -161,10 +161,12 @@ namespace Sports.Logic.Test
             int invalidMatches = 0;
             foreach(Match match in matches)
             {
-                invalidMatches += matches.Where(m => m.Id!=match.Id&&m.Date.Equals(match.Date)
-                 && (IsInMatch(match.Visitor,m) || IsInMatch(match.Local, m)))
+                invalidMatches += matches.Where(m => m.Date.Equals(match.Date)
+                 && (IsInMatch(match.Visitor,m) || IsInMatch(match.Local, m))&&(!m.Local.Equals(match.Local)||!m.Visitor.Equals(match.Visitor)))
                 .ToList().Count;
             }
+            invalidMatches+= matches.Where(m => !IsWeekend(m.Date))
+                .ToList().Count;
             Assert.AreEqual(0, invalidMatches);
         }
 
