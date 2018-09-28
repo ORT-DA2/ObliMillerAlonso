@@ -69,6 +69,7 @@ namespace Sports.Logic.Test
             _repository.Matches.RemoveRange(_repository.Matches);
             _repository.Sports.RemoveRange(_repository.Sports);
             _repository.Teams.RemoveRange(_repository.Teams);
+            _repository.Users.RemoveRange(_repository.Users);
             _repository.SaveChanges();
         }
 

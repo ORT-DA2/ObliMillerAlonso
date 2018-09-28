@@ -20,38 +20,61 @@ namespace Sports.Logic.Test
     [TestClass]
     public class FixtureLogicTest
     {
-        [TestMethod]
-        public void GenerateFixture()
+        IRepositoryUnitOfWork unit;
+        IFixtureLogic fixtureLogic;
+        ISportLogic sportLogic;
+        IMatchLogic matchLogic;
+        RepositoryContext repository;
+
+        [TestInitialize]
+        public void SetUp()
         {
             var options = new DbContextOptionsBuilder<RepositoryContext>()
-               .UseInMemoryDatabase<RepositoryContext>(databaseName: "FixtureLogicTestDB")
-               .Options;
-            RepositoryContext _repository = new RepositoryContext(options);
-            IRepositoryUnitOfWork _unit = new RepositoryUnitOfWork(_repository);
-            IFixtureLogic _fixtureLogic = new FixtureLogic();
-            ISportLogic _sportLogic = new SportLogic(_unit);
-            IMatchLogic _matchLogic = new MatchLogic(_unit);
-            Team localTeam = new Team()
-            {
-                Name = "Local team"
-            };
-            Team visitorTeam = new Team()
-            {
-                Name = "Visitor team",
-
-            };
+                .UseInMemoryDatabase<RepositoryContext>(databaseName: "FixtureLogicTestDB")
+                .Options;
+            repository = new RepositoryContext(options);
+            unit = new RepositoryUnitOfWork(repository);
+            fixtureLogic = new FixtureLogic();
+            sportLogic = new SportLogic(unit);
+            matchLogic = new MatchLogic(unit);
             Sport sport = new Sport()
             {
                 Name = "Match Sport"
             };
-            _sportLogic.AddSport(sport);
-            _sportLogic.AddTeamToSport(sport, localTeam);
-            _sportLogic.AddTeamToSport(sport, visitorTeam);
-            _fixtureLogic.AddFixtureImplementations("C:/Users/Rafael/Documents/Diseno2/MillerAlonso/FixtureDlls");
-            List<Sport> sports = new List<Sport>();
-            sports.Add(sport);
-            ICollection<Match> matches = _fixtureLogic.GenerateFixture(sports);
-            Assert.AreEqual(2,matches.Count);
+            sportLogic.AddSport(sport);
+            AddTeam(sport,"First Team");
+            AddTeam(sport, "Second Team");
+            AddTeam(sport, "Third Team");
+            AddTeam(sport, "ForthTeam Team");
         }
+
+        private void AddTeam(Sport sport, string teamName)
+        {
+            Team team = new Team()
+            {
+                Name = teamName,
+
+            };
+            sportLogic.AddTeamToSport(sport, team);
+        }
+
+        [TestCleanup]
+        public void TearDown()
+        {
+            repository.Matches.RemoveRange(repository.Matches);
+            repository.Sports.RemoveRange(repository.Sports);
+            repository.Teams.RemoveRange(repository.Teams);
+            repository.SaveChanges();
+        }
+
+        [TestMethod]
+        public void GenerateFixture()
+        {
+            fixtureLogic.AddFixtureImplementations("C:/Users/Rafael/Documents/Diseno2/MillerAlonso/FixtureDlls");
+            ICollection<Sport> sports = sportLogic.GetAll();
+            ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
+            Assert.AreEqual(12,matches.Count);
+        }
+        
     }
 }
