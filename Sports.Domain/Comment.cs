@@ -15,6 +15,8 @@ namespace Sports.Domain
         public string Text { get; set; }
         public DateTime Date { get; private set; }
         public User User { get; set; }
+
+        public Match Match { get; set; }
         
         public Comment()
         {
