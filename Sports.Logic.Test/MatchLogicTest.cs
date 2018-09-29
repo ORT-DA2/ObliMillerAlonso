@@ -25,6 +25,7 @@ namespace Sports.Logic.Test
         private IMatchLogic matchLogic;
         private ISportLogic sportLogic;
         private IUserLogic userLogic;
+        private ICommentLogic commentLogic;
         private Match match;
 
         [TestInitialize]
@@ -62,6 +63,7 @@ namespace Sports.Logic.Test
             matchLogic = new MatchLogic(unit);
             sportLogic = new SportLogic(unit);
             userLogic = new UserLogic(unit);
+            commentLogic = new CommentLogic(unit);
         }
 
         private Team AddTeamToSport(Sport sport, string teamName)
@@ -421,5 +423,20 @@ namespace Sports.Logic.Test
             Assert.AreEqual(matchLogic.GetAllMatches().Count, 0);
         }
 
+        [TestMethod]
+        public void CascadeDeleteCommentsFromMatch()
+        {
+            matchLogic.AddMatch(match);
+            User user = ValidUser();
+            userLogic.AddUser(user);
+            Comment comment = new Comment
+            {
+                Text = "Text",
+                User = user
+            };
+            matchLogic.AddCommentToMatch(match.Id, comment);
+            matchLogic.DeleteMatch(match);
+            Assert.AreEqual(commentLogic.GetAll().Count, 0);
+        }
     }
 }
