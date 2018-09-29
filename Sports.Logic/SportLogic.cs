@@ -14,11 +14,13 @@ namespace Sports.Logic
     {
         ISportRepository repository;
         ITeamLogic teamLogic;
+        IMatchLogic matchLogic;
 
         public SportLogic(IRepositoryUnitOfWork unitOfwork)
         {
             repository = unitOfwork.Sport;
             teamLogic = new TeamLogic(unitOfwork);
+            matchLogic = new MatchLogic(unitOfwork);
         }
         public void AddSport(Sport sport)
         {
@@ -79,8 +81,20 @@ namespace Sports.Logic
         public void RemoveSport(int id)
         {
             Sport sport = GetSportById(id);
+            //CascadeDeleteTeams(sport);
             repository.Delete(sport);
             repository.Save();
+        }
+       
+
+        private void CascadeDeleteTeams(Sport sport)
+        {
+            ICollection<Team> teams = sport.Teams.ToList();
+            foreach (Team team in teams)
+            {
+                sport.Teams.Remove(team);
+                teamLogic.Delete(team);
+            }
         }
 
         public void ModifySport(int id, Sport sport)

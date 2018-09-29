@@ -233,12 +233,13 @@ namespace Sports.Logic.Test
         public void GetTeamFromSport()
         {
             sportLogic.AddSport(sport);
-            Team _team = new Team()
+            Team team = new Team()
             {
                 Name = "Barcelona"
             };
-            sportLogic.AddTeamToSport(sport, _team);
-            Team returnedTeam = sportLogic.GetTeamFromSport(sport, _team);
+            sportLogic.AddTeamToSport(sport, team);
+            Team returnedTeam = sportLogic.GetTeamFromSport(sport, team);
+            Assert.AreEqual(returnedTeam, team);
         }
 
         [TestMethod]
@@ -246,13 +247,25 @@ namespace Sports.Logic.Test
         public void GetInvalidTeamFromSport()
         {
             sportLogic.AddSport(sport);
-            Team _team = new Team()
+            Team team = new Team()
             {
                 Name = ""
             };
-            sportLogic.AddTeamToSport(sport, _team);
-            Team returnedTeam = sportLogic.GetTeamFromSport(sport, _team);
+            sportLogic.AddTeamToSport(sport, team);
+            Team returnedTeam = sportLogic.GetTeamFromSport(sport, team);
         }
 
+        [TestMethod]
+        public void CascadeDeleteTeams()
+        {
+            sportLogic.AddSport(sport);
+            Team team = new Team()
+            {
+                Name = "Team"
+            };
+            sportLogic.AddTeamToSport(sport, team);
+            sportLogic.RemoveSport(sport.Id);
+            Assert.AreEqual(teamLogic.GetAll().Count, 0);
+        }
     }
 }
