@@ -130,6 +130,16 @@ namespace Sports.Logic.Test
             ICollection<Comment> favoriteComments = favoriteLogic.GetFavoritesTeamsComments(user);
             Assert.AreEqual(favoriteComments.Count, 1);
         }
-        
+
+
+        [TestMethod]
+        [ExpectedException(typeof(UserDoesNotExistException))]
+        public void AddInvalidUser()
+        {
+            sportLogic.AddSport(sport);
+            sportLogic.AddTeamToSport(sport, localTeam);
+            favoriteLogic.AddFavoriteTeam(user, localTeam);
+        }
+
     }
 }
