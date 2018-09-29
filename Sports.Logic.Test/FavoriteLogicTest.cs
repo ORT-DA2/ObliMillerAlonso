@@ -110,6 +110,17 @@ namespace Sports.Logic.Test
             Assert.AreEqual(favorites.Count, 1);
         }
 
+
+        [TestMethod]
+        [ExpectedException(typeof(FavoriteAlreadyExistException))]
+        public void AddFavoriteTwice()
+        {
+            userLogic.AddUser(user);
+            teamLogic.AddTeam(team);
+            favoriteLogic.AddFavoriteTeam(user, team);
+            favoriteLogic.AddFavoriteTeam(user, team);
+        }
+
         [TestMethod]
         [ExpectedException(typeof(FavoriteDoesNotExistException))]
         public void GetFavoritesForInexistentUser()

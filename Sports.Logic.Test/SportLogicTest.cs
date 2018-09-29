@@ -183,23 +183,7 @@ namespace Sports.Logic.Test
             sportLogic.UpdateTeamSport(sport.Id, team, teamChanges);
             Assert.AreEqual<string>(sportLogic.GetTeamFromSport(sport, team).Name, teamChanges.Name);
         }
-
-        [TestMethod]
-        [ExpectedException(typeof(InvalidEmptyTextFieldException))]
-        public void UpdateInvalidTeamSport()
-        {
-            sportLogic.AddSport(sport);
-            Team team = new Team()
-            {
-                Name = "Barcelona"
-            };
-            Team teamChanges = new Team()
-            {
-                Name = ""
-            };
-            sportLogic.AddTeamToSport(sport, team);
-            sportLogic.UpdateTeamSport(sport.Id, team, teamChanges);
-        }
+        
 
         [TestMethod]
         [ExpectedException(typeof(SportDoesNotExistException))]
