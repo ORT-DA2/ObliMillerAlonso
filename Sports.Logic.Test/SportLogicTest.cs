@@ -141,12 +141,12 @@ namespace Sports.Logic.Test
         public void DeleteTeamFromSport()
         {
             sportLogic.AddSport(sport);
-            Team _team = new Team()
+            Team team = new Team()
             {
                 Name = "Barcelona"
             };
-            sportLogic.AddTeamToSport(sport, _team);
-            sportLogic.DeleteTeamFromSport(sport, _team);
+            sportLogic.AddTeamToSport(sport, team);
+            sportLogic.DeleteTeamFromSport(sport, team);
             Assert.AreEqual(sportLogic.GetSportById(sport.Id).Teams.Count, 0);
         }
 

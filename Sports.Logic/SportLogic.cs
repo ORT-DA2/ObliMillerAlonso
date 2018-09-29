@@ -122,7 +122,6 @@ namespace Sports.Logic
             realSport.DeleteTeam(realTeam);
             repository.Update(realSport);
             repository.Save();
-            teamLogic.Delete(realTeam);
         }
 
         public void UpdateTeamSport(int id, Team originalTeam, Team teamChanges)

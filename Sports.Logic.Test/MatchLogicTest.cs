@@ -77,9 +77,9 @@ namespace Sports.Logic.Test
         [TestCleanup]
         public void TearDown()
         {
-            repository.Matches.RemoveRange(repository.Matches);
             repository.Sports.RemoveRange(repository.Sports);
             repository.Teams.RemoveRange(repository.Teams);
+            repository.Matches.RemoveRange(repository.Matches);
             repository.Users.RemoveRange(repository.Users);
             repository.Comments.RemoveRange(repository.Comments);
             repository.SaveChanges();
@@ -402,7 +402,7 @@ namespace Sports.Logic.Test
         {
             matchLogic.AddMatch(match);
             sportLogic.RemoveSport(match.Sport.Id);
-            Assert.IsNull(matchLogic.GetMatchById(match.Id));
+            Assert.AreEqual(matchLogic.GetAllMatches().Count,0);
         }
 
     }
