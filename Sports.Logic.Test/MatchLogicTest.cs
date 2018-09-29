@@ -77,9 +77,9 @@ namespace Sports.Logic.Test
         [TestCleanup]
         public void TearDown()
         {
-            repository.Sports.RemoveRange(repository.Sports);
-            repository.Teams.RemoveRange(repository.Teams);
             repository.Matches.RemoveRange(repository.Matches);
+            repository.Teams.RemoveRange(repository.Teams);
+            repository.Sports.RemoveRange(repository.Sports);
             repository.Users.RemoveRange(repository.Users);
             repository.Comments.RemoveRange(repository.Comments);
             repository.SaveChanges();
