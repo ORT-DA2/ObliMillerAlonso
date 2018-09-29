@@ -105,6 +105,18 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
+        public void ChangeTeamNameNull()
+        {
+            teamLogic.AddTeam(team);
+            Team changeTeam = new Team()
+            {
+                Name = null
+            };
+            teamLogic.Modify(team.Id, changeTeam);
+            Assert.AreEqual<string>(teamLogic.GetTeamById(team.Id).Name, team.Name);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(InvalidEmptyTextFieldException))]
         public void ChangeTeamNameInvalid()
         {
