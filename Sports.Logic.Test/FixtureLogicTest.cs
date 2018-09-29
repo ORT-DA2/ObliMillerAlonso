@@ -26,6 +26,10 @@ namespace Sports.Logic.Test
         IMatchLogic matchLogic;
         RepositoryContext repository;
 
+        //pasar a json
+        string validImplementationsPath = "C:/Users/pepe1/Documentos/Diseno 2/ObliMillerAlonso/FixtureImplementations/bin/Debug/netcoreapp2.1";
+        string failingImplementationsPath = "C:/Users/pepe1/Documentos/Diseno 2/ObliMillerAlonso/FailingFixtureImplementations/bin/Debug/netcoreapp2.1";
+
         [TestInitialize]
         public void SetUp()
         {
@@ -73,7 +77,7 @@ namespace Sports.Logic.Test
         [TestMethod]
         public void GenerateFixture()
         {
-            fixtureLogic.AddFixtureImplementations("C:/Users/Rafael/Documents/Diseno2/MillerAlonso/FixtureImplementations/bin/Debug/netcoreapp2.1");
+            fixtureLogic.AddFixtureImplementations(validImplementationsPath);
             ICollection<Sport> sports = sportLogic.GetAll();
             ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
             Assert.AreEqual(42,matches.Count);
@@ -100,7 +104,7 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(InvalidNullValueException))]
         public void GenerateFixtureForNullSport()
         {
-            fixtureLogic.AddFixtureImplementations("C:/Users/Rafael/Documents/Diseno2/MillerAlonso/FixtureDlls");
+            fixtureLogic.AddFixtureImplementations(validImplementationsPath);
             ICollection<Match> matches = fixtureLogic.GenerateFixture(null);
         }
 
@@ -109,7 +113,7 @@ namespace Sports.Logic.Test
         public void GenerateFixtureForInvalidSport()
         {
             ICollection<Sport> sports = sportLogic.GetAll();
-            fixtureLogic.AddFixtureImplementations("C:/Users/Rafael/Documents/Diseno2/MillerAlonso/FixtureDlls");
+            fixtureLogic.AddFixtureImplementations(validImplementationsPath);
             Sport testSport = new Sport();
             sports.Add(testSport);
             ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
@@ -119,7 +123,7 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(MalfunctioningImplementationException))]
         public void GenerateWithMalfunctioningFixture()
         {
-            fixtureLogic.AddFixtureImplementations("C:/Users/Rafael/Documents/Diseno2/MillerAlonso/FailingFixtureDll");
+            fixtureLogic.AddFixtureImplementations(failingImplementationsPath);
             ICollection<Sport> sports = sportLogic.GetAll();
             ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
         }
@@ -127,7 +131,7 @@ namespace Sports.Logic.Test
         [TestMethod]
         public void TestBackAndForthFixtureDailyNoMatchesOnSameDay()
         {
-            fixtureLogic.AddFixtureImplementations("C:/Users/Rafael/Documents/Diseno2/MillerAlonso/FixtureImplementations/bin/Debug/netcoreapp2.1");
+            fixtureLogic.AddFixtureImplementations(validImplementationsPath);
             ICollection<Sport> sports = sportLogic.GetAll();
             ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
             int invalidMatches = 0;
@@ -143,7 +147,7 @@ namespace Sports.Logic.Test
         [TestMethod]
         public void ChangeFixtureImplementation()
         {
-            fixtureLogic.AddFixtureImplementations("C:/Users/Rafael/Documents/Diseno2/MillerAlonso/FixtureImplementations/bin/Debug/netcoreapp2.1");
+            fixtureLogic.AddFixtureImplementations(validImplementationsPath);
             fixtureLogic.ChangeFixtureImplementation();
             ICollection<Sport> sports = sportLogic.GetAll();
             ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
@@ -160,7 +164,7 @@ namespace Sports.Logic.Test
         [TestMethod]
         public void TestFixtureWeekendMatchesOnlyOnWeekends()
         {
-            fixtureLogic.AddFixtureImplementations("C:/Users/Rafael/Documents/Diseno2/MillerAlonso/FixtureImplementations/bin/Debug/netcoreapp2.1");
+            fixtureLogic.AddFixtureImplementations(validImplementationsPath);
             fixtureLogic.ChangeFixtureImplementation();
             ICollection<Sport> sports = sportLogic.GetAll();
             ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
