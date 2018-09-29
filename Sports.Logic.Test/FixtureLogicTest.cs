@@ -34,18 +34,7 @@ namespace Sports.Logic.Test
         public void SetUp()
         {
             SetUpRepositories();
-            Sport sport = new Sport()
-            {
-                Name = "Match Sport"
-            };
-            sportLogic.AddSport(sport);
-            AddTeam(sport, "First Team");
-            AddTeam(sport, "Second Team");
-            AddTeam(sport, "Third Team");
-            AddTeam(sport, "Forth Team");
-            AddTeam(sport, "Fifth Team");
-            AddTeam(sport, "Sixth Team");
-            AddTeam(sport, "Seventh Team");
+            SetUpSportWithTeams();
         }
 
         private void SetUpRepositories()
@@ -58,6 +47,21 @@ namespace Sports.Logic.Test
             fixtureLogic = new FixtureLogic(unit);
             sportLogic = new SportLogic(unit);
             matchLogic = new MatchLogic(unit);
+        }
+
+        private void SetUpSportWithTeams()
+        {
+            Sport sport = new Sport()
+            {
+                Name = "Match Sport"
+            };
+            sportLogic.AddSport(sport);
+            AddTeam(sport, "First Team");
+            AddTeam(sport, "Second Team");
+            AddTeam(sport, "Third Team");
+            AddTeam(sport, "Forth Team");
+            AddTeam(sport, "Fifth Team");
+            AddTeam(sport, "Sixth Team");
         }
 
         private void AddTeam(Sport sport, string teamName)
@@ -85,7 +89,7 @@ namespace Sports.Logic.Test
             fixtureLogic.AddFixtureImplementations(validImplementationsPath);
             ICollection<Sport> sports = sportLogic.GetAll();
             ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
-            Assert.AreEqual(42,matches.Count);
+            Assert.AreEqual(30,matches.Count);
         }
 
 
@@ -142,9 +146,7 @@ namespace Sports.Logic.Test
             int invalidMatches = 0;
             foreach(Match match in matches)
             {
-                invalidMatches += matches.Where(m => m.Date.Equals(match.Date)
-                 && (IsInMatch(match.Visitor, m) || IsInMatch(match.Local, m)) && (!m.Local.Equals(match.Local) || !m.Visitor.Equals(match.Visitor)))
-                .ToList().Count;
+                invalidMatches += MatchesWhereTeamPlaysTwice(matches, match).Count;
             }
             Assert.AreEqual(0, invalidMatches);
         }
@@ -156,7 +158,7 @@ namespace Sports.Logic.Test
             fixtureLogic.ChangeFixtureImplementation();
             ICollection<Sport> sports = sportLogic.GetAll();
             ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
-            Assert.AreEqual(21, matches.Count);
+            Assert.AreEqual(15, matches.Count);
         }
 
         [TestMethod]
@@ -176,13 +178,17 @@ namespace Sports.Logic.Test
             int invalidMatches = 0;
             foreach(Match match in matches)
             {
-                invalidMatches += matches.Where(m => m.Date.Equals(match.Date)
-                 && (IsInMatch(match.Visitor,m) || IsInMatch(match.Local, m))&&(!m.Local.Equals(match.Local)||!m.Visitor.Equals(match.Visitor)))
-                .ToList().Count;
+                invalidMatches += MatchesWhereTeamPlaysTwice(matches, match).Count;
             }
-            invalidMatches+= matches.Where(m => !IsWeekend(m.Date))
-                .ToList().Count;
+            invalidMatches += matches.Where(m => !IsWeekend(m.Date)).ToList().Count;
             Assert.AreEqual(0, invalidMatches);
+        }
+
+        private List<Match> MatchesWhereTeamPlaysTwice(ICollection<Match> matches, Match match)
+        {
+            return matches.Where(m => m.Date.Equals(match.Date)
+                             && (IsInMatch(match.Visitor, m) || IsInMatch(match.Local, m))
+                             && !m.Equals(match)).ToList();
         }
 
         private bool IsWeekend(DateTime date)
@@ -191,9 +197,10 @@ namespace Sports.Logic.Test
         }
 
 
-        private static bool IsInMatch(Team team, Match match)
+        private bool IsInMatch(Team team, Match match)
         {
             return match.Local.Equals(team) || match.Visitor.Equals(team);
         }
+        
     }
 }

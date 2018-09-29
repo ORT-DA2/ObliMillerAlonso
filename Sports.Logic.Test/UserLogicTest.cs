@@ -27,6 +27,7 @@ namespace Sports.Logic.Test
         [TestInitialize]
         public void SetUp()
         {
+            SetUpRepositories();
             user = new User(true)
             {
                 FirstName = "Itai",
@@ -35,6 +36,10 @@ namespace Sports.Logic.Test
                 UserName = "iMiller",
                 Password = "root"
             };
+        }
+
+        private void SetUpRepositories()
+        {
             var options = new DbContextOptionsBuilder<RepositoryContext>()
                 .UseInMemoryDatabase<RepositoryContext>(databaseName: "UserLogicTestDB")
                 .Options;

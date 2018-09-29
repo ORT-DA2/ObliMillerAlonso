@@ -28,12 +28,16 @@ namespace Sports.Logic.Test
         [TestInitialize]
         public void SetUp()
         {
+            SetUpRepositories();
+
             sport = new Sport()
             {
                 Name = "Tennis"
             };
+        }
 
-
+        private void SetUpRepositories()
+        {
             var options = new DbContextOptionsBuilder<RepositoryContext>()
                 .UseInMemoryDatabase<RepositoryContext>(databaseName: "SportLogicTestDB")
                 .Options;
