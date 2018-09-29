@@ -11,6 +11,8 @@ using Sports.Repository.Interface;
 using Sports.Repository.Context;
 using System.Diagnostics.CodeAnalysis;
 using Sports.Logic.Exceptions;
+using Sports.Domain.Exceptions;
+
 
 namespace Sports.Logic.Test
 {
@@ -152,7 +154,7 @@ namespace Sports.Logic.Test
 
 
         [TestMethod]
-        [ExpectedException(typeof(UserDoesNotExistException))]
+        [ExpectedException(typeof(InvalidEmptyUserException))]
         public void AddNullUser()
         {
             sportLogic.AddSport(sport);
@@ -162,7 +164,7 @@ namespace Sports.Logic.Test
 
 
         [TestMethod]
-        [ExpectedException(typeof(TeamDoesNotExistException))]
+        [ExpectedException(typeof(InvalidTeamIsEmptyException))]
         public void AddNullTeam()
         {
             userLogic.AddUser(user);

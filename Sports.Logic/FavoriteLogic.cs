@@ -30,14 +30,26 @@ namespace Sports.Logic
         {
             Favorite favorite = new Favorite()
             {
-                User = userLogic.GetUserById(user.Id),
-                Team = teamLogic.GetTeamById(team.Id)
+                User = user,
+                Team = team
             };
-            ValidateFavoriteDoesntExist(user, team);
+            ValidateNewFavorite(user, team, favorite);
             repository.Create(favorite);
             repository.Save();
         }
-        
+
+        private void ValidateNewFavorite(User user, Team team, Favorite favorite)
+        {
+            favorite.Validate();
+            ValidateUserAndTeam(favorite);
+            ValidateFavoriteDoesntExist(user, team);
+        }
+
+        private void ValidateUserAndTeam(Favorite favorite)
+        {
+            favorite.User = userLogic.GetUserById(favorite.User.Id);
+            favorite.Team = teamLogic.GetTeamById(favorite.Team.Id);
+        }
 
         private void ValidateFavoriteDoesntExist(User user, Team team)
         {
