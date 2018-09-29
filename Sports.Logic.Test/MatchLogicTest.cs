@@ -388,13 +388,21 @@ namespace Sports.Logic.Test
 
         [TestMethod]
         [ExpectedException(typeof(MatchDoesNotExistException))]
-        public void GetFavoriteMatchesForInexistentTeam()
+        public void GetMatchesForTeamThatDidntPlay()
         {
-            Team invalidTeam = new Team()
+
+            Sport sport = new Sport()
             {
-                Name = "team name",
+                Name = "Unplayed Sport"
             };
-            matchLogic.GetAllMatchesForTeam(invalidTeam);
+            sportLogic.AddSport(sport);
+
+            Team unplayedTeam = new Team()
+            {
+                Name = "New Local team"
+            };
+            sportLogic.AddTeamToSport(sport, unplayedTeam);
+            matchLogic.GetAllMatchesForTeam(unplayedTeam);
         }
 
     }
