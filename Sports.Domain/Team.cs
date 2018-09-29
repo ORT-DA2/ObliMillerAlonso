@@ -18,6 +18,7 @@ namespace Sports.Domain
         public Sport Sport { get; set; }
         public ICollection<Match> LocalMatches { get; set; }
         public ICollection<Match> VisitorMatches { get; set; }
+        public ICollection<Favorite> Favorites { get; set; }
 
         public void IsValid()
         {

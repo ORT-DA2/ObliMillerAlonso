@@ -38,55 +38,6 @@ namespace Sports.Domain.Test
         {
             Assert.IsNotNull(favorite);
         }
-
-
-        [TestMethod]
-        public void EqualsIsTrue()
-        {
-            Favorite secondFavorite = new Favorite()
-            {
-                User = user,
-                Team = team
-            };
-            Assert.IsTrue(favorite.Equals(secondFavorite));
-        }
         
-        [TestMethod]
-        public void EqualsIsFalseUser()
-        {
-            User differentUser = new User()
-            {
-                UserName = "Different",
-            };
-            Favorite secondFavorite = new Favorite()
-            {
-                User = differentUser,
-                Team = team
-            };
-            Assert.IsFalse(favorite.Equals(secondFavorite));
-        }
-
-        [TestMethod]
-        public void EqualsIsFalseTeam()
-        {
-            Team differentTeam = new Team()
-            {
-                Name = "Different",
-            };
-            Favorite secondFavorite = new Favorite()
-            {
-                Team = differentTeam,
-                User = user
-            };
-            Assert.IsFalse(favorite.Equals(secondFavorite));
-        }
-
-
-
-        [TestMethod]
-        public void EqualsNull()
-        {
-            Assert.IsFalse(favorite.Equals(null));
-        }
     }
 }

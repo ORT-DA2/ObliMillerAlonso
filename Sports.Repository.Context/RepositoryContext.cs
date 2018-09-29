@@ -30,8 +30,9 @@ namespace Sports.Repository.Context
 
             modelBuilder.Entity<Team>().HasKey(t => t.Id);
             modelBuilder.Entity<Team>().Property(t => t.Id).ValueGeneratedOnAdd();
-            modelBuilder.Entity<Team>().HasMany<Match>(s => s.LocalMatches).WithOne(m => m.Local).OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<Team>().HasMany<Match>(s => s.VisitorMatches).WithOne(m => m.Visitor).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Team>().HasMany<Match>(t => t.LocalMatches).WithOne(m => m.Local).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Team>().HasMany<Match>(t => t.VisitorMatches).WithOne(m => m.Visitor).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Team>().HasMany<Favorite>(t => t.Favorites).WithOne(f => f.Team).OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Comment>().HasKey(c => c.Id);
             modelBuilder.Entity<Comment>().Property(c => c.Id).ValueGeneratedOnAdd();
@@ -54,6 +55,8 @@ namespace Sports.Repository.Context
 
             modelBuilder.Entity<Favorite>().HasKey(f => f.Id);
             modelBuilder.Entity<Favorite>().Property(f => f.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<Favorite>().HasOne<User>(f => f.User);
+            modelBuilder.Entity<Favorite>().HasOne<Team>(f => f.Team);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
