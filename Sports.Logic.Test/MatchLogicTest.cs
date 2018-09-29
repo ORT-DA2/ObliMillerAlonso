@@ -30,19 +30,19 @@ namespace Sports.Logic.Test
         [TestInitialize]
         public void SetUp()
         {
-            Team localTeam = new Team()
-            {
-                Name = "Local team"
-            };
-            Team visitorTeam = new Team()
-            {
-                Name = "Visitor team",
+            SetupRepositories();
+            CreateBaseDataForTests();
+        }
 
-            };
+        private void CreateBaseDataForTests()
+        {
             Sport sport = new Sport()
             {
                 Name = "Match Sport"
             };
+            sportLogic.AddSport(sport);
+            Team localTeam = AddTeamToSport(sport, "Local team");
+            Team visitorTeam = AddTeamToSport(sport, "Visitor team");
             match = new Match()
             {
                 Sport = sport,
@@ -50,17 +50,28 @@ namespace Sports.Logic.Test
                 Visitor = visitorTeam,
                 Date = DateTime.Now.AddDays(1)
             };
+        }
+
+        private void SetupRepositories()
+        {
             var options = new DbContextOptionsBuilder<RepositoryContext>()
-                .UseInMemoryDatabase<RepositoryContext>(databaseName: "MatchLogicTestDB")
-                .Options;
+                            .UseInMemoryDatabase<RepositoryContext>(databaseName: "MatchLogicTestDB")
+                            .Options;
             repository = new RepositoryContext(options);
             unit = new RepositoryUnitOfWork(repository);
             matchLogic = new MatchLogic(unit);
             sportLogic = new SportLogic(unit);
             userLogic = new UserLogic(unit);
-            sportLogic.AddSport(sport);
-            sportLogic.AddTeamToSport(sport,localTeam);
-            sportLogic.AddTeamToSport(sport, visitorTeam);
+        }
+
+        private Team AddTeamToSport(Sport sport, string teamName)
+        {
+            Team team = new Team()
+            {
+                Name = teamName,
+            };
+            sportLogic.AddTeamToSport(sport, team);
+            return team;
         }
 
         [TestCleanup]
@@ -164,21 +175,11 @@ namespace Sports.Logic.Test
             matchLogic.AddMatch(match);
             Sport sport = new Sport()
             {
-                Name = "Test Sport"
+                Name = "New Sport"
             };
             sportLogic.AddSport(sport);
-
-            Team localTeam = new Team()
-            {
-                Name = "New Local team"
-            };
-            Team visitorTeam = new Team()
-            {
-                Name = "New Visitor team",
-
-            };
-            sportLogic.AddTeamToSport(sport, localTeam);
-            sportLogic.AddTeamToSport(sport, visitorTeam);
+            Team localTeam = AddTeamToSport(sport, "New Local team");
+            Team visitorTeam = AddTeamToSport(sport, "New Visitor team");
             match.Sport = sport;
             match.Local = localTeam;
             match.Visitor = visitorTeam;
@@ -306,14 +307,7 @@ namespace Sports.Logic.Test
         public void AddCommentToMatch()
         {
             matchLogic.AddMatch(match);
-            User user = new User()
-            {
-                FirstName = "Itai",
-                LastName = "Miller",
-                Email = "itaimiller@gmail.com",
-                UserName = "iMiller",
-                Password = "root"
-            };
+            User user = ValidUser();
             userLogic.AddUser(user);
             Comment comment = new Comment
             {
@@ -325,11 +319,9 @@ namespace Sports.Logic.Test
             Assert.AreEqual(commentInMatchStored.Id, comment.Id);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(MatchDoesNotExistException))]
-        public void AddCommentToInexistentMatch()
+        private User ValidUser()
         {
-            User user = new User()
+            return new User()
             {
                 FirstName = "Itai",
                 LastName = "Miller",
@@ -337,6 +329,13 @@ namespace Sports.Logic.Test
                 UserName = "iMiller",
                 Password = "root"
             };
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(MatchDoesNotExistException))]
+        public void AddCommentToInexistentMatch()
+        {
+            User user = ValidUser();
             userLogic.AddUser(user);
             Comment comment = new Comment
             {
@@ -351,14 +350,7 @@ namespace Sports.Logic.Test
         public void AddCommentWithInexistentUserToMatch()
         {
             matchLogic.AddMatch(match);
-            User user = new User()
-            {
-                FirstName = "Itai",
-                LastName = "Miller",
-                Email = "itaimiller@gmail.com",
-                UserName = "iMiller",
-                Password = "root"
-            };
+            User user = ValidUser();
             Comment comment = new Comment
             {
                 Text = "Text",
