@@ -396,5 +396,14 @@ namespace Sports.Logic.Test
             matchLogic.GetAllMatchesForTeam(unplayedTeam);
         }
 
+
+        [TestMethod]
+        public void CascadeDeleteMatchFromSport()
+        {
+            matchLogic.AddMatch(match);
+            sportLogic.RemoveSport(match.Sport.Id);
+            Assert.IsNull(matchLogic.GetMatchById(match.Id));
+        }
+
     }
 }

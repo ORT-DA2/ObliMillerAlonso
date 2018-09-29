@@ -267,5 +267,6 @@ namespace Sports.Logic.Test
             sportLogic.RemoveSport(sport.Id);
             Assert.AreEqual(teamLogic.GetAll().Count, 0);
         }
+
     }
 }
