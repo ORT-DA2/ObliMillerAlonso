@@ -193,7 +193,7 @@ namespace Sports.Logic.Test
         {
             favoriteLogic.AddFavoriteTeam(user, favoriteTeam);
             userLogic.RemoveUser(user.Id);
-            Assert.AreEqual(favorites.Count, 1);
+            Assert.AreEqual(favoriteLogic.GetAll().Count, 0);
         }
 
     }

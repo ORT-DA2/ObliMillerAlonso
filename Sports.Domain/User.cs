@@ -22,7 +22,8 @@ namespace Sports.Domain
         public string UserName { get; set; }
 
         public ICollection<Comment> Comments { get; set; }
-        
+        public ICollection<Favorite> Favorites { get; set; }
+
         public User()
         {
 

@@ -109,5 +109,10 @@ namespace Sports.Logic
             favoriteMatches.OrderBy(m => m.Date).ToList();
             return favoriteMatches;
         }
+
+        public ICollection<Favorite> GetAll()
+        {
+            return repository.FindAll();
+        }
     }
 }
