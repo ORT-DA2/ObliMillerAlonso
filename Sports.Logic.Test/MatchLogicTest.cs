@@ -413,5 +413,13 @@ namespace Sports.Logic.Test
             Assert.AreEqual(matchLogic.GetAllMatches().Count, 0);
         }
 
+        [TestMethod]
+        public void CascadeDeleteMatchFromVisitorTeam()
+        {
+            matchLogic.AddMatch(match);
+            sportLogic.DeleteTeamFromSport(match.Sport, match.Visitor);
+            Assert.AreEqual(matchLogic.GetAllMatches().Count, 0);
+        }
+
     }
 }
