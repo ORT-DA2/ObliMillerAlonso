@@ -150,5 +150,24 @@ namespace Sports.Logic.Test
             favoriteLogic.AddFavoriteTeam(user, localTeam);
         }
 
+
+        [TestMethod]
+        [ExpectedException(typeof(UserDoesNotExistException))]
+        public void AddNullUser()
+        {
+            sportLogic.AddSport(sport);
+            sportLogic.AddTeamToSport(sport, localTeam);
+            favoriteLogic.AddFavoriteTeam(null, localTeam);
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(TeamDoesNotExistException))]
+        public void AddNullTeam()
+        {
+            userLogic.AddUser(user);
+            favoriteLogic.AddFavoriteTeam(user, null);
+        }
+
     }
 }

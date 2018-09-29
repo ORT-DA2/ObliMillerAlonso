@@ -33,7 +33,6 @@ namespace Sports.Logic
                 User = userLogic.GetUserById(user.Id),
                 Team = teamLogic.GetTeamById(team.Id)
             };
-            favorite.Validate();
             ValidateFavoriteDoesntExist(user, team);
             repository.Create(favorite);
             repository.Save();
