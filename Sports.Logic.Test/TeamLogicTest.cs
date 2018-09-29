@@ -113,11 +113,10 @@ namespace Sports.Logic.Test
                 Name = null
             };
             teamLogic.Modify(team.Id, changeTeam);
-            Assert.AreEqual<string>(teamLogic.GetTeamById(team.Id).Name, team.Name);
+            Assert.AreNotEqual<string>(teamLogic.GetTeamById(team.Id).Name, changeTeam.Name);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidEmptyTextFieldException))]
         public void ChangeTeamNameInvalid()
         {
             teamLogic.AddTeam(team);
@@ -126,6 +125,7 @@ namespace Sports.Logic.Test
                 Name = ""
             };
             teamLogic.Modify(team.Id, changeTeam);
+            Assert.AreNotEqual<string>(teamLogic.GetTeamById(team.Id).Name, changeTeam.Name);
         }
 
         [TestMethod]
