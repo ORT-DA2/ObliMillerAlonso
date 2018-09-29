@@ -15,6 +15,9 @@ namespace Sports.Domain
         public string Name { get; set; }
         public string Picture { get; private set; }
 
+        public Sport Sport { get; set; }
+        public ICollection<Match> matches;
+
         public void IsValid()
         {
             IsValidName();
