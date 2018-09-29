@@ -390,7 +390,6 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(MatchDoesNotExistException))]
         public void GetMatchesForTeamThatDidntPlay()
         {
-
             Sport sport = new Sport()
             {
                 Name = "Unplayed Sport"
