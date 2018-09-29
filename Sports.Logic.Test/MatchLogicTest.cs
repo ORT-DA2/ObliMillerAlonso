@@ -386,6 +386,16 @@ namespace Sports.Logic.Test
             Assert.AreEqual(sportLogic.GetAll().Count,1);
         }
 
-        //verify add team/ sport/ comment no duplica datos
+        [TestMethod]
+        [ExpectedException(typeof(MatchDoesNotExistException))]
+        public void GetFavoriteMatchesForInexistentTeam()
+        {
+            Team invalidTeam = new Team()
+            {
+                Name = "team name",
+            };
+            matchLogic.GetAllMatchesForTeam(invalidTeam);
+        }
+
     }
 }
