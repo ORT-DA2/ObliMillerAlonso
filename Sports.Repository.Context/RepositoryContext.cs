@@ -24,6 +24,7 @@ namespace Sports.Repository.Context
 
             modelBuilder.Entity<User>().HasKey(u => u.Id);
             modelBuilder.Entity<User>().Property(u => u.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<User>().HasMany<Comment>(m => m.Comments).WithOne(c => c.User).OnDelete(DeleteBehavior.Cascade);
 
 
             modelBuilder.Entity<Team>().HasKey(t => t.Id);
