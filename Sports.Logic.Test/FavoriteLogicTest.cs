@@ -23,22 +23,53 @@ namespace Sports.Logic.Test
         private IRepositoryUnitOfWork unitOfWork;
         private RepositoryContext repository;
         private IFavoriteLogic favoriteLogic;
-        private IUserLogic userLogic;
-        private ITeamLogic teamLogic;
-        private ICommentLogic commentLogic;
         private IMatchLogic matchLogic;
         private ISportLogic sportLogic;
-        Favorite favorite;
+        private IUserLogic userLogic;
         User user;
-        Team team;
         Comment comment;
-        Team localTeam;
-        Team visitorTeam;
-        Sport sport;
+        Team favoriteTeam;
         Match match;
 
         [TestInitialize]
         public void SetUp()
+        {
+            SetUpRepositories();
+            AddUserToRepository();
+            AddMatchWithDataToRepository();
+            comment = new Comment()
+            {
+                Text = "text",
+                User = user
+            };
+        }
+
+        private void AddMatchWithDataToRepository()
+        {
+            Sport sport = AddSportToRepository();
+            favoriteTeam = AddTeamToSport(sport, "Local team");
+            Team visitorTeam = AddTeamToSport(sport, "Visitor team");
+            match = new Match()
+            {
+                Sport = sport,
+                Local = favoriteTeam,
+                Visitor = visitorTeam,
+                Date = DateTime.Now.AddDays(1)
+            };
+            matchLogic.AddMatch(match);
+        }
+
+        private Sport AddSportToRepository()
+        {
+            Sport sport = new Sport()
+            {
+                Name = "Match Sport"
+            };
+            sportLogic.AddSport(sport);
+            return sport;
+        }
+
+        private void AddUserToRepository()
         {
             user = new User()
             {
@@ -48,45 +79,30 @@ namespace Sports.Logic.Test
                 UserName = "iMiller",
                 Password = "root"
             };
-            team = new Team()
-            {
-                Name = "Barcelona"
-            };
-            comment = new Comment()
-            {
-                Text = "text",
-                User = user
-            };
-            localTeam = new Team()
-            {
-                Name = "Local team"
-            };
-            visitorTeam = new Team()
-            {
-                Name = "Visitor team"
-            };
-            sport = new Sport()
-            {
-                Name = "Match Sport"
-            };
-            match = new Match()
-            {
-                Sport = sport,
-                Local = localTeam,
-                Visitor = visitorTeam,
-                Date = DateTime.Now.AddDays(1)
-            };
+            userLogic.AddUser(user);
+        }
+
+        private void SetUpRepositories()
+        {
             var options = new DbContextOptionsBuilder<RepositoryContext>()
-                .UseInMemoryDatabase<RepositoryContext>(databaseName: "FavoriteLogicTestDB")
-                .Options;
+                            .UseInMemoryDatabase<RepositoryContext>(databaseName: "FavoriteLogicTestDB")
+                            .Options;
             repository = new RepositoryContext(options);
             unitOfWork = new RepositoryUnitOfWork(repository);
             favoriteLogic = new FavoriteLogic(unitOfWork);
             userLogic = new UserLogic(unitOfWork);
-            teamLogic = new TeamLogic(unitOfWork);
-            commentLogic = new CommentLogic(unitOfWork);
             matchLogic = new MatchLogic(unitOfWork);
             sportLogic = new SportLogic(unitOfWork);
+        }
+
+        private Team AddTeamToSport(Sport sport, string teamName)
+        {
+            Team team = new Team()
+            {
+                Name = teamName,
+            };
+            sportLogic.AddTeamToSport(sport, team);
+            return team;
         }
 
         [TestCleanup]
@@ -103,9 +119,7 @@ namespace Sports.Logic.Test
         [TestMethod]
         public void GetFavoritesForUser()
         {
-            userLogic.AddUser(user);
-            teamLogic.AddTeam(team);
-            favoriteLogic.AddFavoriteTeam(user, team);
+            favoriteLogic.AddFavoriteTeam(user, favoriteTeam);
             ICollection<Team> favorites = favoriteLogic.GetFavoritesFromUser(user.Id);
             Assert.AreEqual(favorites.Count, 1);
         }
@@ -115,10 +129,8 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(FavoriteAlreadyExistException))]
         public void AddFavoriteTwice()
         {
-            userLogic.AddUser(user);
-            teamLogic.AddTeam(team);
-            favoriteLogic.AddFavoriteTeam(user, team);
-            favoriteLogic.AddFavoriteTeam(user, team);
+            favoriteLogic.AddFavoriteTeam(user, favoriteTeam);
+            favoriteLogic.AddFavoriteTeam(user, favoriteTeam);
         }
 
         [TestMethod]
@@ -133,12 +145,8 @@ namespace Sports.Logic.Test
         [TestMethod]
         public void GetFavoritesTeamsComments()
         {
-            userLogic.AddUser(user);
-            sportLogic.AddSport(sport);
-            sportLogic.AddTeamToSport(sport, localTeam);
-            sportLogic.AddTeamToSport(sport, visitorTeam);
-            matchLogic.AddMatch(match);
-            favoriteLogic.AddFavoriteTeam(user, localTeam);
+            
+            favoriteLogic.AddFavoriteTeam(user, favoriteTeam);
             matchLogic.AddCommentToMatch(match.Id, comment);
             ICollection<Comment> favoriteComments = favoriteLogic.GetFavoritesTeamsComments(user);
             Assert.AreEqual(favoriteComments.Count, 1);
@@ -149,9 +157,8 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(UserDoesNotExistException))]
         public void AddInvalidUser()
         {
-            sportLogic.AddSport(sport);
-            sportLogic.AddTeamToSport(sport, localTeam);
-            favoriteLogic.AddFavoriteTeam(user, localTeam);
+            User fakeUser = new User();
+            favoriteLogic.AddFavoriteTeam(fakeUser, favoriteTeam);
         }
 
 
@@ -159,8 +166,8 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(TeamDoesNotExistException))]
         public void AddInvalidTeam()
         {
-            userLogic.AddUser(user);
-            favoriteLogic.AddFavoriteTeam(user, localTeam);
+            Team fakeTeam = new Team();
+            favoriteLogic.AddFavoriteTeam(user, fakeTeam);
         }
 
 
@@ -168,9 +175,7 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(InvalidEmptyUserException))]
         public void AddNullUser()
         {
-            sportLogic.AddSport(sport);
-            sportLogic.AddTeamToSport(sport, localTeam);
-            favoriteLogic.AddFavoriteTeam(null, localTeam);
+            favoriteLogic.AddFavoriteTeam(null, favoriteTeam);
         }
 
 
@@ -178,7 +183,6 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(InvalidTeamIsEmptyException))]
         public void AddNullTeam()
         {
-            userLogic.AddUser(user);
             favoriteLogic.AddFavoriteTeam(user, null);
         }
 

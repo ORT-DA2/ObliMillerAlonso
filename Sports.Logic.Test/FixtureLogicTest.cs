@@ -33,26 +33,31 @@ namespace Sports.Logic.Test
         [TestInitialize]
         public void SetUp()
         {
-            var options = new DbContextOptionsBuilder<RepositoryContext>()
-                .UseInMemoryDatabase<RepositoryContext>(databaseName: "FixtureLogicTestDB")
-                .Options;
-            repository = new RepositoryContext(options);
-            unit = new RepositoryUnitOfWork(repository);
-            fixtureLogic = new FixtureLogic(unit);
-            sportLogic = new SportLogic(unit);
-            matchLogic = new MatchLogic(unit);
+            SetUpRepositories();
             Sport sport = new Sport()
             {
                 Name = "Match Sport"
             };
             sportLogic.AddSport(sport);
-            AddTeam(sport,"First Team");
+            AddTeam(sport, "First Team");
             AddTeam(sport, "Second Team");
             AddTeam(sport, "Third Team");
             AddTeam(sport, "Forth Team");
             AddTeam(sport, "Fifth Team");
             AddTeam(sport, "Sixth Team");
             AddTeam(sport, "Seventh Team");
+        }
+
+        private void SetUpRepositories()
+        {
+            var options = new DbContextOptionsBuilder<RepositoryContext>()
+                            .UseInMemoryDatabase<RepositoryContext>(databaseName: "FixtureLogicTestDB")
+                            .Options;
+            repository = new RepositoryContext(options);
+            unit = new RepositoryUnitOfWork(repository);
+            fixtureLogic = new FixtureLogic(unit);
+            sportLogic = new SportLogic(unit);
+            matchLogic = new MatchLogic(unit);
         }
 
         private void AddTeam(Sport sport, string teamName)

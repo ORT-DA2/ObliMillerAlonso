@@ -29,6 +29,13 @@ namespace Sports.Logic.Test
         [TestInitialize]
         public void SetUp()
         {
+            SetUpRepositories();
+            SetUpTestData();
+
+        }
+
+        private void SetUpTestData()
+        {
             user = new User(true)
             {
                 FirstName = "Itai",
@@ -37,22 +44,23 @@ namespace Sports.Logic.Test
                 UserName = "iMiller",
                 Password = "root"
             };
-
+            userLogic.AddUser(user);
             comment = new Comment()
             {
                 Text = "comment",
                 User = user
             };
+        }
 
-            
+        private void SetUpRepositories()
+        {
             var options = new DbContextOptionsBuilder<RepositoryContext>()
                 .UseInMemoryDatabase<RepositoryContext>(databaseName: "CommentLogicTestDB")
                 .Options;
             repository = new RepositoryContext(options);
             unitOfWork = new RepositoryUnitOfWork(repository);
             commentLogic = new CommentLogic(unitOfWork);
-            userLogic = new UserLogic(unitOfWork);
-            userLogic.AddUser(user);
+            userLogic = new UserLogic(unitOfWork);;
         }
 
         [TestCleanup]
