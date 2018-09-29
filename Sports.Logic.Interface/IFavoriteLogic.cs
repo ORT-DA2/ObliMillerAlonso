@@ -10,5 +10,6 @@ namespace Sports.Logic.Interface
         void AddFavoriteTeam(User user, Team team);
         ICollection<Team> GetFavoritesFromUser(int id);
         ICollection<Comment> GetFavoritesTeamsComments(User user);
+        ICollection<Favorite> GetAll();
     }
 }

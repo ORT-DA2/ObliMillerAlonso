@@ -14,6 +14,8 @@ namespace Sports.Domain
         public string Name { get; set; }
         public ICollection<Team> Teams { get; set; }
 
+        public ICollection<Match> Matches { get; set; }
+
         public Sport()
         {
             Teams = new List<Team>();

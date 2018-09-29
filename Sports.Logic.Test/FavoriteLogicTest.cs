@@ -186,5 +186,23 @@ namespace Sports.Logic.Test
             favoriteLogic.AddFavoriteTeam(user, null);
         }
 
+
+
+        [TestMethod]
+        public void CascadeDeleteFavoritesFromUser()
+        {
+            favoriteLogic.AddFavoriteTeam(user, favoriteTeam);
+            userLogic.RemoveUser(user.Id);
+            Assert.AreEqual(favoriteLogic.GetAll().Count, 0);
+        }
+
+        [TestMethod]
+        public void CascadeDeleteFavoritesFromTeam()
+        {
+            favoriteLogic.AddFavoriteTeam(user, favoriteTeam);
+            sportLogic.DeleteTeamFromSport(match.Sport, favoriteTeam);
+            Assert.AreEqual(favoriteLogic.GetAll().Count, 0);
+        }
+
     }
 }

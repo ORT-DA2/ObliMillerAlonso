@@ -125,19 +125,5 @@ namespace Sports.Domain
             return updated;
         }
 
-
-        public override bool Equals(object obj)
-        {
-            if (obj == null || !obj.GetType().Equals(this.GetType()))
-            {
-                return false;
-            }
-            else
-            {
-                return this.Sport.Equals(((Match)obj).Sport) && this.Local.Equals(((Match)obj).Local) 
-                    && this.Visitor.Equals(((Match)obj).Visitor) && this.Date.Date.Equals(((Match)obj).Date.Date);
-            }
-        }
-
     }
 }

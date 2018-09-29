@@ -104,6 +104,15 @@ namespace Sports.Logic.Test
             commentLogic.AddComment(comment);
             Assert.AreEqual(commentLogic.GetAll().Count, 1);
         }
+
+
+        [TestMethod]
+        public void CascadeDeleteCommentsFromUser()
+        {
+            commentLogic.AddComment(comment);
+            userLogic.RemoveUser(user.Id);
+            Assert.AreEqual(commentLogic.GetAll().Count, 0);
+        }
     }
 
 }

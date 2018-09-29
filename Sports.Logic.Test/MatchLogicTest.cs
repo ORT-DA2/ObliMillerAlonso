@@ -25,6 +25,7 @@ namespace Sports.Logic.Test
         private IMatchLogic matchLogic;
         private ISportLogic sportLogic;
         private IUserLogic userLogic;
+        private ICommentLogic commentLogic;
         private Match match;
 
         [TestInitialize]
@@ -62,6 +63,7 @@ namespace Sports.Logic.Test
             matchLogic = new MatchLogic(unit);
             sportLogic = new SportLogic(unit);
             userLogic = new UserLogic(unit);
+            commentLogic = new CommentLogic(unit);
         }
 
         private Team AddTeamToSport(Sport sport, string teamName)
@@ -78,8 +80,8 @@ namespace Sports.Logic.Test
         public void TearDown()
         {
             repository.Matches.RemoveRange(repository.Matches);
-            repository.Sports.RemoveRange(repository.Sports);
             repository.Teams.RemoveRange(repository.Teams);
+            repository.Sports.RemoveRange(repository.Sports);
             repository.Users.RemoveRange(repository.Users);
             repository.Comments.RemoveRange(repository.Comments);
             repository.SaveChanges();
@@ -396,5 +398,45 @@ namespace Sports.Logic.Test
             matchLogic.GetAllMatchesForTeam(unplayedTeam);
         }
 
+
+        [TestMethod]
+        public void CascadeDeleteMatchFromSport()
+        {
+            matchLogic.AddMatch(match);
+            sportLogic.RemoveSport(match.Sport.Id);
+            Assert.AreEqual(matchLogic.GetAllMatches().Count,0);
+        }
+
+        [TestMethod]
+        public void CascadeDeleteMatchFromLocalTeam()
+        {
+            matchLogic.AddMatch(match);
+            sportLogic.DeleteTeamFromSport(match.Sport,match.Local);
+            Assert.AreEqual(matchLogic.GetAllMatches().Count, 0);
+        }
+
+        [TestMethod]
+        public void CascadeDeleteMatchFromVisitorTeam()
+        {
+            matchLogic.AddMatch(match);
+            sportLogic.DeleteTeamFromSport(match.Sport, match.Visitor);
+            Assert.AreEqual(matchLogic.GetAllMatches().Count, 0);
+        }
+
+        [TestMethod]
+        public void CascadeDeleteCommentsFromMatch()
+        {
+            matchLogic.AddMatch(match);
+            User user = ValidUser();
+            userLogic.AddUser(user);
+            Comment comment = new Comment
+            {
+                Text = "Text",
+                User = user
+            };
+            matchLogic.AddCommentToMatch(match.Id, comment);
+            matchLogic.DeleteMatch(match);
+            Assert.AreEqual(commentLogic.GetAll().Count, 0);
+        }
     }
 }
