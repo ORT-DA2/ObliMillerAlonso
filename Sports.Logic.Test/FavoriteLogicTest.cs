@@ -196,5 +196,13 @@ namespace Sports.Logic.Test
             Assert.AreEqual(favoriteLogic.GetAll().Count, 0);
         }
 
+        [TestMethod]
+        public void CascadeDeleteFavoritesFromTeam()
+        {
+            favoriteLogic.AddFavoriteTeam(user, favoriteTeam);
+            sportLogic.DeleteTeamFromSport(match.Sport, favoriteTeam);
+            Assert.AreEqual(favoriteLogic.GetAll().Count, 0);
+        }
+
     }
 }
