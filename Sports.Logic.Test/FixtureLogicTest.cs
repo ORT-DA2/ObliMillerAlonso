@@ -26,29 +26,42 @@ namespace Sports.Logic.Test
         IMatchLogic matchLogic;
         RepositoryContext repository;
 
+        //pasar a json
+        string validImplementationsPath = "C:/Users/pepe1/Documentos/Diseno 2/ObliMillerAlonso/FixtureImplementations/bin/Debug/netcoreapp2.1";
+        string failingImplementationsPath = "C:/Users/pepe1/Documentos/Diseno 2/ObliMillerAlonso/FailingFixtureImplementations/bin/Debug/netcoreapp2.1";
+
         [TestInitialize]
         public void SetUp()
         {
+            SetUpRepositories();
+            SetUpSportWithTeams();
+        }
+
+        private void SetUpRepositories()
+        {
             var options = new DbContextOptionsBuilder<RepositoryContext>()
-                .UseInMemoryDatabase<RepositoryContext>(databaseName: "FixtureLogicTestDB")
-                .Options;
+                            .UseInMemoryDatabase<RepositoryContext>(databaseName: "FixtureLogicTestDB")
+                            .Options;
             repository = new RepositoryContext(options);
             unit = new RepositoryUnitOfWork(repository);
             fixtureLogic = new FixtureLogic(unit);
             sportLogic = new SportLogic(unit);
             matchLogic = new MatchLogic(unit);
+        }
+
+        private void SetUpSportWithTeams()
+        {
             Sport sport = new Sport()
             {
                 Name = "Match Sport"
             };
             sportLogic.AddSport(sport);
-            AddTeam(sport,"First Team");
+            AddTeam(sport, "First Team");
             AddTeam(sport, "Second Team");
             AddTeam(sport, "Third Team");
             AddTeam(sport, "Forth Team");
             AddTeam(sport, "Fifth Team");
             AddTeam(sport, "Sixth Team");
-            AddTeam(sport, "Seventh Team");
         }
 
         private void AddTeam(Sport sport, string teamName)
@@ -73,10 +86,10 @@ namespace Sports.Logic.Test
         [TestMethod]
         public void GenerateFixture()
         {
-            fixtureLogic.AddFixtureImplementations("C:/Users/Rafael/Documents/Diseno2/MillerAlonso/FixtureImplementations/bin/Debug/netcoreapp2.1");
+            fixtureLogic.AddFixtureImplementations(validImplementationsPath);
             ICollection<Sport> sports = sportLogic.GetAll();
             ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
-            Assert.AreEqual(42,matches.Count);
+            Assert.AreEqual(30,matches.Count);
         }
 
 
@@ -100,7 +113,7 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(InvalidNullValueException))]
         public void GenerateFixtureForNullSport()
         {
-            fixtureLogic.AddFixtureImplementations("C:/Users/Rafael/Documents/Diseno2/MillerAlonso/FixtureDlls");
+            fixtureLogic.AddFixtureImplementations(validImplementationsPath);
             ICollection<Match> matches = fixtureLogic.GenerateFixture(null);
         }
 
@@ -109,7 +122,7 @@ namespace Sports.Logic.Test
         public void GenerateFixtureForInvalidSport()
         {
             ICollection<Sport> sports = sportLogic.GetAll();
-            fixtureLogic.AddFixtureImplementations("C:/Users/Rafael/Documents/Diseno2/MillerAlonso/FixtureDlls");
+            fixtureLogic.AddFixtureImplementations(validImplementationsPath);
             Sport testSport = new Sport();
             sports.Add(testSport);
             ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
@@ -119,7 +132,7 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(MalfunctioningImplementationException))]
         public void GenerateWithMalfunctioningFixture()
         {
-            fixtureLogic.AddFixtureImplementations("C:/Users/Rafael/Documents/Diseno2/MillerAlonso/FailingFixtureDll");
+            fixtureLogic.AddFixtureImplementations(failingImplementationsPath);
             ICollection<Sport> sports = sportLogic.GetAll();
             ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
         }
@@ -127,15 +140,13 @@ namespace Sports.Logic.Test
         [TestMethod]
         public void TestBackAndForthFixtureDailyNoMatchesOnSameDay()
         {
-            fixtureLogic.AddFixtureImplementations("C:/Users/Rafael/Documents/Diseno2/MillerAlonso/FixtureImplementations/bin/Debug/netcoreapp2.1");
+            fixtureLogic.AddFixtureImplementations(validImplementationsPath);
             ICollection<Sport> sports = sportLogic.GetAll();
             ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
             int invalidMatches = 0;
             foreach(Match match in matches)
             {
-                invalidMatches += matches.Where(m => m.Date.Equals(match.Date)
-                 && (IsInMatch(match.Visitor, m) || IsInMatch(match.Local, m)) && (!m.Local.Equals(match.Local) || !m.Visitor.Equals(match.Visitor)))
-                .ToList().Count;
+                invalidMatches += MatchesWhereTeamPlaysTwice(matches, match).Count;
             }
             Assert.AreEqual(0, invalidMatches);
         }
@@ -143,11 +154,11 @@ namespace Sports.Logic.Test
         [TestMethod]
         public void ChangeFixtureImplementation()
         {
-            fixtureLogic.AddFixtureImplementations("C:/Users/Rafael/Documents/Diseno2/MillerAlonso/FixtureImplementations/bin/Debug/netcoreapp2.1");
+            fixtureLogic.AddFixtureImplementations(validImplementationsPath);
             fixtureLogic.ChangeFixtureImplementation();
             ICollection<Sport> sports = sportLogic.GetAll();
             ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
-            Assert.AreEqual(21, matches.Count);
+            Assert.AreEqual(15, matches.Count);
         }
 
         [TestMethod]
@@ -160,20 +171,24 @@ namespace Sports.Logic.Test
         [TestMethod]
         public void TestFixtureWeekendMatchesOnlyOnWeekends()
         {
-            fixtureLogic.AddFixtureImplementations("C:/Users/Rafael/Documents/Diseno2/MillerAlonso/FixtureImplementations/bin/Debug/netcoreapp2.1");
+            fixtureLogic.AddFixtureImplementations(validImplementationsPath);
             fixtureLogic.ChangeFixtureImplementation();
             ICollection<Sport> sports = sportLogic.GetAll();
             ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
             int invalidMatches = 0;
             foreach(Match match in matches)
             {
-                invalidMatches += matches.Where(m => m.Date.Equals(match.Date)
-                 && (IsInMatch(match.Visitor,m) || IsInMatch(match.Local, m))&&(!m.Local.Equals(match.Local)||!m.Visitor.Equals(match.Visitor)))
-                .ToList().Count;
+                invalidMatches += MatchesWhereTeamPlaysTwice(matches, match).Count;
             }
-            invalidMatches+= matches.Where(m => !IsWeekend(m.Date))
-                .ToList().Count;
+            invalidMatches += matches.Where(m => !IsWeekend(m.Date)).ToList().Count;
             Assert.AreEqual(0, invalidMatches);
+        }
+
+        private List<Match> MatchesWhereTeamPlaysTwice(ICollection<Match> matches, Match match)
+        {
+            return matches.Where(m => m.Date.Equals(match.Date)
+                             && (IsInMatch(match.Visitor, m) || IsInMatch(match.Local, m))
+                             && !m.Equals(match)).ToList();
         }
 
         private bool IsWeekend(DateTime date)
@@ -182,9 +197,10 @@ namespace Sports.Logic.Test
         }
 
 
-        private static bool IsInMatch(Team team, Match match)
+        private bool IsInMatch(Team team, Match match)
         {
             return match.Local.Equals(team) || match.Visitor.Equals(team);
         }
+        
     }
 }

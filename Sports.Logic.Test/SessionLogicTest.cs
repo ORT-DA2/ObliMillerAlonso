@@ -30,6 +30,23 @@ namespace Sports.Logic.Test
         [TestInitialize]
         public void SetUp()
         {
+            SetUpRepositories();
+            SetUpTestData();
+        }
+
+        private void SetUpRepositories()
+        {
+            var options = new DbContextOptionsBuilder<RepositoryContext>()
+                            .UseInMemoryDatabase<RepositoryContext>(databaseName: "SessionLogicTestDB")
+                            .Options;
+            repository = new RepositoryContext(options);
+            unitOfWork = new RepositoryUnitOfWork(repository);
+            sessionLogic = new SessionLogic(unitOfWork);
+            userLogic = new UserLogic(unitOfWork);
+        }
+
+        private void SetUpTestData()
+        {
             user = new User(true)
             {
                 FirstName = "Itai",
@@ -38,20 +55,12 @@ namespace Sports.Logic.Test
                 UserName = "iMiller",
                 Password = "root"
             };
+            userLogic.AddUser(user);
             session = new Session()
             {
                 User = user,
                 Token = Guid.NewGuid()
             };
-
-            var options = new DbContextOptionsBuilder<RepositoryContext>()
-                .UseInMemoryDatabase<RepositoryContext>(databaseName: "SessionLogicTestDB")
-                .Options;
-            repository = new RepositoryContext(options);
-            unitOfWork = new RepositoryUnitOfWork(repository);
-            sessionLogic = new SessionLogic(unitOfWork);
-            userLogic = new UserLogic(unitOfWork);
-            userLogic.AddUser(user);
         }
 
         [TestCleanup]

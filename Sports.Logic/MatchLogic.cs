@@ -16,11 +16,13 @@ namespace Sports.Logic
         IMatchRepository repository;
         ISportLogic sportLogic;
         ICommentLogic commentLogic;
+        ITeamLogic teamLogic;
 
         public MatchLogic(IRepositoryUnitOfWork unit)
         {
             repository = unit.Match;
             sportLogic = new SportLogic(unit);
+            teamLogic = new TeamLogic(unit);
             commentLogic = new CommentLogic(unit);
         }
         public void AddMatch(Match match)
@@ -63,6 +65,18 @@ namespace Sports.Logic
                 throw new MatchDoesNotExistException(MatchId.MATCH_ID_NOT_EXIST_MESSAGE);
             }
             return matches.First();
+        }
+
+
+        public ICollection<Match> GetAllMatchesForTeam(Team team)
+        {
+            Team playingTeam = teamLogic.GetTeamById(team.Id);
+            ICollection<Match> matches = repository.FindByCondition(m => m.Local.Equals(playingTeam) ||m.Visitor.Equals(playingTeam));
+            if (matches.Count == 0)
+            {
+                throw new MatchDoesNotExistException("Team has no matches");
+            }
+            return matches;
         }
 
         public void ModifyMatch(int id, Match match)

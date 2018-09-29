@@ -13,7 +13,7 @@ namespace Sports.Domain
     public class User
     {
         [Key]
-        public int Id { get; set; }
+        public int Id { get; private set; }
         public string FirstName { get; set; }
         public bool IsAdmin { get; private set; }
         public string LastName { get; set; }

@@ -29,10 +29,15 @@ namespace Sports.Logic.Test
         [TestInitialize]
         public void SetUp()
         {
+            SetUpRepositories();
             team = new Team()
             {
                 Name = "Team"
             };
+        }
+
+        private void SetUpRepositories()
+        {
             var options = new DbContextOptionsBuilder<RepositoryContext>()
                 .UseInMemoryDatabase<RepositoryContext>(databaseName: "TeamLogicTestDB")
                 .Options;
@@ -105,7 +110,18 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidEmptyTextFieldException))]
+        public void ChangeTeamNameNull()
+        {
+            teamLogic.AddTeam(team);
+            Team changeTeam = new Team()
+            {
+                Name = null
+            };
+            teamLogic.Modify(team.Id, changeTeam);
+            Assert.AreNotEqual<string>(teamLogic.GetTeamById(team.Id).Name, changeTeam.Name);
+        }
+
+        [TestMethod]
         public void ChangeTeamNameInvalid()
         {
             teamLogic.AddTeam(team);
@@ -114,6 +130,7 @@ namespace Sports.Logic.Test
                 Name = ""
             };
             teamLogic.Modify(team.Id, changeTeam);
+            Assert.AreNotEqual<string>(teamLogic.GetTeamById(team.Id).Name, changeTeam.Name);
         }
 
         [TestMethod]

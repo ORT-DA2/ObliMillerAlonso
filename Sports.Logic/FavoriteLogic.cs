@@ -30,15 +30,26 @@ namespace Sports.Logic
         {
             Favorite favorite = new Favorite()
             {
-                User = userLogic.GetUserById(user.Id),
-                Team = teamLogic.GetTeamById(team.Id)
+                User = user,
+                Team = team
             };
-            favorite.Validate();
-            ValidateFavoriteDoesntExist(user, team);
+            ValidateNewFavorite(user, team, favorite);
             repository.Create(favorite);
             repository.Save();
         }
-        
+
+        private void ValidateNewFavorite(User user, Team team, Favorite favorite)
+        {
+            favorite.Validate();
+            ValidateUserAndTeam(favorite);
+            ValidateFavoriteDoesntExist(user, team);
+        }
+
+        private void ValidateUserAndTeam(Favorite favorite)
+        {
+            favorite.User = userLogic.GetUserById(favorite.User.Id);
+            favorite.Team = teamLogic.GetTeamById(favorite.Team.Id);
+        }
 
         private void ValidateFavoriteDoesntExist(User user, Team team)
         {
@@ -78,21 +89,25 @@ namespace Sports.Logic
         public ICollection<Comment> GetFavoritesTeamsComments(User user)
         {
             ICollection<Team> favoriteTeams = GetFavoritesFromUser(user.Id);
-            ICollection<Match> allMatches = matchLogic.GetAllMatches();
-            ICollection<Match> sortedListByDate = allMatches.OrderBy(m => m.Date).ToList();
-            ICollection<Match> filteredMatches = allMatches.Where(m => favoriteTeams.Contains(m.Local) || favoriteTeams.Contains(m.Visitor)).ToList();
-            ICollection<Comment> favoriteComments = new List<Comment>();
-            foreach (Match match in filteredMatches)
+            ICollection<Match> favoriteMatches = GetMatchesForTeams(favoriteTeams);
+            List<Comment> favoriteComments = new List<Comment>();
+            foreach (Match match in favoriteMatches)
             {
-                foreach (Comment comment in match.Comments)
-                {
-                    favoriteComments.Add(comment);
-                }
+                favoriteComments.AddRange(match.Comments);
             }
             return favoriteComments;
         }
 
-
-
+        private ICollection<Match> GetMatchesForTeams(ICollection<Team> favoriteTeams)
+        {
+            List<Match> favoriteMatches = new List<Match>();
+            foreach (Team favoriteTeam in favoriteTeams)
+            {
+                ICollection<Match> favoriteTeamMatches = matchLogic.GetAllMatchesForTeam(favoriteTeam);
+                favoriteMatches.AddRange(favoriteTeamMatches);
+            }
+            favoriteMatches.OrderBy(m => m.Date).ToList();
+            return favoriteMatches;
+        }
     }
 }
