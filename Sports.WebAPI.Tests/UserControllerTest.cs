@@ -3,7 +3,8 @@ using Moq;
 using Sports.Domain;
 using Sports.Logic.Interface;
 using System.Net.Http;
-using Sports.WebAPI;
+using Sports.WebAPI.Models;
+using Sports.WebAPI.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Sports.WebAPI.Tests
@@ -31,7 +32,7 @@ namespace Sports.WebAPI.Tests
             var controller = new UsersController(userLogicMock.Object);
 
             //Act
-            var result = controller.Post(fakeUser);
+            IActionResult result = controller.Post(fakeUser);
             var createdResult = result as CreatedAtRouteResult;
             var modelOut = createdResult.Value as UserModel;
 
@@ -39,7 +40,8 @@ namespace Sports.WebAPI.Tests
             //Verificamos los metodos del mock
             userLogicMock.VerifyAll();
 
-            Assert.IsNotNull(createdResult);
+            Assert.AreEqual("GetById", createdResult.RouteName);
         }
+        
     }
 }
