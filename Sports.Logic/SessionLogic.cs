@@ -14,11 +14,11 @@ namespace Sports.Logic
     public class SessionLogic : ISessionLogic
     {
         ISessionRepository repository; 
-        IUserLogic userLogic;
+        IUserRepository userRepository;
         public SessionLogic(IRepositoryUnitOfWork unitOfWork)
         {
             repository = unitOfWork.Session;
-            userLogic = new UserLogic(unitOfWork);
+            userRepository = unitOfWork.User; 
         }
 
         public User GetUserFromToken(Guid token)
@@ -30,7 +30,7 @@ namespace Sports.Logic
 
         public Guid LogInUser(string username, string password)
         {
-            User user = userLogic.GetUserByUserName(username);
+            User user = userRepository.FindByCondition(u => u.UserName.Equals(username)).FirstOrDefault();
             ValidateNotNullUser(user);
             user.ValidatePassword(password);
             LogoutByUser(user);
