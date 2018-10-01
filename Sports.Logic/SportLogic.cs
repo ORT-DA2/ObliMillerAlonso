@@ -14,14 +14,41 @@ namespace Sports.Logic
     {
         ISportRepository repository;
         ITeamLogic teamLogic;
+        ISessionLogic sessionLogic;
+        User user;
 
         public SportLogic(IRepositoryUnitOfWork unitOfwork)
         {
             repository = unitOfwork.Sport;
             teamLogic = new TeamLogic(unitOfwork);
+            sessionLogic = new SessionLogic(unitOfwork);
         }
+
+        private void ValidateUser()
+        {
+            ValidateUserNotNull();
+            ValidateUserNotAdmin();
+        }
+
+        private void ValidateUserNotNull()
+        {
+            if (user == null)
+            {
+                throw new InvalidNullValueException(NullValue.INVALID_USER_NULL_VALUE_MESSAGE);
+            }
+        }
+
+        private void ValidateUserNotAdmin()
+        {
+            if (!user.IsAdmin)
+            {
+                throw new NonAdminException(AdminException.NON_ADMIN_EXCEPTION_MESSAGE);
+            }
+        }
+
         public void AddSport(Sport sport)
         {
+            ValidateUser();
             ValidateSport(sport);
             CheckNotExists(sport.Name, sport.Id);
             repository.Create(sport);
@@ -131,6 +158,11 @@ namespace Sports.Logic
             teamLogic.Modify(original.Id, teamChanges);
             repository.Update(originalsport);
             repository.Save();
+        }
+
+        public void SetSession(Guid token)
+        {
+            user = sessionLogic.GetUserFromToken(token);
         }
     }
 }

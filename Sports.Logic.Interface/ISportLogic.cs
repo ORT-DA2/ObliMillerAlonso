@@ -17,10 +17,6 @@ namespace Sports.Logic.Interface
         void ModifySport(int id, Sport sport);
         Team GetTeamFromSport(Sport sport, Team team);
         void UpdateTeamSport(int id, Team originalTeam, Team teamChanges);
-
-
-
-
-
+        void SetSession(Guid token);
     }
 }
