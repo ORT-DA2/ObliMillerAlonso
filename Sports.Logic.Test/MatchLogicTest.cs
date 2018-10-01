@@ -457,6 +457,7 @@ namespace Sports.Logic.Test
             Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
             sessionLogic.GetUserFromToken(token);
             matchLogic.SetSession(token);
+            matchLogic.AddMatch(match);
         }
 
 

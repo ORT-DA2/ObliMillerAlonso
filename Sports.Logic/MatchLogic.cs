@@ -12,11 +12,13 @@ namespace Sports.Logic
 {
     public class MatchLogic : IMatchLogic
     {
-
         IMatchRepository repository;
         ISportLogic sportLogic;
         ICommentLogic commentLogic;
         ITeamLogic teamLogic;
+        ISessionLogic sessionLogic;
+        IUserLogic userLogic;
+        User user;
 
         public MatchLogic(IRepositoryUnitOfWork unit)
         {
@@ -24,12 +26,45 @@ namespace Sports.Logic
             sportLogic = new SportLogic(unit);
             teamLogic = new TeamLogic(unit);
             commentLogic = new CommentLogic(unit);
+            sessionLogic = new SessionLogic(unit);
+            userLogic = new UserLogic(unit);
+            user = new User()
+            {
+                FirstName = "Itai",
+                LastName = "Miller",
+                Email = "itaimiller@gmail.com",
+                UserName = "iMiller",
+                Password = "root"
+            };
         }
         public void AddMatch(Match match)
         {
+            ValidateUser();
             ValidateMatch(match);
             repository.Create(match);
             repository.Save();
+        }
+
+        private void ValidateUser()
+        {
+            ValidateUserNotNull(user);
+            ValidateUserNotAdmin(user);
+        }
+
+        private void ValidateUserNotNull(User user)
+        {
+            if (user == null)
+            {
+                throw new InvalidNullValueException(NullValue.INVALID_USER_NULL_VALUE_MESSAGE);
+            }
+        }
+
+        private void ValidateUserNotAdmin(User user)
+        {
+            if (!user.IsAdmin)
+            {
+                throw new NonAdminException(AdminException.NON_ADMIN_EXCEPTION_MESSAGE);
+            }
         }
 
         private void ValidateMatch(Match match)
@@ -114,6 +149,11 @@ namespace Sports.Logic
         {
             Match commentedMatch = GetMatchById(id);
             return commentedMatch.GetAllComments();
+        }
+
+        public void SetSession(Guid token)
+        {
+            User user = sessionLogic.GetUserFromToken(token);
         }
     }
 }
