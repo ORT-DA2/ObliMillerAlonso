@@ -42,6 +42,7 @@ namespace Sports.Logic.Test
             Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
             sessionLogic.GetUserFromToken(token);
             sportLogic.SetSession(token);
+            teamLogic.SetSession(token);
         }
 
         private void SetUpRepositories()

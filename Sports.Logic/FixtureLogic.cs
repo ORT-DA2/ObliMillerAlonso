@@ -18,19 +18,45 @@ namespace Sports.Logic
         private int currentStrategy;
         private ISportLogic sportLogic;
         private IMatchLogic matchLogic;
+        private ISessionLogic sessionLogic;
+        User user;
 
         public FixtureLogic(IRepositoryUnitOfWork unit)
         {   
             fixtureGeneratorStrategies = new List<IFixtureGeneratorStrategy>();
             sportLogic = new SportLogic(unit);
             matchLogic = new MatchLogic(unit);
+            sessionLogic = new SessionLogic(unit);
         }
         
         public void AddFixtureImplementations(string dllFilesPath)
         {
-                VerifyPath(dllFilesPath);
-                DirectoryInfo directory = new DirectoryInfo(dllFilesPath);
-                EvaluateAllDlls(directory);
+            ValidateUser(); 
+            VerifyPath(dllFilesPath);
+            DirectoryInfo directory = new DirectoryInfo(dllFilesPath);
+            EvaluateAllDlls(directory);
+        }
+
+        private void ValidateUser()
+        {
+            ValidateUserNotNull();
+            ValidateUserNotAdmin();
+        }
+
+        private void ValidateUserNotNull()
+        {
+            if (user == null)
+            {
+                throw new InvalidNullValueException(NullValue.INVALID_USER_NULL_VALUE_MESSAGE);
+            }
+        }
+
+        private void ValidateUserNotAdmin()
+        {
+            if (!user.IsAdmin)
+            {
+                throw new NonAdminException(AdminException.NON_ADMIN_EXCEPTION_MESSAGE);
+            }
         }
 
         private void VerifyPath(string dllFilesPath)
@@ -66,6 +92,7 @@ namespace Sports.Logic
 
         public void ChangeFixtureImplementation()
         {
+            ValidateUser();
             if (fixtureGeneratorStrategies.Count == 0)
             {
                 throw new NoImportedFixtureStrategiesException("No strategies are imported");
@@ -75,6 +102,7 @@ namespace Sports.Logic
 
         public ICollection<Match> GenerateFixture(ICollection<Sport> sports)
         {
+            ValidateUser();
             FixtureGenerationValidations(sports);
             ICollection<Sport> realSports = GetRealSports(sports);
             ICollection<Match> fixtureMatches = new List<Match>();
@@ -120,6 +148,13 @@ namespace Sports.Logic
             {
                 throw new NoImportedFixtureStrategiesException("No fixtures have been imported");
             }
+        }
+
+        public void SetSession(Guid token)
+        {
+            user = sessionLogic.GetUserFromToken(token);
+            sportLogic.SetSession(token);
+            matchLogic.SetSession(token);
         }
     }
 }

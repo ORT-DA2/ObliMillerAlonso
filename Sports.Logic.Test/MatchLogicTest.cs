@@ -34,11 +34,13 @@ namespace Sports.Logic.Test
         public void SetUp()
         {
             SetupRepositories();
-            CreateBaseDataForTests();
             user = ValidUser();
             userLogic.AddUser(user);
             Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
             matchLogic.SetSession(token);
+            sportLogic.SetSession(token);
+            commentLogic.SetSession(token);
+            CreateBaseDataForTests();
         }
 
         private void CreateBaseDataForTests()

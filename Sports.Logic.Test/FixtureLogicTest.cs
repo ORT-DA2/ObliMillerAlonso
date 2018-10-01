@@ -27,6 +27,8 @@ namespace Sports.Logic.Test
         IUserLogic userLogic;
         ISessionLogic sessionLogic;
         RepositoryContext repository;
+        private User user;
+        ICollection<Sport> sports;
 
         //pasar a json
         string validImplementationsPath = "C:/Users/pepe1/Documentos/Diseno 2/ObliMillerAlonso/FixtureImplementations/bin/Debug/netcoreapp2.1";
@@ -36,6 +38,12 @@ namespace Sports.Logic.Test
         public void SetUp()
         {
             SetUpRepositories();
+            user = ValidUser();
+            userLogic.AddUser(user);
+            Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
+            fixtureLogic.SetSession(token);
+            sportLogic.SetSession(token);
+            matchLogic.SetSession(token);
             SetUpSportWithTeams();
         }
 
@@ -81,6 +89,7 @@ namespace Sports.Logic.Test
         [TestCleanup]
         public void TearDown()
         {
+            repository.Users.RemoveRange(repository.Users);
             repository.Matches.RemoveRange(repository.Matches);
             repository.Sports.RemoveRange(repository.Sports);
             repository.Teams.RemoveRange(repository.Teams);
@@ -91,7 +100,7 @@ namespace Sports.Logic.Test
         public void GenerateFixture()
         {
             fixtureLogic.AddFixtureImplementations(validImplementationsPath);
-            ICollection<Sport> sports = sportLogic.GetAll();
+            sports = sportLogic.GetAll();
             ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
             Assert.AreEqual(30,matches.Count);
         }
@@ -101,7 +110,7 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(NoImportedFixtureStrategiesException))]
         public void GenerateWithoutFixtureImplementations()
         {
-            ICollection<Sport> sports = sportLogic.GetAll();
+            sports = sportLogic.GetAll();
             ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
         }
 
@@ -125,7 +134,7 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(SportDoesNotExistException))]
         public void GenerateFixtureForInvalidSport()
         {
-            ICollection<Sport> sports = sportLogic.GetAll();
+            sports = sportLogic.GetAll();
             fixtureLogic.AddFixtureImplementations(validImplementationsPath);
             Sport testSport = new Sport();
             sports.Add(testSport);
@@ -137,7 +146,7 @@ namespace Sports.Logic.Test
         public void GenerateWithMalfunctioningFixture()
         {
             fixtureLogic.AddFixtureImplementations(failingImplementationsPath);
-            ICollection<Sport> sports = sportLogic.GetAll();
+            sports = sportLogic.GetAll();
             ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
         }
 
@@ -145,7 +154,7 @@ namespace Sports.Logic.Test
         public void TestBackAndForthFixtureDailyNoMatchesOnSameDay()
         {
             fixtureLogic.AddFixtureImplementations(validImplementationsPath);
-            ICollection<Sport> sports = sportLogic.GetAll();
+            sports = sportLogic.GetAll();
             ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
             int invalidMatches = 0;
             foreach(Match match in matches)
@@ -160,7 +169,7 @@ namespace Sports.Logic.Test
         {
             fixtureLogic.AddFixtureImplementations(validImplementationsPath);
             fixtureLogic.ChangeFixtureImplementation();
-            ICollection<Sport> sports = sportLogic.GetAll();
+            sports = sportLogic.GetAll();
             ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
             Assert.AreEqual(15, matches.Count);
         }
@@ -177,7 +186,7 @@ namespace Sports.Logic.Test
         {
             fixtureLogic.AddFixtureImplementations(validImplementationsPath);
             fixtureLogic.ChangeFixtureImplementation();
-            ICollection<Sport> sports = sportLogic.GetAll();
+            sports = sportLogic.GetAll();
             ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
             int invalidMatches = 0;
             foreach(Match match in matches)
@@ -206,6 +215,18 @@ namespace Sports.Logic.Test
             return match.Local.Equals(team) || match.Visitor.Equals(team);
         }
 
+        private User ValidUser()
+        {
+            return new User(true)
+            {
+                FirstName = "Itai",
+                LastName = "Miller",
+                Email = "itaimiller@gmail.com",
+                UserName = "iMiller",
+                Password = "root"
+            };
+        }
+
         [TestMethod]
         [ExpectedException(typeof(NonAdminException))]
         public void FixtureSetSessionNonAdminUser()
@@ -222,6 +243,9 @@ namespace Sports.Logic.Test
             Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
             sessionLogic.GetUserFromToken(token);
             fixtureLogic.SetSession(token);
+            fixtureLogic.AddFixtureImplementations(validImplementationsPath);
+            fixtureLogic.ChangeFixtureImplementation();
+            fixtureLogic.GenerateFixture(sports);
            
         }
 
