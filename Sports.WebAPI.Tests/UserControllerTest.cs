@@ -67,5 +67,21 @@ namespace Sports.WebAPI.Tests
         }
 
 
+        [TestMethod]
+        public void ValidDeleteUser()
+        {
+            int userId = 1;
+            Mock<IUserLogic> userLogicMock = new Mock<IUserLogic>();
+            userLogicMock.Setup(userLogic => userLogic.RemoveUser(It.IsAny<int>()));
+            var controller = new UsersController(userLogicMock.Object);
+
+            IActionResult result = controller.DeleteUser(userId);
+            var createdResult = result as OkObjectResult;
+
+            userLogicMock.VerifyAll();
+
+            Assert.AreEqual(200, createdResult.StatusCode);
+        }
+
     }
 }
