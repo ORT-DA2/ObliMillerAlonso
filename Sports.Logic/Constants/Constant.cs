@@ -63,5 +63,10 @@ namespace Sports.Logic.Constants
         public const string DUPLICATE_USERNAME_MESSAGE = "Username already exist";
     }
 
+    public static class AdminException
+    {
+        public const string NON_ADMIN_EXCEPTION_MESSAGE = "You are not an admin.";
+    }
+
 
 }

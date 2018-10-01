@@ -76,5 +76,27 @@ namespace Sports.Logic
                 throw new SessionDoesNotExistException(SessionValidation.TOKEN_NOT_EXIST_MESSAGE);
             }
         }
+
+        public void ValidateUser(User user)
+        {
+            ValidateUserNotNull(user);
+            ValidateUserNotAdmin(user);
+        }
+
+        public void ValidateUserNotNull(User user)
+        {
+            if (user == null)
+            {
+                throw new InvalidNullValueException(NullValue.INVALID_USER_NULL_VALUE_MESSAGE);
+            }
+        }
+
+        private void ValidateUserNotAdmin(User user)
+        {
+            if (!user.IsAdmin)
+            {
+                throw new NonAdminException(AdminException.NON_ADMIN_EXCEPTION_MESSAGE);
+            }
+        }
     }
 }

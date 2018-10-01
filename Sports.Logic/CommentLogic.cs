@@ -14,14 +14,18 @@ namespace Sports.Logic
     {
         ICommentRepository repository;
         IUserLogic userLogic;
+        ISessionLogic sessionLogic;
+        User user;
 
         public CommentLogic(IRepositoryUnitOfWork unitOfWork)
         {
             repository = unitOfWork.Comment;
             userLogic = new UserLogic(unitOfWork);
+            sessionLogic = new SessionLogic(unitOfWork);
         }
         public void AddComment(Comment comment)
         {
+            sessionLogic.ValidateUser(user);
             ValidateComment(comment);
             repository.Create(comment);
             repository.Save();
@@ -52,13 +56,20 @@ namespace Sports.Logic
 
         public Comment GetCommentById(int id)
         {
+            sessionLogic.ValidateUserNotNull(user);
             ICollection<Comment> comments = repository.FindByCondition(c => c.Id == id);
             return comments.First();
         }
 
         public ICollection<Comment> GetAll()
         {
+            sessionLogic.ValidateUserNotNull(user);
             return repository.FindAll();
+        }
+
+        public void SetSession(Guid token)
+        {
+            user = sessionLogic.GetUserFromToken(token);
         }
     }
 }

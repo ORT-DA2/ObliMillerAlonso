@@ -18,21 +18,25 @@ namespace Sports.Logic
         private int currentStrategy;
         private ISportLogic sportLogic;
         private IMatchLogic matchLogic;
+        private ISessionLogic sessionLogic;
+        User user;
 
         public FixtureLogic(IRepositoryUnitOfWork unit)
         {   
             fixtureGeneratorStrategies = new List<IFixtureGeneratorStrategy>();
             sportLogic = new SportLogic(unit);
             matchLogic = new MatchLogic(unit);
+            sessionLogic = new SessionLogic(unit);
         }
         
         public void AddFixtureImplementations(string dllFilesPath)
         {
-                VerifyPath(dllFilesPath);
-                DirectoryInfo directory = new DirectoryInfo(dllFilesPath);
-                EvaluateAllDlls(directory);
+            sessionLogic.ValidateUser(user); 
+            VerifyPath(dllFilesPath);
+            DirectoryInfo directory = new DirectoryInfo(dllFilesPath);
+            EvaluateAllDlls(directory);
         }
-
+        
         private void VerifyPath(string dllFilesPath)
         {
             if (!Directory.Exists(dllFilesPath))
@@ -66,6 +70,7 @@ namespace Sports.Logic
 
         public void ChangeFixtureImplementation()
         {
+            sessionLogic.ValidateUser(user);
             if (fixtureGeneratorStrategies.Count == 0)
             {
                 throw new NoImportedFixtureStrategiesException("No strategies are imported");
@@ -75,6 +80,7 @@ namespace Sports.Logic
 
         public ICollection<Match> GenerateFixture(ICollection<Sport> sports)
         {
+            sessionLogic.ValidateUser(user);
             FixtureGenerationValidations(sports);
             ICollection<Sport> realSports = GetRealSports(sports);
             ICollection<Match> fixtureMatches = new List<Match>();
@@ -120,6 +126,13 @@ namespace Sports.Logic
             {
                 throw new NoImportedFixtureStrategiesException("No fixtures have been imported");
             }
+        }
+
+        public void SetSession(Guid token)
+        {
+            user = sessionLogic.GetUserFromToken(token);
+            sportLogic.SetSession(token);
+            matchLogic.SetSession(token);
         }
     }
 }

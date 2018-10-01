@@ -14,14 +14,19 @@ namespace Sports.Logic
     {
         ISportRepository repository;
         ITeamLogic teamLogic;
+        ISessionLogic sessionLogic;
+        User user;
 
         public SportLogic(IRepositoryUnitOfWork unitOfwork)
         {
             repository = unitOfwork.Sport;
             teamLogic = new TeamLogic(unitOfwork);
+            sessionLogic = new SessionLogic(unitOfwork);
         }
+
         public void AddSport(Sport sport)
         {
+            sessionLogic.ValidateUser(user);
             ValidateSport(sport);
             CheckNotExists(sport.Name, sport.Id);
             repository.Create(sport);
@@ -51,6 +56,7 @@ namespace Sports.Logic
 
         public Sport GetSportById(int id)
         {
+            sessionLogic.ValidateUserNotNull(user);
             ICollection<Sport> sports = repository.FindByCondition(s => s.Id == id);
             if (sports.Count == 0)
             {
@@ -61,6 +67,7 @@ namespace Sports.Logic
 
         public Team GetTeamFromSport(Sport sport, Team team)
         {
+            sessionLogic.ValidateUserNotNull(user);
             Sport realSport = GetSportById(sport.Id);
             return teamLogic.GetTeamById(realSport.GetTeam(team).Id);
         }
@@ -68,6 +75,7 @@ namespace Sports.Logic
         
         public Sport GetSportByName(string name)
         {
+            sessionLogic.ValidateUserNotNull(user);
             ICollection<Sport> sports = repository.FindByCondition(s => s.Name == name);
             if (sports.Count == 0)
             {
@@ -78,6 +86,7 @@ namespace Sports.Logic
 
         public void RemoveSport(int id)
         {
+            sessionLogic.ValidateUser(user);
             Sport sport = GetSportById(id);
             repository.Delete(sport);
             repository.Save();
@@ -85,6 +94,7 @@ namespace Sports.Logic
 
         public void ModifySport(int id, Sport sport)
         {
+            sessionLogic.ValidateUser(user);
             Sport realSport = GetSportById(id);
             realSport.UpdateData(sport);
             ValidateSport(realSport);
@@ -94,11 +104,13 @@ namespace Sports.Logic
 
         public ICollection<Sport> GetAll()
         {
+            sessionLogic.ValidateUserNotNull(user);
             return repository.FindAll();
         }
         
         public void AddTeamToSport(Sport sport, Team team)
         {
+            sessionLogic.ValidateUser(user);
             Sport realSport = GetSportById(sport.Id);
             CheckTeamIsNotUsed(sport, team);
             teamLogic.AddTeam(team);
@@ -117,6 +129,7 @@ namespace Sports.Logic
 
         public void DeleteTeamFromSport(Sport sport, Team team)
         {
+            sessionLogic.ValidateUser(user);
             Sport realSport = GetSportById(sport.Id);
             Team realTeam = teamLogic.GetTeamById(team.Id);
             realSport.DeleteTeam(realTeam);
@@ -126,11 +139,18 @@ namespace Sports.Logic
 
         public void UpdateTeamSport(int id, Team originalTeam, Team teamChanges)
         {
+            sessionLogic.ValidateUser(user);
             Sport originalsport = GetSportById(id);
             Team original = GetTeamFromSport(originalsport, originalTeam);
             teamLogic.Modify(original.Id, teamChanges);
             repository.Update(originalsport);
             repository.Save();
+        }
+
+        public void SetSession(Guid token)
+        {
+            user = sessionLogic.GetUserFromToken(token);
+            teamLogic.SetSession(token);
         }
     }
 }

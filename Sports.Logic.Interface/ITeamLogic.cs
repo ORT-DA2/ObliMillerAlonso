@@ -14,5 +14,6 @@ namespace Sports.Logic.Interface
         void Modify(int id, Team team);
         void Delete(Team team);
         ICollection<Team> GetAll();
+        void SetSession(Guid token);
     }
 }

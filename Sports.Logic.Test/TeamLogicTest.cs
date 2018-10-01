@@ -24,7 +24,10 @@ namespace Sports.Logic.Test
         private IRepositoryUnitOfWork unitOfWork;
         private RepositoryContext repository;
         private ITeamLogic teamLogic;
+        private IUserLogic userLogic;
+        private ISessionLogic sessionLogic;
         private Team team;
+        private User user;
 
         [TestInitialize]
         public void SetUp()
@@ -34,6 +37,10 @@ namespace Sports.Logic.Test
             {
                 Name = "Team"
             };
+            user = ValidUser();
+            userLogic.AddUser(user);
+            Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
+            teamLogic.SetSession(token);
         }
 
         private void SetUpRepositories()
@@ -44,12 +51,15 @@ namespace Sports.Logic.Test
             repository = new RepositoryContext(options);
             unitOfWork = new RepositoryUnitOfWork(repository);
             teamLogic = new TeamLogic(unitOfWork);
+            userLogic = new UserLogic(unitOfWork);
+            sessionLogic = new SessionLogic(unitOfWork);
         }
 
         [TestCleanup]
         public void TearDown()
         {
             repository.Teams.RemoveRange(repository.Teams);
+            repository.Users.RemoveRange(repository.Users);
             repository.SaveChanges();
         }
 
@@ -96,6 +106,17 @@ namespace Sports.Logic.Test
             Assert.IsNotNull(teamLogic.GetTeamById(team.Id).Picture);
         }
 
+        private User ValidUser()
+        {
+            return new User(true)
+            {
+                FirstName = "Itai",
+                LastName = "Miller",
+                Email = "itaimiller@gmail.com",
+                UserName = "iMiller",
+                Password = "root"
+            };
+        }
 
         [TestMethod]
         public void ChangeTeamName()
@@ -147,6 +168,27 @@ namespace Sports.Logic.Test
         {
             teamLogic.Delete(team);
         }
-        
+
+        [TestMethod]
+        [ExpectedException(typeof(NonAdminException))]
+        public void TeamSetSessionNonAdminUser()
+        {
+            User user = new User()
+            {
+                FirstName = "Itai",
+                LastName = "Miller",
+                Email = "itaimiller@gmail.com",
+                UserName = "newUser",
+                Password = "root"
+            };
+            userLogic.AddUser(user);
+            Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
+            sessionLogic.GetUserFromToken(token);
+            teamLogic.SetSession(token);
+            teamLogic.AddTeam(team);
+            teamLogic.Modify(team.Id, team);
+            teamLogic.Delete(team);
+        }
+
     }
 }

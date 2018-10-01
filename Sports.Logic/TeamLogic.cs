@@ -13,13 +13,17 @@ namespace Sports.Logic
     public class TeamLogic : ITeamLogic
     {
         ITeamRepository repository;
+        ISessionLogic sessionLogic;
+        User user;
 
         public TeamLogic(IRepositoryUnitOfWork unitOfwork)
         {
             repository = unitOfwork.Team;
+            sessionLogic = new SessionLogic(unitOfwork);
         }
         public void AddTeam(Team team)
         {
+            sessionLogic.ValidateUser(user);
             ValidateTeam(team);
             repository.Create(team);
             repository.Save();
@@ -41,6 +45,7 @@ namespace Sports.Logic
 
         public Team GetTeamById(int id)
         {
+            sessionLogic.ValidateUserNotNull(user);
             ICollection<Team> teams = repository.FindByCondition(t => t.Id == id);
             if (teams.Count == 0)
             {
@@ -52,6 +57,7 @@ namespace Sports.Logic
 
         public void SetPictureFromPath(Team team, string testImagePath)
         {
+            sessionLogic.ValidateUserNotNull(user);
             Team realTeam = GetTeamById(team.Id);
             ValidateTeam(realTeam);
             realTeam.AddPictureFromPath(testImagePath);
@@ -61,6 +67,7 @@ namespace Sports.Logic
 
         public void Modify(int id, Team team)
         {
+            sessionLogic.ValidateUser(user);
             Team realTeam = GetTeamById(id);
             realTeam.UpdateData(team);
             ValidateTeam(realTeam);
@@ -69,6 +76,7 @@ namespace Sports.Logic
 
         public void Delete(Team team)
         {
+            sessionLogic.ValidateUser(user);
             Team realTeam = GetTeamById(team.Id);
             repository.Delete(realTeam);
             repository.Save();
@@ -76,7 +84,13 @@ namespace Sports.Logic
 
         public ICollection<Team> GetAll()
         {
+            sessionLogic.ValidateUserNotNull(user);
             return repository.FindAll();
+        }
+
+        public void SetSession(Guid token)
+        {
+            user = sessionLogic.GetUserFromToken(token);
         }
     }
 }

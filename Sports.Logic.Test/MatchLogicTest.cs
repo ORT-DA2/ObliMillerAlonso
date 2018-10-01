@@ -26,12 +26,20 @@ namespace Sports.Logic.Test
         private ISportLogic sportLogic;
         private IUserLogic userLogic;
         private ICommentLogic commentLogic;
+        private ISessionLogic sessionLogic;
         private Match match;
+        private User user;
 
         [TestInitialize]
         public void SetUp()
         {
             SetupRepositories();
+            user = ValidUser();
+            userLogic.AddUser(user);
+            Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
+            matchLogic.SetSession(token);
+            sportLogic.SetSession(token);
+            commentLogic.SetSession(token);
             CreateBaseDataForTests();
         }
 
@@ -64,6 +72,7 @@ namespace Sports.Logic.Test
             sportLogic = new SportLogic(unit);
             userLogic = new UserLogic(unit);
             commentLogic = new CommentLogic(unit);
+            sessionLogic = new SessionLogic(unit);
         }
 
         private Team AddTeamToSport(Sport sport, string teamName)
@@ -309,8 +318,6 @@ namespace Sports.Logic.Test
         public void AddCommentToMatch()
         {
             matchLogic.AddMatch(match);
-            User user = ValidUser();
-            userLogic.AddUser(user);
             Comment comment = new Comment
             {
                 Text = "Text",
@@ -323,7 +330,7 @@ namespace Sports.Logic.Test
 
         private User ValidUser()
         {
-            return new User()
+            return new User(true)
             {
                 FirstName = "Itai",
                 LastName = "Miller",
@@ -337,8 +344,6 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(MatchDoesNotExistException))]
         public void AddCommentToInexistentMatch()
         {
-            User user = ValidUser();
-            userLogic.AddUser(user);
             Comment comment = new Comment
             {
                 Text = "Text",
@@ -427,8 +432,6 @@ namespace Sports.Logic.Test
         public void CascadeDeleteCommentsFromMatch()
         {
             matchLogic.AddMatch(match);
-            User user = ValidUser();
-            userLogic.AddUser(user);
             Comment comment = new Comment
             {
                 Text = "Text",
@@ -438,5 +441,28 @@ namespace Sports.Logic.Test
             matchLogic.DeleteMatch(match);
             Assert.AreEqual(commentLogic.GetAll().Count, 0);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(NonAdminException))]
+        public void MatchSetSessionNonAdminUser()
+        {
+            User user = new User()
+            {
+                FirstName = "Itai",
+                LastName = "Miller",
+                Email = "itaimiller@gmail.com",
+                UserName = "newUser",
+                Password = "root"
+            };
+            userLogic.AddUser(user);
+            Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
+            sessionLogic.GetUserFromToken(token);
+            matchLogic.SetSession(token);
+            matchLogic.AddMatch(match);
+            matchLogic.DeleteMatch(match);
+            matchLogic.ModifyMatch(match.Id, match);
+        }
+
+
     }
 }

@@ -15,5 +15,6 @@ namespace Sports.Logic.Interface
         ICollection<Match> GetAllMatchesForTeam(Team team);
         void AddCommentToMatch(int id, Comment comment);
         ICollection<Comment> GetAllComments(int id);
+        void SetSession(Guid token);
     }
 }

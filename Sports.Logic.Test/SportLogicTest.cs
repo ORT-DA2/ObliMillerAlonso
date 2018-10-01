@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Sports.Domain;
-using Sports.Logic;
+using Sports.Logic.Interface;
 using Sports.Repository;
 using Sports.Repository.Interface;
 using Sports.Repository.Context;
@@ -21,19 +21,28 @@ namespace Sports.Logic.Test
     {
         private IRepositoryUnitOfWork unitOfWork;
         private RepositoryContext repository;
-        private SportLogic sportLogic;
-        private TeamLogic teamLogic;
+        private ISportLogic sportLogic;
+        private ITeamLogic teamLogic;
+        private IUserLogic userLogic;
+        private ISessionLogic sessionLogic;
         Sport sport;
+        User user;
+        
         
         [TestInitialize]
         public void SetUp()
         {
             SetUpRepositories();
-
             sport = new Sport()
             {
                 Name = "Tennis"
             };
+            user = ValidUser();
+            userLogic.AddUser(user);
+            Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
+            sessionLogic.GetUserFromToken(token);
+            sportLogic.SetSession(token);
+            teamLogic.SetSession(token);
         }
 
         private void SetUpRepositories()
@@ -45,13 +54,28 @@ namespace Sports.Logic.Test
             unitOfWork = new RepositoryUnitOfWork(repository);
             sportLogic = new SportLogic(unitOfWork);
             teamLogic = new TeamLogic(unitOfWork);
+            userLogic = new UserLogic(unitOfWork);
+            sessionLogic = new SessionLogic(unitOfWork);
         }
 
         [TestCleanup]
         public void TearDown()
         {
+            repository.Users.RemoveRange(repository.Users);
             repository.Sports.RemoveRange(repository.Sports);
             repository.SaveChanges();
+        }
+
+        private User ValidUser()
+        {
+            return new User(true)
+            {
+                FirstName = "Itai",
+                LastName = "Miller",
+                Email = "itaimiller@gmail.com",
+                UserName = "iMiller",
+                Password = "root"
+            };
         }
 
         [TestMethod]
@@ -266,6 +290,38 @@ namespace Sports.Logic.Test
             sportLogic.AddTeamToSport(sport, team);
             sportLogic.RemoveSport(sport.Id);
             Assert.AreEqual(teamLogic.GetAll().Count, 0);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NonAdminException))]
+        public void SportSetSessionNonAdminUser()
+        {
+            User user = new User()
+            {
+                FirstName = "Itai",
+                LastName = "Miller",
+                Email = "itaimiller@gmail.com",
+                UserName = "newUser",
+                Password = "root"
+            };
+            Team team = new Team()
+            {
+                Name = "Team"
+            };
+            Team teamChanges = new Team()
+            {
+                Name = "TeamChanges"
+            };
+            userLogic.AddUser(user);
+            Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
+            sessionLogic.GetUserFromToken(token);
+            sportLogic.SetSession(token);
+            sportLogic.AddSport(sport);
+            sportLogic.ModifySport(sport.Id, sport);
+            sportLogic.AddTeamToSport(sport, team);
+            sportLogic.UpdateTeamSport(sport.Id, team, teamChanges);
+            sportLogic.DeleteTeamFromSport(sport, team);
+            sportLogic.RemoveSport(sport.Id);
         }
 
     }

@@ -16,6 +16,8 @@ namespace Sports.Logic
         IUserLogic userLogic;
         ITeamLogic teamLogic;
         IMatchLogic matchLogic;
+        ISessionLogic sessionLogic;
+        User user;
 
         public FavoriteLogic(IRepositoryUnitOfWork unitOfWork)
         {
@@ -23,11 +25,13 @@ namespace Sports.Logic
             userLogic = new UserLogic(unitOfWork);
             teamLogic = new TeamLogic(unitOfWork);
             matchLogic = new MatchLogic(unitOfWork);
+            sessionLogic = new SessionLogic(unitOfWork);
         }
         
         
         public void AddFavoriteTeam(User user, Team team)
         {
+            sessionLogic.ValidateUser(user);
             Favorite favorite = new Favorite()
             {
                 User = user,
@@ -62,6 +66,7 @@ namespace Sports.Logic
 
         public ICollection<Team> GetFavoritesFromUser(int id)
         {
+            sessionLogic.ValidateUserNotNull(user);
             ICollection<Favorite> favorites = repository.FindByCondition(f => f.User.Id == id);
             ValidateFavoritesExist(favorites);
             ICollection<Team> teams = GetTeamsFromFavorites(favorites);
@@ -88,6 +93,7 @@ namespace Sports.Logic
 
         public ICollection<Comment> GetFavoritesTeamsComments(User user)
         {
+            sessionLogic.ValidateUserNotNull(user);
             ICollection<Team> favoriteTeams = GetFavoritesFromUser(user.Id);
             ICollection<Match> favoriteMatches = GetMatchesForTeams(favoriteTeams);
             List<Comment> favoriteComments = new List<Comment>();
@@ -112,7 +118,15 @@ namespace Sports.Logic
 
         public ICollection<Favorite> GetAll()
         {
+            sessionLogic.ValidateUserNotNull(user);
             return repository.FindAll();
+        }
+
+        public void SetSession(Guid token)
+        {
+            user = sessionLogic.GetUserFromToken(token);
+            teamLogic.SetSession(token);
+            matchLogic.SetSession(token);
         }
     }
 }

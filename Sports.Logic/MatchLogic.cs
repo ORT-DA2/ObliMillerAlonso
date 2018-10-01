@@ -12,11 +12,13 @@ namespace Sports.Logic
 {
     public class MatchLogic : IMatchLogic
     {
-
         IMatchRepository repository;
         ISportLogic sportLogic;
         ICommentLogic commentLogic;
         ITeamLogic teamLogic;
+        ISessionLogic sessionLogic;
+        IUserLogic userLogic;
+        User user;
 
         public MatchLogic(IRepositoryUnitOfWork unit)
         {
@@ -24,9 +26,12 @@ namespace Sports.Logic
             sportLogic = new SportLogic(unit);
             teamLogic = new TeamLogic(unit);
             commentLogic = new CommentLogic(unit);
+            sessionLogic = new SessionLogic(unit);
+            userLogic = new UserLogic(unit);
         }
         public void AddMatch(Match match)
         {
+            sessionLogic.ValidateUser(user);
             ValidateMatch(match);
             repository.Create(match);
             repository.Save();
@@ -34,6 +39,7 @@ namespace Sports.Logic
 
         private void ValidateMatch(Match match)
         {
+            
             CheckNotNull(match);
             match.IsValid();
             ValidateSport(match);
@@ -41,6 +47,7 @@ namespace Sports.Logic
 
         private void ValidateSport(Match match)
         {
+            
             Sport sport = match.Sport;
             Team local = match.Local;
             Team visitor = match.Visitor;
@@ -59,6 +66,7 @@ namespace Sports.Logic
 
         public Match GetMatchById(int id)
         {
+            sessionLogic.ValidateUserNotNull(user);
             ICollection<Match> matches = repository.FindByCondition(m => m.Id == id);
             if (matches.Count == 0)
             {
@@ -70,6 +78,7 @@ namespace Sports.Logic
 
         public ICollection<Match> GetAllMatchesForTeam(Team team)
         {
+            sessionLogic.ValidateUserNotNull(user);
             Team playingTeam = teamLogic.GetTeamById(team.Id);
             ICollection<Match> matches = repository.FindByCondition(m => m.Local.Equals(playingTeam) ||m.Visitor.Equals(playingTeam));
             if (matches.Count == 0)
@@ -81,6 +90,7 @@ namespace Sports.Logic
 
         public void ModifyMatch(int id, Match match)
         {
+            sessionLogic.ValidateUser(user);
             Match realMatch = GetMatchById(id);
             realMatch.UpdateMatch(match);
             ValidateMatch(realMatch);
@@ -90,6 +100,7 @@ namespace Sports.Logic
 
         public void DeleteMatch(Match match)
         {
+            sessionLogic.ValidateUser(user);
             Match realMatch = GetMatchById(match.Id);
             repository.Delete(realMatch);
             repository.Save();
@@ -97,11 +108,13 @@ namespace Sports.Logic
 
         public ICollection<Match> GetAllMatches()
         {
+            sessionLogic.ValidateUserNotNull(user);
             return repository.FindAll();
         }
 
         public void AddCommentToMatch(int id, Comment comment)
         {
+            sessionLogic.ValidateUserNotNull(user);
             commentLogic.AddComment(comment);
             Match commentedMatch = GetMatchById(id);
             ValidateMatch(commentedMatch);
@@ -112,8 +125,17 @@ namespace Sports.Logic
 
         public ICollection<Comment> GetAllComments(int id)
         {
+            sessionLogic.ValidateUserNotNull(user);
             Match commentedMatch = GetMatchById(id);
             return commentedMatch.GetAllComments();
+        }
+
+        public void SetSession(Guid token)
+        {
+            user = sessionLogic.GetUserFromToken(token);
+            sportLogic.SetSession(token);
+            commentLogic.SetSession(token);
+            teamLogic.SetSession(token);
         }
     }
 }
