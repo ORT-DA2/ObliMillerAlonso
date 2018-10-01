@@ -13,9 +13,8 @@ namespace Sports.WebAPI.Tests
     public class UserControllerTest
     {
         [TestMethod]
-        public void CreateUser()
+        public void ValidPostUser()
         {
-            //Arrange
             User fakeUser = new User(true)
             {
                 FirstName = "Itai",
@@ -24,24 +23,50 @@ namespace Sports.WebAPI.Tests
                 UserName = "iMiller",
                 Password = "root"
             };
-
-            // Inicializar el mock a partir de IUserService
+            
             Mock<IUserLogic> userLogicMock = new Mock<IUserLogic>();
-            // Esperamos que se llame el motodo SignUp del servicio
             userLogicMock.Setup(userLogic => userLogic.AddUser(fakeUser));
             var controller = new UsersController(userLogicMock.Object);
-
-            //Act
+            
             IActionResult result = controller.Post(fakeUser);
             var createdResult = result as CreatedAtRouteResult;
             var modelOut = createdResult.Value as UserModel;
-
-            //Assert
-            //Verificamos los metodos del mock
+            
             userLogicMock.VerifyAll();
 
-            Assert.AreEqual("GetById", createdResult.RouteName);
+            Assert.AreEqual(201, createdResult.StatusCode);
         }
-        
+
+        [TestMethod]
+        public void ValidPutUser()
+        {
+            User oldUser = new User(true)
+            {
+                FirstName = "Itai",
+                LastName = "Miller",
+                Email = "itaimiller@gmail.com",
+                UserName = "iMiller",
+                Password = "root"
+            };
+            User newUser = new User(true)
+            {
+                FirstName = "Pepe",
+                LastName = "Alonso"
+            };
+
+            Mock<IUserLogic> userLogicMock = new Mock<IUserLogic>();
+            userLogicMock.Setup(userLogic => userLogic.GetUserById(It.IsAny<int>())).Returns(oldUser);
+            userLogicMock.Setup(userLogic => userLogic.UpdateUser(It.IsAny<int>(),newUser);
+            var controller = new UsersController(userLogicMock.Object);
+
+            IActionResult result = controller.PutUser(newUser);
+            var createdResult = result as CreatedAtRouteResult;
+            var modelOut = createdResult.Value as UserModel;
+
+            userLogicMock.VerifyAll();
+
+            Assert.AreEqual(201, createdResult.StatusCode);
+        }
+
     }
 }

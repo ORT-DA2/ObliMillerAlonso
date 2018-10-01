@@ -29,28 +29,28 @@ namespace Sports.WebAPI.Controllers
         [HttpGet("{id}", Name = "GetById")]
         public ActionResult<User> Get(int id)
         {
-            var item = userLogic.GetUserById(id);
-            if (item == null)
+            User user = userLogic.GetUserById(id);
+            if (user == null)
             {
                 return NotFound();
             }
-            return item;
+            return user;
         }
 
         // POST api/values
         [HttpPost]
         public IActionResult Post([FromBody] User userIn)
         { 
-                if (ModelState.IsValid)
-                {
-                    userLogic.AddUser(userIn);
-                    var addedUser = new UserModel() { Id = userIn.Id, UserName = userIn.UserName, FirstName = userIn.FirstName, LastName = userIn.LastName, Email = userIn.Email };
-                    return CreatedAtRoute("GetById", new { id = addedUser.Id }, addedUser);
-                }
-                else
-                {
-                    return BadRequest(ModelState);
-                }
+            try
+            {
+                userLogic.AddUser(userIn);
+                var addedUser = new UserModel() { Id = userIn.Id, UserName = userIn.UserName, FirstName = userIn.FirstName, LastName = userIn.LastName, Email = userIn.Email };
+                return CreatedAtRoute("GetById", new { id = addedUser.Id }, addedUser);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
             
         }
         
