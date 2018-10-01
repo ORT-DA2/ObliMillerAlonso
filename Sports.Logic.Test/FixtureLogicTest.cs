@@ -24,6 +24,8 @@ namespace Sports.Logic.Test
         IFixtureLogic fixtureLogic;
         ISportLogic sportLogic;
         IMatchLogic matchLogic;
+        IUserLogic userLogic;
+        ISessionLogic sessionLogic;
         RepositoryContext repository;
 
         //pasar a json
@@ -47,6 +49,8 @@ namespace Sports.Logic.Test
             fixtureLogic = new FixtureLogic(unit);
             sportLogic = new SportLogic(unit);
             matchLogic = new MatchLogic(unit);
+            userLogic = new UserLogic(unit);
+            sessionLogic = new SessionLogic(unit);
         }
 
         private void SetUpSportWithTeams()
@@ -201,6 +205,25 @@ namespace Sports.Logic.Test
         {
             return match.Local.Equals(team) || match.Visitor.Equals(team);
         }
-        
+
+        [TestMethod]
+        [ExpectedException(typeof(NonAdminException))]
+        public void FixtureSetSessionNonAdminUser()
+        {
+            User user = new User()
+            {
+                FirstName = "Itai",
+                LastName = "Miller",
+                Email = "itaimiller@gmail.com",
+                UserName = "newUser",
+                Password = "root"
+            };
+            userLogic.AddUser(user);
+            Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
+            sessionLogic.GetUserFromToken(token);
+            fixtureLogic.SetSession(token);
+           
+        }
+
     }
 }
