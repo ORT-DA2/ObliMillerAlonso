@@ -27,15 +27,33 @@ namespace Sports.WebAPI.Controllers
 
         // GET api/values/5
         [HttpGet("{id}", Name = "GetById")]
-        public ActionResult<User> Get(int id)
+        public IActionResult Get(int id)
         {
             User user = userLogic.GetUserById(id);
             if (user == null)
             {
                 return NotFound();
             }
-            UserModel model = MapUserToModel(user);
-            return user;
+            return Ok(MapUserToModel(user));
+        }
+
+
+        // GET api/values
+        [HttpGet(Name = "GetAll")]
+        public IActionResult GetAll()
+        {
+            ICollection<User> userList = userLogic.GetAll();
+            if (userList == null)
+            {
+                return NotFound();
+            }
+            ICollection<UserModel> userModels = new List<UserModel>();
+            foreach (User user in userList)
+            {
+                UserModel model = MapUserToModel(user);
+                userModels.Add(model);
+            }
+            return Ok(userModels.ToList());
         }
 
         private UserModel MapUserToModel(User user)
@@ -58,7 +76,7 @@ namespace Sports.WebAPI.Controllers
             {
                 RequestBodyIsNotNull(userIn);
                 userLogic.AddUser(userIn);
-                return CreatedAtRoute("GetById", new { id = userIn.Id });
+                return Ok(MapUserToModel(userIn));
             }
             catch(Exception ex)
             {
