@@ -23,6 +23,7 @@ namespace Sports.Logic.Test
         private RepositoryContext repository;
         private ICommentLogic commentLogic;
         private IUserLogic userLogic;
+        private ISessionLogic sessionLogic;
         private Comment comment;
         private User user;
 
@@ -60,7 +61,8 @@ namespace Sports.Logic.Test
             repository = new RepositoryContext(options);
             unitOfWork = new RepositoryUnitOfWork(repository);
             commentLogic = new CommentLogic(unitOfWork);
-            userLogic = new UserLogic(unitOfWork);;
+            userLogic = new UserLogic(unitOfWork);
+            sessionLogic = new SessionLogic(unitOfWork);
         }
 
         [TestCleanup]
@@ -112,6 +114,24 @@ namespace Sports.Logic.Test
             commentLogic.AddComment(comment);
             userLogic.RemoveUser(user.Id);
             Assert.AreEqual(commentLogic.GetAll().Count, 0);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NonAdminException))]
+        public void CommentSetSessionNonAdminUser()
+        {
+            User user = new User()
+            {
+                FirstName = "Itai",
+                LastName = "Miller",
+                Email = "itaimiller@gmail.com",
+                UserName = "newUser",
+                Password = "root"
+            };
+            userLogic.AddUser(user);
+            Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
+            sessionLogic.GetUserFromToken(token);
+            commentLogic.SetSession(token);
         }
     }
 
