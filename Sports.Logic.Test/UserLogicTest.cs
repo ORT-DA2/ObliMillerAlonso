@@ -22,6 +22,7 @@ namespace Sports.Logic.Test
         private IRepositoryUnitOfWork unitOfWork;
         private RepositoryContext repository;
         private IUserLogic userLogic;
+        private ISessionLogic sessionLogic;
         User user;
 
         [TestInitialize]
@@ -207,5 +208,26 @@ namespace Sports.Logic.Test
             userLogic.AddUser(user);
             userLogic.RemoveUser(user.Id+1);
         }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(NonAdminException))]
+        public void TeamSetSessionNonAdminUser()
+        {
+            User user = new User()
+            {
+                FirstName = "Itai",
+                LastName = "Miller",
+                Email = "itaimiller@gmail.com",
+                UserName = "newUser",
+                Password = "root"
+            };
+            userLogic.AddUser(user);
+            Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
+            sessionLogic.GetUserFromToken(token);
+            userLogic.SetSession(token);
+            userLogic.AddUser(user);
+        }
+
     }
 }
