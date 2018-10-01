@@ -6,6 +6,7 @@ using System.Net.Http;
 using Sports.WebAPI.Models;
 using Sports.WebAPI.Controllers;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace Sports.WebAPI.Tests
 {
@@ -35,6 +36,7 @@ namespace Sports.WebAPI.Tests
             userLogicMock.VerifyAll();
 
             Assert.AreEqual(201, createdResult.StatusCode);
+            Assert.IsNotNull(modelOut);
         }
 
         [TestMethod]
@@ -81,6 +83,36 @@ namespace Sports.WebAPI.Tests
             userLogicMock.VerifyAll();
 
             Assert.AreEqual(200, createdResult.StatusCode);
+        }
+
+
+        [TestMethod]
+        public void ValidGetAllUsers()
+        {
+
+            User fakeUser = new User(true)
+            {
+                FirstName = "Itai",
+                LastName = "Miller",
+                Email = "itaimiller@gmail.com",
+                UserName = "iMiller",
+                Password = "root"
+            };
+            ICollection<User> users = new List<User>();
+            users.Add(fakeUser);
+
+            Mock<IUserLogic> userLogicMock = new Mock<IUserLogic>();
+            userLogicMock.Setup(userLogic => userLogic.GetAll()).Returns(users);
+            var controller = new UsersController(userLogicMock.Object);
+
+            IActionResult result = controller.GetAll();
+            var createdResult = result as OkObjectResult;
+            var modelOut = createdResult.Value as ICollection<UserModel>;
+
+            userLogicMock.VerifyAll();
+
+            Assert.AreEqual(201, createdResult.StatusCode);
+            Assert.IsNotNull(modelOut)
         }
 
     }
