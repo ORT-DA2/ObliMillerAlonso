@@ -35,6 +35,10 @@ namespace Sports.Logic.Test
         {
             SetupRepositories();
             CreateBaseDataForTests();
+            user = ValidUser();
+            userLogic.AddUser(user);
+            Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
+            matchLogic.SetSession(token);
         }
 
         private void CreateBaseDataForTests()
@@ -93,11 +97,6 @@ namespace Sports.Logic.Test
         [TestMethod]
         public void AddFullMatch()
         {
-
-            user = ValidUser();
-            userLogic.AddUser(user);
-            Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
-            matchLogic.SetSession(token);
             matchLogic.AddMatch(match);
             Assert.IsNotNull(matchLogic.GetMatchById(match.Id));
         }
@@ -343,8 +342,6 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(MatchDoesNotExistException))]
         public void AddCommentToInexistentMatch()
         {
-            User user = ValidUser();
-            userLogic.AddUser(user);
             Comment comment = new Comment
             {
                 Text = "Text",
@@ -433,8 +430,6 @@ namespace Sports.Logic.Test
         public void CascadeDeleteCommentsFromMatch()
         {
             matchLogic.AddMatch(match);
-            User user = ValidUser();
-            userLogic.AddUser(user);
             Comment comment = new Comment
             {
                 Text = "Text",
@@ -454,7 +449,7 @@ namespace Sports.Logic.Test
                 FirstName = "Itai",
                 LastName = "Miller",
                 Email = "itaimiller@gmail.com",
-                UserName = "iMiller",
+                UserName = "newUser",
                 Password = "root"
             };
             userLogic.AddUser(user);

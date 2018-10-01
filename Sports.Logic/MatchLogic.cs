@@ -154,7 +154,7 @@ namespace Sports.Logic
 
         public void SetSession(Guid token)
         {
-            User user = sessionLogic.GetUserFromToken(token);
+            user = sessionLogic.GetUserFromToken(token);
         }
     }
 }
