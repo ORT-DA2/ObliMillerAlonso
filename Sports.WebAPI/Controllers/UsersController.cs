@@ -68,7 +68,7 @@ namespace Sports.WebAPI.Controllers
         }
 
 
-        // POST api/values
+        // PUT api/values
         [HttpPost]
         public IActionResult PutUser(int userId, [FromBody]User newUser)
         {
@@ -77,6 +77,22 @@ namespace Sports.WebAPI.Controllers
                 RequestBodyIsNotNull(newUser);
                 userLogic.UpdateUser(userId, newUser);
                 return Ok("Usuario modificado");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+        // DELETE api/values
+        [HttpPost]
+        public IActionResult DeleteUser(int userId)
+        {
+            try
+            {
+                userLogic.RemoveUser(userId);
+                return Ok("Usuario eliminado");
             }
             catch (Exception ex)
             {
