@@ -67,6 +67,7 @@ namespace Sports.Logic
 
         public Team GetTeamById(int id)
         {
+            ValidateUserNotNull();
             ICollection<Team> teams = repository.FindByCondition(t => t.Id == id);
             if (teams.Count == 0)
             {
@@ -78,6 +79,7 @@ namespace Sports.Logic
 
         public void SetPictureFromPath(Team team, string testImagePath)
         {
+            ValidateUserNotNull();
             Team realTeam = GetTeamById(team.Id);
             ValidateTeam(realTeam);
             realTeam.AddPictureFromPath(testImagePath);
@@ -87,6 +89,7 @@ namespace Sports.Logic
 
         public void Modify(int id, Team team)
         {
+            ValidateUser();
             Team realTeam = GetTeamById(id);
             realTeam.UpdateData(team);
             ValidateTeam(realTeam);
@@ -95,6 +98,7 @@ namespace Sports.Logic
 
         public void Delete(Team team)
         {
+            ValidateUser();
             Team realTeam = GetTeamById(team.Id);
             repository.Delete(realTeam);
             repository.Save();
@@ -102,6 +106,7 @@ namespace Sports.Logic
 
         public ICollection<Team> GetAll()
         {
+            ValidateUserNotNull();
             return repository.FindAll();
         }
 
