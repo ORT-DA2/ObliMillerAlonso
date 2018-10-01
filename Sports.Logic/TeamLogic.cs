@@ -92,5 +92,28 @@ namespace Sports.Logic
         {
             user = sessionLogic.GetUserFromToken(token);
         }
+
+        public ICollection<Team> FilterOrderTeamName(string name, string order = "asc")
+        {
+            sessionLogic.ValidateUser(user);
+            ICollection<Team> teams;
+            if (String.IsNullOrWhiteSpace(name))
+            {
+                teams = repository.FindAll();
+            }
+            else
+            {
+                teams = repository.FindByCondition(t => t.Name.Equals(name));
+            }
+            if (order.Equals("asc"))
+            {
+                teams.OrderBy(t => t.Name);
+            }
+            else if(order.Equals("desc"))
+            {
+                teams.OrderByDescending(t => t.Name);
+            }
+            return teams;
+        }
     }
 }
