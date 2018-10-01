@@ -47,6 +47,7 @@ namespace Sports.Logic.Test
                 Text = "text",
                 User = user
             };
+            
         }
 
         private void AddMatchWithDataToRepository()
@@ -159,7 +160,7 @@ namespace Sports.Logic.Test
 
 
         [TestMethod]
-        [ExpectedException(typeof(UserDoesNotExistException))]
+        [ExpectedException(typeof(NonAdminException))]
         public void AddInvalidUser()
         {
             User fakeUser = new User();
@@ -177,7 +178,7 @@ namespace Sports.Logic.Test
 
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidEmptyUserException))]
+        [ExpectedException(typeof(InvalidNullValueException))]
         public void AddNullUser()
         {
             favoriteLogic.AddFavoriteTeam(null, favoriteTeam);
