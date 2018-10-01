@@ -190,5 +190,17 @@ namespace Sports.Logic.Test
             teamLogic.Delete(team);
         }
 
+        [TestMethod]
+        public void FilterOrderTeamName()
+        {
+            Team otherTeam = new Team()
+            {
+                Name = "TeamName"
+            };
+            teamLogic.AddTeam(otherTeam);
+            ICollection<Team> filteredTeams = teamLogic.FilterOrderTeamName("TeamName");
+            Assert.AreEqual(filteredTeams.Count, 1);
+        }
+
     }
 }
