@@ -96,6 +96,26 @@ namespace Sports.Logic
         public ICollection<Team> FilterOrderTeamName(string name, string order = "asc")
         {
             sessionLogic.ValidateUser(user);
+            ICollection<Team> teams = new List<Team>();
+            teams = FilterByName(name);
+            FilterByOrder(order, teams);
+            return teams;
+        }
+
+        private static void FilterByOrder(string order, ICollection<Team> teams)
+        {
+            if (order.Equals("asc"))
+            {
+                teams.OrderBy(t => t.Name);
+            }
+            else if (order.Equals("desc"))
+            {
+                teams.OrderByDescending(t => t.Name);
+            }
+        }
+
+        private ICollection<Team> FilterByName(string name)
+        {
             ICollection<Team> teams;
             if (String.IsNullOrWhiteSpace(name))
             {
@@ -105,14 +125,7 @@ namespace Sports.Logic
             {
                 teams = repository.FindByCondition(t => t.Name.Equals(name));
             }
-            if (order.Equals("asc"))
-            {
-                teams.OrderBy(t => t.Name);
-            }
-            else if(order.Equals("desc"))
-            {
-                teams.OrderByDescending(t => t.Name);
-            }
+
             return teams;
         }
     }
