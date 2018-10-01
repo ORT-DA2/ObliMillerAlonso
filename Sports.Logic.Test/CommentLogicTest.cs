@@ -132,6 +132,7 @@ namespace Sports.Logic.Test
             Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
             sessionLogic.GetUserFromToken(token);
             commentLogic.SetSession(token);
+            commentLogic.AddComment(comment);
         }
     }
 
