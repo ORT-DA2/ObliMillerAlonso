@@ -7,12 +7,27 @@ using Sports.WebAPI.Models;
 using Sports.WebAPI.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using AutoMapper;
 
 namespace Sports.WebAPI.Tests
 {
     [TestClass]
     public class UserControllerTest
     {
+        Mock<IUserLogic> userLogicMock;
+        UsersController controller;
+        IMapper mapper;
+
+       [TestInitialize]
+        public void SetUp()
+        {
+
+            userLogicMock = new Mock<IUserLogic>();
+            var config = new MapperConfiguration(cfg => cfg.AddProfile(new MapperProfile()));
+            IMapper mapper = new Mapper(config);
+            controller = new UsersController(userLogicMock.Object,mapper);
+        }
+
         [TestMethod]
         public void ValidPostUser()
         {
@@ -24,14 +39,23 @@ namespace Sports.WebAPI.Tests
                 UserName = "iMiller",
                 Password = "root"
             };
-            
-            Mock<IUserLogic> userLogicMock = new Mock<IUserLogic>();
+
+            UserModelIn modelIn = new UserModelIn()
+            {
+                FirstName = "Itai",
+                LastName = "Miller",
+                Email = "itaimiller@gmail.com",
+                UserName = "iMiller",
+                Password = "root",
+                IsAdmin = true
+            };
+
             userLogicMock.Setup(userLogic => userLogic.AddUser(It.IsAny<User>()));
-            var controller = new UsersController(userLogicMock.Object);
             
-            IActionResult result = controller.PostUser(fakeUser);
+            
+            IActionResult result = controller.PostUser(modelIn);
             var okResult = result as OkObjectResult;
-            var modelOut = okResult.Value as UserModel;
+            var modelOut = okResult.Value as UserModelOut;
             
             userLogicMock.VerifyAll();
 
@@ -50,15 +74,13 @@ namespace Sports.WebAPI.Tests
                 UserName = "iMiller",
                 Password = "root"
             };
-            User newUser = new User(true)
+            UserModelIn newUser = new UserModelIn()
             {
                 FirstName = "Pepe",
                 LastName = "Alonso"
             };
-
-            Mock<IUserLogic> userLogicMock = new Mock<IUserLogic>();
+            
             userLogicMock.Setup(userLogic => userLogic.UpdateUser(It.IsAny<int>(),It.IsAny<User>()));
-            var controller = new UsersController(userLogicMock.Object);
 
             IActionResult result = controller.PutUser(1, newUser);
             var createdResult = result as OkObjectResult;
@@ -73,9 +95,8 @@ namespace Sports.WebAPI.Tests
         public void ValidDeleteUser()
         {
             int userId = 1;
-            Mock<IUserLogic> userLogicMock = new Mock<IUserLogic>();
+
             userLogicMock.Setup(userLogic => userLogic.RemoveUser(It.IsAny<int>()));
-            var controller = new UsersController(userLogicMock.Object);
 
             IActionResult result = controller.DeleteUser(userId);
             var createdResult = result as OkObjectResult;
@@ -100,14 +121,12 @@ namespace Sports.WebAPI.Tests
             };
             ICollection<User> users = new List<User>();
             users.Add(fakeUser);
-
-            Mock<IUserLogic> userLogicMock = new Mock<IUserLogic>();
+            
             userLogicMock.Setup(userLogic => userLogic.GetAll()).Returns(users);
-            var controller = new UsersController(userLogicMock.Object);
 
             var result = controller.GetAll();
             var okResult = result as OkObjectResult;
-            var modelOut = okResult.Value as ICollection<UserModel>;
+            var modelOut = okResult.Value as ICollection<UserModelOut>;
 
             userLogicMock.VerifyAll();
 

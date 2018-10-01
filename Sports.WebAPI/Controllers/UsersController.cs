@@ -10,6 +10,7 @@ using Sports.Domain;
 using Sports.Domain.Exceptions;
 using Sports.Logic.Exceptions;
 using System.Web;
+using AutoMapper;
 
 namespace Sports.WebAPI.Controllers
 {
@@ -18,10 +19,12 @@ namespace Sports.WebAPI.Controllers
     public class UsersController : ControllerBase
     {
         private IUserLogic userLogic;
+        private IMapper mapper;
 
-        public UsersController(IUserLogic aUserLogic)
+        public UsersController(IUserLogic aUserLogic, IMapper aMapper)
         {
             userLogic = aUserLogic;
+            mapper = aMapper;
         }
 
 
@@ -34,7 +37,8 @@ namespace Sports.WebAPI.Controllers
             {
                 return NotFound();
             }
-            return Ok(MapUserToModel(user));
+            UserModelOut modelOut = mapper.Map<UserModelOut>(user);
+            return Ok(modelOut);
         }
 
 
@@ -47,36 +51,26 @@ namespace Sports.WebAPI.Controllers
             {
                 return NotFound();
             }
-            ICollection<UserModel> userModels = new List<UserModel>();
+            ICollection<UserModelOut> userModels = new List<UserModelOut>();
             foreach (User user in userList)
             {
-                UserModel model = MapUserToModel(user);
+                UserModelOut model = mapper.Map<UserModelOut>(user);
                 userModels.Add(model);
             }
             return Ok(userModels.ToList());
         }
 
-        private UserModel MapUserToModel(User user)
-        {
-            return new UserModel()
-            {
-                Id = user.Id,
-                UserName = user.UserName,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email
-            };
-        }
-
         // POST api/values
         [HttpPost]
-        public IActionResult PostUser([FromBody] User userIn)
+        public IActionResult PostUser([FromBody] UserModelIn userIn)
         { 
             try
             {
                 RequestBodyIsNotNull(userIn);
-                userLogic.AddUser(userIn);
-                return Ok(MapUserToModel(userIn));
+                User user = mapper.Map<User>(userIn);
+                userLogic.AddUser(user);
+                UserModelOut modelOut = mapper.Map<UserModelOut>(user);
+                return Ok(modelOut);
             }
             catch(Exception ex)
             {
@@ -88,12 +82,13 @@ namespace Sports.WebAPI.Controllers
 
         // PUT api/values
         [HttpPost]
-        public IActionResult PutUser(int userId, [FromBody]User newUser)
+        public IActionResult PutUser(int userId, [FromBody]UserModelIn newUser)
         {
             try
             {
                 RequestBodyIsNotNull(newUser);
-                userLogic.UpdateUser(userId, newUser);
+                User user = mapper.Map<User>(newUser);
+                userLogic.UpdateUser(userId, user);
                 return Ok("Usuario modificado");
             }
             catch (Exception ex)
@@ -122,8 +117,9 @@ namespace Sports.WebAPI.Controllers
         private void RequestBodyIsNotNull(object Object)
         {
             if (Object == null)
-                throw new ArgumentNullException("Alguno de los parámetros es invalido.");
+                throw new ArgumentNullException("Alguno de los parámetros es invalido. Corrija bien los campos");
         }
+
 
     }
 }
