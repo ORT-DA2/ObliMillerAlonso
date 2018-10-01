@@ -26,6 +26,7 @@ namespace Sports.Logic.Test
         private IMatchLogic matchLogic;
         private ISportLogic sportLogic;
         private IUserLogic userLogic;
+        private ISessionLogic sessionLogic;
         User user;
         Comment comment;
         Team favoriteTeam;
@@ -202,6 +203,25 @@ namespace Sports.Logic.Test
             favoriteLogic.AddFavoriteTeam(user, favoriteTeam);
             sportLogic.DeleteTeamFromSport(match.Sport, favoriteTeam);
             Assert.AreEqual(favoriteLogic.GetAll().Count, 0);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NonAdminException))]
+        public void MatchSetSessionNonAdminUser()
+        {
+            User user = new User()
+            {
+                FirstName = "Itai",
+                LastName = "Miller",
+                Email = "itaimiller@gmail.com",
+                UserName = "newUser",
+                Password = "root"
+            };
+            userLogic.AddUser(user);
+            Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
+            sessionLogic.GetUserFromToken(token);
+            favoriteLogic.SetSession(token);
+    
         }
 
     }
