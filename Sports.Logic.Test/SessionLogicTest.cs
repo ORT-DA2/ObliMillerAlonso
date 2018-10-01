@@ -158,8 +158,6 @@ namespace Sports.Logic.Test
             sessionLogic.LogoutByUser(user);
            sessionLogic.GetUserFromToken(token);
         }
-        
-
 
     }
 }

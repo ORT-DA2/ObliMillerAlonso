@@ -26,6 +26,7 @@ namespace Sports.Logic.Test
         private ISportLogic sportLogic;
         private IUserLogic userLogic;
         private ICommentLogic commentLogic;
+        private ISessionLogic sessionLogic;
         private Match match;
 
         [TestInitialize]
@@ -64,6 +65,7 @@ namespace Sports.Logic.Test
             sportLogic = new SportLogic(unit);
             userLogic = new UserLogic(unit);
             commentLogic = new CommentLogic(unit);
+            sessionLogic = new SessionLogic(unit);
         }
 
         private Team AddTeamToSport(Sport sport, string teamName)
@@ -438,5 +440,25 @@ namespace Sports.Logic.Test
             matchLogic.DeleteMatch(match);
             Assert.AreEqual(commentLogic.GetAll().Count, 0);
         }
+
+        [TestMethod]
+        [ExpectedException(typeof(NonAdminException))]
+        public void MatchSetSessionNonAdminUser()
+        {
+            User user = new User()
+            {
+                FirstName = "Itai",
+                LastName = "Miller",
+                Email = "itaimiller@gmail.com",
+                UserName = "iMiller",
+                Password = "root"
+            };
+            userLogic.AddUser(user);
+            Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
+            sessionLogic.GetUserFromToken(token);
+            matchLogic.SetSession(token);
+        }
+
+
     }
 }
