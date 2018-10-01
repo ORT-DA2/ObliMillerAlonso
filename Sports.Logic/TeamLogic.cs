@@ -23,32 +23,10 @@ namespace Sports.Logic
         }
         public void AddTeam(Team team)
         {
-            ValidateUser();
+            sessionLogic.ValidateUser(user);
             ValidateTeam(team);
             repository.Create(team);
             repository.Save();
-        }
-
-        private void ValidateUser()
-        {
-            ValidateUserNotNull();
-            ValidateUserNotAdmin();
-        }
-
-        private void ValidateUserNotNull()
-        {
-            if (user == null)
-            {
-                throw new InvalidNullValueException(NullValue.INVALID_USER_NULL_VALUE_MESSAGE);
-            }
-        }
-
-        private void ValidateUserNotAdmin()
-        {
-            if (!user.IsAdmin)
-            {
-                throw new NonAdminException(AdminException.NON_ADMIN_EXCEPTION_MESSAGE);
-            }
         }
 
         private void ValidateTeam(Team team)
@@ -67,7 +45,7 @@ namespace Sports.Logic
 
         public Team GetTeamById(int id)
         {
-            ValidateUserNotNull();
+            sessionLogic.ValidateUserNotNull(user);
             ICollection<Team> teams = repository.FindByCondition(t => t.Id == id);
             if (teams.Count == 0)
             {
@@ -79,7 +57,7 @@ namespace Sports.Logic
 
         public void SetPictureFromPath(Team team, string testImagePath)
         {
-            ValidateUserNotNull();
+            sessionLogic.ValidateUserNotNull(user);
             Team realTeam = GetTeamById(team.Id);
             ValidateTeam(realTeam);
             realTeam.AddPictureFromPath(testImagePath);
@@ -89,7 +67,7 @@ namespace Sports.Logic
 
         public void Modify(int id, Team team)
         {
-            ValidateUser();
+            sessionLogic.ValidateUser(user);
             Team realTeam = GetTeamById(id);
             realTeam.UpdateData(team);
             ValidateTeam(realTeam);
@@ -98,7 +76,7 @@ namespace Sports.Logic
 
         public void Delete(Team team)
         {
-            ValidateUser();
+            sessionLogic.ValidateUser(user);
             Team realTeam = GetTeamById(team.Id);
             repository.Delete(realTeam);
             repository.Save();
@@ -106,7 +84,7 @@ namespace Sports.Logic
 
         public ICollection<Team> GetAll()
         {
-            ValidateUserNotNull();
+            sessionLogic.ValidateUserNotNull(user);
             return repository.FindAll();
         }
 

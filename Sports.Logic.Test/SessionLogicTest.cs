@@ -13,6 +13,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Sports.Logic.Exceptions;
 using Sports.Domain.Exceptions;
+using Sports.Logic.Constants;
 
 namespace Sports.Logic.Test
 {
@@ -158,6 +159,5 @@ namespace Sports.Logic.Test
             sessionLogic.LogoutByUser(user);
            sessionLogic.GetUserFromToken(token);
         }
-
     }
 }

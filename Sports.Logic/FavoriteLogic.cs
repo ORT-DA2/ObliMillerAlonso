@@ -31,7 +31,7 @@ namespace Sports.Logic
         
         public void AddFavoriteTeam(User user, Team team)
         {
-            ValidateUser();
+            sessionLogic.ValidateUser(user);
             Favorite favorite = new Favorite()
             {
                 User = user,
@@ -40,28 +40,6 @@ namespace Sports.Logic
             ValidateNewFavorite(user, team, favorite);
             repository.Create(favorite);
             repository.Save();
-        }
-
-        private void ValidateUser()
-        {
-            ValidateUserNotNull();
-            ValidateUserNotAdmin();
-        }
-
-        private void ValidateUserNotNull()
-        {
-            if (user == null)
-            {
-                throw new InvalidNullValueException(NullValue.INVALID_USER_NULL_VALUE_MESSAGE);
-            }
-        }
-
-        private void ValidateUserNotAdmin()
-        {
-            if (!user.IsAdmin)
-            {
-                throw new NonAdminException(AdminException.NON_ADMIN_EXCEPTION_MESSAGE);
-            }
         }
 
         private void ValidateNewFavorite(User user, Team team, Favorite favorite)
@@ -88,7 +66,7 @@ namespace Sports.Logic
 
         public ICollection<Team> GetFavoritesFromUser(int id)
         {
-            ValidateUserNotNull();
+            sessionLogic.ValidateUserNotNull(user);
             ICollection<Favorite> favorites = repository.FindByCondition(f => f.User.Id == id);
             ValidateFavoritesExist(favorites);
             ICollection<Team> teams = GetTeamsFromFavorites(favorites);
@@ -115,7 +93,7 @@ namespace Sports.Logic
 
         public ICollection<Comment> GetFavoritesTeamsComments(User user)
         {
-            ValidateUserNotNull();
+            sessionLogic.ValidateUserNotNull(user);
             ICollection<Team> favoriteTeams = GetFavoritesFromUser(user.Id);
             ICollection<Match> favoriteMatches = GetMatchesForTeams(favoriteTeams);
             List<Comment> favoriteComments = new List<Comment>();
@@ -140,7 +118,7 @@ namespace Sports.Logic
 
         public ICollection<Favorite> GetAll()
         {
-            ValidateUserNotNull();
+            sessionLogic.ValidateUserNotNull(user);
             return repository.FindAll();
         }
 

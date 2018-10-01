@@ -31,32 +31,10 @@ namespace Sports.Logic
         }
         public void AddMatch(Match match)
         {
-            ValidateUser();
+            sessionLogic.ValidateUser(user);
             ValidateMatch(match);
             repository.Create(match);
             repository.Save();
-        }
-
-        private void ValidateUser()
-        {
-            ValidateUserNotNull();
-            ValidateUserNotAdmin();
-        }
-
-        private void ValidateUserNotNull()
-        {
-            if (user == null)
-            {
-                throw new InvalidNullValueException(NullValue.INVALID_USER_NULL_VALUE_MESSAGE);
-            }
-        }
-
-        private void ValidateUserNotAdmin()
-        {
-            if (!user.IsAdmin)
-            {
-                throw new NonAdminException(AdminException.NON_ADMIN_EXCEPTION_MESSAGE);
-            }
         }
 
         private void ValidateMatch(Match match)
@@ -88,7 +66,7 @@ namespace Sports.Logic
 
         public Match GetMatchById(int id)
         {
-            ValidateUserNotNull();
+            sessionLogic.ValidateUserNotNull(user);
             ICollection<Match> matches = repository.FindByCondition(m => m.Id == id);
             if (matches.Count == 0)
             {
@@ -100,7 +78,7 @@ namespace Sports.Logic
 
         public ICollection<Match> GetAllMatchesForTeam(Team team)
         {
-            ValidateUserNotNull();
+            sessionLogic.ValidateUserNotNull(user);
             Team playingTeam = teamLogic.GetTeamById(team.Id);
             ICollection<Match> matches = repository.FindByCondition(m => m.Local.Equals(playingTeam) ||m.Visitor.Equals(playingTeam));
             if (matches.Count == 0)
@@ -112,7 +90,7 @@ namespace Sports.Logic
 
         public void ModifyMatch(int id, Match match)
         {
-            ValidateUser();
+            sessionLogic.ValidateUser(user);
             Match realMatch = GetMatchById(id);
             realMatch.UpdateMatch(match);
             ValidateMatch(realMatch);
@@ -122,7 +100,7 @@ namespace Sports.Logic
 
         public void DeleteMatch(Match match)
         {
-            ValidateUser();
+            sessionLogic.ValidateUser(user);
             Match realMatch = GetMatchById(match.Id);
             repository.Delete(realMatch);
             repository.Save();
@@ -130,13 +108,13 @@ namespace Sports.Logic
 
         public ICollection<Match> GetAllMatches()
         {
-            ValidateUserNotNull();
+            sessionLogic.ValidateUserNotNull(user);
             return repository.FindAll();
         }
 
         public void AddCommentToMatch(int id, Comment comment)
         {
-            ValidateUserNotNull();
+            sessionLogic.ValidateUserNotNull(user);
             commentLogic.AddComment(comment);
             Match commentedMatch = GetMatchById(id);
             ValidateMatch(commentedMatch);
@@ -147,7 +125,7 @@ namespace Sports.Logic
 
         public ICollection<Comment> GetAllComments(int id)
         {
-            ValidateUserNotNull();
+            sessionLogic.ValidateUserNotNull(user);
             Match commentedMatch = GetMatchById(id);
             return commentedMatch.GetAllComments();
         }

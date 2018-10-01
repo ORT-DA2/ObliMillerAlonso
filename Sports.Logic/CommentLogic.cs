@@ -25,32 +25,10 @@ namespace Sports.Logic
         }
         public void AddComment(Comment comment)
         {
-            ValidateUser();
+            sessionLogic.ValidateUser(user);
             ValidateComment(comment);
             repository.Create(comment);
             repository.Save();
-        }
-
-        private void ValidateUser()
-        { 
-            ValidateUserNotNull();
-            ValidateUserNotAdmin();
-        }
-
-        private void ValidateUserNotNull()
-        {
-            if (user == null)
-            {
-                throw new InvalidNullValueException(NullValue.INVALID_USER_NULL_VALUE_MESSAGE);
-            }
-        }
-
-        private void ValidateUserNotAdmin()
-        {
-            if (!user.IsAdmin)
-            {
-                throw new NonAdminException(AdminException.NON_ADMIN_EXCEPTION_MESSAGE);
-            }
         }
 
         private void ValidateComment(Comment comment)
@@ -78,14 +56,14 @@ namespace Sports.Logic
 
         public Comment GetCommentById(int id)
         {
-            ValidateUserNotNull();
+            sessionLogic.ValidateUserNotNull(user);
             ICollection<Comment> comments = repository.FindByCondition(c => c.Id == id);
             return comments.First();
         }
 
         public ICollection<Comment> GetAll()
         {
-            ValidateUserNotNull();
+            sessionLogic.ValidateUserNotNull(user);
             return repository.FindAll();
         }
 

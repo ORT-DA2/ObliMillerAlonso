@@ -31,34 +31,12 @@ namespace Sports.Logic
         
         public void AddFixtureImplementations(string dllFilesPath)
         {
-            ValidateUser(); 
+            sessionLogic.ValidateUser(user); 
             VerifyPath(dllFilesPath);
             DirectoryInfo directory = new DirectoryInfo(dllFilesPath);
             EvaluateAllDlls(directory);
         }
-
-        private void ValidateUser()
-        {
-            ValidateUserNotNull();
-            ValidateUserNotAdmin();
-        }
-
-        private void ValidateUserNotNull()
-        {
-            if (user == null)
-            {
-                throw new InvalidNullValueException(NullValue.INVALID_USER_NULL_VALUE_MESSAGE);
-            }
-        }
-
-        private void ValidateUserNotAdmin()
-        {
-            if (!user.IsAdmin)
-            {
-                throw new NonAdminException(AdminException.NON_ADMIN_EXCEPTION_MESSAGE);
-            }
-        }
-
+        
         private void VerifyPath(string dllFilesPath)
         {
             if (!Directory.Exists(dllFilesPath))
@@ -92,7 +70,7 @@ namespace Sports.Logic
 
         public void ChangeFixtureImplementation()
         {
-            ValidateUser();
+            sessionLogic.ValidateUser(user);
             if (fixtureGeneratorStrategies.Count == 0)
             {
                 throw new NoImportedFixtureStrategiesException("No strategies are imported");
@@ -102,7 +80,7 @@ namespace Sports.Logic
 
         public ICollection<Match> GenerateFixture(ICollection<Sport> sports)
         {
-            ValidateUser();
+            sessionLogic.ValidateUser(user);
             FixtureGenerationValidations(sports);
             ICollection<Sport> realSports = GetRealSports(sports);
             ICollection<Match> fixtureMatches = new List<Match>();
