@@ -26,16 +26,22 @@ namespace Sports.Logic.Test
         private IUserLogic userLogic;
         private ISessionLogic sessionLogic;
         Sport sport;
+        User user;
+        
         
         [TestInitialize]
         public void SetUp()
         {
             SetUpRepositories();
-
             sport = new Sport()
             {
                 Name = "Tennis"
             };
+            user = ValidUser();
+            userLogic.AddUser(user);
+            Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
+            sessionLogic.GetUserFromToken(token);
+            sportLogic.SetSession(token);
         }
 
         private void SetUpRepositories()
@@ -54,8 +60,21 @@ namespace Sports.Logic.Test
         [TestCleanup]
         public void TearDown()
         {
+            repository.Users.RemoveRange(repository.Users);
             repository.Sports.RemoveRange(repository.Sports);
             repository.SaveChanges();
+        }
+
+        private User ValidUser()
+        {
+            return new User(true)
+            {
+                FirstName = "Itai",
+                LastName = "Miller",
+                Email = "itaimiller@gmail.com",
+                UserName = "iMiller",
+                Password = "root"
+            };
         }
 
         [TestMethod]
@@ -284,11 +303,24 @@ namespace Sports.Logic.Test
                 UserName = "newUser",
                 Password = "root"
             };
+            Team team = new Team()
+            {
+                Name = "Team"
+            };
+            Team teamChanges = new Team()
+            {
+                Name = "TeamChanges"
+            };
             userLogic.AddUser(user);
             Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
             sessionLogic.GetUserFromToken(token);
             sportLogic.SetSession(token);
             sportLogic.AddSport(sport);
+            sportLogic.ModifySport(sport.Id, sport);
+            sportLogic.AddTeamToSport(sport, team);
+            sportLogic.UpdateTeamSport(sport.Id, team, teamChanges);
+            sportLogic.DeleteTeamFromSport(sport, team);
+            sportLogic.RemoveSport(sport.Id);
         }
 
     }
