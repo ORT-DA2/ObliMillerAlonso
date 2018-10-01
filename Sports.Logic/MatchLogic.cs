@@ -28,14 +28,6 @@ namespace Sports.Logic
             commentLogic = new CommentLogic(unit);
             sessionLogic = new SessionLogic(unit);
             userLogic = new UserLogic(unit);
-            user = new User()
-            {
-                FirstName = "Itai",
-                LastName = "Miller",
-                Email = "itaimiller@gmail.com",
-                UserName = "iMiller",
-                Password = "root"
-            };
         }
         public void AddMatch(Match match)
         {
@@ -69,6 +61,7 @@ namespace Sports.Logic
 
         private void ValidateMatch(Match match)
         {
+            
             CheckNotNull(match);
             match.IsValid();
             ValidateSport(match);
@@ -76,6 +69,7 @@ namespace Sports.Logic
 
         private void ValidateSport(Match match)
         {
+            
             Sport sport = match.Sport;
             Team local = match.Local;
             Team visitor = match.Visitor;

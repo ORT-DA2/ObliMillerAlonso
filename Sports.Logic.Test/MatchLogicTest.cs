@@ -28,6 +28,7 @@ namespace Sports.Logic.Test
         private ICommentLogic commentLogic;
         private ISessionLogic sessionLogic;
         private Match match;
+        private User user;
 
         [TestInitialize]
         public void SetUp()
@@ -92,6 +93,11 @@ namespace Sports.Logic.Test
         [TestMethod]
         public void AddFullMatch()
         {
+
+            user = ValidUser();
+            userLogic.AddUser(user);
+            Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
+            matchLogic.SetSession(token);
             matchLogic.AddMatch(match);
             Assert.IsNotNull(matchLogic.GetMatchById(match.Id));
         }
@@ -311,8 +317,6 @@ namespace Sports.Logic.Test
         public void AddCommentToMatch()
         {
             matchLogic.AddMatch(match);
-            User user = ValidUser();
-            userLogic.AddUser(user);
             Comment comment = new Comment
             {
                 Text = "Text",
@@ -325,7 +329,7 @@ namespace Sports.Logic.Test
 
         private User ValidUser()
         {
-            return new User()
+            return new User(true)
             {
                 FirstName = "Itai",
                 LastName = "Miller",
