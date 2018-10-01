@@ -34,18 +34,31 @@ namespace Sports.WebAPI.Controllers
             {
                 return NotFound();
             }
+            UserModel model = MapUserToModel(user);
             return user;
+        }
+
+        private UserModel MapUserToModel(User user)
+        {
+            return new UserModel()
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email
+            };
         }
 
         // POST api/values
         [HttpPost]
-        public IActionResult Post([FromBody] User userIn)
+        public IActionResult PostUser([FromBody] User userIn)
         { 
             try
             {
+                RequestBodyIsNotNull(userIn);
                 userLogic.AddUser(userIn);
-                var addedUser = new UserModel() { Id = userIn.Id, UserName = userIn.UserName, FirstName = userIn.FirstName, LastName = userIn.LastName, Email = userIn.Email };
-                return CreatedAtRoute("GetById", new { id = addedUser.Id }, addedUser);
+                return CreatedAtRoute("GetById", new { id = userIn.Id });
             }
             catch(Exception ex)
             {
@@ -53,6 +66,30 @@ namespace Sports.WebAPI.Controllers
             }
             
         }
-        
+
+
+        // POST api/values
+        [HttpPost]
+        public IActionResult PutUser(int userId, [FromBody]User newUser)
+        {
+            try
+            {
+                RequestBodyIsNotNull(newUser);
+                userLogic.UpdateUser(userId, newUser);
+                return Ok("Usuario modificado");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+        private void RequestBodyIsNotNull(object Object)
+        {
+            if (Object == null)
+                throw new ArgumentNullException("Alguno de los parámetros es invalido.");
+        }
+
     }
 }

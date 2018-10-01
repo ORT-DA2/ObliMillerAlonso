@@ -25,10 +25,10 @@ namespace Sports.WebAPI.Tests
             };
             
             Mock<IUserLogic> userLogicMock = new Mock<IUserLogic>();
-            userLogicMock.Setup(userLogic => userLogic.AddUser(fakeUser));
+            userLogicMock.Setup(userLogic => userLogic.AddUser(It.IsAny<User>()));
             var controller = new UsersController(userLogicMock.Object);
             
-            IActionResult result = controller.Post(fakeUser);
+            IActionResult result = controller.PostUser(fakeUser);
             var createdResult = result as CreatedAtRouteResult;
             var modelOut = createdResult.Value as UserModel;
             
@@ -55,18 +55,17 @@ namespace Sports.WebAPI.Tests
             };
 
             Mock<IUserLogic> userLogicMock = new Mock<IUserLogic>();
-            userLogicMock.Setup(userLogic => userLogic.GetUserById(It.IsAny<int>())).Returns(oldUser);
-            userLogicMock.Setup(userLogic => userLogic.UpdateUser(It.IsAny<int>(),newUser);
+            userLogicMock.Setup(userLogic => userLogic.UpdateUser(It.IsAny<int>(),It.IsAny<User>()));
             var controller = new UsersController(userLogicMock.Object);
 
-            IActionResult result = controller.PutUser(newUser);
-            var createdResult = result as CreatedAtRouteResult;
-            var modelOut = createdResult.Value as UserModel;
+            IActionResult result = controller.PutUser(1, newUser);
+            var createdResult = result as OkObjectResult;
 
             userLogicMock.VerifyAll();
 
-            Assert.AreEqual(201, createdResult.StatusCode);
+            Assert.AreEqual(200, createdResult.StatusCode);
         }
+
 
     }
 }
