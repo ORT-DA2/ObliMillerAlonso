@@ -37,6 +37,10 @@ namespace Sports.Logic.Test
         {
             SetUpRepositories();
             AddUserToRepository();
+            Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
+            favoriteLogic.SetSession(token);
+            matchLogic.SetSession(token);
+            sportLogic.SetSession(token);
             AddMatchWithDataToRepository();
             comment = new Comment()
             {
@@ -69,10 +73,9 @@ namespace Sports.Logic.Test
             sportLogic.AddSport(sport);
             return sport;
         }
-
         private void AddUserToRepository()
         {
-            user = new User()
+            user = new User(true)
             {
                 FirstName = "itai",
                 LastName = "miller",
@@ -82,7 +85,7 @@ namespace Sports.Logic.Test
             };
             userLogic.AddUser(user);
         }
-
+       
         private void SetUpRepositories()
         {
             var options = new DbContextOptionsBuilder<RepositoryContext>()
@@ -94,6 +97,7 @@ namespace Sports.Logic.Test
             userLogic = new UserLogic(unitOfWork);
             matchLogic = new MatchLogic(unitOfWork);
             sportLogic = new SportLogic(unitOfWork);
+            sessionLogic = new SessionLogic(unitOfWork);
         }
 
         private Team AddTeamToSport(Sport sport, string teamName)
@@ -207,7 +211,7 @@ namespace Sports.Logic.Test
 
         [TestMethod]
         [ExpectedException(typeof(NonAdminException))]
-        public void MatchSetSessionNonAdminUser()
+        public void FavoriteSetSessionNonAdminUser()
         {
             User user = new User()
             {
@@ -221,7 +225,7 @@ namespace Sports.Logic.Test
             Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
             sessionLogic.GetUserFromToken(token);
             favoriteLogic.SetSession(token);
-    
+            favoriteLogic.AddFavoriteTeam(user,favoriteTeam);
         }
 
     }

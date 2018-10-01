@@ -16,6 +16,8 @@ namespace Sports.Logic
         IUserLogic userLogic;
         ITeamLogic teamLogic;
         IMatchLogic matchLogic;
+        ISessionLogic sessionLogic;
+        User user;
 
         public FavoriteLogic(IRepositoryUnitOfWork unitOfWork)
         {
@@ -23,11 +25,13 @@ namespace Sports.Logic
             userLogic = new UserLogic(unitOfWork);
             teamLogic = new TeamLogic(unitOfWork);
             matchLogic = new MatchLogic(unitOfWork);
+            sessionLogic = new SessionLogic(unitOfWork);
         }
         
         
         public void AddFavoriteTeam(User user, Team team)
         {
+            ValidateUser();
             Favorite favorite = new Favorite()
             {
                 User = user,
@@ -36,6 +40,28 @@ namespace Sports.Logic
             ValidateNewFavorite(user, team, favorite);
             repository.Create(favorite);
             repository.Save();
+        }
+
+        private void ValidateUser()
+        {
+            ValidateUserNotNull();
+            ValidateUserNotAdmin();
+        }
+
+        private void ValidateUserNotNull()
+        {
+            if (user == null)
+            {
+                throw new InvalidNullValueException(NullValue.INVALID_USER_NULL_VALUE_MESSAGE);
+            }
+        }
+
+        private void ValidateUserNotAdmin()
+        {
+            if (!user.IsAdmin)
+            {
+                throw new NonAdminException(AdminException.NON_ADMIN_EXCEPTION_MESSAGE);
+            }
         }
 
         private void ValidateNewFavorite(User user, Team team, Favorite favorite)
@@ -62,6 +88,7 @@ namespace Sports.Logic
 
         public ICollection<Team> GetFavoritesFromUser(int id)
         {
+            ValidateUserNotNull();
             ICollection<Favorite> favorites = repository.FindByCondition(f => f.User.Id == id);
             ValidateFavoritesExist(favorites);
             ICollection<Team> teams = GetTeamsFromFavorites(favorites);
@@ -88,6 +115,7 @@ namespace Sports.Logic
 
         public ICollection<Comment> GetFavoritesTeamsComments(User user)
         {
+            ValidateUserNotNull();
             ICollection<Team> favoriteTeams = GetFavoritesFromUser(user.Id);
             ICollection<Match> favoriteMatches = GetMatchesForTeams(favoriteTeams);
             List<Comment> favoriteComments = new List<Comment>();
@@ -112,7 +140,15 @@ namespace Sports.Logic
 
         public ICollection<Favorite> GetAll()
         {
+            ValidateUserNotNull();
             return repository.FindAll();
+        }
+
+        public void SetSession(Guid token)
+        {
+            user = sessionLogic.GetUserFromToken(token);
+            teamLogic.SetSession(token);
+            matchLogic.SetSession(token);
         }
     }
 }
