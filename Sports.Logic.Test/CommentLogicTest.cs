@@ -32,6 +32,10 @@ namespace Sports.Logic.Test
         {
             SetUpRepositories();
             SetUpTestData();
+            //userLogic.AddUser(user);
+            Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
+            sessionLogic.GetUserFromToken(token);
+            commentLogic.SetSession(token);
 
         }
 

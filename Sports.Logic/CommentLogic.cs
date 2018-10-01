@@ -78,12 +78,14 @@ namespace Sports.Logic
 
         public Comment GetCommentById(int id)
         {
+            ValidateUserNotNull();
             ICollection<Comment> comments = repository.FindByCondition(c => c.Id == id);
             return comments.First();
         }
 
         public ICollection<Comment> GetAll()
         {
+            ValidateUserNotNull();
             return repository.FindAll();
         }
 
