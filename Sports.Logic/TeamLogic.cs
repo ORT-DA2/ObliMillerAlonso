@@ -13,16 +13,42 @@ namespace Sports.Logic
     public class TeamLogic : ITeamLogic
     {
         ITeamRepository repository;
+        ISessionLogic sessionLogic;
+        User user;
 
         public TeamLogic(IRepositoryUnitOfWork unitOfwork)
         {
             repository = unitOfwork.Team;
+            sessionLogic = new SessionLogic(unitOfwork);
         }
         public void AddTeam(Team team)
         {
+            ValidateUser();
             ValidateTeam(team);
             repository.Create(team);
             repository.Save();
+        }
+
+        private void ValidateUser()
+        {
+            ValidateUserNotNull();
+            ValidateUserNotAdmin();
+        }
+
+        private void ValidateUserNotNull()
+        {
+            if (user == null)
+            {
+                throw new InvalidNullValueException(NullValue.INVALID_USER_NULL_VALUE_MESSAGE);
+            }
+        }
+
+        private void ValidateUserNotAdmin()
+        {
+            if (!user.IsAdmin)
+            {
+                throw new NonAdminException(AdminException.NON_ADMIN_EXCEPTION_MESSAGE);
+            }
         }
 
         private void ValidateTeam(Team team)
@@ -77,6 +103,11 @@ namespace Sports.Logic
         public ICollection<Team> GetAll()
         {
             return repository.FindAll();
+        }
+
+        public void SetSession(Guid token)
+        {
+            user = sessionLogic.GetUserFromToken(token);
         }
     }
 }

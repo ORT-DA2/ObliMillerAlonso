@@ -168,6 +168,7 @@ namespace Sports.Logic.Test
             Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
             sessionLogic.GetUserFromToken(token);
             teamLogic.SetSession(token);
+            teamLogic.AddTeam(team);
         }
 
     }
