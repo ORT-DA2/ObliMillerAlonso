@@ -47,11 +47,11 @@ namespace Sports.Logic
 
         private void ValidateUser()
         {
-            ValidateUserNotNull(user);
-            ValidateUserNotAdmin(user);
+            ValidateUserNotNull();
+            ValidateUserNotAdmin();
         }
 
-        private void ValidateUserNotNull(User user)
+        private void ValidateUserNotNull()
         {
             if (user == null)
             {
@@ -59,7 +59,7 @@ namespace Sports.Logic
             }
         }
 
-        private void ValidateUserNotAdmin(User user)
+        private void ValidateUserNotAdmin()
         {
             if (!user.IsAdmin)
             {
@@ -94,6 +94,7 @@ namespace Sports.Logic
 
         public Match GetMatchById(int id)
         {
+            ValidateUserNotNull();
             ICollection<Match> matches = repository.FindByCondition(m => m.Id == id);
             if (matches.Count == 0)
             {
@@ -105,6 +106,7 @@ namespace Sports.Logic
 
         public ICollection<Match> GetAllMatchesForTeam(Team team)
         {
+            ValidateUserNotNull();
             Team playingTeam = teamLogic.GetTeamById(team.Id);
             ICollection<Match> matches = repository.FindByCondition(m => m.Local.Equals(playingTeam) ||m.Visitor.Equals(playingTeam));
             if (matches.Count == 0)
@@ -116,6 +118,7 @@ namespace Sports.Logic
 
         public void ModifyMatch(int id, Match match)
         {
+            ValidateUser();
             Match realMatch = GetMatchById(id);
             realMatch.UpdateMatch(match);
             ValidateMatch(realMatch);
@@ -125,6 +128,7 @@ namespace Sports.Logic
 
         public void DeleteMatch(Match match)
         {
+            ValidateUser();
             Match realMatch = GetMatchById(match.Id);
             repository.Delete(realMatch);
             repository.Save();
@@ -132,11 +136,13 @@ namespace Sports.Logic
 
         public ICollection<Match> GetAllMatches()
         {
+            ValidateUserNotNull();
             return repository.FindAll();
         }
 
         public void AddCommentToMatch(int id, Comment comment)
         {
+            ValidateUserNotNull();
             commentLogic.AddComment(comment);
             Match commentedMatch = GetMatchById(id);
             ValidateMatch(commentedMatch);
@@ -147,6 +153,7 @@ namespace Sports.Logic
 
         public ICollection<Comment> GetAllComments(int id)
         {
+            ValidateUserNotNull();
             Match commentedMatch = GetMatchById(id);
             return commentedMatch.GetAllComments();
         }

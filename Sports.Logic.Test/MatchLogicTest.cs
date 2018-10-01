@@ -458,6 +458,8 @@ namespace Sports.Logic.Test
             sessionLogic.GetUserFromToken(token);
             matchLogic.SetSession(token);
             matchLogic.AddMatch(match);
+            matchLogic.DeleteMatch(match);
+            matchLogic.ModifyMatch(match.Id, match);
         }
 
 
