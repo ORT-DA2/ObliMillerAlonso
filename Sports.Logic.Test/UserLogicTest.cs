@@ -22,6 +22,7 @@ namespace Sports.Logic.Test
         private IRepositoryUnitOfWork unitOfWork;
         private RepositoryContext repository;
         private IUserLogic userLogic;
+        private ITeamLogic teamLogic;
         User user;
 
         [TestInitialize]
@@ -46,6 +47,7 @@ namespace Sports.Logic.Test
             repository = new RepositoryContext(options);
             unitOfWork = new RepositoryUnitOfWork(repository);
             userLogic = new UserLogic(unitOfWork);
+            teamLogic = new TeamLogic(unitOfWork);
         }
 
         [TestCleanup]
@@ -207,5 +209,6 @@ namespace Sports.Logic.Test
             userLogic.AddUser(user);
             userLogic.RemoveUser(user.Id+1);
         }
+       
     }
 }

@@ -15,5 +15,6 @@ namespace Sports.Logic.Interface
         void Delete(Team team);
         ICollection<Team> GetAll();
         void SetSession(Guid token);
+        ICollection<Team> FilterOrderTeamName(string name, string order = "asc");
     }
 }
