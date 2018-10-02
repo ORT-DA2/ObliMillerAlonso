@@ -8,6 +8,7 @@ using Sports.WebAPI.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using AutoMapper;
+using System;
 
 namespace Sports.WebAPI.Tests
 {
@@ -17,6 +18,7 @@ namespace Sports.WebAPI.Tests
         Mock<IUserLogic> userLogicMock;
         UsersController controller;
         IMapper mapper;
+        Guid token;
 
        [TestInitialize]
         public void SetUp()
@@ -26,6 +28,8 @@ namespace Sports.WebAPI.Tests
             var config = new MapperConfiguration(cfg => cfg.AddProfile(new MapperProfile()));
             IMapper mapper = new Mapper(config);
             controller = new UsersController(userLogicMock.Object,mapper);
+            userLogicMock.Setup(userLogic => userLogic.SetSession(It.IsAny<Guid>()));
+            token = new Guid();
         }
 
         [TestMethod]
@@ -52,8 +56,7 @@ namespace Sports.WebAPI.Tests
 
             userLogicMock.Setup(userLogic => userLogic.AddUser(It.IsAny<User>()));
             
-            
-            IActionResult result = controller.PostUser(modelIn);
+            IActionResult result = controller.PostUser(modelIn, token);
             var okResult = result as OkObjectResult;
             var modelOut = okResult.Value as UserModelOut;
             
@@ -82,7 +85,7 @@ namespace Sports.WebAPI.Tests
             
             userLogicMock.Setup(userLogic => userLogic.UpdateUser(It.IsAny<int>(),It.IsAny<User>()));
 
-            IActionResult result = controller.PutUser(1, newUser);
+            IActionResult result = controller.PutUser(1, newUser, token);
             var createdResult = result as OkObjectResult;
 
             userLogicMock.VerifyAll();
@@ -98,7 +101,7 @@ namespace Sports.WebAPI.Tests
 
             userLogicMock.Setup(userLogic => userLogic.RemoveUser(It.IsAny<int>()));
 
-            IActionResult result = controller.DeleteUser(userId);
+            IActionResult result = controller.DeleteUser(userId,token);
             var createdResult = result as OkObjectResult;
 
             userLogicMock.VerifyAll();
@@ -124,7 +127,7 @@ namespace Sports.WebAPI.Tests
             
             userLogicMock.Setup(userLogic => userLogic.GetAll()).Returns(users);
 
-            var result = controller.GetAll();
+            var result = controller.GetAll(token);
             var okResult = result as OkObjectResult;
             var modelOut = okResult.Value as ICollection<UserModelOut>;
 

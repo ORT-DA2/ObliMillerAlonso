@@ -14,7 +14,7 @@ using AutoMapper;
 
 namespace Sports.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/users")]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -27,11 +27,11 @@ namespace Sports.WebAPI.Controllers
             mapper = aMapper;
         }
 
-
-        // GET api/values/5
         [HttpGet("{id}", Name = "GetById")]
-        public IActionResult Get(int id)
+        public IActionResult Get(int id, [FromHeader] Guid token)
         {
+            RequestHeaderIsNotNull(token);
+            userLogic.SetSession(token);
             User user = userLogic.GetUserById(id);
             if (user == null)
             {
@@ -41,11 +41,11 @@ namespace Sports.WebAPI.Controllers
             return Ok(modelOut);
         }
 
-
-        // GET api/values
         [HttpGet(Name = "GetAll")]
-        public IActionResult GetAll()
+        public IActionResult GetAll([FromHeader] Guid token)
         {
+            RequestHeaderIsNotNull(token);
+            userLogic.SetSession(token);
             ICollection<User> userList = userLogic.GetAll();
             if (userList == null)
             {
@@ -60,36 +60,18 @@ namespace Sports.WebAPI.Controllers
             return Ok(userModels.ToList());
         }
 
-        // POST api/values
         [HttpPost]
-        public IActionResult PostUser([FromBody] UserModelIn userIn)
-        { 
+        public IActionResult PostUser([FromBody] UserModelIn userIn, [FromHeader] Guid token)
+        {
             try
             {
+                RequestHeaderIsNotNull(token);
+                userLogic.SetSession(token);
                 RequestBodyIsNotNull(userIn);
                 User user = mapper.Map<User>(userIn);
                 userLogic.AddUser(user);
                 UserModelOut modelOut = mapper.Map<UserModelOut>(user);
                 return Ok(modelOut);
-            }
-            catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            
-        }
-
-
-        // PUT api/values
-        [HttpPost]
-        public IActionResult PutUser(int userId, [FromBody]UserModelIn newUser)
-        {
-            try
-            {
-                RequestBodyIsNotNull(newUser);
-                User user = mapper.Map<User>(newUser);
-                userLogic.UpdateUser(userId, user);
-                return Ok("Usuario modificado");
             }
             catch (Exception ex)
             {
@@ -98,14 +80,34 @@ namespace Sports.WebAPI.Controllers
 
         }
 
-        // DELETE api/values
-        [HttpPost]
-        public IActionResult DeleteUser(int userId)
+        [HttpPut]
+        public IActionResult PutUser([FromHeader] int userId, [FromBody]UserModelIn newUser, [FromHeader] Guid token)
         {
             try
             {
+                RequestHeaderIsNotNull(token);
+                userLogic.SetSession(token);
+                RequestBodyIsNotNull(newUser);
+                User user = mapper.Map<User>(newUser);
+                userLogic.UpdateUser(userId, user);
+                return Ok("User modified correctly.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+        [HttpDelete]
+        public IActionResult DeleteUser([FromHeader] int userId, [FromHeader] Guid token)
+        {
+            try
+            {
+                RequestHeaderIsNotNull(token);
+                userLogic.SetSession(token);
                 userLogic.RemoveUser(userId);
-                return Ok("Usuario eliminado");
+                return Ok("User deleted");
             }
             catch (Exception ex)
             {
@@ -117,9 +119,14 @@ namespace Sports.WebAPI.Controllers
         private void RequestBodyIsNotNull(object Object)
         {
             if (Object == null)
-                throw new ArgumentNullException("Alguno de los parámetros es invalido. Corrija bien los campos");
+                throw new ArgumentNullException("Invalid parameters, check the fields.");
         }
 
+        private void RequestHeaderIsNotNull(object Object)
+        {
+            if (Object == null)
+                throw new ArgumentNullException("Invalid parameters, check the fields.");
+        }
 
     }
 }
