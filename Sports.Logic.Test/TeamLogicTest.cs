@@ -203,12 +203,28 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidNullValueException))]
+        public void FilterOrderTeamNameDesc()
+        {
+            Team otherTeam = new Team()
+            {
+                Name = "TeamName"
+            };
+            string order = "desc";
+            teamLogic.AddTeam(otherTeam);
+            ICollection<Team> filteredTeams = teamLogic.FilterOrderTeamName("TeamName", order);
+            Assert.AreEqual(filteredTeams.Count, 1);
+        }
+
+        [TestMethod]
         public void InvalidFilterOrderTeamName()
         {
-            teamLogic.AddTeam(null);
+            Team otherTeam = new Team()
+            {
+                Name = "TeamName"
+            };
+            teamLogic.AddTeam(otherTeam);
             ICollection<Team> filteredTeams = teamLogic.FilterOrderTeamName(null);
-            Assert.AreEqual(filteredTeams.Count, 0);
+            Assert.AreEqual(filteredTeams.Count, 1);
         }
 
     }
