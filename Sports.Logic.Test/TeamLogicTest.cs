@@ -27,7 +27,6 @@ namespace Sports.Logic.Test
         private IUserLogic userLogic;
         private ISessionLogic sessionLogic;
         private Team team;
-        private User user;
 
         [TestInitialize]
         public void SetUp()

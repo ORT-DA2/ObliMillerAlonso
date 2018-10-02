@@ -26,23 +26,17 @@ namespace Sports.Logic.Test
         private IUserLogic userLogic;
         private ISessionLogic sessionLogic;
         Sport sport;
-        User user;
         
         
         [TestInitialize]
         public void SetUp()
         {
             SetUpRepositories();
+            SetUpAdminSession();
             sport = new Sport()
             {
                 Name = "Tennis"
             };
-            user = ValidUser();
-            userLogic.AddUser(user);
-            Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
-            sessionLogic.GetUserFromToken(token);
-            sportLogic.SetSession(token);
-            teamLogic.SetSession(token);
         }
 
         private void SetUpRepositories()
@@ -56,6 +50,25 @@ namespace Sports.Logic.Test
             teamLogic = new TeamLogic(unitOfWork);
             userLogic = new UserLogic(unitOfWork);
             sessionLogic = new SessionLogic(unitOfWork);
+        }
+        private void SetUpAdminSession()
+        {
+            User admin = new User(true)
+            {
+                FirstName = "Rafael",
+                LastName = "Alonso",
+                Email = "ralonso@gmail.com",
+                UserName = "rAlonso",
+                Password = "pass"
+            };
+            IUserRepository repo = unitOfWork.User;
+            repo.Create(admin);
+            repo.Save();
+            Guid adminToken = sessionLogic.LogInUser(admin.UserName, admin.Password);
+            sessionLogic.GetUserFromToken(adminToken);
+            userLogic.SetSession(adminToken);
+            sportLogic.SetSession(adminToken);
+            teamLogic.SetSession(adminToken);
         }
 
         [TestCleanup]
