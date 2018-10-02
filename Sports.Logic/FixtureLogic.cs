@@ -78,7 +78,7 @@ namespace Sports.Logic
             currentStrategy = (currentStrategy + 1) % (fixtureGeneratorStrategies.Count);
         }
 
-        public ICollection<Match> GenerateFixture(ICollection<Sport> sports)
+        public void GenerateFixture(ICollection<Sport> sports)
         {
             sessionLogic.ValidateUser(user);
             FixtureGenerationValidations(sports);
@@ -93,7 +93,7 @@ namespace Sports.Logic
             {
                 throw new MalfunctioningImplementationException("Fixture generation strategy is failing");
             }
-            return fixtureMatches;
+            matchLogic.AddMatches(fixtureMatches);
         }
 
         private void FixtureGenerationValidations(ICollection<Sport> sports)

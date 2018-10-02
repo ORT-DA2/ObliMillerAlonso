@@ -127,7 +127,7 @@ namespace Sports.Logic.Test
         public void GenerateWithoutFixtureImplementations()
         {
             sports = sportLogic.GetAll();
-            ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
+            fixtureLogic.GenerateFixture(sports);
         }
 
         [TestMethod]
@@ -143,7 +143,7 @@ namespace Sports.Logic.Test
         public void GenerateFixtureForNullSport()
         {
             fixtureLogic.AddFixtureImplementations(validImplementationsPath);
-            ICollection<Match> matches = fixtureLogic.GenerateFixture(null);
+            fixtureLogic.GenerateFixture(null);
         }
 
         [TestMethod]
@@ -154,7 +154,7 @@ namespace Sports.Logic.Test
             fixtureLogic.AddFixtureImplementations(validImplementationsPath);
             Sport testSport = new Sport();
             sports.Add(testSport);
-            ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
+            fixtureLogic.GenerateFixture(sports);
         }
 
         [TestMethod]
@@ -163,7 +163,7 @@ namespace Sports.Logic.Test
         {
             fixtureLogic.AddFixtureImplementations(failingImplementationsPath);
             sports = sportLogic.GetAll();
-            ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
+            fixtureLogic.GenerateFixture(sports);
         }
 
         [TestMethod]
@@ -171,7 +171,8 @@ namespace Sports.Logic.Test
         {
             fixtureLogic.AddFixtureImplementations(validImplementationsPath);
             sports = sportLogic.GetAll();
-            ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
+            fixtureLogic.GenerateFixture(sports);
+            ICollection<Match> matches = matchLogic.GetAllMatches();
             int invalidMatches = 0;
             foreach(Match match in matches)
             {
@@ -186,7 +187,8 @@ namespace Sports.Logic.Test
             fixtureLogic.AddFixtureImplementations(validImplementationsPath);
             fixtureLogic.ChangeFixtureImplementation();
             sports = sportLogic.GetAll();
-            ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
+            fixtureLogic.GenerateFixture(sports);
+            ICollection<Match> matches = matchLogic.GetAllMatches();
             Assert.AreEqual(15, matches.Count);
         }
 
@@ -203,7 +205,8 @@ namespace Sports.Logic.Test
             fixtureLogic.AddFixtureImplementations(validImplementationsPath);
             fixtureLogic.ChangeFixtureImplementation();
             sports = sportLogic.GetAll();
-            ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
+            fixtureLogic.GenerateFixture(sports);
+            ICollection<Match> matches = matchLogic.GetAllMatches();
             int invalidMatches = 0;
             foreach(Match match in matches)
             {
