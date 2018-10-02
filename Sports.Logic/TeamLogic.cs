@@ -125,7 +125,6 @@ namespace Sports.Logic
             {
                 teams = repository.FindByCondition(t => t.Name.Equals(name));
             }
-
             return teams;
         }
     }
