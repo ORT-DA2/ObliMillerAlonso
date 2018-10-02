@@ -7,7 +7,7 @@ namespace FailingFixtureImplementations
 {
     public class FixtureFailing : IFixtureGeneratorStrategy
     {
-        public ICollection<Match> GenerateFixture(ICollection<Sport> sports)
+        public ICollection<Match> GenerateFixture(ICollection<Sport> sports, DateTime startDate)
         {
             throw new NotImplementedException();
         }

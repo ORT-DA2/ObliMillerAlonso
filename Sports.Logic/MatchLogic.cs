@@ -137,5 +137,13 @@ namespace Sports.Logic
             commentLogic.SetSession(token);
             teamLogic.SetSession(token);
         }
+
+        public void AddMatches(ICollection<Match> matches)
+        {
+            foreach(Match match in matches)
+            {
+                AddMatch(match);
+            }
+        }
     }
 }

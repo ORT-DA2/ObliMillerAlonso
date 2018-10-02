@@ -8,6 +8,7 @@ namespace Sports.Logic.Interface
     public interface IMatchLogic
     {
         void AddMatch(Match match);
+        void AddMatches(ICollection<Match> matches);
         Match GetMatchById(int id);
         void ModifyMatch(int id, Match match);
         void DeleteMatch(Match match);

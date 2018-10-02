@@ -7,6 +7,6 @@ namespace Sports.Domain
 {
     public interface IFixtureGeneratorStrategy
     {
-        ICollection<Match> GenerateFixture(ICollection<Sport> sports);
+        ICollection<Match> GenerateFixture(ICollection<Sport> sports, DateTime startDate);
     }
 }

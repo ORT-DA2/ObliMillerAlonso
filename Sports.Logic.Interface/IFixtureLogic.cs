@@ -8,7 +8,7 @@ namespace Sports.Logic.Interface
     public interface IFixtureLogic
     {
         void AddFixtureImplementations(String path);
-        ICollection<Match> GenerateFixture(ICollection<Sport> sports);
+        void GenerateFixture(ICollection<Sport> sports, DateTime startDate);
         void ChangeFixtureImplementation();
         void SetSession(Guid token);
     }

@@ -12,13 +12,15 @@ namespace FixtureImplementations
         private List<Team> uncoveredTeams;
         private Sport currentSport;
         private int daysToAddToDate;
-        public ICollection<Match> GenerateFixture(ICollection<Sport> sports)
+        private DateTime initialDate;
+        public ICollection<Match> GenerateFixture(ICollection<Sport> sports, DateTime startDate)
         {
             generatedMatches = new List<Match>();
             foreach (Sport sport in sports.ToList())
             {
                 currentSport = sport;
                 daysToAddToDate = 1;
+                initialDate = startDate;
                 LocalWeeklyMatches();
                 VisitorWeeklyMatches();
             }
@@ -71,7 +73,7 @@ namespace FixtureImplementations
                 Sport = currentSport,
                 Local = local,
                 Visitor = visitor,
-                Date = DateTime.Now.AddDays(daysToAddToDate),
+                Date = initialDate.AddDays(daysToAddToDate),
             };
             daysToAddToDate++;
             return nextMatch;

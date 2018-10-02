@@ -116,7 +116,8 @@ namespace Sports.Logic.Test
         {
             fixtureLogic.AddFixtureImplementations(validImplementationsPath);
             sports = sportLogic.GetAll();
-            ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
+            fixtureLogic.GenerateFixture(sports,DateTime.Now);
+            ICollection<Match> matches = matchLogic.GetAllMatches();
             Assert.AreEqual(30,matches.Count);
         }
 
@@ -126,7 +127,7 @@ namespace Sports.Logic.Test
         public void GenerateWithoutFixtureImplementations()
         {
             sports = sportLogic.GetAll();
-            ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
+            fixtureLogic.GenerateFixture(sports, DateTime.Now);
         }
 
         [TestMethod]
@@ -142,7 +143,7 @@ namespace Sports.Logic.Test
         public void GenerateFixtureForNullSport()
         {
             fixtureLogic.AddFixtureImplementations(validImplementationsPath);
-            ICollection<Match> matches = fixtureLogic.GenerateFixture(null);
+            fixtureLogic.GenerateFixture(null, DateTime.Now);
         }
 
         [TestMethod]
@@ -153,7 +154,7 @@ namespace Sports.Logic.Test
             fixtureLogic.AddFixtureImplementations(validImplementationsPath);
             Sport testSport = new Sport();
             sports.Add(testSport);
-            ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
+            fixtureLogic.GenerateFixture(sports, DateTime.Now);
         }
 
         [TestMethod]
@@ -162,7 +163,7 @@ namespace Sports.Logic.Test
         {
             fixtureLogic.AddFixtureImplementations(failingImplementationsPath);
             sports = sportLogic.GetAll();
-            ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
+            fixtureLogic.GenerateFixture(sports, DateTime.Now);
         }
 
         [TestMethod]
@@ -170,7 +171,8 @@ namespace Sports.Logic.Test
         {
             fixtureLogic.AddFixtureImplementations(validImplementationsPath);
             sports = sportLogic.GetAll();
-            ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
+            fixtureLogic.GenerateFixture(sports, DateTime.Now);
+            ICollection<Match> matches = matchLogic.GetAllMatches();
             int invalidMatches = 0;
             foreach(Match match in matches)
             {
@@ -185,7 +187,8 @@ namespace Sports.Logic.Test
             fixtureLogic.AddFixtureImplementations(validImplementationsPath);
             fixtureLogic.ChangeFixtureImplementation();
             sports = sportLogic.GetAll();
-            ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
+            fixtureLogic.GenerateFixture(sports, DateTime.Now);
+            ICollection<Match> matches = matchLogic.GetAllMatches();
             Assert.AreEqual(15, matches.Count);
         }
 
@@ -202,7 +205,8 @@ namespace Sports.Logic.Test
             fixtureLogic.AddFixtureImplementations(validImplementationsPath);
             fixtureLogic.ChangeFixtureImplementation();
             sports = sportLogic.GetAll();
-            ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
+            fixtureLogic.GenerateFixture(sports, DateTime.Now);
+            ICollection<Match> matches = matchLogic.GetAllMatches();
             int invalidMatches = 0;
             foreach(Match match in matches)
             {
@@ -252,7 +256,16 @@ namespace Sports.Logic.Test
             sessionLogic.GetUserFromToken(token);
             fixtureLogic.SetSession(token);
             fixtureLogic.AddFixtureImplementations(validImplementationsPath);
-           
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidMatchDateFormatException))]
+        public void GenerateFixtureWithInvalidDate()
+        {
+            fixtureLogic.AddFixtureImplementations(validImplementationsPath);
+            sports = sportLogic.GetAll();
+            fixtureLogic.GenerateFixture(sports, DateTime.Now.AddDays(-1));
         }
 
     }

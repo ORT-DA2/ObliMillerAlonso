@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using Sports.Domain;
+using Sports.Domain.Exceptions;
 using Sports.Repository.Interface;
 using Sports.Logic.Interface;
 using Sports.Logic.Exceptions;
-using Sports.Logic.Constants;
+using Sports.Domain.Constants;
 using System.IO;
 using System.Reflection;
 
@@ -78,8 +79,9 @@ namespace Sports.Logic
             currentStrategy = (currentStrategy + 1) % (fixtureGeneratorStrategies.Count);
         }
 
-        public ICollection<Match> GenerateFixture(ICollection<Sport> sports)
+        public void GenerateFixture(ICollection<Sport> sports, DateTime startDate)
         {
+            ValidateDate(startDate);
             sessionLogic.ValidateUser(user);
             FixtureGenerationValidations(sports);
             ICollection<Sport> realSports = GetRealSports(sports);
@@ -87,13 +89,21 @@ namespace Sports.Logic
             IFixtureGeneratorStrategy fixtureStrategy = fixtureGeneratorStrategies.ElementAt(currentStrategy);
             try
             {
-                fixtureMatches = fixtureStrategy.GenerateFixture(realSports);
+                fixtureMatches = fixtureStrategy.GenerateFixture(realSports, startDate);
             }
             catch(Exception)
             {
                 throw new MalfunctioningImplementationException("Fixture generation strategy is failing");
             }
-            return fixtureMatches;
+            matchLogic.AddMatches(fixtureMatches);
+        }
+
+        private void ValidateDate(DateTime startDate)
+        {
+            if (startDate.Date.CompareTo(DateTime.Now.Date) < 0)
+            {
+                throw new InvalidMatchDateFormatException(MatchDateFormat.INVALID_DATE_FORMAT_MESSAGE);
+            }
         }
 
         private void FixtureGenerationValidations(ICollection<Sport> sports)
