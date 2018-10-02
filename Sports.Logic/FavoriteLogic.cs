@@ -17,7 +17,7 @@ namespace Sports.Logic
         ITeamLogic teamLogic;
         IMatchLogic matchLogic;
         ISessionLogic sessionLogic;
-        User user;
+        User sessionUser;
 
         public FavoriteLogic(IRepositoryUnitOfWork unitOfWork)
         {
@@ -31,7 +31,7 @@ namespace Sports.Logic
         
         public void AddFavoriteTeam(User user, Team team)
         {
-            sessionLogic.ValidateUser(user);
+            sessionLogic.ValidateUser(sessionUser);
             Favorite favorite = new Favorite()
             {
                 User = user,
@@ -66,7 +66,7 @@ namespace Sports.Logic
 
         public ICollection<Team> GetFavoritesFromUser(int id)
         {
-            sessionLogic.ValidateUserNotNull(user);
+            sessionLogic.ValidateUserNotNull(sessionUser);
             ICollection<Favorite> favorites = repository.FindByCondition(f => f.User.Id == id);
             ValidateFavoritesExist(favorites);
             ICollection<Team> teams = GetTeamsFromFavorites(favorites);
@@ -93,7 +93,7 @@ namespace Sports.Logic
 
         public ICollection<Comment> GetFavoritesTeamsComments(User user)
         {
-            sessionLogic.ValidateUserNotNull(user);
+            sessionLogic.ValidateUserNotNull(sessionUser);
             ICollection<Team> favoriteTeams = GetFavoritesFromUser(user.Id);
             ICollection<Match> favoriteMatches = GetMatchesForTeams(favoriteTeams);
             List<Comment> favoriteComments = new List<Comment>();
@@ -118,15 +118,16 @@ namespace Sports.Logic
 
         public ICollection<Favorite> GetAll()
         {
-            sessionLogic.ValidateUserNotNull(user);
+            sessionLogic.ValidateUserNotNull(sessionUser);
             return repository.FindAll();
         }
 
         public void SetSession(Guid token)
         {
-            user = sessionLogic.GetUserFromToken(token);
+            sessionUser = sessionLogic.GetUserFromToken(token);
             teamLogic.SetSession(token);
             matchLogic.SetSession(token);
+            userLogic.SetSession(token);
         }
     }
 }
