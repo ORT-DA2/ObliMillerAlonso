@@ -23,13 +23,25 @@ namespace Sports.Logic.Test
         private RepositoryContext repository;
         private IUserLogic userLogic;
         private ISessionLogic sessionLogic;
+        User admin;
         User user;
 
         [TestInitialize]
         public void SetUp()
         {
             SetUpRepositories();
-            user = new User(true)
+            admin = new User(true)
+            {
+                FirstName = "Rafael",
+                LastName = "Alonso",
+                Email = "ralonso@gmail.com",
+                UserName = "rAlonso",
+                Password = "pass"
+            };
+            IUserRepository repo = unitOfWork.User;
+            repo.Create(admin);
+            repo.Save();
+            user = new User()
             {
                 FirstName = "Itai",
                 LastName = "Miller",
@@ -47,6 +59,7 @@ namespace Sports.Logic.Test
             repository = new RepositoryContext(options);
             unitOfWork = new RepositoryUnitOfWork(repository);
             userLogic = new UserLogic(unitOfWork);
+            sessionLogic = new SessionLogic(unitOfWork);
         }
 
         [TestCleanup]
@@ -212,8 +225,11 @@ namespace Sports.Logic.Test
 
         [TestMethod]
         [ExpectedException(typeof(NonAdminException))]
-        public void TeamSetSessionNonAdminUser()
+        public void UserSetSessionNonAdminUser()
         {
+            Guid adminToken = sessionLogic.LogInUser(admin.UserName, admin.Password);
+            sessionLogic.GetUserFromToken(adminToken);
+            userLogic.SetSession(adminToken);
             User user = new User()
             {
                 FirstName = "Itai",

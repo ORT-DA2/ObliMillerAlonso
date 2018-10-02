@@ -80,7 +80,7 @@ namespace Sports.Logic
         public void ValidateUser(User user)
         {
             ValidateUserNotNull(user);
-            ValidateUserNotAdmin(user);
+            ValidateUserAdmin(user);
         }
 
         public void ValidateUserNotNull(User user)
@@ -91,7 +91,7 @@ namespace Sports.Logic
             }
         }
 
-        private void ValidateUserNotAdmin(User user)
+        private void ValidateUserAdmin(User user)
         {
             if (!user.IsAdmin)
             {
