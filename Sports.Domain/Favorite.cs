@@ -13,18 +13,6 @@ namespace Sports.Domain
         public User User { get; set; }
         public Team Team { get; set; }
 
-        /*public override bool Equals(object obj)
-        {
-            if (obj == null || !obj.GetType().Equals(this.GetType()))
-            {
-                return false;
-            }
-            else
-            {
-                return this.User.Equals(((Favorite)obj).User)&& this.Team.Equals(((Favorite)obj).Team);
-            }
-        }*/
-
         public void Validate()
         {
             CheckUserNotNull();

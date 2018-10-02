@@ -11,7 +11,7 @@ namespace Sports.Domain
     public class Team
     {
         const int MAX_FILE_SIZE = 2000000;
-        public int Id { get; private set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Picture { get; private set; }
 

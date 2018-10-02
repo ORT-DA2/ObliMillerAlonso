@@ -31,5 +31,48 @@ namespace Sports.WebAPI.Tests
             favoriteLogicMock.Setup(favoriteLogic => favoriteLogic.SetSession(It.IsAny<Guid>()));
             token = new Guid();
         }
+
+        [TestMethod]
+        public void ValidPostFavorite()
+        {
+            User fakeUser = new User(true)
+            {
+                FirstName = "Itai",
+                LastName = "Miller",
+                Email = "itaimiller@gmail.com",
+                UserName = "iMiller",
+                Password = "root"
+            };
+            UserModelIn userModelIn = new UserModelIn()
+            {
+                Id = 1,
+                FirstName = "Itai",
+                LastName = "Miller",
+                Email = "itaimiller@gmail.com",
+                UserName = "iMiller",
+                Password = "root",
+                IsAdmin = true
+            };
+            Team fakeTeam = new Team()
+            {
+                Name = "Team"
+            };
+            TeamModelIn teamModelIn = new TeamModelIn()
+            {
+                IDesignTimeMvcBuilderConfiguration = 1,
+                Name = "Team"
+            };
+            favoriteLogicMock.Setup(favoriteLogic => favoriteLogic.AddFavoriteTeam(It.IsAny<User>(),It.IsAny<Team>()));
+            IActionResult result = controller.PostFavorite(userModelIn, teamModelIn, token);
+            var okResult = result as OkObjectResult;
+            var userModelOut = okResult.Value as UserModelOut;
+            var teamModelOut = okResult.Value as TeamModelOut;
+
+            favoriteLogicMock.VerifyAll();
+
+            Assert.AreEqual(200, okResult.StatusCode);
+            Assert.IsNotNull(userModelOut);
+            Assert.IsNotNull(teamModelOut);
+        }
     }
 }
