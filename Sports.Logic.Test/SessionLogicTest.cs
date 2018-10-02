@@ -32,6 +32,7 @@ namespace Sports.Logic.Test
         public void SetUp()
         {
             SetUpRepositories();
+            SetUpAdminSession();
             SetUpTestData();
         }
 
@@ -44,6 +45,24 @@ namespace Sports.Logic.Test
             unitOfWork = new RepositoryUnitOfWork(repository);
             sessionLogic = new SessionLogic(unitOfWork);
             userLogic = new UserLogic(unitOfWork);
+        }
+
+        private void SetUpAdminSession()
+        {
+            User admin = new User(true)
+            {
+                FirstName = "Rafael",
+                LastName = "Alonso",
+                Email = "ralonso@gmail.com",
+                UserName = "rAlonso",
+                Password = "pass"
+            };
+            IUserRepository repo = unitOfWork.User;
+            repo.Create(admin);
+            repo.Save();
+            Guid adminToken = sessionLogic.LogInUser(admin.UserName, admin.Password);
+            sessionLogic.GetUserFromToken(adminToken);
+            userLogic.SetSession(adminToken);
         }
 
         private void SetUpTestData()
@@ -158,6 +177,15 @@ namespace Sports.Logic.Test
             Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
             sessionLogic.LogoutByUser(user);
            sessionLogic.GetUserFromToken(token);
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidNullValueException))]
+        public void TestPassNullToken()
+        {
+            Guid token = Guid.Empty;
+            sessionLogic.GetUserFromToken(token);
         }
     }
 }

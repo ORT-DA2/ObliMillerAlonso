@@ -31,7 +31,7 @@ namespace Sports.Logic
 
         private void ValidateNotNullToken(Guid token)
         {
-            if (token == null)
+            if (token == null || token == Guid.Empty)
             {
                 throw new InvalidNullValueException("token must not be null");
             }
