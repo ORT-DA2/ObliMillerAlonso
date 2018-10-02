@@ -13,12 +13,14 @@ namespace FixtureImplementations
         private List<DateTime> occupiedDates;  
         private Sport currentSport;
         private int lastFreeDate;
-        public ICollection<Match> GenerateFixture(ICollection<Sport> sports)
+        private DateTime initialDate;
+        public ICollection<Match> GenerateFixture(ICollection<Sport> sports, DateTime startDate)
         {
             generatedMatches = new List<Match>();
             foreach (Sport sport in sports.ToList())
             {
                 currentSport = sport;
+                initialDate = startDate;
                 uncoveredTeams = currentSport.Teams.ToList();
                 WeekendMatches();
             }
@@ -62,10 +64,10 @@ namespace FixtureImplementations
         private DateTime GetNextFreeWeekendDate(Team local, Team visitor)
         {
             bool dateIsOcupied = true;
-            DateTime validDate = DateTime.Now;
+            DateTime validDate = initialDate;
             while (dateIsOcupied)
             {
-                DateTime date = DateTime.Now.AddDays(lastFreeDate);
+                DateTime date = initialDate.AddDays(lastFreeDate);
                 if (IsWeekend(date) && UnoccupiedDateByTeams(date, local, visitor))
                 {
                     dateIsOcupied = false;
