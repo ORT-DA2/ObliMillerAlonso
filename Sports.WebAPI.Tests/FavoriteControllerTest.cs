@@ -16,6 +16,7 @@ namespace Sports.WebAPI.Tests
     public class FavoriteControllerTest
     {
         Mock<IFavoriteLogic> favoriteLogicMock;
+        Mock<IUserLogic> userLogicMock;
         FavoritesController controller;
         IMapper mapper;
         Guid token;
@@ -25,10 +26,12 @@ namespace Sports.WebAPI.Tests
         {
 
             favoriteLogicMock = new Mock<IFavoriteLogic>();
+            userLogicMock = new Mock<IUserLogic>();
             var config = new MapperConfiguration(cfg => cfg.AddProfile(new MapperProfile()));
             IMapper mapper = new Mapper(config);
-            controller = new FavoritesController(favoriteLogicMock.Object, mapper);
+            controller = new FavoritesController(userLogicMock.Object, favoriteLogicMock.Object, mapper);
             favoriteLogicMock.Setup(favoriteLogic => favoriteLogic.SetSession(It.IsAny<Guid>()));
+            userLogicMock.Setup(userLogic => userLogic.SetSession(It.IsAny<Guid>()));
             token = new Guid();
         }
 
@@ -59,20 +62,16 @@ namespace Sports.WebAPI.Tests
             };
             TeamModelIn teamModelIn = new TeamModelIn()
             {
-                IDesignTimeMvcBuilderConfiguration = 1,
+                Id = 1,
                 Name = "Team"
             };
             favoriteLogicMock.Setup(favoriteLogic => favoriteLogic.AddFavoriteTeam(It.IsAny<User>(),It.IsAny<Team>()));
             IActionResult result = controller.PostFavorite(userModelIn, teamModelIn, token);
             var okResult = result as OkObjectResult;
-            var userModelOut = okResult.Value as UserModelOut;
-            var teamModelOut = okResult.Value as TeamModelOut;
 
             favoriteLogicMock.VerifyAll();
 
             Assert.AreEqual(200, okResult.StatusCode);
-            Assert.IsNotNull(userModelOut);
-            Assert.IsNotNull(teamModelOut);
         }
     }
 }

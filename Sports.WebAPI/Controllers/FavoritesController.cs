@@ -19,12 +19,48 @@ namespace Sports.WebAPI.Controllers
     public class FavoritesController : ControllerBase
     {
         private IFavoriteLogic favoriteLogic;
+        private IUserLogic userLogic;
         private IMapper mapper;
 
-        public FavoritesController(IFavoriteLogic aFavoriteLogic, IMapper aMapper)
+        public FavoritesController(IUserLogic auserLogic, IFavoriteLogic aFavoriteLogic, IMapper aMapper)
         {
             favoriteLogic = aFavoriteLogic;
+            userLogic = auserLogic;
             mapper = aMapper;
+        }
+
+        [HttpPost]
+        public IActionResult PostFavorite([FromBody] UserModelIn userIn, [FromBody] TeamModelIn teamIn, [FromHeader] Guid token)
+        {
+            try
+            {
+                RequestHeaderIsNotNull(token);
+                userLogic.SetSession(token);
+                favoriteLogic.SetSession(token);
+                RequestBodyIsNotNull(userIn);
+                RequestBodyIsNotNull(teamIn);
+                User user = mapper.Map<User>(userIn);
+                Team team = mapper.Map<Team>(teamIn);
+                favoriteLogic.AddFavoriteTeam(user, team);
+                return Ok("Favorite added successfully.");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+        private void RequestBodyIsNotNull(object Object)
+        {
+            if (Object == null)
+                throw new ArgumentNullException("Invalid parameters, check the fields.");
+        }
+
+        private void RequestHeaderIsNotNull(object Object)
+        {
+            if (Object == null)
+                throw new ArgumentNullException("Invalid parameters, check the fields.");
         }
     }
 }
