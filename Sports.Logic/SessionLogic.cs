@@ -23,9 +23,18 @@ namespace Sports.Logic
 
         public User GetUserFromToken(Guid token)
         {
+            ValidateNotNullToken(token);
             Session session = repository.FindByCondition(s => s.Token == token).FirstOrDefault();
             ValidateNotNullSession(session);
             return session.User;
+        }
+
+        private void ValidateNotNullToken(Guid token)
+        {
+            if (token == null || token == Guid.Empty)
+            {
+                throw new InvalidNullValueException("token must not be null");
+            }
         }
 
         public Guid LogInUser(string username, string password)
@@ -80,18 +89,18 @@ namespace Sports.Logic
         public void ValidateUser(User user)
         {
             ValidateUserNotNull(user);
-            ValidateUserNotAdmin(user);
+            ValidateUserAdmin(user);
         }
 
         public void ValidateUserNotNull(User user)
         {
             if (user == null)
             {
-                throw new InvalidNullValueException(NullValue.INVALID_USER_NULL_VALUE_MESSAGE);
+                throw new InvalidNullValueException(NullValue.INVALID_NO_TOKEN_MESSAGE);
             }
         }
 
-        private void ValidateUserNotAdmin(User user)
+        private void ValidateUserAdmin(User user)
         {
             if (!user.IsAdmin)
             {

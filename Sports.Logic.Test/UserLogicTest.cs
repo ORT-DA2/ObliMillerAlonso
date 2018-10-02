@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -22,14 +22,21 @@ namespace Sports.Logic.Test
         private IRepositoryUnitOfWork unitOfWork;
         private RepositoryContext repository;
         private IUserLogic userLogic;
-        private ITeamLogic teamLogic;
+        private ISessionLogic sessionLogic;
+
         User user;
 
         [TestInitialize]
         public void SetUp()
         {
             SetUpRepositories();
-            user = new User(true)
+            SetUpAdminSession();
+            ValidNonAdminUser();
+        }
+
+        private void ValidNonAdminUser()
+        {
+            user = new User()
             {
                 FirstName = "Itai",
                 LastName = "Miller",
@@ -37,6 +44,24 @@ namespace Sports.Logic.Test
                 UserName = "iMiller",
                 Password = "root"
             };
+        }
+
+        private void SetUpAdminSession()
+        {
+            User admin = new User(true)
+            {
+                FirstName = "Rafael",
+                LastName = "Alonso",
+                Email = "ralonso@gmail.com",
+                UserName = "rAlonso",
+                Password = "pass"
+            };
+            IUserRepository repo = unitOfWork.User;
+            repo.Create(admin);
+            repo.Save();
+            Guid adminToken = sessionLogic.LogInUser(admin.UserName, admin.Password);
+            sessionLogic.GetUserFromToken(adminToken);
+            userLogic.SetSession(adminToken);
         }
 
         private void SetUpRepositories()
@@ -47,7 +72,7 @@ namespace Sports.Logic.Test
             repository = new RepositoryContext(options);
             unitOfWork = new RepositoryUnitOfWork(repository);
             userLogic = new UserLogic(unitOfWork);
-            teamLogic = new TeamLogic(unitOfWork);
+            sessionLogic = new SessionLogic(unitOfWork);
         }
 
         [TestCleanup]
@@ -198,7 +223,7 @@ namespace Sports.Logic.Test
         {
             userLogic.AddUser(user);
             userLogic.RemoveUser(user.Id);
-            Assert.AreEqual(userLogic.GetAll().Count, 0);
+            Assert.AreEqual(userLogic.GetAll().Count, 1);
         }
 
 
@@ -209,6 +234,19 @@ namespace Sports.Logic.Test
             userLogic.AddUser(user);
             userLogic.RemoveUser(user.Id+1);
         }
-       
+
+
+        [TestMethod]
+        [ExpectedException(typeof(NonAdminException))]
+        public void UserSetSessionNonAdminUser()
+        {
+            userLogic.AddUser(user);
+            Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
+            sessionLogic.GetUserFromToken(token);
+            userLogic.SetSession(token);
+            userLogic.AddUser(user);
+        }
+
+
     }
 }

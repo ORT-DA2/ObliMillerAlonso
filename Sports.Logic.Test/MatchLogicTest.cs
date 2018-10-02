@@ -34,13 +34,32 @@ namespace Sports.Logic.Test
         public void SetUp()
         {
             SetupRepositories();
+            SetUpAdminSession();
+            CreateBaseDataForTests();
             user = ValidUser();
             userLogic.AddUser(user);
-            Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
-            matchLogic.SetSession(token);
-            sportLogic.SetSession(token);
-            commentLogic.SetSession(token);
-            CreateBaseDataForTests();
+        }
+
+
+        private void SetUpAdminSession()
+        {
+            User admin = new User(true)
+            {
+                FirstName = "Rafael",
+                LastName = "Alonso",
+                Email = "ralonso@gmail.com",
+                UserName = "rAlonso",
+                Password = "pass"
+            };
+            IUserRepository repo = unit.User;
+            repo.Create(admin);
+            repo.Save();
+            Guid adminToken = sessionLogic.LogInUser(admin.UserName, admin.Password);
+            sessionLogic.GetUserFromToken(adminToken);
+            userLogic.SetSession(adminToken);
+            matchLogic.SetSession(adminToken);
+            sportLogic.SetSession(adminToken);
+            commentLogic.SetSession(adminToken);
         }
 
         private void CreateBaseDataForTests()
@@ -459,8 +478,6 @@ namespace Sports.Logic.Test
             sessionLogic.GetUserFromToken(token);
             matchLogic.SetSession(token);
             matchLogic.AddMatch(match);
-            matchLogic.DeleteMatch(match);
-            matchLogic.ModifyMatch(match.Id, match);
         }
 
 

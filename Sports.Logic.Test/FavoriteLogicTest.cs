@@ -36,18 +36,37 @@ namespace Sports.Logic.Test
         public void SetUp()
         {
             SetUpRepositories();
-            AddUserToRepository();
-            Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
-            favoriteLogic.SetSession(token);
-            matchLogic.SetSession(token);
-            sportLogic.SetSession(token);
+            SetUpAdminSession();
             AddMatchWithDataToRepository();
+            AddUserToRepository();
             comment = new Comment()
             {
                 Text = "text",
                 User = user
             };
             
+        }
+
+
+        private void SetUpAdminSession()
+        {
+            User admin = new User(true)
+            {
+                FirstName = "Rafael",
+                LastName = "Alonso",
+                Email = "ralonso@gmail.com",
+                UserName = "rAlonso",
+                Password = "pass"
+            };
+            IUserRepository repo = unitOfWork.User;
+            repo.Create(admin);
+            repo.Save();
+            Guid adminToken = sessionLogic.LogInUser(admin.UserName, admin.Password);
+            sessionLogic.GetUserFromToken(adminToken);
+            userLogic.SetSession(adminToken);
+            matchLogic.SetSession(adminToken);
+            sportLogic.SetSession(adminToken);
+            favoriteLogic.SetSession(adminToken);
         }
 
         private void AddMatchWithDataToRepository()
@@ -76,7 +95,7 @@ namespace Sports.Logic.Test
         }
         private void AddUserToRepository()
         {
-            user = new User(true)
+            user = new User()
             {
                 FirstName = "itai",
                 LastName = "miller",
@@ -160,7 +179,7 @@ namespace Sports.Logic.Test
 
 
         [TestMethod]
-        [ExpectedException(typeof(NonAdminException))]
+        [ExpectedException(typeof(UserDoesNotExistException))]
         public void AddInvalidUser()
         {
             User fakeUser = new User();
@@ -178,7 +197,7 @@ namespace Sports.Logic.Test
 
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidNullValueException))]
+        [ExpectedException(typeof(InvalidEmptyUserException))]
         public void AddNullUser()
         {
             favoriteLogic.AddFavoriteTeam(null, favoriteTeam);
@@ -210,24 +229,15 @@ namespace Sports.Logic.Test
             Assert.AreEqual(favoriteLogic.GetAll().Count, 0);
         }
 
+
         [TestMethod]
-        [ExpectedException(typeof(NonAdminException))]
-        public void FavoriteSetSessionNonAdminUser()
+        [ExpectedException(typeof(InvalidNullValueException))]
+        public void NullSession()
         {
-            User user = new User()
-            {
-                FirstName = "Itai",
-                LastName = "Miller",
-                Email = "itaimiller@gmail.com",
-                UserName = "newUser",
-                Password = "root"
-            };
-            userLogic.AddUser(user);
-            Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
-            sessionLogic.GetUserFromToken(token);
-            favoriteLogic.SetSession(token);
-            favoriteLogic.AddFavoriteTeam(user,favoriteTeam);
+            favoriteLogic = new FavoriteLogic(unitOfWork);
+            favoriteLogic.AddFavoriteTeam(user, favoriteTeam);
         }
+
 
     }
 }

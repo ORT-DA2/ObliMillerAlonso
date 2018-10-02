@@ -27,7 +27,6 @@ namespace Sports.Logic.Test
         IUserLogic userLogic;
         ISessionLogic sessionLogic;
         RepositoryContext repository;
-        private User user;
         ICollection<Sport> sports;
 
         //pasar a json
@@ -38,12 +37,7 @@ namespace Sports.Logic.Test
         public void SetUp()
         {
             SetUpRepositories();
-            user = ValidUser();
-            userLogic.AddUser(user);
-            Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
-            fixtureLogic.SetSession(token);
-            sportLogic.SetSession(token);
-            matchLogic.SetSession(token);
+            SetUpAdminSession();
             SetUpSportWithTeams();
         }
 
@@ -59,6 +53,27 @@ namespace Sports.Logic.Test
             matchLogic = new MatchLogic(unit);
             userLogic = new UserLogic(unit);
             sessionLogic = new SessionLogic(unit);
+        }
+
+        private void SetUpAdminSession()
+        {
+            User admin = new User(true)
+            {
+                FirstName = "Rafael",
+                LastName = "Alonso",
+                Email = "ralonso@gmail.com",
+                UserName = "rAlonso",
+                Password = "pass"
+            };
+            IUserRepository repo = unit.User;
+            repo.Create(admin);
+            repo.Save();
+            Guid adminToken = sessionLogic.LogInUser(admin.UserName, admin.Password);
+            sessionLogic.GetUserFromToken(adminToken);
+            userLogic.SetSession(adminToken);
+            matchLogic.SetSession(adminToken);
+            sportLogic.SetSession(adminToken);
+            fixtureLogic.SetSession(adminToken);
         }
 
         private void SetUpSportWithTeams()
@@ -217,7 +232,7 @@ namespace Sports.Logic.Test
 
         private User ValidUser()
         {
-            return new User(true)
+            return new User()
             {
                 FirstName = "Itai",
                 LastName = "Miller",
@@ -231,21 +246,12 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(NonAdminException))]
         public void FixtureSetSessionNonAdminUser()
         {
-            User user = new User()
-            {
-                FirstName = "Itai",
-                LastName = "Miller",
-                Email = "itaimiller@gmail.com",
-                UserName = "newUser",
-                Password = "root"
-            };
+            User user = ValidUser();
             userLogic.AddUser(user);
             Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
             sessionLogic.GetUserFromToken(token);
             fixtureLogic.SetSession(token);
             fixtureLogic.AddFixtureImplementations(validImplementationsPath);
-            fixtureLogic.ChangeFixtureImplementation();
-            fixtureLogic.GenerateFixture(sports);
            
         }
 

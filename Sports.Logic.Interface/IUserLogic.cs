@@ -13,5 +13,6 @@ namespace Sports.Logic.Interface
         User GetUserByUserName(string userName);
         void RemoveUser(int id);
         ICollection<User> GetAll();
+        void SetSession(Guid token);
     }
 }

@@ -14,13 +14,17 @@ namespace Sports.Logic
     public class UserLogic : IUserLogic
     {
         IUserRepository repository;
-
+        ISessionLogic sessionLogic;
+        User sessionUser;
         public UserLogic(IRepositoryUnitOfWork unitOfwork)
         {
             repository = unitOfwork.User;
+            sessionLogic = new SessionLogic(unitOfwork);
+
         }
         public void AddUser(User user)
         {
+            sessionLogic.ValidateUser(sessionUser);
             ValidateUser(user);
             repository.Create(user);
             repository.Save();
@@ -50,7 +54,8 @@ namespace Sports.Logic
         }
 
         public User GetUserById(int id)
-        { 
+        {
+            sessionLogic.ValidateUser(sessionUser);
             ICollection<User> users = repository.FindByCondition(u => u.Id==id);
             if(users.Count == 0)
             {
@@ -61,6 +66,7 @@ namespace Sports.Logic
 
         public void UpdateUser(int id, User updatedUser)
         {
+            sessionLogic.ValidateUser(sessionUser);
             User originalUser = GetUserById(id);
             originalUser.UpdateData(updatedUser);
             ValidateUser(originalUser);
@@ -70,12 +76,14 @@ namespace Sports.Logic
 
         public User GetUserByUserName(string userName)
         {
+            sessionLogic.ValidateUser(sessionUser);
             ICollection<User> users = repository.FindByCondition(u => u.UserName == userName);
             return users.FirstOrDefault();
         }
 
         public void RemoveUser(int id)
         {
+            sessionLogic.ValidateUser(sessionUser);
             User user = GetUserById(id);
             repository.Delete(user);
             repository.Save();
@@ -83,7 +91,12 @@ namespace Sports.Logic
 
         public ICollection<User> GetAll()
         {
+            sessionLogic.ValidateUser(sessionUser);
             return repository.FindAll();
+        }
+        public void SetSession(Guid token)
+        {
+            sessionUser = sessionLogic.GetUserFromToken(token);
         }
     }
 }
