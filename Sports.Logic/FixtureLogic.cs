@@ -100,7 +100,7 @@ namespace Sports.Logic
 
         private void ValidateDate(DateTime startDate)
         {
-            if (startDate.CompareTo(DateTime.Now) < 0)
+            if (startDate.Date.CompareTo(DateTime.Now.Date) < 0)
             {
                 throw new InvalidMatchDateFormatException(MatchDateFormat.INVALID_DATE_FORMAT_MESSAGE);
             }
