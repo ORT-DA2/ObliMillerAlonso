@@ -90,7 +90,7 @@ namespace FixtureImplementations
             return !generatedMatches.Exists(m => m.Date.Date.Equals(date.Date) && (IsInMatch(local, m)||IsInMatch(visitor,m)));
         }
 
-        private static bool IsInMatch(Team team, Match match)
+        private bool IsInMatch(Team team, Match match)
         {
             return match.Local.Equals(team) || match.Visitor.Equals(team);
         }

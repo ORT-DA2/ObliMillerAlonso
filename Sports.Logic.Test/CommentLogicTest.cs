@@ -135,7 +135,14 @@ namespace Sports.Logic.Test
             userLogic.RemoveUser(user.Id);
             Assert.AreEqual(commentLogic.GetAll().Count, 0);
         }
-        
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidNullValueException))]
+        public void NullSession()
+        {
+            commentLogic = new CommentLogic(unitOfWork);
+            commentLogic.AddComment(comment);
+        }
     }
 
 }

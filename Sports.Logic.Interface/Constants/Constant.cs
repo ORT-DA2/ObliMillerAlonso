@@ -11,6 +11,7 @@ namespace Sports.Logic.Constants
         public const string INVALID_SPORT_NULL_VALUE_MESSAGE = "Cannot add null sport";
         public const string INVALID_TEAM_NULL_VALUE_MESSAGE = "Cannot add null team";
         public const string INVALID_USER_NULL_VALUE_MESSAGE = "Cannot add null user";
+        public const string INVALID_NO_TOKEN_MESSAGE = "Token invalid or missing, must set user session before using logic";
     }
 
     public static class MatchId

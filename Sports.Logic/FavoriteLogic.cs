@@ -31,7 +31,7 @@ namespace Sports.Logic
         
         public void AddFavoriteTeam(User user, Team team)
         {
-            sessionLogic.ValidateUser(sessionUser);
+            sessionLogic.ValidateUserNotNull(sessionUser);
             Favorite favorite = new Favorite()
             {
                 User = user,

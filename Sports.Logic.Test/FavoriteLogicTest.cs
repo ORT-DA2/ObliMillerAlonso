@@ -228,7 +228,16 @@ namespace Sports.Logic.Test
             sportLogic.DeleteTeamFromSport(match.Sport, favoriteTeam);
             Assert.AreEqual(favoriteLogic.GetAll().Count, 0);
         }
-        
+
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidNullValueException))]
+        public void NullSession()
+        {
+            favoriteLogic = new FavoriteLogic(unitOfWork);
+            favoriteLogic.AddFavoriteTeam(user, favoriteTeam);
+        }
+
 
     }
 }

@@ -96,7 +96,7 @@ namespace Sports.Logic
         {
             if (user == null)
             {
-                throw new InvalidNullValueException(NullValue.INVALID_USER_NULL_VALUE_MESSAGE);
+                throw new InvalidNullValueException(NullValue.INVALID_NO_TOKEN_MESSAGE);
             }
         }
 
