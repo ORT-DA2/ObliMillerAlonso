@@ -23,14 +23,31 @@ namespace Sports.Logic.Test
         private RepositoryContext repository;
         private IUserLogic userLogic;
         private ISessionLogic sessionLogic;
-        User admin;
         User user;
 
         [TestInitialize]
         public void SetUp()
         {
             SetUpRepositories();
-            admin = new User(true)
+            SetUpAdminSession();
+            ValidNonAdminUser();
+        }
+
+        private void ValidNonAdminUser()
+        {
+            user = new User()
+            {
+                FirstName = "Itai",
+                LastName = "Miller",
+                Email = "itaimiller@gmail.com",
+                UserName = "iMiller",
+                Password = "root"
+            };
+        }
+
+        private void SetUpAdminSession()
+        {
+            User admin = new User(true)
             {
                 FirstName = "Rafael",
                 LastName = "Alonso",
@@ -41,14 +58,9 @@ namespace Sports.Logic.Test
             IUserRepository repo = unitOfWork.User;
             repo.Create(admin);
             repo.Save();
-            user = new User()
-            {
-                FirstName = "Itai",
-                LastName = "Miller",
-                Email = "itaimiller@gmail.com",
-                UserName = "iMiller",
-                Password = "root"
-            };
+            Guid adminToken = sessionLogic.LogInUser(admin.UserName, admin.Password);
+            sessionLogic.GetUserFromToken(adminToken);
+            userLogic.SetSession(adminToken);
         }
 
         private void SetUpRepositories()
@@ -210,7 +222,7 @@ namespace Sports.Logic.Test
         {
             userLogic.AddUser(user);
             userLogic.RemoveUser(user.Id);
-            Assert.AreEqual(userLogic.GetAll().Count, 0);
+            Assert.AreEqual(userLogic.GetAll().Count, 1);
         }
 
 
@@ -227,17 +239,6 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(NonAdminException))]
         public void UserSetSessionNonAdminUser()
         {
-            Guid adminToken = sessionLogic.LogInUser(admin.UserName, admin.Password);
-            sessionLogic.GetUserFromToken(adminToken);
-            userLogic.SetSession(adminToken);
-            User user = new User()
-            {
-                FirstName = "Itai",
-                LastName = "Miller",
-                Email = "itaimiller@gmail.com",
-                UserName = "newUser",
-                Password = "root"
-            };
             userLogic.AddUser(user);
             Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
             sessionLogic.GetUserFromToken(token);
