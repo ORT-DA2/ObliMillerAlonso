@@ -116,7 +116,8 @@ namespace Sports.Logic.Test
         {
             fixtureLogic.AddFixtureImplementations(validImplementationsPath);
             sports = sportLogic.GetAll();
-            ICollection<Match> matches = fixtureLogic.GenerateFixture(sports);
+            fixtureLogic.GenerateFixture(sports);
+            ICollection<Match> matches = matchLogic.GetAllMatches();
             Assert.AreEqual(30,matches.Count);
         }
 
@@ -252,7 +253,6 @@ namespace Sports.Logic.Test
             sessionLogic.GetUserFromToken(token);
             fixtureLogic.SetSession(token);
             fixtureLogic.AddFixtureImplementations(validImplementationsPath);
-           
         }
 
     }
