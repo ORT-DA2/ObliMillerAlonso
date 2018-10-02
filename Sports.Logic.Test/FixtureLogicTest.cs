@@ -258,5 +258,15 @@ namespace Sports.Logic.Test
             fixtureLogic.AddFixtureImplementations(validImplementationsPath);
         }
 
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidMatchDateFormatException))]
+        public void GenerateFixtureWithInvalidDate()
+        {
+            fixtureLogic.AddFixtureImplementations(validImplementationsPath);
+            sports = sportLogic.GetAll();
+            fixtureLogic.GenerateFixture(sports, DateTime.Now.AddDays(-1));
+        }
+
     }
 }
