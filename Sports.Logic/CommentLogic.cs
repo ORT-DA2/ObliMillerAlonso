@@ -25,7 +25,7 @@ namespace Sports.Logic
         }
         public void AddComment(Comment comment)
         {
-            sessionLogic.ValidateUser(user);
+            sessionLogic.ValidateUserNotNull(user);
             ValidateComment(comment);
             repository.Create(comment);
             repository.Save();

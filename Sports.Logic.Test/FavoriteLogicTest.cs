@@ -228,25 +228,7 @@ namespace Sports.Logic.Test
             sportLogic.DeleteTeamFromSport(match.Sport, favoriteTeam);
             Assert.AreEqual(favoriteLogic.GetAll().Count, 0);
         }
-
-        [TestMethod]
-        [ExpectedException(typeof(NonAdminException))]
-        public void FavoriteSetSessionNonAdminUser()
-        {
-            User user = new User()
-            {
-                FirstName = "Itai",
-                LastName = "Miller",
-                Email = "itaimiller@gmail.com",
-                UserName = "newUser",
-                Password = "root"
-            };
-            userLogic.AddUser(user);
-            Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
-            sessionLogic.GetUserFromToken(token);
-            favoriteLogic.SetSession(token);
-            favoriteLogic.AddFavoriteTeam(user,favoriteTeam);
-        }
+        
 
     }
 }
