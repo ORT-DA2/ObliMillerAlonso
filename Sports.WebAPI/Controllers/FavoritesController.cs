@@ -64,6 +64,19 @@ namespace Sports.WebAPI.Controllers
             return Ok(favoriteTeams.ToList());
         }
 
+        [HttpGet("{id}", Name = "GetFavoritesTeamsComents")]
+        public IActionResult GetFavoritesTeamsComents(User user, [FromHeader] Guid token)
+        {
+            RequestHeaderIsNotNull(token);
+            favoriteLogic.SetSession(token);
+            ICollection<Comment> favoriteTeamsComments = favoriteLogic.GetFavoritesTeamsComments(user);
+            if (favoriteTeamsComments.Count == 0)
+            {
+                return NotFound();
+            }
+            return Ok(favoriteTeamsComments.ToList());
+        }
+
 
         private void RequestBodyIsNotNull(object Object)
         {

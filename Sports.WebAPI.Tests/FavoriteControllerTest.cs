@@ -116,7 +116,7 @@ namespace Sports.WebAPI.Tests
 
             favoriteLogicMock.Setup(favoriteLogic => favoriteLogic.GetFavoritesTeamsComments(fakeUser)).Returns(comments);
 
-            var result = controller.GetFavoritesTeamsComents(userId, token);
+            var result = controller.GetFavoritesTeamsComents(fakeUser, token);
             var okResult = result as OkObjectResult;
 
             favoriteLogicMock.VerifyAll();
