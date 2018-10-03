@@ -89,9 +89,11 @@ namespace Sports.WebAPI.Tests
 
             var result = controller.GetFavoritesForUser(userId, token);
             var okResult = result as OkObjectResult;
+            var favoriteTeams = okResult.Value as ICollection<Team>;
 
             favoriteLogicMock.VerifyAll();
             Assert.AreEqual(200, okResult.StatusCode);
+            Assert.IsNotNull(favoriteTeams);
         }
 
         [TestMethod]
@@ -117,9 +119,11 @@ namespace Sports.WebAPI.Tests
 
             var result = controller.GetFavoritesTeamsComents(fakeUser, token);
             var okResult = result as OkObjectResult;
-
+            var favoriteTeamsComments = okResult.Value as ICollection<Comment>;
+            
             favoriteLogicMock.VerifyAll();
             Assert.AreEqual(200, okResult.StatusCode);
+            Assert.IsNotNull(favoriteTeamsComments);
         }
 
     }
