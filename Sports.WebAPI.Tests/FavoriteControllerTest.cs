@@ -74,5 +74,25 @@ namespace Sports.WebAPI.Tests
             Assert.AreEqual(200, okResult.StatusCode);
         }
 
+        [TestMethod]
+        public void ValidGetFavoritesFromUsers()
+        {
+            int userId = 1;
+            Team fakeTeam = new Team()
+            {
+                Name = "Team name"
+            };
+            ICollection<Team> teams = new List<Team>();
+            teams.Add(fakeTeam);
+
+            favoriteLogicMock.Setup(favoriteLogic => favoriteLogic.GetFavoritesFromUser(userId)).Returns(teams);
+
+            var result = controller.GetFavoritesForUser(userId, token);
+            var okResult = result as OkObjectResult;
+
+            favoriteLogicMock.VerifyAll();
+            Assert.AreEqual(200, okResult.StatusCode);
+        }
+
     }
 }

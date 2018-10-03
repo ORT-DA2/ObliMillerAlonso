@@ -51,6 +51,20 @@ namespace Sports.WebAPI.Controllers
 
         }
 
+        [HttpGet("{id}", Name = "GetFavoritesForUser")]
+        public IActionResult GetFavoritesForUser(int id, [FromHeader] Guid token)
+        {
+            RequestHeaderIsNotNull(token);
+            favoriteLogic.SetSession(token);
+            ICollection<Team> favoriteTeams = favoriteLogic.GetFavoritesFromUser(id);
+            if(favoriteTeams.Count == 0)
+            {
+                return NotFound();
+            }
+            return Ok(favoriteTeams.ToList());
+        }
+
+
         private void RequestBodyIsNotNull(object Object)
         {
             if (Object == null)
