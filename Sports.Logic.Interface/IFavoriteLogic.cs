@@ -7,9 +7,9 @@ namespace Sports.Logic.Interface
 {
     public interface IFavoriteLogic
     {
-        void AddFavoriteTeam(User user, Team team);
-        ICollection<Team> GetFavoritesFromUser(int id);
-        ICollection<Comment> GetFavoritesTeamsComments(User user);
+        void AddFavoriteTeam(Team team);
+        ICollection<Team> GetFavoritesFromUser();
+        ICollection<Comment> GetFavoritesTeamsComments();
         ICollection<Favorite> GetAll();
         void SetSession(Guid token);
     }

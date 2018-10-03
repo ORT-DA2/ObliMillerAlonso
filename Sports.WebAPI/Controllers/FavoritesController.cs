@@ -22,26 +22,25 @@ namespace Sports.WebAPI.Controllers
         private IUserLogic userLogic;
         private IMapper mapper;
 
-        public FavoritesController(IUserLogic auserLogic, IFavoriteLogic aFavoriteLogic, IMapper aMapper)
+        public FavoritesController(IUserLogic auserLogic, IFavoriteLogic aFavoriteLogic)
         {
             favoriteLogic = aFavoriteLogic;
             userLogic = auserLogic;
-            mapper = aMapper;
+            var config = new MapperConfiguration(cfg => cfg.AddProfile(new MapperProfile()));
+            mapper = new Mapper(config);
         }
 
         [HttpPost]
-        public IActionResult PostFavorite([FromBody] UserModelIn userIn, [FromBody] TeamModelIn teamIn, [FromHeader] Guid token)
+        public IActionResult PostFavorite([FromBody] TeamModelIn teamIn, [FromHeader] Guid token)
         {
             try
             {
                 RequestHeaderIsNotNull(token);
                 userLogic.SetSession(token);
                 favoriteLogic.SetSession(token);
-                RequestBodyIsNotNull(userIn);
                 RequestBodyIsNotNull(teamIn);
-                User user = mapper.Map<User>(userIn);
                 Team team = mapper.Map<Team>(teamIn);
-                favoriteLogic.AddFavoriteTeam(user, team);
+                favoriteLogic.AddFavoriteTeam(team);
                 return Ok("Favorite added successfully.");
             }
             catch (Exception ex)
@@ -51,12 +50,12 @@ namespace Sports.WebAPI.Controllers
 
         }
 
-        [HttpGet("{id}", Name = "GetFavoritesForUser")]
-        public IActionResult GetFavoritesForUser(int id, [FromHeader] Guid token)
+        [HttpGet("FavoriteTeams",Name = "GetFavoritesForUser")]
+        public IActionResult GetFavoritesForUser( [FromHeader] Guid token)
         {
             RequestHeaderIsNotNull(token);
             favoriteLogic.SetSession(token);
-            ICollection<Team> favoriteTeams = favoriteLogic.GetFavoritesFromUser(id);
+            ICollection<Team> favoriteTeams = favoriteLogic.GetFavoritesFromUser();
             if(favoriteTeams.Count == 0)
             {
                 return NotFound();
@@ -64,12 +63,12 @@ namespace Sports.WebAPI.Controllers
             return Ok(favoriteTeams.ToList());
         }
 
-        [HttpGet("{id}", Name = "GetFavoritesTeamsComents")]
-        public IActionResult GetFavoritesTeamsComents(User user, [FromHeader] Guid token)
+        [HttpGet("FavoriteComments", Name = "GetFavoritesTeamsComents")]
+        public IActionResult GetFavoritesTeamsComents([FromHeader] Guid token)
         {
             RequestHeaderIsNotNull(token);
             favoriteLogic.SetSession(token);
-            ICollection<Comment> favoriteTeamsComments = favoriteLogic.GetFavoritesTeamsComments(user);
+            ICollection<Comment> favoriteTeamsComments = favoriteLogic.GetFavoritesTeamsComments();
             if (favoriteTeamsComments.Count == 0)
             {
                 return NotFound();

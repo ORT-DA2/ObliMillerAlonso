@@ -51,14 +51,14 @@ namespace Sports.Repository
             {
                 throw new DisconnectedDatabaseException(AccessValidation.INVALID_ACCESS_MESSAGE);
             }
-            catch (DbException)
+           /* catch (DbException)
             {
                 throw new DisconnectedDatabaseException(AccessValidation.INVALID_ACCESS_MESSAGE);
             }
             catch (Exception)
             {
                 throw new UnknownDatabaseException(AccessValidation.UNKNOWN_ERROR_MESSAGE);
-            }
+            }*/
         }
 
         public void Create(T entity)

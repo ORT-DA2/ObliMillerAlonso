@@ -27,9 +27,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FixtureImplementations", "F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FailingFixtureImplementations", "FailingFixtureImplementations\FailingFixtureImplementations.csproj", "{41185B97-C816-4463-A121-A638826D4558}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sports.WebAPI", "Sports.WebAPI\Sports.WebAPI.csproj", "{53152562-F127-4F38-A9F7-2D647BDE7654}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sports.WebAPI", "Sports.WebAPI\Sports.WebAPI.csproj", "{53152562-F127-4F38-A9F7-2D647BDE7654}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sports.WebAPI.Tests", "Sports.WebAPI.Tests\Sports.WebAPI.Tests.csproj", "{84A15C2A-CC64-4732-9EA9-458E8D7E845C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sports.WebAPI.Tests", "Sports.WebAPI.Tests\Sports.WebAPI.Tests.csproj", "{84A15C2A-CC64-4732-9EA9-458E8D7E845C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sports.Repository.UnitOfWork", "Sports.Repository.UnitOfWork\Sports.Repository.UnitOfWork.csproj", "{2AEFA53B-8085-4019-B3A2-4F321C4959B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,6 +95,10 @@ Global
 		{84A15C2A-CC64-4732-9EA9-458E8D7E845C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84A15C2A-CC64-4732-9EA9-458E8D7E845C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84A15C2A-CC64-4732-9EA9-458E8D7E845C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2AEFA53B-8085-4019-B3A2-4F321C4959B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2AEFA53B-8085-4019-B3A2-4F321C4959B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2AEFA53B-8085-4019-B3A2-4F321C4959B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2AEFA53B-8085-4019-B3A2-4F321C4959B4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

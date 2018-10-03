@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Sports.Logic;
 using Sports.Repository.Exceptions;
 using Sports.Logic.Interface;
+using Sports.Repository.UnitOfWork;
 using Sports.Domain;
 
 namespace Sports.Repository.Test

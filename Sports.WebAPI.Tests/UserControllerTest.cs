@@ -27,7 +27,7 @@ namespace Sports.WebAPI.Tests
             userLogicMock = new Mock<IUserLogic>();
             var config = new MapperConfiguration(cfg => cfg.AddProfile(new MapperProfile()));
             IMapper mapper = new Mapper(config);
-            controller = new UsersController(userLogicMock.Object,mapper);
+            controller = new UsersController(userLogicMock.Object);
             userLogicMock.Setup(userLogic => userLogic.SetSession(It.IsAny<Guid>()));
             token = new Guid();
         }
@@ -55,7 +55,7 @@ namespace Sports.WebAPI.Tests
                 IsAdmin = true
             };
 
-            userLogicMock.Setup(userLogic => userLogic.AddUser(It.IsAny<User>()));
+            userLogicMock.Setup(userLogic => userLogic.AddUser(fakeUser));
             
             IActionResult result = controller.PostUser(modelIn, token);
             var okResult = result as OkObjectResult;

@@ -12,6 +12,7 @@ using Sports.Repository.Context;
 using System.Diagnostics.CodeAnalysis;
 using Sports.Domain.Exceptions;
 using Sports.Logic.Exceptions;
+using Sports.Repository.UnitOfWork;
 
 namespace Sports.Logic.Test
 {

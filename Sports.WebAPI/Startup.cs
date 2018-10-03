@@ -2,13 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Sports.Repository.Context;
+using Sports.Logic;
+using Sports.Logic.Interface;
+using Sports.WebAPI.Models;
+using Sports.Repository.Interface;
+using Sports.Repository.UnitOfWork;
 
 namespace Sports.WebAPI
 {
@@ -30,7 +38,10 @@ namespace Sports.WebAPI
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            
+            services.AddDbContext<RepositoryContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SportsDatabase")));
+            services.AddScoped<IUserLogic, UserLogic>();
+            services.AddScoped<IFavoriteLogic, FavoriteLogic>();
+            services.AddScoped<IRepositoryUnitOfWork, RepositoryUnitOfWork>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

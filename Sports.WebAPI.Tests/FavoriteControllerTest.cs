@@ -29,7 +29,7 @@ namespace Sports.WebAPI.Tests
             userLogicMock = new Mock<IUserLogic>();
             var config = new MapperConfiguration(cfg => cfg.AddProfile(new MapperProfile()));
             IMapper mapper = new Mapper(config);
-            controller = new FavoritesController(userLogicMock.Object, favoriteLogicMock.Object, mapper);
+            controller = new FavoritesController(userLogicMock.Object, favoriteLogicMock.Object);
             favoriteLogicMock.Setup(favoriteLogic => favoriteLogic.SetSession(It.IsAny<Guid>()));
             userLogicMock.Setup(userLogic => userLogic.SetSession(It.IsAny<Guid>()));
             token = new Guid();
@@ -38,24 +38,6 @@ namespace Sports.WebAPI.Tests
         [TestMethod]
         public void ValidPostFavorite()
         {
-            User fakeUser = new User(true)
-            {
-                FirstName = "Itai",
-                LastName = "Miller",
-                Email = "itaimiller@gmail.com",
-                UserName = "iMiller",
-                Password = "root"
-            };
-            UserModelIn userModelIn = new UserModelIn()
-            {
-                Id = 1,
-                FirstName = "Itai",
-                LastName = "Miller",
-                Email = "itaimiller@gmail.com",
-                UserName = "iMiller",
-                Password = "root",
-                IsAdmin = true
-            };
             Team fakeTeam = new Team()
             {
                 Name = "Team"
@@ -65,8 +47,8 @@ namespace Sports.WebAPI.Tests
                 Id = 1,
                 Name = "Team"
             };
-            favoriteLogicMock.Setup(favoriteLogic => favoriteLogic.AddFavoriteTeam(It.IsAny<User>(),It.IsAny<Team>()));
-            IActionResult result = controller.PostFavorite(userModelIn, teamModelIn, token);
+            favoriteLogicMock.Setup(favoriteLogic => favoriteLogic.AddFavoriteTeam(It.IsAny<Team>()));
+            IActionResult result = controller.PostFavorite(teamModelIn, token);
             var okResult = result as OkObjectResult;
 
             favoriteLogicMock.VerifyAll();
@@ -85,9 +67,9 @@ namespace Sports.WebAPI.Tests
             ICollection<Team> teams = new List<Team>();
             teams.Add(fakeTeam);
 
-            favoriteLogicMock.Setup(favoriteLogic => favoriteLogic.GetFavoritesFromUser(userId)).Returns(teams);
+            favoriteLogicMock.Setup(favoriteLogic => favoriteLogic.GetFavoritesFromUser()).Returns(teams);
 
-            var result = controller.GetFavoritesForUser(userId, token);
+            var result = controller.GetFavoritesForUser(token);
             var okResult = result as OkObjectResult;
             var favoriteTeams = okResult.Value as ICollection<Team>;
 
@@ -115,9 +97,9 @@ namespace Sports.WebAPI.Tests
             ICollection<Comment> comments = new List<Comment>();
             comments.Add(fakeComment);
 
-            favoriteLogicMock.Setup(favoriteLogic => favoriteLogic.GetFavoritesTeamsComments(fakeUser)).Returns(comments);
+            favoriteLogicMock.Setup(favoriteLogic => favoriteLogic.GetFavoritesTeamsComments()).Returns(comments);
 
-            var result = controller.GetFavoritesTeamsComents(fakeUser, token);
+            var result = controller.GetFavoritesTeamsComents(token);
             var okResult = result as OkObjectResult;
             var favoriteTeamsComments = okResult.Value as ICollection<Comment>;
             

@@ -8,6 +8,7 @@ using Sports.Domain;
 using Sports.Logic.Interface;
 using Sports.Repository;
 using Sports.Repository.Interface;
+using Sports.Repository.UnitOfWork;
 using Sports.Repository.Context;
 using System.Diagnostics.CodeAnalysis;
 using Sports.Logic.Exceptions;
@@ -144,8 +145,8 @@ namespace Sports.Logic.Test
         [TestMethod]
         public void GetFavoritesForUser()
         {
-            favoriteLogic.AddFavoriteTeam(user, favoriteTeam);
-            ICollection<Team> favorites = favoriteLogic.GetFavoritesFromUser(user.Id);
+            favoriteLogic.AddFavoriteTeam(favoriteTeam);
+            ICollection<Team> favorites = favoriteLogic.GetFavoritesFromUser();
             Assert.AreEqual(favorites.Count, 1);
         }
 
@@ -154,15 +155,15 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(FavoriteAlreadyExistException))]
         public void AddFavoriteTwice()
         {
-            favoriteLogic.AddFavoriteTeam(user, favoriteTeam);
-            favoriteLogic.AddFavoriteTeam(user, favoriteTeam);
+            favoriteLogic.AddFavoriteTeam( favoriteTeam);
+            favoriteLogic.AddFavoriteTeam( favoriteTeam);
         }
 
         [TestMethod]
         [ExpectedException(typeof(FavoriteDoesNotExistException))]
         public void GetFavoritesForInexistentUser()
         {
-            ICollection<Team> favorites = favoriteLogic.GetFavoritesFromUser(user.Id);
+            ICollection<Team> favorites = favoriteLogic.GetFavoritesFromUser();
             Assert.AreEqual(favorites.Count, 0);
         }
 
@@ -171,20 +172,12 @@ namespace Sports.Logic.Test
         public void GetFavoritesTeamsComments()
         {
             
-            favoriteLogic.AddFavoriteTeam(user, favoriteTeam);
+            favoriteLogic.AddFavoriteTeam( favoriteTeam);
             matchLogic.AddCommentToMatch(match.Id, comment);
-            ICollection<Comment> favoriteComments = favoriteLogic.GetFavoritesTeamsComments(user);
+            ICollection<Comment> favoriteComments = favoriteLogic.GetFavoritesTeamsComments();
             Assert.AreEqual(favoriteComments.Count, 1);
         }
-
-
-        [TestMethod]
-        [ExpectedException(typeof(UserDoesNotExistException))]
-        public void AddInvalidUser()
-        {
-            User fakeUser = new User();
-            favoriteLogic.AddFavoriteTeam(fakeUser, favoriteTeam);
-        }
+        
 
 
         [TestMethod]
@@ -192,23 +185,15 @@ namespace Sports.Logic.Test
         public void AddInvalidTeam()
         {
             Team fakeTeam = new Team();
-            favoriteLogic.AddFavoriteTeam(user, fakeTeam);
+            favoriteLogic.AddFavoriteTeam( fakeTeam);
         }
 
-
-        [TestMethod]
-        [ExpectedException(typeof(InvalidEmptyUserException))]
-        public void AddNullUser()
-        {
-            favoriteLogic.AddFavoriteTeam(null, favoriteTeam);
-        }
-
-
+        
         [TestMethod]
         [ExpectedException(typeof(InvalidTeamIsEmptyException))]
         public void AddNullTeam()
         {
-            favoriteLogic.AddFavoriteTeam(user, null);
+            favoriteLogic.AddFavoriteTeam( null);
         }
 
 
@@ -216,7 +201,7 @@ namespace Sports.Logic.Test
         [TestMethod]
         public void CascadeDeleteFavoritesFromUser()
         {
-            favoriteLogic.AddFavoriteTeam(user, favoriteTeam);
+            favoriteLogic.AddFavoriteTeam( favoriteTeam);
             userLogic.RemoveUser(user.Id);
             Assert.AreEqual(favoriteLogic.GetAll().Count, 0);
         }
@@ -224,7 +209,7 @@ namespace Sports.Logic.Test
         [TestMethod]
         public void CascadeDeleteFavoritesFromTeam()
         {
-            favoriteLogic.AddFavoriteTeam(user, favoriteTeam);
+            favoriteLogic.AddFavoriteTeam(favoriteTeam);
             sportLogic.DeleteTeamFromSport(match.Sport, favoriteTeam);
             Assert.AreEqual(favoriteLogic.GetAll().Count, 0);
         }
@@ -235,7 +220,7 @@ namespace Sports.Logic.Test
         public void NullSession()
         {
             favoriteLogic = new FavoriteLogic(unitOfWork);
-            favoriteLogic.AddFavoriteTeam(user, favoriteTeam);
+            favoriteLogic.AddFavoriteTeam(favoriteTeam);
         }
 
 

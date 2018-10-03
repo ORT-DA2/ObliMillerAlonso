@@ -29,15 +29,15 @@ namespace Sports.Logic
         }
         
         
-        public void AddFavoriteTeam(User user, Team team)
+        public void AddFavoriteTeam(Team team)
         {
             sessionLogic.ValidateUserNotNull(sessionUser);
             Favorite favorite = new Favorite()
             {
-                User = user,
+                User = sessionUser,
                 Team = team
             };
-            ValidateNewFavorite(user, team, favorite);
+            ValidateNewFavorite(sessionUser, team, favorite);
             repository.Create(favorite);
             repository.Save();
         }
@@ -64,10 +64,10 @@ namespace Sports.Logic
             }
         }
 
-        public ICollection<Team> GetFavoritesFromUser(int id)
+        public ICollection<Team> GetFavoritesFromUser()
         {
             sessionLogic.ValidateUserNotNull(sessionUser);
-            ICollection<Favorite> favorites = repository.FindByCondition(f => f.User.Id == id);
+            ICollection<Favorite> favorites = repository.FindByCondition(f => f.User.Id == sessionUser.Id);
             ValidateFavoritesExist(favorites);
             ICollection<Team> teams = GetTeamsFromFavorites(favorites);
             return teams;
@@ -91,10 +91,10 @@ namespace Sports.Logic
             return teams;
         }
 
-        public ICollection<Comment> GetFavoritesTeamsComments(User user)
+        public ICollection<Comment> GetFavoritesTeamsComments()
         {
             sessionLogic.ValidateUserNotNull(sessionUser);
-            ICollection<Team> favoriteTeams = GetFavoritesFromUser(user.Id);
+            ICollection<Team> favoriteTeams = this.GetFavoritesFromUser();
             ICollection<Match> favoriteMatches = GetMatchesForTeams(favoriteTeams);
             List<Comment> favoriteComments = new List<Comment>();
             foreach (Match match in favoriteMatches)

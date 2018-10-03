@@ -21,10 +21,11 @@ namespace Sports.WebAPI.Controllers
         private IUserLogic userLogic;
         private IMapper mapper;
 
-        public UsersController(IUserLogic aUserLogic, IMapper aMapper)
+        public UsersController(IUserLogic aUserLogic)
         {
             userLogic = aUserLogic;
-            mapper = aMapper;
+            var config = new MapperConfiguration(cfg => cfg.AddProfile(new MapperProfile()));
+            mapper = new Mapper(config);
         }
 
         [HttpGet("{id}", Name = "GetById")]

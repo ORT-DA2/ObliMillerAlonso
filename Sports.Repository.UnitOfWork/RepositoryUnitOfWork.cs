@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Sports.Repository.Interface;
 using Sports.Repository;
+using Sports.Repository.Interface;
 using Sports.Repository.Context;
 
-namespace Sports.Repository
+namespace Sports.Repository.UnitOfWork
 {
     public class RepositoryUnitOfWork : IRepositoryUnitOfWork
     {
