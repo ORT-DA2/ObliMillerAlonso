@@ -94,5 +94,34 @@ namespace Sports.WebAPI.Tests
             Assert.AreEqual(200, okResult.StatusCode);
         }
 
+        [TestMethod]
+        public void GetFavoritesTeamsComments()
+        {
+            int userId = 1;
+            User fakeUser = new User(true)
+            {
+                FirstName = "Itai",
+                LastName = "Miller",
+                Email = "itaimiller@gmail.com",
+                UserName = "iMiller",
+                Password = "root"
+            };
+            Comment fakeComment = new Comment()
+            {
+                Text = "comment",
+                User = fakeUser
+            };
+            ICollection<Comment> comments = new List<Comment>();
+            comments.Add(fakeComment);
+
+            favoriteLogicMock.Setup(favoriteLogic => favoriteLogic.GetFavoritesTeamsComments(fakeUser)).Returns(comments);
+
+            var result = controller.GetFavoritesTeamsComents(userId, token);
+            var okResult = result as OkObjectResult;
+
+            favoriteLogicMock.VerifyAll();
+            Assert.AreEqual(200, okResult.StatusCode);
+        }
+
     }
 }
