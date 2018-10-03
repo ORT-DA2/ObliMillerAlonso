@@ -46,6 +46,7 @@ namespace Sports.WebAPI.Tests
 
             UserModelIn modelIn = new UserModelIn()
             {
+                Id = 1,
                 FirstName = "Itai",
                 LastName = "Miller",
                 Email = "itaimiller@gmail.com",
