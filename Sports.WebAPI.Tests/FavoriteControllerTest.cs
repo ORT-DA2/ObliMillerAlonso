@@ -97,7 +97,6 @@ namespace Sports.WebAPI.Tests
         [TestMethod]
         public void GetFavoritesTeamsComments()
         {
-            int userId = 1;
             User fakeUser = new User(true)
             {
                 FirstName = "Itai",

@@ -76,8 +76,7 @@ namespace Sports.WebAPI.Controllers
             }
             return Ok(favoriteTeamsComments.ToList());
         }
-
-
+        
         private void RequestBodyIsNotNull(object Object)
         {
             if (Object == null)
