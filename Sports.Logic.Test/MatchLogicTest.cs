@@ -371,32 +371,7 @@ namespace Sports.Logic.Test
             };
             matchLogic.AddCommentToMatch(match.Id, comment);
         }
-
-        [TestMethod]
-        [ExpectedException(typeof(UserDoesNotExistException))]
-        public void AddCommentWithInexistentUserToMatch()
-        {
-            matchLogic.AddMatch(match);
-            User user = ValidUser();
-            Comment comment = new Comment
-            {
-                Text = "Text",
-                User = user
-            };
-            matchLogic.AddCommentToMatch(match.Id, comment);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(InvalidNullValueException))]
-        public void AddCommentWithNullUserToMatch()
-        {
-            matchLogic.AddMatch(match);
-            Comment comment = new Comment
-            {
-                Text = "Text",
-            };
-            matchLogic.AddCommentToMatch(match.Id, comment);
-        }
+        
 
         [TestMethod]
         public void CheckSportIsNotDuplicated()
