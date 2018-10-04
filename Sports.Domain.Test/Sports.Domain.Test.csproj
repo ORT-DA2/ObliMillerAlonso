@@ -16,4 +16,10 @@
     <ProjectReference Include="..\Sports.Domain\Sports.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="testFilesPaths.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

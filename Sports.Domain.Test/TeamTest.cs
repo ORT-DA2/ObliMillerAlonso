@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Sports.Domain.Exceptions;
+using Newtonsoft.Json.Linq;
 
 namespace Sports.Domain.Test
 {
@@ -15,10 +16,9 @@ namespace Sports.Domain.Test
     [TestClass]
     public class TeamTest
     {
-        static string mypath = AppDomain.CurrentDomain.BaseDirectory;
-        string _testImagePath = mypath + "/TestImage/gun.png";
-        string _invalidFilePath = mypath + "/TestImage/example.txt";
-        string _largeFilePath = mypath+"/TestImage/BigImg.jpg";
+        string _testImagePath;
+        string _invalidFilePath;
+        string _largeFilePath;
         Team team;
         [TestInitialize]
         public void SetUp()
@@ -28,6 +28,10 @@ namespace Sports.Domain.Test
                 Name = "Test Team",
 
             };
+            JObject jsonPaths = JObject.Parse(File.ReadAllText(@"testFilesPaths.json"));
+            _testImagePath = jsonPaths.SelectToken("testImagePath").ToString();
+            _invalidFilePath = jsonPaths.SelectToken("invalidFilePath").ToString();
+            _largeFilePath = jsonPaths.SelectToken("bigImgPath").ToString();
         }
 
         [TestMethod]

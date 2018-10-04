@@ -13,6 +13,8 @@ using System.Diagnostics.CodeAnalysis;
 using Sports.Domain.Exceptions;
 using Sports.Logic.Exceptions;
 using Sports.Repository.UnitOfWork;
+using Newtonsoft.Json.Linq;
+using System.IO;
 
 namespace Sports.Logic.Test
 {
@@ -20,8 +22,7 @@ namespace Sports.Logic.Test
     [TestClass]
     public class TeamLogicTest
     {
-        static string mypath = AppDomain.CurrentDomain.BaseDirectory;
-        string testImagePath = mypath + "/TestImage/gun.png";
+        string testImagePath;
         private IRepositoryUnitOfWork unitOfWork;
         private RepositoryContext repository;
         private ITeamLogic teamLogic;
@@ -38,6 +39,8 @@ namespace Sports.Logic.Test
             {
                 Name = "Team"
             };
+            JObject jsonPaths = JObject.Parse(File.ReadAllText(@"testFilesPaths.json"));
+            testImagePath = jsonPaths.SelectToken("TestImagePath").ToString();
         }
 
         private void SetUpAdminSession()

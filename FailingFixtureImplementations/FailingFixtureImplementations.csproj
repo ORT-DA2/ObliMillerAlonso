@@ -8,4 +8,10 @@
     <ProjectReference Include="..\Sports.Domain\Sports.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="FixtureFailing.cs">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+
 </Project>

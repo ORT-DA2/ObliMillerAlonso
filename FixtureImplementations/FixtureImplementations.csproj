@@ -8,4 +8,13 @@
     <ProjectReference Include="..\Sports.Logic.Interface\Sports.Logic.Interface.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="FixtureBackAndForthDaily.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Update="FixtureWeekendMatches.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+
 </Project>

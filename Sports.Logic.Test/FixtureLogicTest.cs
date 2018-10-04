@@ -14,6 +14,8 @@ using System.Diagnostics.CodeAnalysis;
 using Sports.Logic.Exceptions;
 using Sports.Domain.Exceptions;
 using System.Linq;
+using Newtonsoft.Json.Linq;
+using System.IO;
 
 namespace Sports.Logic.Test
 {
@@ -29,10 +31,8 @@ namespace Sports.Logic.Test
         ISessionLogic sessionLogic;
         RepositoryContext repository;
         ICollection<Sport> sports;
-
-        //pasar a json
-        string validImplementationsPath = "C:/Users/pepe1/Documentos/Diseno 2/ObliMillerAlonso/FixtureImplementations/bin/Debug/netcoreapp2.1";
-        string failingImplementationsPath = "C:/Users/pepe1/Documentos/Diseno 2/ObliMillerAlonso/FailingFixtureImplementations/bin/Debug/netcoreapp2.1";
+        string validImplementationsPath;
+        string failingImplementationsPath;
 
         [TestInitialize]
         public void SetUp()
@@ -40,6 +40,9 @@ namespace Sports.Logic.Test
             SetUpRepositories();
             SetUpAdminSession();
             SetUpSportWithTeams();
+            JObject jsonPaths = JObject.Parse(File.ReadAllText(@"testFilesPaths.json"));
+            failingImplementationsPath = jsonPaths.SelectToken("FailingFixtureDlls").ToString();
+            validImplementationsPath = jsonPaths.SelectToken("FixtureDlls").ToString();
         }
 
         private void SetUpRepositories()

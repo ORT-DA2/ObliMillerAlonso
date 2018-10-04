@@ -25,4 +25,10 @@
     <ProjectReference Include="..\Sports.Repository\Sports.Repository.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="testFilesPaths.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

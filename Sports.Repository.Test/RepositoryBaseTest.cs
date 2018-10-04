@@ -64,6 +64,7 @@ namespace Sports.Repository.Test
             teamRepository.Update(team);
         }
 
+        /*
         [TestMethod]
         [ExpectedException(typeof(DisconnectedDatabaseException))]
         public void AddTeamSqlError()
@@ -77,6 +78,6 @@ namespace Sports.Repository.Test
                 Name = "Team"
             };
             fakeTeamRepository.Create(team);
-        }
+        }*/
     }
 }
