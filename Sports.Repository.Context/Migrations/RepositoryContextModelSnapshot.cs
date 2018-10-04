@@ -194,14 +194,16 @@ namespace Sports.Repository.Context.Migrations
 
                     b.HasOne("Sports.Domain.Team", "Visitor")
                         .WithMany("VisitorMatches")
-                        .HasForeignKey("VisitorId");
+                        .HasForeignKey("VisitorId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Sports.Domain.Session", b =>
                 {
                     b.HasOne("Sports.Domain.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Sports.Domain.Team", b =>

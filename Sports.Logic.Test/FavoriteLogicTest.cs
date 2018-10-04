@@ -63,7 +63,6 @@ namespace Sports.Logic.Test
             repo.Create(admin);
             repo.Save();
             Guid adminToken = sessionLogic.LogInUser(admin.UserName, admin.Password);
-            sessionLogic.GetUserFromToken(adminToken);
             userLogic.SetSession(adminToken);
             matchLogic.SetSession(adminToken);
             sportLogic.SetSession(adminToken);
@@ -201,7 +200,9 @@ namespace Sports.Logic.Test
         [TestMethod]
         public void CascadeDeleteFavoritesFromUser()
         {
-            favoriteLogic.AddFavoriteTeam( favoriteTeam);
+            Guid userToken = sessionLogic.LogInUser(user.UserName, user.Password);
+            favoriteLogic.SetSession(userToken);
+            favoriteLogic.AddFavoriteTeam(favoriteTeam);
             userLogic.RemoveUser(user.Id);
             Assert.AreEqual(favoriteLogic.GetAll().Count, 0);
         }
