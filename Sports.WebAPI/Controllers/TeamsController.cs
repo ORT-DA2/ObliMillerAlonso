@@ -19,11 +19,13 @@ namespace Sports.WebAPI.Controllers
     public class TeamsController : ControllerBase
     {
         private ITeamLogic teamLogic;
+        private ISportLogic sportLogic;
         private IMapper mapper;
 
-        public TeamsController(ITeamLogic aTeamLogic)
+        public TeamsController(ITeamLogic aTeamLogic, ISportLogic aSportLogic)
         {
             teamLogic = aTeamLogic;
+            sportLogic = aSportLogic;
             var config = new MapperConfiguration(cfg => cfg.AddProfile(new MapperProfile()));
             mapper = new Mapper(config);
         }
@@ -47,16 +49,20 @@ namespace Sports.WebAPI.Controllers
         {
             RequestHeaderIsNotNull(token);
             teamLogic.SetSession(token);
-            ICollection<Team> teamList = teamLogic.GetAll();
-            if (teamList == null)
+            ICollection<Sport> sportList = sportLogic.GetAll();
+            if (sportList == null)
             {
                 return NotFound();
             }
             ICollection<TeamModelOut> teamModels = new List<TeamModelOut>();
-            foreach (Team team in teamList)
+            foreach (Sport sport in sportList)
             {
-                TeamModelOut model = mapper.Map<TeamModelOut>(team);
-                teamModels.Add(model);
+                foreach (Team team in sport.Teams)
+                {
+                    TeamModelOut model = mapper.Map<TeamModelOut>(team);
+                    model.SportId = sport.Id;
+                    teamModels.Add(model);
+                }
             }
             return Ok(teamModels.ToList());
         }
