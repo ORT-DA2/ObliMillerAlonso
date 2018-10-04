@@ -426,7 +426,7 @@ namespace Sports.Logic.Test
 
         [TestMethod]
         public void CascadeDeleteMatchFromSport()
-        {
+        { 
             matchLogic.AddMatch(match);
             sportLogic.RemoveSport(match.Sport.Id);
             Assert.AreEqual(matchLogic.GetAllMatches().Count,0);
