@@ -19,11 +19,13 @@ namespace Sports.WebAPI.Controllers
     public class UsersController : ControllerBase
     {
         private IUserLogic userLogic;
+        private ISessionLogic sessionLogic;
         private IMapper mapper;
 
-        public UsersController(IUserLogic aUserLogic)
+        public UsersController(IUserLogic aUserLogic, ISessionLogic aSessionLogic)
         {
             userLogic = aUserLogic;
+            sessionLogic = aSessionLogic;
             var config = new MapperConfiguration(cfg => cfg.AddProfile(new MapperProfile()));
             mapper = new Mapper(config);
         }
@@ -129,5 +131,18 @@ namespace Sports.WebAPI.Controllers
                 throw new ArgumentNullException("Invalid parameters, check the fields.");
         }
 
+        public IActionResult Login(LoginModel modelIn)
+        {
+            try
+            {
+                RequestHeaderIsNotNull(modelIn);
+                Guid token = sessionLogic.LogInUser(modelIn.Username,modelIn.Password);
+                return Ok(token.ToString());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
