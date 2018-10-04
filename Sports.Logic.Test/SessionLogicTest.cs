@@ -176,7 +176,7 @@ namespace Sports.Logic.Test
         public void TestLogoutUser()
         {
             Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
-            sessionLogic.LogoutByUser(user);
+            sessionLogic.LogoutByToken(token);
            sessionLogic.GetUserFromToken(token);
         }
 

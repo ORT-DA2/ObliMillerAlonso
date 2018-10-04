@@ -9,7 +9,7 @@ namespace Sports.Logic.Interface
     {
         Guid LogInUser(string username, string password);
         User GetUserFromToken(Guid token);
-        void LogoutByUser(User user);
+        void LogoutByToken(Guid token);
         void ValidateUser(User user);
         void ValidateUserNotNull(User user);
     }

@@ -41,6 +41,8 @@ namespace Sports.WebAPI
             services.AddDbContext<RepositoryContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SportsDatabase")));
             services.AddScoped<IUserLogic, UserLogic>();
             services.AddScoped<IFavoriteLogic, FavoriteLogic>();
+            services.AddScoped<ITeamLogic, TeamLogic>();
+            services.AddScoped<ISessionLogic, SessionLogic>();
             services.AddScoped<IRepositoryUnitOfWork, RepositoryUnitOfWork>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
