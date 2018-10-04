@@ -34,17 +34,9 @@ namespace Sports.Logic
         private void ValidateComment(Comment comment)
         {
             CheckNotNull(comment);
-            CheckUserNotNull(comment);
             comment.User =userLogic.GetUserById(comment.User.Id);
         }
-
-        private void CheckUserNotNull(Comment comment)
-        {
-            if (comment.User == null)
-            {
-                throw new InvalidNullValueException(NullValue.INVALID_USER_NULL_VALUE_MESSAGE);
-            }
-        }
+        
 
         private void CheckNotNull(Comment comment)
         {

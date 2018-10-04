@@ -9,9 +9,11 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using AutoMapper;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Sports.WebAPI.Tests
 {
+    [ExcludeFromCodeCoverage]
     [TestClass]
     public class TeamControllerTest
     {

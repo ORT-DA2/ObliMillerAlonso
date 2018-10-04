@@ -22,13 +22,6 @@ namespace Sports.Repository.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            var cascadeFKs = modelBuilder.Model.GetEntityTypes().SelectMany(t => t.GetForeignKeys()).Where(fk => !fk.IsOwnership && fk.DeleteBehavior == DeleteBehavior.Cascade);
-
-            foreach (var fk in cascadeFKs)
-                fk.DeleteBehavior = DeleteBehavior.Restrict;
-
-
             
             modelBuilder.Entity<User>().HasKey(u => u.Id);
             modelBuilder.Entity<User>().Property(u => u.Id).ValueGeneratedOnAdd();
