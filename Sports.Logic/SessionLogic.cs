@@ -59,9 +59,18 @@ namespace Sports.Logic
             return newSession.Token;
         }
 
-        public void LogoutByUser(User user)
+        private void LogoutByUser(User user)
         {
             ICollection<Session> sessions = repository.FindByCondition(s => s.User.Equals(user));
+            foreach (Session existingSession in sessions)
+            {
+                repository.Delete(existingSession);
+                repository.Save();
+            }
+        }
+        public void LogoutByToken(Guid token)
+        {
+            ICollection<Session> sessions = repository.FindByCondition(s => s.Token.Equals(token));
             foreach (Session existingSession in sessions)
             {
                 repository.Delete(existingSession);

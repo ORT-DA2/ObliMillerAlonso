@@ -149,14 +149,6 @@ namespace Sports.WebAPI.Tests
         [TestMethod]
         public void ValidLogin()
         {
-            User fakeUser = new User(true)
-            {
-                FirstName = "Itai",
-                LastName = "Miller",
-                Email = "itaimiller@gmail.com",
-                UserName = "iMiller",
-                Password = "root"
-            };
 
             LoginModel modelIn = new LoginModel()
             {
@@ -174,6 +166,21 @@ namespace Sports.WebAPI.Tests
 
             Assert.AreEqual(200, okResult.StatusCode);
             Assert.IsNotNull(modelOut);
+        }
+
+        [TestMethod]
+        public void ValidLogout()
+        {
+            Guid token = new Guid();
+
+            sessionLogicMock.Setup(sessionLogic => sessionLogic.LogoutByToken(It.IsAny<Guid>()));
+
+            IActionResult result = controller.Logout(token);
+            var okResult = result as OkObjectResult;
+
+            userLogicMock.VerifyAll();
+
+            Assert.AreEqual(200, okResult.StatusCode);
         }
 
     }

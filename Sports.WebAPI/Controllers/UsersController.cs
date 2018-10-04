@@ -131,7 +131,7 @@ namespace Sports.WebAPI.Controllers
                 throw new ArgumentNullException("Invalid parameters, check the fields.");
         }
 
-        public IActionResult Login(LoginModel modelIn)
+        public IActionResult Login([FromBody]LoginModel modelIn)
         {
             try
             {
