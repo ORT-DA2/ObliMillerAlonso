@@ -140,5 +140,36 @@ namespace Sports.WebAPI.Tests
             Assert.IsNotNull(modelOut);
         }
 
+
+        [TestMethod]
+        public void ValidLogin()
+        {
+            User fakeUser = new User(true)
+            {
+                FirstName = "Itai",
+                LastName = "Miller",
+                Email = "itaimiller@gmail.com",
+                UserName = "iMiller",
+                Password = "root"
+            };
+
+            LoginModel modelIn = new LoginModel()
+            {
+                Username = "iMiller",
+                Password = "root"
+            };
+
+            userLogicMock.Setup(userLogic => userLogic.AddUser(fakeUser));
+
+            IActionResult result = controller.Login(modelIn);
+            var okResult = result as OkObjectResult;
+            var modelOut = okResult.Value as string;
+
+            userLogicMock.VerifyAll();
+
+            Assert.AreEqual(200, okResult.StatusCode);
+            Assert.IsNotNull(modelOut);
+        }
+
     }
 }
