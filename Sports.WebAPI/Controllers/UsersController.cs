@@ -135,9 +135,22 @@ namespace Sports.WebAPI.Controllers
         {
             try
             {
-                RequestHeaderIsNotNull(modelIn);
+                RequestBodyIsNotNull(modelIn);
                 Guid token = sessionLogic.LogInUser(modelIn.Username,modelIn.Password);
                 return Ok(token.ToString());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        public IActionResult Logout([FromHeader]Guid token)
+        {
+            try
+            {
+                RequestHeaderIsNotNull(token);
+                sessionLogic.LogoutByToken(token);
+                return Ok("Succesfully logged out");
             }
             catch (Exception ex)
             {
