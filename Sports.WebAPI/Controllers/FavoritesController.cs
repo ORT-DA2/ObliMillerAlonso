@@ -14,7 +14,7 @@ using AutoMapper;
 
 namespace Sports.WebAPI.Controllers
 {
-    [Route("api/favorites")]
+    [Route("api/[controller]")]
     [ApiController]
     public class FavoritesController : ControllerBase
     {

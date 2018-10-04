@@ -115,6 +115,7 @@ namespace Sports.Logic
         public void AddCommentToMatch(int id, Comment comment)
         {
             sessionLogic.ValidateUserNotNull(user);
+            comment.User = user;
             commentLogic.AddComment(comment);
             Match commentedMatch = GetMatchById(id);
             ValidateMatch(commentedMatch);
