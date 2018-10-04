@@ -10,8 +10,8 @@ using Sports.Repository.Context;
 namespace Sports.Repository.Context.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20181004001129_Initial")]
-    partial class Initial
+    [Migration("20181004185308_New")]
+    partial class New
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -196,14 +196,16 @@ namespace Sports.Repository.Context.Migrations
 
                     b.HasOne("Sports.Domain.Team", "Visitor")
                         .WithMany("VisitorMatches")
-                        .HasForeignKey("VisitorId");
+                        .HasForeignKey("VisitorId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Sports.Domain.Session", b =>
                 {
                     b.HasOne("Sports.Domain.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Sports.Domain.Team", b =>

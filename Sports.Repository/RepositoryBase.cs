@@ -27,10 +27,6 @@ namespace Sports.Repository
             {
                 return this.RepositoryContext.Set<T>().ToList<T>();
             }
-            catch (InvalidOperationException)
-            {
-                throw new DisconnectedDatabaseException(AccessValidation.INVALID_ACCESS_MESSAGE);
-            }
             catch (DbException)
             {
                 throw new DisconnectedDatabaseException(AccessValidation.INVALID_ACCESS_MESSAGE);
@@ -47,18 +43,14 @@ namespace Sports.Repository
             {
                 return this.RepositoryContext.Set<T>().Where(expression).ToList<T>();
             }
-            catch (InvalidOperationException)
-            {
-                throw new DisconnectedDatabaseException(AccessValidation.INVALID_ACCESS_MESSAGE);
-            }
-           /* catch (DbException)
+            catch (DbException)
             {
                 throw new DisconnectedDatabaseException(AccessValidation.INVALID_ACCESS_MESSAGE);
             }
             catch (Exception)
             {
                 throw new UnknownDatabaseException(AccessValidation.UNKNOWN_ERROR_MESSAGE);
-            }*/
+            }
         }
 
         public void Create(T entity)
@@ -66,11 +58,6 @@ namespace Sports.Repository
             try
             {
                 this.RepositoryContext.Set<T>().Add(entity);
-            }
-
-            catch (InvalidOperationException)
-            {
-                throw new DisconnectedDatabaseException(AccessValidation.INVALID_ACCESS_MESSAGE);
             }
             catch(DbException)
             {
@@ -88,11 +75,6 @@ namespace Sports.Repository
             {
                 this.RepositoryContext.Set<T>().Update(entity);
             }
-
-            catch (InvalidOperationException)
-            {
-                throw new DisconnectedDatabaseException(AccessValidation.INVALID_ACCESS_MESSAGE);
-            }
             catch (DbException)
             {
                 throw new DisconnectedDatabaseException(AccessValidation.INVALID_ACCESS_MESSAGE);
@@ -109,11 +91,6 @@ namespace Sports.Repository
             {
                 this.RepositoryContext.Set<T>().Remove(entity);
             }
-
-            catch (InvalidOperationException)
-            {
-                throw new DisconnectedDatabaseException(AccessValidation.INVALID_ACCESS_MESSAGE);
-            }
             catch (DbException)
             {
                 throw new DisconnectedDatabaseException(AccessValidation.INVALID_ACCESS_MESSAGE);
@@ -129,10 +106,6 @@ namespace Sports.Repository
             try
             {
                 this.RepositoryContext.SaveChanges();
-            }
-            catch (InvalidOperationException)
-            {
-                 throw new DisconnectedDatabaseException(AccessValidation.INVALID_ACCESS_MESSAGE);
             }
             catch (DbException)
             {

@@ -55,7 +55,7 @@ namespace Sports.Logic
 
         public User GetUserById(int id)
         {
-            sessionLogic.ValidateUser(sessionUser);
+            sessionLogic.ValidateUserNotNull(sessionUser);
             ICollection<User> users = repository.FindByCondition(u => u.Id==id);
             if(users.Count == 0)
             {

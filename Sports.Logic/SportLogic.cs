@@ -132,7 +132,7 @@ namespace Sports.Logic
             sessionLogic.ValidateUser(user);
             Sport realSport = GetSportById(sport.Id);
             Team realTeam = teamLogic.GetTeamById(team.Id);
-            realSport.DeleteTeam(realTeam);
+            teamLogic.Delete(realTeam);
             repository.Update(realSport);
             repository.Save();
         }

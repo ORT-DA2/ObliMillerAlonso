@@ -34,12 +34,13 @@ namespace Sports.Repository.Context
             modelBuilder.Entity<User>().Property(u => u.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<User>().HasMany<Comment>().WithOne(c => c.User).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<User>().HasMany<Favorite>().WithOne(f => f.User).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<User>().HasMany<Session>().WithOne(s => s.User).OnDelete(DeleteBehavior.Cascade);
 
 
             modelBuilder.Entity<Team>().HasKey(t => t.Id);
             modelBuilder.Entity<Team>().Property(t => t.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<Team>().HasMany<Match>(t => t.LocalMatches).WithOne(m => m.Local).OnDelete(DeleteBehavior.Cascade);
-           // modelBuilder.Entity<Team>().HasMany<Match>(t => t.VisitorMatches).WithOne(m => m.Visitor).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Team>().HasMany<Match>(t => t.VisitorMatches).WithOne(m => m.Visitor).OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Team>().HasMany<Favorite>().WithOne(f => f.Team).OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Comment>().HasKey(c => c.Id);

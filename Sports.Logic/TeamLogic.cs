@@ -12,6 +12,7 @@ namespace Sports.Logic
 {
     public class TeamLogic : ITeamLogic
     {
+        IMatchRepository matchRepository;
         ITeamRepository repository;
         ISessionLogic sessionLogic;
         User user;
@@ -19,7 +20,9 @@ namespace Sports.Logic
         public TeamLogic(IRepositoryUnitOfWork unitOfwork)
         {
             repository = unitOfwork.Team;
+            matchRepository = unitOfwork.Match;
             sessionLogic = new SessionLogic(unitOfwork);
+
         }
         public void AddTeam(Team team)
         {
@@ -78,8 +81,19 @@ namespace Sports.Logic
         {
             sessionLogic.ValidateUser(user);
             Team realTeam = GetTeamById(team.Id);
+            DeleteAllRelatedMatches(realTeam);
             repository.Delete(realTeam);
             repository.Save();
+        }
+
+        private void DeleteAllRelatedMatches(Team realTeam)
+        {
+            List<Match> relatedMatches = matchRepository.FindByCondition(m => m.Visitor.Id == realTeam.Id).ToList();
+            foreach(Match match in relatedMatches)
+            {
+                matchRepository.Delete(match);
+            }
+            matchRepository.Save();
         }
 
         public ICollection<Team> GetAll()
