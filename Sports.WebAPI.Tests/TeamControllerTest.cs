@@ -54,5 +54,27 @@ namespace Sports.WebAPI.Tests
             Assert.IsNotNull(modelOut);
         }
 
+        [TestMethod]
+        public void ValidGetTeamById()
+        {
+            int teamId = 1;
+            Team fakeTeam = new Team()
+            {
+                Id = teamId,
+                Name = "Team"
+            };
+
+            teamLogicMock.Setup(teamLogic => teamLogic.GetTeamById(teamId)).Returns(fakeTeam);
+
+            IActionResult result = controller.Get(teamId, token);
+            var okResult = result as OkObjectResult;
+            var modelOut = okResult.Value as TeamModelOut;
+
+            teamLogicMock.VerifyAll();
+
+            Assert.AreEqual(200, okResult.StatusCode);
+            Assert.IsNotNull(modelOut);
+        }
+
     }
 }
