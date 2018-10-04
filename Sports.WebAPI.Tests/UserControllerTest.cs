@@ -30,7 +30,7 @@ namespace Sports.WebAPI.Tests
             userLogicMock = new Mock<IUserLogic>();
             sessionLogicMock = new Mock<ISessionLogic>();
             var config = new MapperConfiguration(cfg => cfg.AddProfile(new MapperProfile()));
-            IMapper mapper = new Mapper(config);
+            mapper = new Mapper(config);
             controller = new UsersController(userLogicMock.Object, sessionLogicMock.Object);
             token = new Guid();
         }
