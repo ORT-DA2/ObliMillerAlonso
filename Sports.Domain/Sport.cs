@@ -10,11 +10,10 @@ namespace Sports.Domain
 {
     public class Sport
     {
-        public int Id { get; private set; }
+        public int Id { get;  set; }
         public string Name { get; set; }
         public ICollection<Team> Teams { get; set; }
-
-        public ICollection<Match> Matches { get; set; }
+        
 
         public Sport()
         {

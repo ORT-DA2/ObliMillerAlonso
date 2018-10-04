@@ -12,12 +12,12 @@ namespace Sports.Domain
     public class Match
     {
         [Key]
-        public int Id { get; private set; }
+        public int Id { get;  set; }
         public DateTime Date { get; set; }
         public Sport Sport { get; set; }
         public Team Local { get; set; }
         public Team Visitor { get; set; }
-        public ICollection<Comment> Comments {  get; private set; }
+        public ICollection<Comment> Comments {  get; set; }
 
         public Match()
         {

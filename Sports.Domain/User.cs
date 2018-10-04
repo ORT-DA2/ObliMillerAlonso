@@ -20,9 +20,7 @@ namespace Sports.Domain
         public string Email { get; set; }
         public string Password { get;  set; }
         public string UserName { get; set; }
-
-        public ICollection<Comment> Comments { get; set; }
-        public ICollection<Favorite> Favorites { get; set; }
+        
 
         public User()
         {

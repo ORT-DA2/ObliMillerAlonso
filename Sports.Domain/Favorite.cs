@@ -9,7 +9,7 @@ namespace Sports.Domain
 {
     public class Favorite
     {
-        public int Id { get; private set; }
+        public int Id { get;  set; }
         public User User { get; set; }
         public Team Team { get; set; }
 
