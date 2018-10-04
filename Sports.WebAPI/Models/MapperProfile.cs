@@ -14,7 +14,7 @@ namespace Sports.WebAPI.Models
             CreateMap<UserModelIn, User>().ConstructUsing(u => new User(u.IsAdmin)); ;
             CreateMap<User, UserModelOut>();
             CreateMap<TeamModelIn, Team>();
-            CreateMap<Team, TeamModelIn>();
+            CreateMap<Team, TeamModelOut>();
         }
     }
 }

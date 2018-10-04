@@ -16,7 +16,7 @@ namespace Sports.WebAPI.Tests
     public class TeamControllerTest
     {
         Mock<ITeamLogic> teamLogicMock;
-        TeamController controller;
+        TeamsController controller;
         IMapper mapper;
         Guid token;
 
@@ -27,7 +27,7 @@ namespace Sports.WebAPI.Tests
             teamLogicMock = new Mock<ITeamLogic>();
             var config = new MapperConfiguration(cfg => cfg.AddProfile(new MapperProfile()));
             IMapper mapper = new Mapper(config);
-            controller = new TeamController(teamLogicMock.Object);
+            controller = new TeamsController(teamLogicMock.Object);
             teamLogicMock.Setup(favoriteLogic => favoriteLogic.SetSession(It.IsAny<Guid>()));
             token = new Guid();
         }
@@ -44,7 +44,7 @@ namespace Sports.WebAPI.Tests
 
             teamLogicMock.Setup(teamLogic => teamLogic.GetAll()).Returns(teams);
 
-            IActionResult result = controller.GetTeams(token);
+            IActionResult result = controller.GetAll(token);
             var okResult = result as OkObjectResult;
             var modelOut = okResult.Value as ICollection<TeamModelOut>;
 
