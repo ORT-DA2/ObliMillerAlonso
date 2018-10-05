@@ -71,5 +71,39 @@ namespace Sports.WebAPI.Tests
             Assert.IsNotNull(modelOut);
         }
 
+        [TestMethod]
+        public void ValidGetMatchById()
+        {
+            int matchId = 1;
+            Team team = new Team()
+            {
+                Id = 1
+            };
+            Sport sport = new Sport()
+            {
+                Id = 1
+            };
+            Domain.Match match = new Domain.Match()
+            {
+                Id = matchId,
+                Local = team,
+                Visitor = team,
+                Sport = sport,
+                Date = DateTime.Today,
+            };
+
+
+            matchLogicMock.Setup(matchLogic => matchLogic.GetMatchById(It.IsAny<int>())).Returns(match);
+
+            IActionResult result = controller.GetAll(token);
+            var okResult = result as OkObjectResult;
+            var modelOut = okResult.Value as MatchModelOut;
+
+            sportLogicMock.VerifyAll();
+
+            Assert.AreEqual(200, okResult.StatusCode);
+            Assert.IsNotNull(modelOut);
+        }
+
     }
 }
