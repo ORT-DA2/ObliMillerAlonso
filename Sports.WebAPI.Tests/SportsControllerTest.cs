@@ -105,6 +105,7 @@ namespace Sports.WebAPI.Tests
             int sportId = 1;
             Sport fakeSport = new Sport()
             {
+                Id = sportId,
                 Name = "Soccer"
             };
 

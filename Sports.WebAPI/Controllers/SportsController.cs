@@ -56,5 +56,13 @@ namespace Sports.WebAPI.Controllers
             sportLogic.AddSport(sport);
             return Ok("Succesfully added");
         }
+
+        public IActionResult PutSport(Sport fakeSport, Guid token)
+        {
+            sportLogic.SetSession(token);
+            Sport sport = mapper.Map<Sport>(fakeSport);
+            sportLogic.ModifySport(sport.Id,sport);
+            return Ok("Succesfully modified");
+        }
     }
 }
