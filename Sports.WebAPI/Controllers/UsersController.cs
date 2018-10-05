@@ -36,10 +36,6 @@ namespace Sports.WebAPI.Controllers
             RequestHeaderIsNotNull(token);
             userLogic.SetSession(token);
             User user = userLogic.GetUserById(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
             UserModelOut modelOut = mapper.Map<UserModelOut>(user);
             return Ok(modelOut);
         }
@@ -50,10 +46,6 @@ namespace Sports.WebAPI.Controllers
             RequestHeaderIsNotNull(token);
             userLogic.SetSession(token);
             ICollection<User> userList = userLogic.GetAll();
-            if (userList == null)
-            {
-                return NotFound();
-            }
             ICollection<UserModelOut> userModels = new List<UserModelOut>();
             foreach (User user in userList)
             {
