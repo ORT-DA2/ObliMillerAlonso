@@ -151,12 +151,35 @@ namespace Sports.WebAPI.Tests
 
             IActionResult result = controller.PostTeam(sportId, teamModel, token);
             var okResult = result as OkObjectResult;
-            var model = okResult.Value as Team;
+            var model = okResult.Value as TeamModelOut;
 
             sportLogicMock.VerifyAll();
 
             Assert.AreEqual(200, okResult.StatusCode);
             Assert.IsNotNull(model);
+        }
+
+        [TestMethod]
+        public void ValidGetTeamsFromSport()
+        {
+            int sportId = 1;
+            Team fakeTeam = new Team()
+            {
+                Name = "Team"
+            };
+            ICollection<Team> teams = new List<Team>();
+            teams.Add(fakeTeam);
+
+            sportLogicMock.Setup(sportLogic => sportLogic.GetTeamsFromSport(It.IsAny<int>())).Returns(teams);
+
+            IActionResult result = controller.GetTeams(sportId, token);
+            var okResult = result as OkObjectResult;
+            var modelOut = okResult.Value as ICollection<TeamModelOut>;
+
+            sportLogicMock.VerifyAll();
+
+            Assert.AreEqual(200, okResult.StatusCode);
+            Assert.IsNotNull(modelOut);
         }
 
     }

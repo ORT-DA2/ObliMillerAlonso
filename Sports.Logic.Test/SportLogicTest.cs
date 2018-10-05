@@ -281,6 +281,19 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
+        public void GetTeamsFromSport()
+        {
+            sportLogic.AddSport(sport);
+            Team team = new Team()
+            {
+                Name = "Barcelona"
+            };
+            sportLogic.AddTeamToSport(sport.Id, team);
+            ICollection<Team> returnedTeams = sportLogic.GetTeamsFromSport(sport.Id);
+            Assert.AreEqual(1, returnedTeams.Count);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(InvalidEmptyTextFieldException))]
         public void GetInvalidTeamFromSport()
         {

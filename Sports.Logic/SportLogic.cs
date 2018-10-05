@@ -147,6 +147,12 @@ namespace Sports.Logic
             repository.Save();
         }
 
+        public ICollection<Team> GetTeamsFromSport(int sportId)
+        {
+            Sport sport = GetSportById(sportId);
+            return sport.Teams;
+        }
+
         public void SetSession(Guid token)
         {
             user = sessionLogic.GetUserFromToken(token);
