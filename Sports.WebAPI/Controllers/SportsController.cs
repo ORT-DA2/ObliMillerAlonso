@@ -64,5 +64,12 @@ namespace Sports.WebAPI.Controllers
             sportLogic.ModifySport(sport.Id,sport);
             return Ok("Succesfully modified");
         }
+
+        public IActionResult DeleteSport(int sportId, Guid token)
+        {
+            sportLogic.SetSession(token);
+            sportLogic.RemoveSport(sportId);
+            return Ok("Succesfully deleted sport");
+        }
     }
 }
