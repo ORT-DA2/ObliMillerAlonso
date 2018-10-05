@@ -18,6 +18,7 @@ namespace Sports.WebAPI.Models
             CreateMap<SportModelIn, Sport>();
             CreateMap<Sport, SportModelOut>();
             CreateMap<Match, MatchModelOut>();
+            CreateMap<MatchModelIn, Match>();
         }
     }
 }
