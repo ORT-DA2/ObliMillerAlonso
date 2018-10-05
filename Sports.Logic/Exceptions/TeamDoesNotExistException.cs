@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using Sports.Logic.Interface.Exceptions;
 
 namespace Sports.Logic.Exceptions
 {
     [Serializable]
-    public class TeamDoesNotExistException : Exception
+    public class TeamDoesNotExistException : LogicException
     {
         public TeamDoesNotExistException(string message) : base(message)
         {

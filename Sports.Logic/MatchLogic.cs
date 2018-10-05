@@ -43,6 +43,22 @@ namespace Sports.Logic
             CheckNotNull(match);
             match.IsValid();
             ValidateSport(match);
+            CheckMatchDoesntExist(match);
+        }
+
+        private void CheckMatchDoesntExist(Match match)
+        {
+            ICollection<Match> matches = repository.FindByCondition(m => IsInMatch(match.Local,m) || IsInMatch(match.Visitor,m));
+            if (matches.Count == 0)
+            {
+                throw new MatchDoesNotExistException("Team has no matches");
+            }
+        }
+
+
+        private bool IsInMatch(Team team, Match match)
+        {
+            return match.Local.Equals(team) || match.Visitor.Equals(team);
         }
 
         private void ValidateSport(Match match)

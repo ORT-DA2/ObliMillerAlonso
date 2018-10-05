@@ -15,6 +15,8 @@ namespace Sports.Logic
         IMatchRepository matchRepository;
         ITeamRepository repository;
         ISessionLogic sessionLogic;
+        readonly string ascending = "asc";
+        readonly string descending = "desc";
         User user;
 
         public TeamLogic(IRepositoryUnitOfWork unitOfwork)
@@ -107,7 +109,7 @@ namespace Sports.Logic
             user = sessionLogic.GetUserFromToken(token);
         }
 
-        public ICollection<Team> FilterOrderTeamName(string name, string order = "asc")
+        public ICollection<Team> FilterOrderTeamName(string name, string order)
         {
             sessionLogic.ValidateUser(user);
             ICollection<Team> teams = new List<Team>();
@@ -116,13 +118,13 @@ namespace Sports.Logic
             return teams;
         }
 
-        private static void FilterByOrder(string order, ICollection<Team> teams)
+        private void FilterByOrder(string order, ICollection<Team> teams)
         {
-            if (order.Equals("asc"))
+            if (order.Equals(this.ascending))
             {
                 teams.OrderBy(t => t.Name);
             }
-            else if (order.Equals("desc"))
+            else if (order.Equals(this.descending))
             {
                 teams.OrderByDescending(t => t.Name);
             }

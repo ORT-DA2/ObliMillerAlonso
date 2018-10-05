@@ -33,7 +33,6 @@ namespace Sports.WebAPI.Controllers
         [HttpGet("{id}", Name = "GetById")]
         public IActionResult Get(int id, [FromHeader] Guid token)
         {
-            RequestHeaderIsNotNull(token);
             sportLogic.SetSession(token);
             Sport sport = sportLogic.GetSportById(id);
             SportModelOut modelOut = mapper.Map<SportModelOut>(sport);
@@ -43,19 +42,19 @@ namespace Sports.WebAPI.Controllers
         [HttpGet(Name = "GetAll")]
         public IActionResult GetAll([FromHeader] Guid token)
         {
-            RequestHeaderIsNotNull(token);
             sportLogic.SetSession(token);
             ICollection<Sport> sportList = sportLogic.GetAll();
             ICollection<SportModelOut> teamModels = new List<SportModelOut>();
             return Ok(teamModels.ToList());
         }
-        
 
-        private void RequestHeaderIsNotNull(object Object)
+        [HttpPost(Name = "AddSport")]
+        public IActionResult PostSport([FromBody] Sport fakeSport,[FromHeader] Guid token)
         {
-            if (Object == null)
-                throw new ArgumentNullException("Invalid parameters, check the fields.");
+            sportLogic.SetSession(token);
+            Sport sport = mapper.Map<Sport>(fakeSport);
+            sportLogic.AddSport(sport);
+            return Ok("Succesfully added");
         }
-
     }
 }

@@ -33,7 +33,7 @@ namespace Sports.Repository
             }
             catch (Exception)
             {
-                throw new UnknownDataException(AccessValidation.UNKNOWN_ERROR_MESSAGE);
+                throw new UnknownDbException(AccessValidation.UNKNOWN_ERROR_MESSAGE);
             }
         }
 
@@ -49,7 +49,7 @@ namespace Sports.Repository
             }
             catch (Exception)
             {
-                throw new UnknownDataException(AccessValidation.UNKNOWN_ERROR_MESSAGE);
+                throw new UnknownDbException(AccessValidation.UNKNOWN_ERROR_MESSAGE);
             }
         }
 
@@ -65,7 +65,7 @@ namespace Sports.Repository
             }
             catch (Exception)
             {
-                throw new UnknownDataException(AccessValidation.UNKNOWN_ERROR_MESSAGE);
+                throw new UnknownDbException(AccessValidation.UNKNOWN_ERROR_MESSAGE);
             }
         }
 
@@ -81,7 +81,7 @@ namespace Sports.Repository
             }
             catch (Exception)
             {
-                throw new UnknownDataException(AccessValidation.UNKNOWN_ERROR_MESSAGE);
+                throw new UnknownDbException(AccessValidation.UNKNOWN_ERROR_MESSAGE);
             }
         }
 
@@ -97,7 +97,7 @@ namespace Sports.Repository
             }
             catch (Exception)
             {
-                throw new UnknownDataException(AccessValidation.UNKNOWN_ERROR_MESSAGE);
+                throw new UnknownDbException(AccessValidation.UNKNOWN_ERROR_MESSAGE);
             }
         }
 
@@ -113,7 +113,7 @@ namespace Sports.Repository
             }
             catch (Exception)
             {
-                throw new UnknownDataException(AccessValidation.UNKNOWN_ERROR_MESSAGE);
+                throw new UnknownDbException(AccessValidation.UNKNOWN_ERROR_MESSAGE);
             }
         }
     }
