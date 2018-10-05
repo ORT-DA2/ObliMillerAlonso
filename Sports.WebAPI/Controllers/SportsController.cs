@@ -91,5 +91,21 @@ namespace Sports.WebAPI.Controllers
             return Ok(modelOut);
         }
 
+
+        [HttpGet("{id}/Teams", Name = "GetTeamsFromSport")]
+        public IActionResult GetTeams(int id, string token)
+        {
+            Guid realToken = Guid.Parse(token);
+            sportLogic.SetSession(realToken);
+            ICollection<Team> teams = sportLogic.GetTeamsFromSport(id);
+            ICollection<TeamModelOut> teamModels = new List<TeamModelOut>();
+            foreach (Team team in teams)
+            {
+                TeamModelOut model = mapper.Map<TeamModelOut>(team);
+                model.SportId = id;
+                teamModels.Add(model);
+            }
+            return Ok(teamModels);
+        }
     }
 }
