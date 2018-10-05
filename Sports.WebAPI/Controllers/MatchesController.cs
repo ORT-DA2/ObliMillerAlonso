@@ -46,27 +46,29 @@ namespace Sports.WebAPI.Controllers
             return Ok(modelOut);
         }
 
-        [HttpGet(Name = "GetAll")]
+        [HttpGet(Name = "GetAllMatches")]
         public IActionResult GetAll(string token)
         {
             Guid realToken = Guid.Parse(token);
-            teamLogic.SetSession(realToken);
-            ICollection<Sport> sportList = sportLogic.GetAll();
-            if (sportList == null)
+            matchLogic.SetSession(realToken);
+            ICollection<Match> matchList = matchLogic.GetAllMatches();
+            ICollection<MatchModelOut> matchModels = new List<MatchModelOut>();
+            foreach (Match match in matchList)
             {
-                return NotFound();
+                MatchModelOut model = MatchToModelOut(match);
+                matchModels.Add(model);
             }
-            ICollection<TeamModelOut> teamModels = new List<TeamModelOut>();
-            foreach (Sport sport in sportList)
-            {
-                foreach (Team team in sport.Teams)
-                {
-                    TeamModelOut model = mapper.Map<TeamModelOut>(team);
-                    model.SportId = sport.Id;
-                    teamModels.Add(model);
-                }
-            }
-            return Ok(teamModels.ToList());
+            return Ok(matchModels.ToList());
+        }
+
+        private MatchModelOut MatchToModelOut(Match match)
+        {
+            MatchModelOut model = mapper.Map<MatchModelOut>(match);
+            model.Date = match.Date.ToString();
+            model.LocalId = match.Local.Id;
+            model.VisitorId = match.Visitor.Id;
+            model.SportId = match.Sport.Id;
+            return model;
         }
 
         [HttpPut("{id}", Name = "ModifyTeam")]

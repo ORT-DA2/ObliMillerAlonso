@@ -41,8 +41,19 @@ namespace Sports.WebAPI.Tests
         [TestMethod]
         public void ValidGetMatches()
         {
+            Team team = new Team()
+            {
+                Id = 1
+            };
+            Sport sport = new Sport()
+            {
+                Id = 1
+            };
             Domain.Match match = new Domain.Match()
             {
+                Local = team,
+                Visitor = team,
+                Sport = sport,
                 Date = DateTime.Today,
             };
             ICollection<Domain.Match> matches = new List<Domain.Match>();
