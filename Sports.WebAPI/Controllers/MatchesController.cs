@@ -32,17 +32,13 @@ namespace Sports.WebAPI.Controllers
             mapper = new Mapper(config);
         }
 
-        [HttpGet("{id}", Name = "GetById")]
+        [HttpGet("{id}", Name = "GetMatchById")]
         public IActionResult Get(int id, string token)
         {
             Guid realToken = Guid.Parse(token);
             matchLogic.SetSession(realToken);
-            Team team = teamLogic.GetTeamById(id);
-            if (team == null)
-            {
-                return NotFound();
-            }
-            TeamModelOut modelOut = mapper.Map<TeamModelOut>(team);
+            Match match = matchLogic.GetMatchById(id);
+            MatchModelOut modelOut = MatchToModelOut(match);
             return Ok(modelOut);
         }
 

@@ -91,15 +91,14 @@ namespace Sports.WebAPI.Tests
                 Sport = sport,
                 Date = DateTime.Today,
             };
-
-
+            
             matchLogicMock.Setup(matchLogic => matchLogic.GetMatchById(It.IsAny<int>())).Returns(match);
 
-            IActionResult result = controller.GetAll(token);
+            IActionResult result = controller.Get(matchId, token);
             var okResult = result as OkObjectResult;
             var modelOut = okResult.Value as MatchModelOut;
 
-            sportLogicMock.VerifyAll();
+            matchLogicMock.VerifyAll();
 
             Assert.AreEqual(200, okResult.StatusCode);
             Assert.IsNotNull(modelOut);
