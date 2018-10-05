@@ -15,7 +15,7 @@ namespace Sports.WebAPI.Tests
 {
     [ExcludeFromCodeCoverage]
     [TestClass]
-    public class FavoriteControllerTest
+    public class FavoritesControllerTest
     {
         Mock<IFavoriteLogic> favoriteLogicMock;
         Mock<IUserLogic> userLogicMock;

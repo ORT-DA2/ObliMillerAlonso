@@ -69,5 +69,10 @@ namespace Sports.Logic.Constants
         public const string NON_ADMIN_EXCEPTION_MESSAGE = "You are not an admin.";
     }
 
+    public static class AccessValidation
+    {
+        public const string INVALID_ACCESS_MESSAGE = "Could not reach database.";
+        public const string UNKNOWN_ERROR_MESSAGE = "An unexpected error ocuured.";
+    }
 
 }

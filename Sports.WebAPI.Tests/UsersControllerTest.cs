@@ -15,7 +15,7 @@ namespace Sports.WebAPI.Tests
 {
     [ExcludeFromCodeCoverage]
     [TestClass]
-    public class UserControllerTest
+    public class UsersControllerTest
     {
         Mock<IUserLogic> userLogicMock;
         Mock<ISessionLogic> sessionLogicMock;

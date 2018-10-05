@@ -89,7 +89,7 @@ namespace Sports.WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
 
         }
@@ -106,7 +106,7 @@ namespace Sports.WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
 
         }
@@ -133,7 +133,7 @@ namespace Sports.WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
         }
         public IActionResult Logout([FromHeader]Guid token)
@@ -146,7 +146,7 @@ namespace Sports.WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return NotFound(ex.Message);
             }
         }
     }

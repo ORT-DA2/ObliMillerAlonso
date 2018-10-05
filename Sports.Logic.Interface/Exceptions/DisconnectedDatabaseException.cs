@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Sports.Repository.Exceptions
+namespace Sports.Logic.Exceptions
 {
     [Serializable]
     public class DisconnectedDatabaseException : Exception

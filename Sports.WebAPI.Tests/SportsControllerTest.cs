@@ -15,40 +15,32 @@ namespace Sports.WebAPI.Tests
 {
     [ExcludeFromCodeCoverage]
     [TestClass]
-    public class TeamControllerTest
+    public class SportsControllerTest
     {
-        Mock<ITeamLogic> teamLogicMock;
         Mock<ISportLogic> sportLogicMock;
-        TeamsController controller;
+        Mock<ITeamLogic> teamLogicMock;
+        SportsController controller;
         IMapper mapper;
         Guid token;
 
         [TestInitialize]
         public void SetUp()
         {
-
             teamLogicMock = new Mock<ITeamLogic>();
             sportLogicMock = new Mock<ISportLogic>();
             var config = new MapperConfiguration(cfg => cfg.AddProfile(new MapperProfile()));
             IMapper mapper = new Mapper(config);
-            controller = new TeamsController(teamLogicMock.Object, sportLogicMock.Object);
-            teamLogicMock.Setup(teamLogic => teamLogic.SetSession(It.IsAny<Guid>()));
+            controller = new SportsController(teamLogicMock.Object,sportLogicMock.Object);
+            sportLogicMock.Setup(sportLogic => sportLogic.SetSession(It.IsAny<Guid>()));
             token = new Guid();
         }
 
         [TestMethod]
-        public void ValidGetTeams()
+        public void ValidGetSports()
         {
-            Team fakeTeam = new Team()
-            {
-                Name = "Team"
-            };
-            ICollection<Team> teams = new List<Team>();
-            teams.Add(fakeTeam);
             Sport fakeSport = new Sport()
             {
-                Name = "Rugby",
-                Teams = teams
+                Name = "Rugby"
             };
             ICollection<Sport> sports = new List<Sport>();
             sports.Add(fakeSport);
@@ -57,35 +49,56 @@ namespace Sports.WebAPI.Tests
 
             IActionResult result = controller.GetAll(token);
             var okResult = result as OkObjectResult;
-            var modelOut = okResult.Value as ICollection<TeamModelOut>;
+            var modelOut = okResult.Value as ICollection<SportModelOut>;
 
-            teamLogicMock.VerifyAll();
+            sportLogicMock.VerifyAll();
 
             Assert.AreEqual(200, okResult.StatusCode);
             Assert.IsNotNull(modelOut);
         }
 
         [TestMethod]
-        public void ValidGetTeamById()
+        public void ValidGetSportById()
         {
-            int teamId = 1;
-            Team fakeTeam = new Team()
+            int sportId = 1;
+            Sport fakeSport = new Sport()
             {
-                Id = teamId,
-                Name = "Team"
+                Id = sportId,
+                Name = "Rugby"
             };
 
-            teamLogicMock.Setup(teamLogic => teamLogic.GetTeamById(teamId)).Returns(fakeTeam);
+            sportLogicMock.Setup(sportLogic => sportLogic.GetSportById(It.IsAny<int>())).Returns(fakeSport);
 
-            IActionResult result = controller.Get(teamId, token);
+            IActionResult result = controller.Get(sportId, token);
             var okResult = result as OkObjectResult;
-            var modelOut = okResult.Value as TeamModelOut;
+            var modelOut = okResult.Value as SportModelOut;
 
-            teamLogicMock.VerifyAll();
+            sportLogicMock.VerifyAll();
 
             Assert.AreEqual(200, okResult.StatusCode);
             Assert.IsNotNull(modelOut);
         }
+
+        [TestMethod]
+        public void ValidAddSport()
+        {
+            int sportId = 1;
+            Sport fakeSport = new Sport()
+            {
+                Id = sportId,
+                Name = "Rugby"
+            };
+
+            sportLogicMock.Setup(sportLogic => sportLogic.AddSport(It.IsAny<Sport>()));
+
+            IActionResult result = controller.PostSport(fakeSport, token);
+            var okResult = result as OkObjectResult;
+
+            sportLogicMock.VerifyAll();
+
+            Assert.AreEqual(200, okResult.StatusCode);
+        }
+
 
     }
 }

@@ -8,7 +8,7 @@ using Sports.Repository.Interface;
 using Sports.Repository;
 using Microsoft.EntityFrameworkCore;
 using Sports.Logic;
-using Sports.Repository.Exceptions;
+using Sports.Logic.Exceptions;
 using Sports.Logic.Interface;
 using Sports.Repository.UnitOfWork;
 using Sports.Domain;
@@ -37,28 +37,28 @@ namespace Sports.Repository.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(UnknownDatabaseException))]
+        [ExpectedException(typeof(UnknownDataException))]
         public void UnknownErrorSave()
         {
             teamRepository.Save();
         }
 
         [TestMethod]
-        [ExpectedException(typeof(UnknownDatabaseException))]
+        [ExpectedException(typeof(UnknownDataException))]
         public void UnknownErrorAddTeam()
         {
             teamRepository.Create(team);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(UnknownDatabaseException))]
+        [ExpectedException(typeof(UnknownDataException))]
         public void UnknownErrorDeleteTeam()
         {
             teamRepository.Delete(team);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(UnknownDatabaseException))]
+        [ExpectedException(typeof(UnknownDataException))]
         public void UnknownErrorUpdateTeam()
         {
             teamRepository.Update(team);
