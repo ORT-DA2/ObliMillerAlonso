@@ -11,6 +11,7 @@ using Sports.Domain.Exceptions;
 using Sports.Logic.Exceptions;
 using System.Web;
 using AutoMapper;
+using System.Globalization;
 
 namespace Sports.WebAPI.Controllers
 {
@@ -65,6 +66,27 @@ namespace Sports.WebAPI.Controllers
             model.VisitorId = match.Visitor.Id;
             model.SportId = match.Sport.Id;
             return model;
+        }
+
+        [HttpPost(Name = "AddMatch")]
+        public IActionResult Post([FromBody] MatchModelIn matchIn, string token)
+        {
+            Guid realToken = Guid.Parse(token);
+            matchLogic.SetSession(realToken);
+            Match match = ModelToMatch(matchIn);
+            matchLogic.AddMatch(match);
+            MatchModelOut modelOut = MatchToModelOut(match);
+            return Ok(modelOut);
+        }
+
+        private Match ModelToMatch(MatchModelIn matchIn)
+        {
+            Match match = mapper.Map<Match>(matchIn);
+            match.Date = DateTime.ParseExact(matchIn.Date, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
+            match.Local = new Team() { Id = matchIn.LocalId };
+            match.Visitor = new Team() { Id = matchIn.VisitorId };
+            match.Sport = new Sport() { Id = matchIn.SportId };
+            return match;
         }
 
         [HttpPut("{id}", Name = "ModifyTeam")]

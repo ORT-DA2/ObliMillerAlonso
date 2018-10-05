@@ -128,7 +128,7 @@ namespace Sports.WebAPI.Tests
                 LocalId = team.Id,
                 VisitorId = team.Id,
                 SportId = sport.Id,
-                Date = DateTime.Today.ToString()
+                Date = DateTime.Today.ToString("dd/MM/yyyy HH:mm")
         };
 
             matchLogicMock.Setup(matchLogic => matchLogic.AddMatch(It.IsAny<Domain.Match>()));
