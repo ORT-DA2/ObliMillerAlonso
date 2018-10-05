@@ -120,5 +120,21 @@ namespace Sports.WebAPI.Tests
         }
 
 
+        [TestMethod]
+        public void ValidDeleteSport()
+        {
+            int sportId = 1;
+
+            sportLogicMock.Setup(sportLogic => sportLogic.RemoveSport(It.IsAny<int>()));
+
+            IActionResult result = controller.DeleteSport(sportId, token);
+            var okResult = result as OkObjectResult;
+
+            sportLogicMock.VerifyAll();
+
+            Assert.AreEqual(200, okResult.StatusCode);
+        }
+
+
     }
 }
