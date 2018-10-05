@@ -56,7 +56,29 @@ namespace Sports.WebAPI.Tests
             Assert.AreEqual(200, okResult.StatusCode);
             Assert.IsNotNull(modelOut);
         }
-        
+
+        [TestMethod]
+        public void ValidGetSportById()
+        {
+            int sportId = 1;
+            Sport fakeSport = new Sport()
+            {
+                Id = sportId,
+                Name = "Rugby"
+            };
+
+            sportLogicMock.Setup(sportLogic => sportLogic.GetSportById(It.IsAny<int>())).Returns(fakeSport);
+
+            IActionResult result = controller.Get(sportId, token);
+            var okResult = result as OkObjectResult;
+            var modelOut = okResult.Value as SportModelOut;
+
+            sportLogicMock.VerifyAll();
+
+            Assert.AreEqual(200, okResult.StatusCode);
+            Assert.IsNotNull(modelOut);
+        }
+
 
     }
 }
