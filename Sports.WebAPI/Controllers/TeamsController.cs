@@ -31,10 +31,10 @@ namespace Sports.WebAPI.Controllers
         }
 
         [HttpGet("{id}", Name = "GetById")]
-        public IActionResult Get(int id, [FromHeader] Guid token)
+        public IActionResult Get(int id, string token)
         {
-            RequestHeaderIsNotNull(token);
-            teamLogic.SetSession(token);
+            Guid realToken = Guid.Parse(token);
+            teamLogic.SetSession(realToken);
             Team team = teamLogic.GetTeamById(id);
             if (team == null)
             {
@@ -45,10 +45,10 @@ namespace Sports.WebAPI.Controllers
         }
 
         [HttpGet(Name = "GetAll")]
-        public IActionResult GetAll([FromHeader] Guid token)
+        public IActionResult GetAll(string token)
         {
-            RequestHeaderIsNotNull(token);
-            teamLogic.SetSession(token);
+            Guid realToken = Guid.Parse(token);
+            teamLogic.SetSession(realToken);
             ICollection<Sport> sportList = sportLogic.GetAll();
             if (sportList == null)
             {
@@ -67,12 +67,7 @@ namespace Sports.WebAPI.Controllers
             return Ok(teamModels.ToList());
         }
         
-
-        private void RequestHeaderIsNotNull(object Object)
-        {
-            if (Object == null)
-                throw new ArgumentNullException("Invalid parameters, check the fields.");
-        }
+        
 
     }
 }

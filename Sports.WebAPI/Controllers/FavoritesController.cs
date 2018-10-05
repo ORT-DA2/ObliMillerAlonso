@@ -31,14 +31,12 @@ namespace Sports.WebAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult PostFavorite([FromBody] TeamModelIn teamIn, [FromHeader] Guid token)
+        public IActionResult PostFavorite([FromBody] TeamModelIn teamIn, string token)
         {
             try
             {
-                RequestHeaderIsNotNull(token);
-                userLogic.SetSession(token);
-                favoriteLogic.SetSession(token);
-                RequestBodyIsNotNull(teamIn);
+                Guid realToken = Guid.Parse(token);
+                favoriteLogic.SetSession(realToken);
                 Team team = mapper.Map<Team>(teamIn);
                 favoriteLogic.AddFavoriteTeam(team);
                 return Ok("Favorite added successfully.");
@@ -51,41 +49,22 @@ namespace Sports.WebAPI.Controllers
         }
 
         [HttpGet("FavoriteTeams",Name = "GetFavoritesForUser")]
-        public IActionResult GetFavoritesForUser( [FromHeader] Guid token)
+        public IActionResult GetFavoritesForUser(string token)
         {
-            RequestHeaderIsNotNull(token);
-            favoriteLogic.SetSession(token);
+            Guid realToken = Guid.Parse(token);
+            favoriteLogic.SetSession(realToken);
             ICollection<Team> favoriteTeams = favoriteLogic.GetFavoritesFromUser();
-            if(favoriteTeams.Count == 0)
-            {
-                return NotFound();
-            }
             return Ok(favoriteTeams.ToList());
         }
 
         [HttpGet("FavoriteComments", Name = "GetFavoritesTeamsComents")]
-        public IActionResult GetFavoritesTeamsComents([FromHeader] Guid token)
+        public IActionResult GetFavoritesTeamsComents(string token)
         {
-            RequestHeaderIsNotNull(token);
-            favoriteLogic.SetSession(token);
+            Guid realToken = Guid.Parse(token);
+            favoriteLogic.SetSession(realToken);
             ICollection<Comment> favoriteTeamsComments = favoriteLogic.GetFavoritesTeamsComments();
-            if (favoriteTeamsComments.Count == 0)
-            {
-                return NotFound();
-            }
             return Ok(favoriteTeamsComments.ToList());
         }
         
-        private void RequestBodyIsNotNull(object Object)
-        {
-            if (Object == null)
-                throw new ArgumentNullException("Invalid parameters, check the fields.");
-        }
-
-        private void RequestHeaderIsNotNull(object Object)
-        {
-            if (Object == null)
-                throw new ArgumentNullException("Invalid parameters, check the fields.");
-        }
     }
 }

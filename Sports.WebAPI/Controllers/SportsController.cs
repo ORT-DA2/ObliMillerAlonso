@@ -31,45 +31,64 @@ namespace Sports.WebAPI.Controllers
         }
 
         [HttpGet("{id}", Name = "GetById")]
-        public IActionResult Get(int id, [FromHeader] Guid token)
+        public IActionResult Get(int id, string token)
         {
-            sportLogic.SetSession(token);
+            Guid realToken = Guid.Parse(token);
+            sportLogic.SetSession(realToken);
             Sport sport = sportLogic.GetSportById(id);
             SportModelOut modelOut = mapper.Map<SportModelOut>(sport);
             return Ok(modelOut);
         }
 
         [HttpGet(Name = "GetAll")]
-        public IActionResult GetAll([FromHeader] Guid token)
+        public IActionResult GetAll(string token)
         {
-            sportLogic.SetSession(token);
+            Guid realToken = Guid.Parse(token);
+            sportLogic.SetSession(realToken);
             ICollection<Sport> sportList = sportLogic.GetAll();
             ICollection<SportModelOut> teamModels = new List<SportModelOut>();
             return Ok(teamModels.ToList());
         }
 
         [HttpPost(Name = "AddSport")]
-        public IActionResult PostSport([FromBody] Sport fakeSport,[FromHeader] Guid token)
+        public IActionResult PostSport([FromBody] SportModelIn sportIn, string token)
         {
-            sportLogic.SetSession(token);
-            Sport sport = mapper.Map<Sport>(fakeSport);
+            Guid realToken = Guid.Parse(token);
+            sportLogic.SetSession(realToken);
+            Sport sport = mapper.Map<Sport>(sportIn);
             sportLogic.AddSport(sport);
-            return Ok("Succesfully added");
+            SportModelOut modelOut = mapper.Map<SportModelOut>(sport);
+            return Ok(modelOut);
         }
 
-        public IActionResult PutSport(Sport fakeSport, Guid token)
+        [HttpPut("{id}", Name = "ModifySport")]
+        public IActionResult PutSport(int id, [FromBody]  SportModelIn sportIn, string token)
         {
-            sportLogic.SetSession(token);
-            Sport sport = mapper.Map<Sport>(fakeSport);
+            Guid realToken = Guid.Parse(token);
+            sportLogic.SetSession(realToken);
+            Sport sport = mapper.Map<Sport>(sportIn);
             sportLogic.ModifySport(sport.Id,sport);
             return Ok("Succesfully modified");
         }
 
-        public IActionResult DeleteSport(int sportId, Guid token)
+        [HttpDelete("{id}",Name = "DeleteSport")]
+        public IActionResult DeleteSport(int id, string token)
         {
-            sportLogic.SetSession(token);
-            sportLogic.RemoveSport(sportId);
+            Guid realToken = Guid.Parse(token);
+            sportLogic.SetSession(realToken);
+            sportLogic.RemoveSport(id);
             return Ok("Succesfully deleted sport");
+        }
+
+        [HttpPost("{id}/Teams",Name = "AddTeam")]
+        public IActionResult PostTeam(int id, [FromBody] TeamModelIn teamIn, string token)
+        {
+            Guid realToken = Guid.Parse(token);
+            sportLogic.SetSession(realToken);
+            Team team = mapper.Map<Team>(teamIn);
+            sportLogic.AddTeamToSport(id,team);
+            TeamModelOut modelOut = mapper.Map<TeamModelOut>(team);
+            return Ok(modelOut);
         }
     }
 }

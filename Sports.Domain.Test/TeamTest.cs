@@ -16,9 +16,9 @@ namespace Sports.Domain.Test
     [TestClass]
     public class TeamTest
     {
-        string _testImagePath;
-        string _invalidFilePath;
-        string _largeFilePath;
+        string testImagePath;
+        string invalidFilePath;
+        string largeFilePath;
         Team team;
         [TestInitialize]
         public void SetUp()
@@ -29,9 +29,9 @@ namespace Sports.Domain.Test
 
             };
             JObject jsonPaths = JObject.Parse(File.ReadAllText(@"testFilesPaths.json"));
-            _testImagePath = jsonPaths.SelectToken("testImagePath").ToString();
-            _invalidFilePath = jsonPaths.SelectToken("invalidFilePath").ToString();
-            _largeFilePath = jsonPaths.SelectToken("bigImgPath").ToString();
+            testImagePath = jsonPaths.SelectToken("testImagePath").ToString();
+            invalidFilePath = jsonPaths.SelectToken("invalidFilePath").ToString();
+            largeFilePath = jsonPaths.SelectToken("bigImgPath").ToString();
         }
 
         [TestMethod]
@@ -62,8 +62,8 @@ namespace Sports.Domain.Test
         [TestMethod]
         public void AddPictureFromPath()
         {
-            team.AddPictureFromPath(_testImagePath);
-            byte[] file = File.ReadAllBytes(_testImagePath);
+            team.AddPictureFromPath(testImagePath);
+            byte[] file = File.ReadAllBytes(testImagePath);
             string fileString = System.Text.Encoding.UTF8.GetString(file);
             Assert.AreEqual<string>(fileString, team.Picture);
         }
@@ -80,14 +80,14 @@ namespace Sports.Domain.Test
         [TestMethod]
         public void InvalidFile()
         {
-            team.AddPictureFromPath(_invalidFilePath);
+            team.AddPictureFromPath(invalidFilePath);
         }
 
         [ExpectedException(typeof(InvalidTeamImageException))]
         [TestMethod]
         public void OversizedFile()
         {
-            team.AddPictureFromPath(_largeFilePath);
+            team.AddPictureFromPath(largeFilePath);
         }
 
         [TestMethod]

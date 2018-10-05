@@ -21,7 +21,7 @@ namespace Sports.WebAPI.Tests
         Mock<IUserLogic> userLogicMock;
         FavoritesController controller;
         IMapper mapper;
-        Guid token;
+        string token;
 
         [TestInitialize]
         public void SetUp()
@@ -34,7 +34,7 @@ namespace Sports.WebAPI.Tests
             controller = new FavoritesController(userLogicMock.Object, favoriteLogicMock.Object);
             favoriteLogicMock.Setup(favoriteLogic => favoriteLogic.SetSession(It.IsAny<Guid>()));
             userLogicMock.Setup(userLogic => userLogic.SetSession(It.IsAny<Guid>()));
-            token = new Guid();
+            token = new Guid().ToString();
         }
 
         [TestMethod]

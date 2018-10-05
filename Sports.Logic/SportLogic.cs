@@ -65,10 +65,11 @@ namespace Sports.Logic
             return sports.First();
         }
 
-        public Team GetTeamFromSport(Sport sport, Team team)
+        public Team GetTeamFromSport(int sportId, int teamId)
         {
             sessionLogic.ValidateUserNotNull(user);
-            Sport realSport = GetSportById(sport.Id);
+            Sport realSport = GetSportById(sportId);
+            Team team = teamLogic.GetTeamById(teamId);
             return teamLogic.GetTeamById(realSport.GetTeam(team).Id);
         }
 
@@ -108,11 +109,11 @@ namespace Sports.Logic
             return repository.FindAll();
         }
         
-        public void AddTeamToSport(Sport sport, Team team)
+        public void AddTeamToSport(int sportId, Team team)
         {
             sessionLogic.ValidateUser(user);
-            Sport realSport = GetSportById(sport.Id);
-            CheckTeamIsNotUsed(sport, team);
+            Sport realSport = GetSportById(sportId);
+            CheckTeamIsNotUsed(realSport, team);
             teamLogic.AddTeam(team);
             realSport.AddTeam(team);
             repository.Update(realSport);
@@ -127,23 +128,23 @@ namespace Sports.Logic
             }
         }
 
-        public void DeleteTeamFromSport(Sport sport, Team team)
+        public void DeleteTeamFromSport(int sportId, int teamId)
         {
             sessionLogic.ValidateUser(user);
-            Sport realSport = GetSportById(sport.Id);
-            Team realTeam = teamLogic.GetTeamById(team.Id);
+            Sport realSport = GetSportById(sportId);
+            Team realTeam = teamLogic.GetTeamById(teamId);
             teamLogic.Delete(realTeam);
             repository.Update(realSport);
             repository.Save();
         }
 
-        public void UpdateTeamSport(int id, Team originalTeam, Team teamChanges)
+        public void UpdateTeamSport(int sportId, int teamId, Team teamChanges)
         {
             sessionLogic.ValidateUser(user);
-            Sport originalsport = GetSportById(id);
-            Team original = GetTeamFromSport(originalsport, originalTeam);
+            Team original = GetTeamFromSport(sportId, teamId);
             teamLogic.Modify(original.Id, teamChanges);
-            repository.Update(originalsport);
+            Sport originalSport = GetSportById(sportId);
+            repository.Update(originalSport);
             repository.Save();
         }
 

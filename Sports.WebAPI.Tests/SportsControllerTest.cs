@@ -21,7 +21,7 @@ namespace Sports.WebAPI.Tests
         Mock<ITeamLogic> teamLogicMock;
         SportsController controller;
         IMapper mapper;
-        Guid token;
+        string token;
 
         [TestInitialize]
         public void SetUp()
@@ -32,7 +32,7 @@ namespace Sports.WebAPI.Tests
             IMapper mapper = new Mapper(config);
             controller = new SportsController(teamLogicMock.Object,sportLogicMock.Object);
             sportLogicMock.Setup(sportLogic => sportLogic.SetSession(It.IsAny<Guid>()));
-            token = new Guid();
+            token = new Guid().ToString();
         }
 
         [TestMethod]
@@ -82,36 +82,36 @@ namespace Sports.WebAPI.Tests
         [TestMethod]
         public void ValidAddSport()
         {
-            int sportId = 1;
-            Sport fakeSport = new Sport()
+            SportModelIn sportModel = new SportModelIn()
             {
-                Id = sportId,
                 Name = "Rugby"
             };
 
             sportLogicMock.Setup(sportLogic => sportLogic.AddSport(It.IsAny<Sport>()));
 
-            IActionResult result = controller.PostSport(fakeSport, token);
+            IActionResult result = controller.PostSport(sportModel, token);
             var okResult = result as OkObjectResult;
+            var modelOut = okResult.Value as SportModelOut;
 
             sportLogicMock.VerifyAll();
 
             Assert.AreEqual(200, okResult.StatusCode);
+            Assert.IsNotNull(modelOut);
         }
 
         [TestMethod]
         public void ValidModifySport()
         {
             int sportId = 1;
-            Sport fakeSport = new Sport()
+            SportModelIn sportModel = new SportModelIn()
             {
-                Id = sportId,
                 Name = "Soccer"
             };
 
+
             sportLogicMock.Setup(sportLogic => sportLogic.ModifySport(It.IsAny<int>(),It.IsAny<Sport>()));
 
-            IActionResult result = controller.PutSport(fakeSport, token);
+            IActionResult result = controller.PutSport(sportId, sportModel, token);
             var okResult = result as OkObjectResult;
 
             sportLogicMock.VerifyAll();
@@ -136,5 +136,25 @@ namespace Sports.WebAPI.Tests
         }
 
 
+        [TestMethod]
+        public void ValidAddTeam()
+        {
+
+            TeamModelIn fakeTeam = new TeamModelIn()
+            {
+                Name = "Team"
+            };
+            int sportId = 1;
+            
+
+            sportLogicMock.Setup(sportLogic => sportLogic.AddTeamToSport(It.IsAny<int>(),It.IsAny<Team>()));
+
+            IActionResult result = controller.PostTeam(sportId,fakeTeam, token);
+            var okResult = result as OkObjectResult;
+
+            sportLogicMock.VerifyAll();
+
+            Assert.AreEqual(200, okResult.StatusCode);
+        }
     }
 }

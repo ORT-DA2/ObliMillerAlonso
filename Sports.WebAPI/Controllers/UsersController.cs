@@ -31,20 +31,20 @@ namespace Sports.WebAPI.Controllers
         }
 
         [HttpGet("{id}", Name = "GetById")]
-        public IActionResult Get(int id, [FromHeader] Guid token)
+        public IActionResult Get(int id, string token)
         {
-            RequestHeaderIsNotNull(token);
-            userLogic.SetSession(token);
+            Guid realToken = Guid.Parse(token);
+            userLogic.SetSession(realToken);
             User user = userLogic.GetUserById(id);
             UserModelOut modelOut = mapper.Map<UserModelOut>(user);
             return Ok(modelOut);
         }
 
         [HttpGet(Name = "GetAll")]
-        public IActionResult GetAll([FromHeader] Guid token)
+        public IActionResult GetAll(string token)
         {
-            RequestHeaderIsNotNull(token);
-            userLogic.SetSession(token);
+            Guid realToken = Guid.Parse(token);
+            userLogic.SetSession(realToken);
             ICollection<User> userList = userLogic.GetAll();
             ICollection<UserModelOut> userModels = new List<UserModelOut>();
             foreach (User user in userList)
@@ -56,13 +56,12 @@ namespace Sports.WebAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult PostUser([FromBody] UserModelIn userIn, [FromHeader] Guid token)
+        public IActionResult PostUser([FromBody] UserModelIn userIn, string token)
         {
             try
             {
-                RequestHeaderIsNotNull(token);
-                userLogic.SetSession(token);
-                RequestBodyIsNotNull(userIn);
+                Guid realToken = Guid.Parse(token);
+                userLogic.SetSession(realToken);
                 User user = mapper.Map<User>(userIn);
                 userLogic.AddUser(user);
                 UserModelOut modelOut = mapper.Map<UserModelOut>(user);
@@ -76,13 +75,12 @@ namespace Sports.WebAPI.Controllers
         }
 
         [HttpPut]
-        public IActionResult PutUser([FromHeader] int userId, [FromBody]UserModelIn newUser, [FromHeader] Guid token)
+        public IActionResult PutUser([FromHeader] int userId, [FromBody]UserModelIn newUser, string token)
         {
             try
             {
-                RequestHeaderIsNotNull(token);
-                userLogic.SetSession(token);
-                RequestBodyIsNotNull(newUser);
+                Guid realToken = Guid.Parse(token);
+                userLogic.SetSession(realToken);
                 User user = mapper.Map<User>(newUser);
                 userLogic.UpdateUser(userId, user);
                 return Ok("User modified correctly.");
@@ -95,12 +93,12 @@ namespace Sports.WebAPI.Controllers
         }
 
         [HttpDelete]
-        public IActionResult DeleteUser([FromHeader] int userId, [FromHeader] Guid token)
+        public IActionResult DeleteUser([FromHeader] int userId, string token)
         {
             try
             {
-                RequestHeaderIsNotNull(token);
-                userLogic.SetSession(token);
+                Guid realToken = Guid.Parse(token);
+                userLogic.SetSession(realToken);
                 userLogic.RemoveUser(userId);
                 return Ok("User deleted");
             }
@@ -110,24 +108,12 @@ namespace Sports.WebAPI.Controllers
             }
 
         }
-
-        private void RequestBodyIsNotNull(object Object)
-        {
-            if (Object == null)
-                throw new ArgumentNullException("Invalid parameters, check the fields.");
-        }
-
-        private void RequestHeaderIsNotNull(object Object)
-        {
-            if (Object == null)
-                throw new ArgumentNullException("Invalid parameters, check the fields.");
-        }
+        
 
         public IActionResult Login([FromBody]LoginModel modelIn)
         {
             try
             {
-                RequestBodyIsNotNull(modelIn);
                 Guid token = sessionLogic.LogInUser(modelIn.Username,modelIn.Password);
                 return Ok(token.ToString());
             }
@@ -136,12 +122,12 @@ namespace Sports.WebAPI.Controllers
                 return NotFound(ex.Message);
             }
         }
-        public IActionResult Logout([FromHeader]Guid token)
+        public IActionResult Logout(string token)
         {
             try
             {
-                RequestHeaderIsNotNull(token);
-                sessionLogic.LogoutByToken(token);
+                Guid realToken = Guid.Parse(token);
+                sessionLogic.LogoutByToken(realToken);
                 return Ok("Succesfully logged out");
             }
             catch (Exception ex)

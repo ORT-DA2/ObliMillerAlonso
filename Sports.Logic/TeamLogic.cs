@@ -120,7 +120,10 @@ namespace Sports.Logic
 
         private void FilterByOrder(string order, ICollection<Team> teams)
         {
-            if (order.Equals(this.ascending))
+            if (String.IsNullOrWhiteSpace(order))
+            {
+            }
+            else if (order.Equals(this.ascending))
             {
                 teams.OrderBy(t => t.Name);
             }

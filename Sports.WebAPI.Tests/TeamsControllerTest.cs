@@ -21,7 +21,7 @@ namespace Sports.WebAPI.Tests
         Mock<ISportLogic> sportLogicMock;
         TeamsController controller;
         IMapper mapper;
-        Guid token;
+        string token;
 
         [TestInitialize]
         public void SetUp()
@@ -33,7 +33,7 @@ namespace Sports.WebAPI.Tests
             IMapper mapper = new Mapper(config);
             controller = new TeamsController(teamLogicMock.Object, sportLogicMock.Object);
             teamLogicMock.Setup(teamLogic => teamLogic.SetSession(It.IsAny<Guid>()));
-            token = new Guid();
+            token = new Guid().ToString();
         }
 
         [TestMethod]

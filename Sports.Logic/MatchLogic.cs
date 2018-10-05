@@ -33,6 +33,7 @@ namespace Sports.Logic
         {
             sessionLogic.ValidateUser(user);
             ValidateMatch(match);
+            CheckMatchDoesntExist(match);
             repository.Create(match);
             repository.Save();
         }
@@ -43,15 +44,14 @@ namespace Sports.Logic
             CheckNotNull(match);
             match.IsValid();
             ValidateSport(match);
-            CheckMatchDoesntExist(match);
         }
 
         private void CheckMatchDoesntExist(Match match)
         {
-            ICollection<Match> matches = repository.FindByCondition(m => IsInMatch(match.Local,m) || IsInMatch(match.Visitor,m));
-            if (matches.Count == 0)
+            ICollection<Match> matches = repository.FindByCondition(m => (IsInMatch(match.Local,m) || IsInMatch(match.Visitor,m))&&m.Date.DayOfYear==match.Date.DayOfYear);
+            if (matches.Count != 0)
             {
-                throw new MatchDoesNotExistException("Team has no matches");
+                throw new MatchAlreadyExistsException("Team already plays that day.");
             }
         }
 
@@ -68,8 +68,8 @@ namespace Sports.Logic
             Team local = match.Local;
             Team visitor = match.Visitor;
             match.Sport = sportLogic.GetSportById(sport.Id);
-            match.Local = sportLogic.GetTeamFromSport(sport, local);
-            match.Visitor = sportLogic.GetTeamFromSport(sport, visitor);
+            match.Local = sportLogic.GetTeamFromSport(sport.Id, local.Id);
+            match.Visitor = sportLogic.GetTeamFromSport(sport.Id, visitor.Id);
         }
 
         private void CheckNotNull(Match match)
@@ -159,6 +159,7 @@ namespace Sports.Logic
         {
             foreach(Match match in matches)
             {
+                DateTime date = match.Date.Date;
                 AddMatch(match);
             }
         }

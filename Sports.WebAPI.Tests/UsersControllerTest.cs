@@ -21,7 +21,7 @@ namespace Sports.WebAPI.Tests
         Mock<ISessionLogic> sessionLogicMock;
         UsersController controller;
         IMapper mapper;
-        Guid token;
+        string token;
 
        [TestInitialize]
         public void SetUp()
@@ -32,7 +32,7 @@ namespace Sports.WebAPI.Tests
             var config = new MapperConfiguration(cfg => cfg.AddProfile(new MapperProfile()));
             mapper = new Mapper(config);
             controller = new UsersController(userLogicMock.Object, sessionLogicMock.Object);
-            token = new Guid();
+            token = new Guid().ToString();
         }
 
         [TestMethod]
@@ -171,7 +171,7 @@ namespace Sports.WebAPI.Tests
         [TestMethod]
         public void ValidLogout()
         {
-            Guid token = new Guid();
+            string token = new Guid().ToString();
 
             sessionLogicMock.Setup(sessionLogic => sessionLogic.LogoutByToken(It.IsAny<Guid>()));
 
