@@ -99,6 +99,25 @@ namespace Sports.WebAPI.Tests
             Assert.AreEqual(200, okResult.StatusCode);
         }
 
+        [TestMethod]
+        public void ValidModifySport()
+        {
+            int sportId = 1;
+            Sport fakeSport = new Sport()
+            {
+                Name = "Soccer"
+            };
+
+            sportLogicMock.Setup(sportLogic => sportLogic.ModifySport(It.IsAny<int>(),It.IsAny<Sport>()));
+
+            IActionResult result = controller.PutSport(fakeSport, token);
+            var okResult = result as OkObjectResult;
+
+            sportLogicMock.VerifyAll();
+
+            Assert.AreEqual(200, okResult.StatusCode);
+        }
+
 
     }
 }
