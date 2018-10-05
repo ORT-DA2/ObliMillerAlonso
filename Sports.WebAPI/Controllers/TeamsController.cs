@@ -19,20 +19,22 @@ namespace Sports.WebAPI.Controllers
     public class TeamsController : ControllerBase
     {
         private ITeamLogic teamLogic;
+        private ISportLogic sportLogic;
         private IMapper mapper;
 
-        public TeamsController(ITeamLogic aTeamLogic)
+        public TeamsController(ITeamLogic aTeamLogic, ISportLogic aSportLogic)
         {
             teamLogic = aTeamLogic;
+            sportLogic = aSportLogic;
             var config = new MapperConfiguration(cfg => cfg.AddProfile(new MapperProfile()));
             mapper = new Mapper(config);
         }
 
         [HttpGet("{id}", Name = "GetById")]
-        public IActionResult Get(int id, [FromHeader] Guid token)
+        public IActionResult Get(int id, string token)
         {
-            RequestHeaderIsNotNull(token);
-            teamLogic.SetSession(token);
+            Guid realToken = Guid.Parse(token);
+            teamLogic.SetSession(realToken);
             Team team = teamLogic.GetTeamById(id);
             if (team == null)
             {
@@ -43,30 +45,45 @@ namespace Sports.WebAPI.Controllers
         }
 
         [HttpGet(Name = "GetAll")]
-        public IActionResult GetAll([FromHeader] Guid token)
+        public IActionResult GetAll(string token)
         {
-            RequestHeaderIsNotNull(token);
-            teamLogic.SetSession(token);
-            ICollection<Team> teamList = teamLogic.GetAll();
-            if (teamList == null)
+            Guid realToken = Guid.Parse(token);
+            teamLogic.SetSession(realToken);
+            ICollection<Sport> sportList = sportLogic.GetAll();
+            if (sportList == null)
             {
                 return NotFound();
             }
             ICollection<TeamModelOut> teamModels = new List<TeamModelOut>();
-            foreach (Team team in teamList)
+            foreach (Sport sport in sportList)
             {
-                TeamModelOut model = mapper.Map<TeamModelOut>(team);
-                teamModels.Add(model);
+                foreach (Team team in sport.Teams)
+                {
+                    TeamModelOut model = mapper.Map<TeamModelOut>(team);
+                    model.SportId = sport.Id;
+                    teamModels.Add(model);
+                }
             }
             return Ok(teamModels.ToList());
         }
-        
 
-        private void RequestHeaderIsNotNull(object Object)
+        [HttpPut("{id}", Name = "ModifyTeam")]
+        public IActionResult PutTeam(int id, [FromBody] TeamModelIn teamIn, string token)
         {
-            if (Object == null)
-                throw new ArgumentNullException("Invalid parameters, check the fields.");
+            Guid realToken = Guid.Parse(token);
+            teamLogic.SetSession(realToken);
+            Team team = mapper.Map<Team>(teamIn);
+            teamLogic.Modify(id, team);
+            return Ok("Team modified succesfully");
         }
 
+        [HttpDelete("{id}", Name = "DeleteTeam")]
+        public IActionResult DeleteTeam(int id, string token)
+        {
+            Guid realToken = Guid.Parse(token);
+            teamLogic.SetSession(realToken);
+            teamLogic.Delete(id);
+            return Ok("Team deleted succesfully");
+        }
     }
 }

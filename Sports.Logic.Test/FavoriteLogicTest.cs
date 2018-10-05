@@ -32,6 +32,7 @@ namespace Sports.Logic.Test
         Comment comment;
         Team favoriteTeam;
         Match match;
+        Sport sport;
 
         [TestInitialize]
         public void SetUp()
@@ -71,7 +72,7 @@ namespace Sports.Logic.Test
 
         private void AddMatchWithDataToRepository()
         {
-            Sport sport = AddSportToRepository();
+            sport = AddSportToRepository();
             favoriteTeam = AddTeamToSport(sport, "Local team");
             Team visitorTeam = AddTeamToSport(sport, "Visitor team");
             match = new Match()
@@ -126,7 +127,7 @@ namespace Sports.Logic.Test
             {
                 Name = teamName,
             };
-            sportLogic.AddTeamToSport(sport, team);
+            sportLogic.AddTeamToSport(sport.Id, team);
             return team;
         }
 
@@ -170,7 +171,6 @@ namespace Sports.Logic.Test
         [TestMethod]
         public void GetFavoritesTeamsComments()
         {
-            
             favoriteLogic.AddFavoriteTeam( favoriteTeam);
             matchLogic.AddCommentToMatch(match.Id, comment);
             ICollection<Comment> favoriteComments = favoriteLogic.GetFavoritesTeamsComments();
@@ -211,7 +211,7 @@ namespace Sports.Logic.Test
         public void CascadeDeleteFavoritesFromTeam()
         {
             favoriteLogic.AddFavoriteTeam(favoriteTeam);
-            sportLogic.DeleteTeamFromSport(match.Sport, favoriteTeam);
+            sportLogic.DeleteTeamFromSport(sport.Id, favoriteTeam.Id);
             Assert.AreEqual(favoriteLogic.GetAll().Count, 0);
         }
 

@@ -183,8 +183,8 @@ namespace Sports.Logic.Test
             {
                 Name = "Barcelona"
             };
-            sportLogic.AddTeamToSport(sport, team);
-            sportLogic.DeleteTeamFromSport(sport, team);
+            sportLogic.AddTeamToSport(sport.Id, team);
+            sportLogic.DeleteTeamFromSport(sport.Id, team.Id);
             Assert.AreEqual(sportLogic.GetSportById(sport.Id).Teams.Count, 0);
         }
 
@@ -204,7 +204,7 @@ namespace Sports.Logic.Test
             {
                 Name = "Barcelona"
             };
-            sportLogic.AddTeamToSport(sport, _team);
+            sportLogic.AddTeamToSport(sport.Id, _team);
             Assert.AreEqual(sportLogic.GetSportById(sport.Id).Teams.Count, 1);
         }
 
@@ -221,9 +221,9 @@ namespace Sports.Logic.Test
             {
                 Name = "Villareal"
             };
-            sportLogic.AddTeamToSport(sport, team);
-            sportLogic.UpdateTeamSport(sport.Id, team, teamChanges);
-            Assert.AreEqual<string>(sportLogic.GetTeamFromSport(sport, team).Name, teamChanges.Name);
+            sportLogic.AddTeamToSport(sport.Id, team);
+            sportLogic.UpdateTeamSport(sport.Id, team.Id, teamChanges);
+            Assert.AreEqual<string>(sportLogic.GetTeamFromSport(sport.Id, team.Id).Name, teamChanges.Name);
         }
         
 
@@ -235,7 +235,7 @@ namespace Sports.Logic.Test
             {
                 Name = "Barcelona"
             };
-            sportLogic.AddTeamToSport(sport, _team);
+            sportLogic.AddTeamToSport(sport.Id, _team);
         }
 
         [TestMethod]
@@ -247,7 +247,7 @@ namespace Sports.Logic.Test
             {
                 Name = ""
             };
-            sportLogic.AddTeamToSport(sport, _team);
+            sportLogic.AddTeamToSport(sport.Id, _team);
         }
 
         [TestMethod]
@@ -255,16 +255,16 @@ namespace Sports.Logic.Test
         public void AddDuplicateTeamToSport()
         {
             sportLogic.AddSport(sport);
-            Team _team = new Team()
+            Team team = new Team()
             {
                 Name = "Barcelona"
             };
-            Team _identicalTeam = new Team()
+            Team identicalTeam = new Team()
             {
                 Name = "Barcelona"
             };
-            sportLogic.AddTeamToSport(sport, _team);
-            sportLogic.AddTeamToSport(sport, _identicalTeam);
+            sportLogic.AddTeamToSport(sport.Id, team);
+            sportLogic.AddTeamToSport(sport.Id, identicalTeam);
         }
 
         [TestMethod]
@@ -275,9 +275,22 @@ namespace Sports.Logic.Test
             {
                 Name = "Barcelona"
             };
-            sportLogic.AddTeamToSport(sport, team);
-            Team returnedTeam = sportLogic.GetTeamFromSport(sport, team);
+            sportLogic.AddTeamToSport(sport.Id, team);
+            Team returnedTeam = sportLogic.GetTeamFromSport(sport.Id, team.Id);
             Assert.AreEqual(returnedTeam, team);
+        }
+
+        [TestMethod]
+        public void GetTeamsFromSport()
+        {
+            sportLogic.AddSport(sport);
+            Team team = new Team()
+            {
+                Name = "Barcelona"
+            };
+            sportLogic.AddTeamToSport(sport.Id, team);
+            ICollection<Team> returnedTeams = sportLogic.GetTeamsFromSport(sport.Id);
+            Assert.AreEqual(1, returnedTeams.Count);
         }
 
         [TestMethod]
@@ -289,8 +302,8 @@ namespace Sports.Logic.Test
             {
                 Name = ""
             };
-            sportLogic.AddTeamToSport(sport, team);
-            Team returnedTeam = sportLogic.GetTeamFromSport(sport, team);
+            sportLogic.AddTeamToSport(sport.Id, team);
+            Team returnedTeam = sportLogic.GetTeamFromSport(sport.Id, team.Id);
         }
 
         [TestMethod]
@@ -301,7 +314,7 @@ namespace Sports.Logic.Test
             {
                 Name = "Team"
             };
-            sportLogic.AddTeamToSport(sport, team);
+            sportLogic.AddTeamToSport(sport.Id, team);
             sportLogic.RemoveSport(sport.Id);
             Assert.AreEqual(teamLogic.GetAll().Count, 0);
         }
@@ -332,9 +345,9 @@ namespace Sports.Logic.Test
             sportLogic.SetSession(token);
             sportLogic.AddSport(sport);
             sportLogic.ModifySport(sport.Id, sport);
-            sportLogic.AddTeamToSport(sport, team);
-            sportLogic.UpdateTeamSport(sport.Id, team, teamChanges);
-            sportLogic.DeleteTeamFromSport(sport, team);
+            sportLogic.AddTeamToSport(sport.Id, team);
+            sportLogic.UpdateTeamSport(sport.Id, team.Id, teamChanges);
+            sportLogic.DeleteTeamFromSport(sport.Id, team.Id);
             sportLogic.RemoveSport(sport.Id);
         }
 

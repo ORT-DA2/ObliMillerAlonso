@@ -4,9 +4,9 @@ using System.Linq.Expressions;
 using System.Text;
 using Sports.Repository.Interface;
 using Sports.Repository.Context;
+using Sports.Logic.Exceptions;
+using Sports.Logic.Constants;
 using System.Linq;
-using Sports.Repository.Exceptions;
-using Sports.Repository.Constants;
 using System.Data.SqlClient;
 using System.Data.Common;
 
@@ -33,7 +33,7 @@ namespace Sports.Repository
             }
             catch (Exception)
             {
-                throw new UnknownDatabaseException(AccessValidation.UNKNOWN_ERROR_MESSAGE);
+                throw new UnknownDbException(AccessValidation.UNKNOWN_ERROR_MESSAGE);
             }
         }
 
@@ -49,7 +49,7 @@ namespace Sports.Repository
             }
             catch (Exception)
             {
-                throw new UnknownDatabaseException(AccessValidation.UNKNOWN_ERROR_MESSAGE);
+                throw new UnknownDbException(AccessValidation.UNKNOWN_ERROR_MESSAGE);
             }
         }
 
@@ -65,7 +65,7 @@ namespace Sports.Repository
             }
             catch (Exception)
             {
-                throw new UnknownDatabaseException(AccessValidation.UNKNOWN_ERROR_MESSAGE);
+                throw new UnknownDbException(AccessValidation.UNKNOWN_ERROR_MESSAGE);
             }
         }
 
@@ -81,7 +81,7 @@ namespace Sports.Repository
             }
             catch (Exception)
             {
-                throw new UnknownDatabaseException(AccessValidation.UNKNOWN_ERROR_MESSAGE);
+                throw new UnknownDbException(AccessValidation.UNKNOWN_ERROR_MESSAGE);
             }
         }
 
@@ -97,7 +97,7 @@ namespace Sports.Repository
             }
             catch (Exception)
             {
-                throw new UnknownDatabaseException(AccessValidation.UNKNOWN_ERROR_MESSAGE);
+                throw new UnknownDbException(AccessValidation.UNKNOWN_ERROR_MESSAGE);
             }
         }
 
@@ -113,7 +113,7 @@ namespace Sports.Repository
             }
             catch (Exception)
             {
-                throw new UnknownDatabaseException(AccessValidation.UNKNOWN_ERROR_MESSAGE);
+                throw new UnknownDbException(AccessValidation.UNKNOWN_ERROR_MESSAGE);
             }
         }
     }

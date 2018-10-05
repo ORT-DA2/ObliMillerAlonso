@@ -15,6 +15,8 @@ namespace Sports.WebAPI.Models
             CreateMap<User, UserModelOut>();
             CreateMap<TeamModelIn, Team>();
             CreateMap<Team, TeamModelOut>();
+            CreateMap<SportModelIn, Sport>();
+            CreateMap<Sport, SportModelOut>();
         }
     }
 }

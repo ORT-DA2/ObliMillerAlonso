@@ -102,7 +102,7 @@ namespace Sports.Logic.Test
                 Name = teamName,
 
             };
-            sportLogic.AddTeamToSport(sport, team);
+            sportLogic.AddTeamToSport(sport.Id, team);
         }
 
         [TestCleanup]

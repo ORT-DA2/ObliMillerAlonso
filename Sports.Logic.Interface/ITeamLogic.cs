@@ -10,9 +10,9 @@ namespace Sports.Logic.Interface
     {
         void AddTeam(Team team);
         Team GetTeamById(int id);
-        void SetPictureFromPath(Team team, string testImagePath);
+        void SetPictureFromPath(int teamId, string testImagePath);
         void Modify(int id, Team team);
-        void Delete(Team team);
+        void Delete(int id);
         ICollection<Team> GetAll();
         void SetSession(Guid token);
         ICollection<Team> FilterOrderTeamName(string name, string order = "asc");

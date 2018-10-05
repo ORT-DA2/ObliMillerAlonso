@@ -15,23 +15,25 @@ namespace Sports.WebAPI.Tests
 {
     [ExcludeFromCodeCoverage]
     [TestClass]
-    public class TeamControllerTest
+    public class TeamsControllerTest
     {
         Mock<ITeamLogic> teamLogicMock;
+        Mock<ISportLogic> sportLogicMock;
         TeamsController controller;
         IMapper mapper;
-        Guid token;
+        string token;
 
         [TestInitialize]
         public void SetUp()
         {
 
             teamLogicMock = new Mock<ITeamLogic>();
+            sportLogicMock = new Mock<ISportLogic>();
             var config = new MapperConfiguration(cfg => cfg.AddProfile(new MapperProfile()));
             IMapper mapper = new Mapper(config);
-            controller = new TeamsController(teamLogicMock.Object);
-            teamLogicMock.Setup(favoriteLogic => favoriteLogic.SetSession(It.IsAny<Guid>()));
-            token = new Guid();
+            controller = new TeamsController(teamLogicMock.Object, sportLogicMock.Object);
+            teamLogicMock.Setup(teamLogic => teamLogic.SetSession(It.IsAny<Guid>()));
+            token = new Guid().ToString();
         }
 
         [TestMethod]
@@ -43,8 +45,15 @@ namespace Sports.WebAPI.Tests
             };
             ICollection<Team> teams = new List<Team>();
             teams.Add(fakeTeam);
+            Sport fakeSport = new Sport()
+            {
+                Name = "Rugby",
+                Teams = teams
+            };
+            ICollection<Sport> sports = new List<Sport>();
+            sports.Add(fakeSport);
 
-            teamLogicMock.Setup(teamLogic => teamLogic.GetAll()).Returns(teams);
+            sportLogicMock.Setup(sportLogic => sportLogic.GetAll()).Returns(sports);
 
             IActionResult result = controller.GetAll(token);
             var okResult = result as OkObjectResult;
@@ -76,6 +85,43 @@ namespace Sports.WebAPI.Tests
 
             Assert.AreEqual(200, okResult.StatusCode);
             Assert.IsNotNull(modelOut);
+        }
+
+
+        [TestMethod]
+        public void ValidModifyTeam()
+        {
+
+            TeamModelIn fakeTeam = new TeamModelIn()
+            {
+                Name = "ChangedName"
+            };
+            int teamId = 1;
+
+
+            teamLogicMock.Setup(teamLogic => teamLogic.Modify( It.IsAny<int>(), It.IsAny<Team>()));
+
+            IActionResult result = controller.PutTeam(teamId, fakeTeam, token);
+            var okResult = result as OkObjectResult;
+
+            teamLogicMock.VerifyAll();
+
+            Assert.AreEqual(200, okResult.StatusCode);
+        }
+
+        [TestMethod]
+        public void ValidDeleteTeam()
+        {
+            int teamId = 1;
+
+            teamLogicMock.Setup(teamLogic => teamLogic.Delete(It.IsAny<int>()));
+
+            IActionResult result = controller.DeleteTeam(teamId, token);
+            var okResult = result as OkObjectResult;
+
+            teamLogicMock.VerifyAll();
+
+            Assert.AreEqual(200, okResult.StatusCode);
         }
 
     }

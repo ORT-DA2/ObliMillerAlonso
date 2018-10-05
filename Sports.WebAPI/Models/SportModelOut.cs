@@ -5,11 +5,9 @@ using System.Threading.Tasks;
 
 namespace Sports.WebAPI.Models
 {
-    public class TeamModelOut
+    public class SportModelOut
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Picture { get; private set; }
-        public int SportId { get; set; }
     }
 }

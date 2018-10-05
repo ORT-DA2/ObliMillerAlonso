@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Sports.Logic.Interface\Sports.Logic.Interface.csproj" />
     <ProjectReference Include="..\Sports.Repository.Context\Sports.Repository.Context.csproj" />
     <ProjectReference Include="..\Sports.Repository.Interface\Sports.Repository.Interface.csproj" />
   </ItemGroup>
