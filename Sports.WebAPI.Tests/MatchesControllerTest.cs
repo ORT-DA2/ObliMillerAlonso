@@ -129,7 +129,7 @@ namespace Sports.WebAPI.Tests
                 VisitorId = team.Id,
                 SportId = sport.Id,
                 Date = DateTime.Today.ToString("dd/MM/yyyy HH:mm")
-        };
+            };
 
             matchLogicMock.Setup(matchLogic => matchLogic.AddMatch(It.IsAny<Domain.Match>()));
 
@@ -143,5 +143,42 @@ namespace Sports.WebAPI.Tests
             Assert.IsNotNull(modelOut);
         }
 
+        [TestMethod]
+        public void ValidModifyMatch()
+        {
+            Team team = new Team()
+            {
+                Id = 1
+            };
+            Sport sport = new Sport()
+            {
+                Id = 1
+            };
+            Domain.Match match = new Domain.Match()
+            {
+                Local = team,
+                Visitor = team,
+                Sport = sport,
+                Date = DateTime.Today,
+            };
+            int matchId = 1;
+
+            MatchModelIn model = new MatchModelIn()
+            {
+                LocalId = team.Id,
+                VisitorId = team.Id,
+                SportId = sport.Id,
+                Date = DateTime.Today.ToString("dd/MM/yyyy HH:mm")
+            };
+
+            matchLogicMock.Setup(matchLogic => matchLogic.PutMatch(It.IsAny<int>, It.IsAny<Domain.Match>()));
+
+            IActionResult result = controller.Put(matchId, model, token);
+            var okResult = result as OkObjectResult;
+
+            matchLogicMock.VerifyAll();
+
+            Assert.AreEqual(200, okResult.StatusCode);
+        }
     }
 }
