@@ -104,7 +104,23 @@ namespace Sports.WebAPI.Tests
             IActionResult result = controller.PutTeam(teamId, fakeTeam, token);
             var okResult = result as OkObjectResult;
 
-            sportLogicMock.VerifyAll();
+            teamLogicMock.VerifyAll();
+
+            Assert.AreEqual(200, okResult.StatusCode);
+        }
+
+        [TestMethod]
+        public void ValidDeleteTeam()
+        {
+            int teamId = 1;
+
+
+            teamLogicMock.Setup(teamLogic => teamLogic.Delete(It.IsAny<int>()));
+
+            IActionResult result = controller.DeleteTeam(teamId, token);
+            var okResult = result as OkObjectResult;
+
+            teamLogicMock.VerifyAll();
 
             Assert.AreEqual(200, okResult.StatusCode);
         }
