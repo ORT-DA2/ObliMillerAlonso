@@ -156,5 +156,27 @@ namespace Sports.WebAPI.Tests
 
             Assert.AreEqual(200, okResult.StatusCode);
         }
+
+        [TestMethod]
+        public void ValidModifyTeam()
+        {
+
+            TeamModelIn fakeTeam = new TeamModelIn()
+            {
+                Name = "ChangedName"
+            };
+            int sportId = 1;
+            int teamId = 1;
+
+
+            sportLogicMock.Setup(sportLogic => sportLogic.UpdateTeamSport(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<Team>()));
+
+            IActionResult result = controller.PustTeam(sportId,teamId, fakeTeam, token);
+            var okResult = result as OkObjectResult;
+
+            sportLogicMock.VerifyAll();
+
+            Assert.AreEqual(200, okResult.StatusCode);
+        }
     }
 }

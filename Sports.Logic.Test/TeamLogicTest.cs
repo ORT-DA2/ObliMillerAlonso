@@ -112,7 +112,7 @@ namespace Sports.Logic.Test
         public void AddTeamPicture()
         {
             teamLogic.AddTeam(team);
-            teamLogic.SetPictureFromPath(team,testImagePath);
+            teamLogic.SetPictureFromPath(team.Id,testImagePath);
             Assert.IsNotNull(teamLogic.GetTeamById(team.Id).Picture);
         }
 
@@ -121,7 +121,7 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(TeamDoesNotExistException))]
         public void AddPictureToInvalidTeam()
         {
-            teamLogic.SetPictureFromPath(team, testImagePath);
+            teamLogic.SetPictureFromPath(team.Id, testImagePath);
             Assert.IsNotNull(teamLogic.GetTeamById(team.Id).Picture);
         }
 
@@ -177,7 +177,7 @@ namespace Sports.Logic.Test
         public void DeleteTeam()
         {
             teamLogic.AddTeam(team);
-            teamLogic.Delete(team);
+            teamLogic.Delete(team.Id);
             Assert.AreEqual(teamLogic.GetAll().Count, 0);
         }
 
@@ -185,7 +185,7 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(TeamDoesNotExistException))]
         public void DeleteInvalidTeam()
         {
-            teamLogic.Delete(team);
+            teamLogic.Delete(team.Id);
         }
 
         [TestMethod]
@@ -205,8 +205,6 @@ namespace Sports.Logic.Test
             sessionLogic.GetUserFromToken(token);
             teamLogic.SetSession(token);
             teamLogic.AddTeam(team);
-            teamLogic.Modify(team.Id, team);
-            teamLogic.Delete(team);
         }
 
         [TestMethod]

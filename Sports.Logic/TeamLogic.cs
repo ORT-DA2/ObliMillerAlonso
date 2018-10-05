@@ -60,10 +60,10 @@ namespace Sports.Logic
 
         }
 
-        public void SetPictureFromPath(Team team, string testImagePath)
+        public void SetPictureFromPath(int teamId, string testImagePath)
         {
             sessionLogic.ValidateUserNotNull(user);
-            Team realTeam = GetTeamById(team.Id);
+            Team realTeam = GetTeamById(teamId);
             ValidateTeam(realTeam);
             realTeam.AddPictureFromPath(testImagePath);
             repository.Update(realTeam);
@@ -79,10 +79,10 @@ namespace Sports.Logic
             repository.Update(realTeam);
         }
 
-        public void Delete(Team team)
+        public void Delete(int teamId)
         {
             sessionLogic.ValidateUser(user);
-            Team realTeam = GetTeamById(team.Id);
+            Team realTeam = GetTeamById(teamId);
             DeleteAllRelatedMatches(realTeam);
             repository.Delete(realTeam);
             repository.Save();
