@@ -114,7 +114,6 @@ namespace Sports.WebAPI.Tests
         {
             int teamId = 1;
 
-
             teamLogicMock.Setup(teamLogic => teamLogic.Delete(It.IsAny<int>()));
 
             IActionResult result = controller.DeleteTeam(teamId, token);
