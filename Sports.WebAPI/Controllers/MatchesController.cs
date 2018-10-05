@@ -89,14 +89,14 @@ namespace Sports.WebAPI.Controllers
             return match;
         }
 
-        [HttpPut("{id}", Name = "ModifyTeam")]
-        public IActionResult PutTeam(int id, [FromBody] TeamModelIn teamIn, string token)
+        [HttpPut("{id}", Name = "ModifyMatch")]
+        public IActionResult Put(int id, [FromBody] MatchModelIn matchIn, string token)
         {
             Guid realToken = Guid.Parse(token);
-            teamLogic.SetSession(realToken);
-            Team team = mapper.Map<Team>(teamIn);
-            teamLogic.Modify(id, team);
-            return Ok("Team modified succesfully");
+            matchLogic.SetSession(realToken);
+            Match match = ModelToMatch(matchIn);
+            matchLogic.ModifyMatch(id, match);
+            return Ok("Match modified succesfully");
         }
 
         [HttpDelete("{id}", Name = "DeleteTeam")]

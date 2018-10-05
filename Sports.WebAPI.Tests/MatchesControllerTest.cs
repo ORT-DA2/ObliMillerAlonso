@@ -171,7 +171,7 @@ namespace Sports.WebAPI.Tests
                 Date = DateTime.Today.ToString("dd/MM/yyyy HH:mm")
             };
 
-            matchLogicMock.Setup(matchLogic => matchLogic.PutMatch(It.IsAny<int>, It.IsAny<Domain.Match>()));
+            matchLogicMock.Setup(matchLogic => matchLogic.ModifyMatch(It.IsAny<int>(), It.IsAny<Domain.Match>()));
 
             IActionResult result = controller.Put(matchId, model, token);
             var okResult = result as OkObjectResult;
