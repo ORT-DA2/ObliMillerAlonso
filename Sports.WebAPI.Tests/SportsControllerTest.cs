@@ -140,43 +140,24 @@ namespace Sports.WebAPI.Tests
         public void ValidAddTeam()
         {
 
-            TeamModelIn fakeTeam = new TeamModelIn()
+            TeamModelIn teamModel = new TeamModelIn()
             {
                 Name = "Team"
             };
             int sportId = 1;
             
 
-            sportLogicMock.Setup(sportLogic => sportLogic.AddTeamToSport(It.IsAny<int>(),It.IsAny<Team>()));
+            sportLogicMock.Setup(sportLogic => sportLogic.AddTeamToSport(It.IsAny<int>(), It.IsAny<Team>()));
 
-            IActionResult result = controller.PostTeam(sportId,fakeTeam, token);
+            IActionResult result = controller.PostTeam(sportId, teamModel, token);
             var okResult = result as OkObjectResult;
+            var model = okResult.Value as Team;
 
             sportLogicMock.VerifyAll();
 
             Assert.AreEqual(200, okResult.StatusCode);
+            Assert.IsNotNull(model);
         }
 
-        [TestMethod]
-        public void ValidModifyTeam()
-        {
-
-            TeamModelIn fakeTeam = new TeamModelIn()
-            {
-                Name = "ChangedName"
-            };
-            int sportId = 1;
-            int teamId = 1;
-
-
-            sportLogicMock.Setup(sportLogic => sportLogic.UpdateTeamSport(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<Team>()));
-
-            IActionResult result = controller.PustTeam(sportId,teamId, fakeTeam, token);
-            var okResult = result as OkObjectResult;
-
-            sportLogicMock.VerifyAll();
-
-            Assert.AreEqual(200, okResult.StatusCode);
-        }
     }
 }

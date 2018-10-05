@@ -90,5 +90,6 @@ namespace Sports.WebAPI.Controllers
             TeamModelOut modelOut = mapper.Map<TeamModelOut>(team);
             return Ok(modelOut);
         }
+
     }
 }

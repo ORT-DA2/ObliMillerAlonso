@@ -66,8 +66,17 @@ namespace Sports.WebAPI.Controllers
             }
             return Ok(teamModels.ToList());
         }
-        
-        
+
+        [HttpPut("{id}", Name = "AddTeam")]
+        public IActionResult PutTeam(int id, [FromBody] TeamModelIn teamIn, string token)
+        {
+            Guid realToken = Guid.Parse(token);
+            teamLogic.SetSession(realToken);
+            Team team = mapper.Map<Team>(teamIn);
+            teamLogic.Modify(id, team);
+            TeamModelOut modelOut = mapper.Map<TeamModelOut>(team);
+            return Ok(modelOut);
+        }
 
     }
 }
