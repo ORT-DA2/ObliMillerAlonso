@@ -99,13 +99,13 @@ namespace Sports.WebAPI.Controllers
             return Ok("Match modified succesfully");
         }
 
-        [HttpDelete("{id}", Name = "DeleteTeam")]
-        public IActionResult DeleteTeam(int id, string token)
+        [HttpDelete("{id}", Name = "DeleteMatch")]
+        public IActionResult Delete(int id, string token)
         {
             Guid realToken = Guid.Parse(token);
-            teamLogic.SetSession(realToken);
-            teamLogic.Delete(id);
-            return Ok("Team deleted succesfully");
+            matchLogic.SetSession(realToken);
+            matchLogic.DeleteMatch(id);
+            return Ok("Match deleted succesfully");
         }
     }
 }
