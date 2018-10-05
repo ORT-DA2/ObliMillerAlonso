@@ -11,11 +11,11 @@ namespace Sports.Logic.Interface
         void AddMatches(ICollection<Match> matches);
         Match GetMatchById(int id);
         void ModifyMatch(int id, Match match);
-        void DeleteMatch(Match match);
+        void DeleteMatch(int id);
         ICollection<Match> GetAllMatches();
         ICollection<Match> GetAllMatchesForTeam(Team team);
         void AddCommentToMatch(int id, Comment comment);
-        ICollection<Comment> GetAllComments(int id);
+        ICollection<Comment> GetAllComments(int matchId);
         void SetSession(Guid token);
     }
 }

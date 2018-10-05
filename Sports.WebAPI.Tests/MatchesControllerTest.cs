@@ -115,13 +115,6 @@ namespace Sports.WebAPI.Tests
             {
                 Id = 1
             };
-            Domain.Match match = new Domain.Match()
-            {
-                Local = team,
-                Visitor = team,
-                Sport = sport,
-                Date = DateTime.Today,
-            };
 
             MatchModelIn model = new MatchModelIn()
             {
@@ -154,13 +147,6 @@ namespace Sports.WebAPI.Tests
             {
                 Id = 1
             };
-            Domain.Match match = new Domain.Match()
-            {
-                Local = team,
-                Visitor = team,
-                Sport = sport,
-                Date = DateTime.Today,
-            };
             int matchId = 1;
 
             MatchModelIn model = new MatchModelIn()
@@ -174,6 +160,21 @@ namespace Sports.WebAPI.Tests
             matchLogicMock.Setup(matchLogic => matchLogic.ModifyMatch(It.IsAny<int>(), It.IsAny<Domain.Match>()));
 
             IActionResult result = controller.Put(matchId, model, token);
+            var okResult = result as OkObjectResult;
+
+            matchLogicMock.VerifyAll();
+
+            Assert.AreEqual(200, okResult.StatusCode);
+        }
+
+        [TestMethod]
+        public void ValidDeleteMatch()
+        {
+            int matchId = 1;
+
+            matchLogicMock.Setup(matchLogic => matchLogic.DeleteMatch(It.IsAny<int>()));
+
+            IActionResult result = controller.Delete(matchId, token);
             var okResult = result as OkObjectResult;
 
             matchLogicMock.VerifyAll();

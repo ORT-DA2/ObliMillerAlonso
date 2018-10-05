@@ -323,7 +323,7 @@ namespace Sports.Logic.Test
         public void DeleteMatch()
         {
             matchLogic.AddMatch(match);
-            matchLogic.DeleteMatch(match);
+            matchLogic.DeleteMatch(match.Id);
             Assert.AreEqual(matchLogic.GetAllMatches().Count, 0);
         }
 
@@ -331,7 +331,7 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(MatchDoesNotExistException))]
         public void DeleteNonExistingMatch()
         {
-            matchLogic.DeleteMatch(match);
+            matchLogic.DeleteMatch(match.Id);
         }
 
 
@@ -434,7 +434,7 @@ namespace Sports.Logic.Test
                 User = user
             };
             matchLogic.AddCommentToMatch(match.Id, comment);
-            matchLogic.DeleteMatch(match);
+            matchLogic.DeleteMatch(match.Id);
             Assert.AreEqual(commentLogic.GetAll().Count, 0);
         }
 
