@@ -107,5 +107,40 @@ namespace Sports.WebAPI.Controllers
             matchLogic.DeleteMatch(id);
             return Ok("Match deleted succesfully");
         }
+
+
+        [HttpGet("{id}/comments", Name = "GetAllComments")]
+        public IActionResult GetComments(int id, string token)
+        {
+            Guid realToken = Guid.Parse(token);
+            matchLogic.SetSession(realToken);
+            ICollection<Comment> comments = matchLogic.GetAllComments(id);
+            ICollection<CommentModelOut> commentModels = new List<CommentModelOut>();
+            foreach (Comment comment in comments)
+            {
+                CommentModelOut model = CommentToModelOut(comment);
+                commentModels.Add(model);
+            }
+            return Ok(commentModels.ToList());
+        }
+
+        private CommentModelOut CommentToModelOut(Comment comment)
+        {
+            CommentModelOut model = mapper.Map<CommentModelOut>(comment);
+            model.UserId = comment.User.Id;
+            model.MatchId = comment.Match.Id;
+            return model;
+        }
+
+
+        [HttpGet("{id}/comments", Name = "GetAllComments")]
+        public IActionResult PostComment(int id, [FromBody] CommentModelIn commentIn, string token)
+        {
+            Guid realToken = Guid.Parse(token);
+            matchLogic.SetSession(realToken);
+            Comment comment = mapper.Map<Comment>(commentIn);
+            matchLogic.AddCommentToMatch(id,comment);
+            return Ok("Comment succesfully added");
+        }
     }
 }

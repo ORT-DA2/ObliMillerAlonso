@@ -19,6 +19,8 @@ namespace Sports.WebAPI.Models
             CreateMap<Sport, SportModelOut>();
             CreateMap<Match, MatchModelOut>();
             CreateMap<MatchModelIn, Match>();
+            CreateMap<Comment, CommentModelOut>();
+            CreateMap<CommentModelIn, Comment>();
         }
     }
 }

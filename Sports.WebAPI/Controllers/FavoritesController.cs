@@ -48,23 +48,44 @@ namespace Sports.WebAPI.Controllers
 
         }
 
-        [HttpGet("FavoriteTeams",Name = "GetFavoritesForUser")]
+        [HttpGet("Teams",Name = "GetFavoritesForUser")]
         public IActionResult GetFavoritesForUser(string token)
         {
             Guid realToken = Guid.Parse(token);
             favoriteLogic.SetSession(realToken);
             ICollection<Team> favoriteTeams = favoriteLogic.GetFavoritesFromUser();
-            return Ok(favoriteTeams.ToList());
+            ICollection<TeamModelOut> teamModels = new List<TeamModelOut>();
+            foreach (Team team in favoriteTeams)
+            {
+                TeamModelOut model = mapper.Map<TeamModelOut>(team);
+                model.SportId = team.Sport.Id;
+                teamModels.Add(model);
+            }
+            return Ok(teamModels);
         }
 
-        [HttpGet("FavoriteComments", Name = "GetFavoritesTeamsComents")]
+        [HttpGet("Comments", Name = "GetFavoritesTeamsComents")]
         public IActionResult GetFavoritesTeamsComents(string token)
         {
             Guid realToken = Guid.Parse(token);
             favoriteLogic.SetSession(realToken);
             ICollection<Comment> favoriteTeamsComments = favoriteLogic.GetFavoritesTeamsComments();
+            ICollection<CommentModelOut> commentModels = new List<CommentModelOut>();
+            foreach (Comment comment in favoriteTeamsComments)
+            {
+                CommentModelOut model = CommentToModelOut(comment);
+                commentModels.Add(model);
+            }
             return Ok(favoriteTeamsComments.ToList());
         }
-        
+
+        private CommentModelOut CommentToModelOut(Comment comment)
+        {
+            CommentModelOut model = mapper.Map<CommentModelOut>(comment);
+            model.UserId = comment.User.Id;
+            model.MatchId = comment.Match.Id;
+            return model;
+        }
+
     }
 }
