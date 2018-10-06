@@ -185,7 +185,10 @@ namespace Sports.WebAPI.Tests
         [TestMethod]
         public void ValidGetComments()
         {
-            int matchId = 1;
+            Domain.Match match = new Domain.Match()
+            {
+                Id = 1
+            };
             User user = new User()
             {
                 Id = 1
@@ -193,14 +196,15 @@ namespace Sports.WebAPI.Tests
             Comment fakeComment = new Comment()
             {
                 Text = "comment text",
-                User = user
+                User = user,
+                Match = match
             };
             ICollection<Comment> comments = new List<Comment>();
             comments.Add(fakeComment);
 
             matchLogicMock.Setup(matchLogic => matchLogic.GetAllComments(It.IsAny<int>())).Returns(comments);
 
-            IActionResult result = controller.GetComments(matchId, token);
+            IActionResult result = controller.GetComments(match.Id, token);
             var okResult = result as OkObjectResult;
             var modelOut = okResult.Value as ICollection<CommentModelOut>;
 

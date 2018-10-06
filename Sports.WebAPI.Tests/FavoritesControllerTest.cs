@@ -83,18 +83,20 @@ namespace Sports.WebAPI.Tests
         [TestMethod]
         public void GetFavoritesTeamsComments()
         {
-            User fakeUser = new User(true)
+
+            Domain.Match match = new Domain.Match()
             {
-                FirstName = "Itai",
-                LastName = "Miller",
-                Email = "itaimiller@gmail.com",
-                UserName = "iMiller",
-                Password = "root"
+                Id = 1
+            };
+            User user = new User()
+            {
+                Id = 1
             };
             Comment fakeComment = new Comment()
             {
                 Text = "comment",
-                User = fakeUser
+                User = user,
+                Match = match
             };
             ICollection<Comment> comments = new List<Comment>();
             comments.Add(fakeComment);

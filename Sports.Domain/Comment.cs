@@ -16,7 +16,7 @@ namespace Sports.Domain
         public DateTime Date { get; private set; }
         public User User { get; set; }
         
-        
+        public Match Match { get; set; }
         public Comment()
         {
             Date = DateTime.Now;

@@ -118,17 +118,17 @@ namespace Sports.WebAPI.Controllers
             ICollection<CommentModelOut> commentModels = new List<CommentModelOut>();
             foreach (Comment comment in comments)
             {
-                CommentModelOut model = CommentToModelOut(comment, id);
+                CommentModelOut model = CommentToModelOut(comment);
                 commentModels.Add(model);
             }
             return Ok(commentModels.ToList());
         }
 
-        private CommentModelOut CommentToModelOut(Comment comment, int matchId)
+        private CommentModelOut CommentToModelOut(Comment comment)
         {
             CommentModelOut model = mapper.Map<CommentModelOut>(comment);
             model.UserId = comment.User.Id;
-            model.MatchId = matchId;
+            model.MatchId = comment.Match.Id;
             return model;
         }
 
