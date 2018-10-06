@@ -114,10 +114,10 @@ namespace Sports.Logic
             repository.Save();
         }
 
-        public void DeleteMatch(Match match)
+        public void DeleteMatch(int matchId)
         {
             sessionLogic.ValidateUser(user);
-            Match realMatch = GetMatchById(match.Id);
+            Match realMatch = GetMatchById(matchId);
             repository.Delete(realMatch);
             repository.Save();
         }
