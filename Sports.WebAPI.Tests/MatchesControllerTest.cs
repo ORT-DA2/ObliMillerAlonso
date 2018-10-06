@@ -181,5 +181,33 @@ namespace Sports.WebAPI.Tests
 
             Assert.AreEqual(200, okResult.StatusCode);
         }
+
+        [TestMethod]
+        public void ValidGetComments()
+        {
+            int matchId = 1;
+            User user = new User()
+            {
+                Id = 1
+            };
+            Comment fakeComment = new Comment()
+            {
+                Text = "comment text",
+                User = user
+            };
+            ICollection<Comment> comments = new List<Comment>();
+            comments.Add(fakeComment);
+
+            matchLogicMock.Setup(matchLogic => matchLogic.GetAllComments(It.IsAny<int>())).Returns(comments);
+
+            IActionResult result = controller.GetComments(matchId, token);
+            var okResult = result as OkObjectResult;
+            var modelOut = okResult.Value as ICollection<CommentModelOut>;
+
+            matchLogicMock.VerifyAll();
+
+            Assert.AreEqual(200, okResult.StatusCode);
+            Assert.IsNotNull(modelOut);
+        }
     }
 }
