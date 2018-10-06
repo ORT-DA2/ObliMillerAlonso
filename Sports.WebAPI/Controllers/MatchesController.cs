@@ -131,5 +131,16 @@ namespace Sports.WebAPI.Controllers
             model.MatchId = matchId;
             return model;
         }
+
+
+        [HttpGet("{id}/comments", Name = "GetAllComments")]
+        public IActionResult PostComment(int id, [FromBody] CommentModelIn commentIn, string token)
+        {
+            Guid realToken = Guid.Parse(token);
+            matchLogic.SetSession(realToken);
+            Comment comment = mapper.Map<Comment>(commentIn);
+            matchLogic.AddCommentToMatch(id,comment);
+            return Ok("Comment succesfully added");
+        }
     }
 }
