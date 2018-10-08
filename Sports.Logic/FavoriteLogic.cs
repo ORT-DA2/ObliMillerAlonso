@@ -112,8 +112,7 @@ namespace Sports.Logic
                 ICollection<Match> favoriteTeamMatches = matchLogic.GetAllMatchesForTeam(favoriteTeam);
                 favoriteMatches.AddRange(favoriteTeamMatches);
             }
-            favoriteMatches.OrderBy(m => m.Date).ToList();
-            return favoriteMatches;
+            return favoriteMatches.OrderBy(m => m.Date).Distinct().ToList();
         }
 
         public ICollection<Favorite> GetAll()

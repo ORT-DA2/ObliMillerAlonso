@@ -96,5 +96,10 @@ namespace FixtureImplementations
         {
             return match.Local.Equals(team) || match.Visitor.Equals(team);
         }
+
+        public string FixtureInfo()
+        {
+            return "Generates all versus all matches only on weekends, no rematch.";
+        }
     }
 }

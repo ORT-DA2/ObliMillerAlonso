@@ -22,13 +22,15 @@ namespace Sports.WebAPI.Controllers
         private ITeamLogic teamLogic;
         private ISportLogic sportLogic;
         private IMatchLogic matchLogic;
+        private IFixtureLogic fixtureLogic;
         private IMapper mapper;
 
-        public MatchesController(IMatchLogic aMatchLogic, ISportLogic aSportLogic, ITeamLogic aTeamLogic)
+        public MatchesController(IMatchLogic aMatchLogic, ISportLogic aSportLogic, ITeamLogic aTeamLogic, IFixtureLogic aFixtureLogic)
         {
             teamLogic = aTeamLogic;
             sportLogic = aSportLogic;
             matchLogic = aMatchLogic;
+            fixtureLogic = aFixtureLogic;
             var config = new MapperConfiguration(cfg => cfg.AddProfile(new MapperProfile()));
             mapper = new Mapper(config);
         }
@@ -39,7 +41,7 @@ namespace Sports.WebAPI.Controllers
             Guid realToken = Guid.Parse(token);
             matchLogic.SetSession(realToken);
             Match match = matchLogic.GetMatchById(id);
-            MatchModelOut modelOut = MatchToModelOut(match);
+            MatchModelOut modelOut = mapper.Map<MatchModelOut>(match);
             return Ok(modelOut);
         }
 
@@ -52,21 +54,12 @@ namespace Sports.WebAPI.Controllers
             ICollection<MatchModelOut> matchModels = new List<MatchModelOut>();
             foreach (Match match in matchList)
             {
-                MatchModelOut model = MatchToModelOut(match);
+                MatchModelOut model = mapper.Map<MatchModelOut>(match);
                 matchModels.Add(model);
             }
             return Ok(matchModels.ToList());
         }
-
-        private MatchModelOut MatchToModelOut(Match match)
-        {
-            MatchModelOut model = mapper.Map<MatchModelOut>(match);
-            model.Date = match.Date.ToString();
-            model.LocalId = match.Local.Id;
-            model.VisitorId = match.Visitor.Id;
-            model.SportId = match.Sport.Id;
-            return model;
-        }
+        
 
         [HttpPost(Name = "AddMatch")]
         public IActionResult Post([FromBody] MatchModelIn matchIn, string token)
@@ -75,7 +68,7 @@ namespace Sports.WebAPI.Controllers
             matchLogic.SetSession(realToken);
             Match match = ModelToMatch(matchIn);
             matchLogic.AddMatch(match);
-            MatchModelOut modelOut = MatchToModelOut(match);
+            MatchModelOut modelOut = mapper.Map<MatchModelOut>(match);
             return Ok(modelOut);
         }
 
@@ -118,21 +111,12 @@ namespace Sports.WebAPI.Controllers
             ICollection<CommentModelOut> commentModels = new List<CommentModelOut>();
             foreach (Comment comment in comments)
             {
-                CommentModelOut model = CommentToModelOut(comment);
+                CommentModelOut model = mapper.Map<CommentModelOut>(comment);
                 commentModels.Add(model);
             }
             return Ok(commentModels.ToList());
         }
-
-        private CommentModelOut CommentToModelOut(Comment comment)
-        {
-            CommentModelOut model = mapper.Map<CommentModelOut>(comment);
-            model.UserId = comment.User.Id;
-            model.MatchId = comment.Match.Id;
-            return model;
-        }
-
-
+        
         [HttpGet("{id}/comments", Name = "GetAllComments")]
         public IActionResult PostComment(int id, [FromBody] CommentModelIn commentIn, string token)
         {
@@ -141,6 +125,42 @@ namespace Sports.WebAPI.Controllers
             Comment comment = mapper.Map<Comment>(commentIn);
             matchLogic.AddCommentToMatch(id,comment);
             return Ok("Comment succesfully added");
+        }
+
+        //testear
+
+        [HttpPut("FixtureImplementation", Name = "AddFixture")]
+        public IActionResult PutFixtureImplementation(string fixturesPath, string token)
+        {
+            Guid realToken = Guid.Parse(token);
+            fixtureLogic.SetSession(realToken);
+            fixtureLogic.AddFixtureImplementations(fixturesPath);
+            return Ok("Fixtures succesfully added");
+        }
+
+        [HttpPost("GenerateFixture", Name = "GenerateFixture")]
+        public IActionResult GenerateFixture([FromBody] FixtureSports fixtureData, string token)
+        {
+            Guid realToken = Guid.Parse(token);
+            fixtureLogic.SetSession(realToken);
+            ICollection<Sport> sports = new List<Sport>();
+            foreach (SportModelIn model in fixtureData.Sports)
+            {
+                Sport sport = mapper.Map<Sport>(model);
+                sports.Add(sport);
+            }
+            DateTime startDate = DateTime.ParseExact(fixtureData.Date, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
+            fixtureLogic.GenerateFixture(sports, startDate);
+            return Ok("Fixture succesfully generated");
+        }
+
+        [HttpGet("ChangeFixture", Name = "ChangeFixture")]
+        public IActionResult ChangeeFixture( string token)
+        {
+            Guid realToken = Guid.Parse(token);
+            fixtureLogic.SetSession(realToken);
+            string message = fixtureLogic.ChangeFixtureImplementation();
+            return Ok(message);
         }
     }
 }

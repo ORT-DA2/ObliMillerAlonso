@@ -60,7 +60,6 @@ namespace Sports.WebAPI.Controllers
                 foreach (Team team in sport.Teams)
                 {
                     TeamModelOut model = mapper.Map<TeamModelOut>(team);
-                    model.SportId = sport.Id;
                     teamModels.Add(model);
                 }
             }
@@ -74,6 +73,7 @@ namespace Sports.WebAPI.Controllers
             teamLogic.SetSession(realToken);
             Team team = mapper.Map<Team>(teamIn);
             teamLogic.Modify(id, team);
+            teamLogic.SetPictureFromPath(id, teamIn.ImagePath);
             return Ok("Team modified succesfully");
         }
 

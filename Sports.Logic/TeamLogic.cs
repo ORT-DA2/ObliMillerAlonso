@@ -15,8 +15,8 @@ namespace Sports.Logic
         IMatchRepository matchRepository;
         ITeamRepository repository;
         ISessionLogic sessionLogic;
-        readonly string ascending = "asc";
-        readonly string descending = "desc";
+        const string ASCENDING = "asc";
+        const string DESCENDING = "desc";
         User user;
 
         public TeamLogic(IRepositoryUnitOfWork unitOfwork)
@@ -123,11 +123,11 @@ namespace Sports.Logic
             if (String.IsNullOrWhiteSpace(order))
             {
             }
-            else if (order.Equals(this.ascending))
+            else if (order.Equals(ASCENDING))
             {
                 teams.OrderBy(t => t.Name);
             }
-            else if (order.Equals(this.descending))
+            else if (order.Equals(DESCENDING))
             {
                 teams.OrderByDescending(t => t.Name);
             }
