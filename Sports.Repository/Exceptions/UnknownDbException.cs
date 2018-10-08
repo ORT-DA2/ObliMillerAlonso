@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Sports.Repsository.Interface.Exceptions;
+using Sports.Repository.Interface.Exceptions;
 
-namespace Sports.Logic.Exceptions
+namespace Sports.Repository.Exceptions
 {
     [Serializable]
     public class UnknownDbException : UnknownDataAccessException

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using Sports.Repsository.Interface.Exceptions;
+using Sports.Repository.Interface.Exceptions;
 
-namespace Sports.Logic.Exceptions
+namespace Sports.Repository.Exceptions
 {
     [Serializable]
     public class DisconnectedDatabaseException : UnknownDataAccessException

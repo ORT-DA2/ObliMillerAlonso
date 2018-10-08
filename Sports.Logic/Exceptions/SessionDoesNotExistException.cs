@@ -5,7 +5,7 @@ using Sports.Logic.Interface.Exceptions;
 namespace Sports.Logic.Exceptions
 {
     [Serializable]
-    public class SessionDoesNotExistException : LogicException
+    public class SessionDoesNotExistException : UnauthorizedException
     {
         public SessionDoesNotExistException(string message) : base(message)
         {

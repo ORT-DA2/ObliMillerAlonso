@@ -131,8 +131,10 @@ namespace Sports.WebAPI.Tests
                 UserName = "iMiller",
                 Password = "root"
             };
-            ICollection<User> users = new List<User>();
-            users.Add(fakeUser);
+            ICollection<User> users = new List<User>
+            {
+                fakeUser
+            };
 
             userLogicMock.Setup(userLogic => userLogic.SetSession(It.IsAny<Guid>()));
             userLogicMock.Setup(userLogic => userLogic.GetAll()).Returns(users);

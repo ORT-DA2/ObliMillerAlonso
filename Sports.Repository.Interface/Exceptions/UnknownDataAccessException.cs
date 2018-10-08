@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sports.Repsository.Interface.Exceptions
+namespace Sports.Repository.Interface.Exceptions
 {
     [Serializable]
     public class UnknownDataAccessException : Exception

@@ -6,7 +6,7 @@ namespace Sports.Domain.Exceptions
 {
 
     [Serializable]
-    public class InvalidSportIsEmptyException : Exception
+    public class InvalidSportIsEmptyException : DomainException
     {
         public InvalidSportIsEmptyException(string message) : base(message)
         {

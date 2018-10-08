@@ -20,6 +20,7 @@ namespace Sports.WebAPI.Tests
         Mock<ITeamLogic> teamLogicMock;
         Mock<ISportLogic> sportLogicMock;
         Mock<IMatchLogic> matchLogicMock;
+        Mock<IFixtureLogic> fixtureLogicMock;
         MatchesController controller;
         IMapper mapper;
         string token;
@@ -30,9 +31,10 @@ namespace Sports.WebAPI.Tests
             matchLogicMock = new Mock<IMatchLogic>();
             teamLogicMock = new Mock<ITeamLogic>();
             sportLogicMock = new Mock<ISportLogic>();
+            fixtureLogicMock = new Mock<IFixtureLogic>();
             var config = new MapperConfiguration(cfg => cfg.AddProfile(new MapperProfile()));
             IMapper mapper = new Mapper(config);
-            controller = new MatchesController(matchLogicMock.Object,sportLogicMock.Object, teamLogicMock.Object);
+            controller = new MatchesController(matchLogicMock.Object,sportLogicMock.Object, teamLogicMock.Object, fixtureLogicMock.Object);
             matchLogicMock.Setup(matchLogic => matchLogic.SetSession(It.IsAny<Guid>()));
             token = new Guid().ToString();
         }

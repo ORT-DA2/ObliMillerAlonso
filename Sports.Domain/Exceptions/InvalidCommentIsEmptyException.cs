@@ -6,7 +6,7 @@ namespace Sports.Domain.Exceptions
 {
 
     [Serializable]
-    public class InvalidCommentIsEmptyException : Exception
+    public class InvalidCommentIsEmptyException : DomainException
     {
         public InvalidCommentIsEmptyException(string message) : base(message)
         {

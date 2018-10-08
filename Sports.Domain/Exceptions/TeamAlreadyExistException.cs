@@ -6,7 +6,7 @@ namespace Sports.Domain.Exceptions
 {
 
     [Serializable]
-    public class TeamAlreadyExistException : Exception
+    public class TeamAlreadyExistException : DomainException
     {
         public TeamAlreadyExistException(string message) : base(message)
         {

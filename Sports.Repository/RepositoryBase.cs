@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using System.Text;
 using Sports.Repository.Interface;
 using Sports.Repository.Context;
-using Sports.Logic.Exceptions;
+using Sports.Repository.Exceptions;
 using Sports.Logic.Constants;
 using System.Linq;
 using System.Data.SqlClient;
