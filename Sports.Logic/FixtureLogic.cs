@@ -15,7 +15,7 @@ namespace Sports.Logic
 {
     public class FixtureLogic : IFixtureLogic
     {
-        private ICollection<IFixtureGeneratorStrategy> fixtureGeneratorStrategies;
+        private static ICollection<IFixtureGeneratorStrategy> fixtureGeneratorStrategies;
         private int currentStrategy;
         private ISportLogic sportLogic;
         private IMatchLogic matchLogic;
@@ -69,21 +69,35 @@ namespace Sports.Logic
             }
         }
 
-        public void ChangeFixtureImplementation()
+        public string ChangeFixtureImplementation()
         {
             sessionLogic.ValidateUser(user);
+            CheckStrategiesAreImported();
+            currentStrategy = (currentStrategy + 1) % (fixtureGeneratorStrategies.Count);
+            IFixtureGeneratorStrategy fixtureStrategy = fixtureGeneratorStrategies.ElementAt(currentStrategy);
+            try
+            {
+                return fixtureStrategy.FixtureInfo();
+            }
+            catch (Exception)
+            {
+                throw new MalfunctioningImplementationException("Fixture generation strategy is failing");
+            }
+        }
+
+        private void CheckStrategiesAreImported()
+        {
             if (fixtureGeneratorStrategies.Count == 0)
             {
                 throw new NoImportedFixtureStrategiesException("No strategies are imported");
             }
-            currentStrategy = (currentStrategy + 1) % (fixtureGeneratorStrategies.Count);
         }
+
 
         public void GenerateFixture(ICollection<Sport> sports, DateTime startDate)
         {
-            ValidateDate(startDate);
             sessionLogic.ValidateUser(user);
-            FixtureGenerationValidations(sports);
+            FixtureGenerationValidations(sports,startDate);
             ICollection<Sport> realSports = GetRealSports(sports);
             ICollection<Match> fixtureMatches = new List<Match>();
             IFixtureGeneratorStrategy fixtureStrategy = fixtureGeneratorStrategies.ElementAt(currentStrategy);
@@ -106,8 +120,9 @@ namespace Sports.Logic
             }
         }
 
-        private void FixtureGenerationValidations(ICollection<Sport> sports)
+        private void FixtureGenerationValidations(ICollection<Sport> sports, DateTime startDate)
         {
+            ValidateDate(startDate);
             CheckFixtureImported();
             CheckListIsNotNull(sports);
         }

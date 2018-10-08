@@ -8,7 +8,8 @@ using Sports.WebAPI.Models;
 using Sports.Logic.Interface;
 using Sports.Domain;
 using Sports.Domain.Exceptions;
-using Sports.Logic.Exceptions;
+using Sports.Logic.Interface.Exceptions;
+using Sports.Repository.Interface.Exceptions;
 using System.Web;
 using AutoMapper;
 
@@ -30,60 +31,152 @@ namespace Sports.WebAPI.Controllers
             mapper = new Mapper(config);
         }
 
-        [HttpGet("{id}", Name = "GetById")]
-        public IActionResult Get(int id, string token)
+        [HttpGet("{id}", Name = "GetTeamById")]
+        public IActionResult Get(int id, [FromHeader] string token)
         {
-            Guid realToken = Guid.Parse(token);
-            teamLogic.SetSession(realToken);
-            Team team = teamLogic.GetTeamById(id);
-            if (team == null)
+            try
             {
-                return NotFound();
+                Guid realToken = Guid.Parse(token);
+                teamLogic.SetSession(realToken);
+                Team team = teamLogic.GetTeamById(id);
+                if (team == null)
+                {
+                    return NotFound();
+                }
+                TeamModelOut modelOut = mapper.Map<TeamModelOut>(team);
+                return Ok(modelOut);
             }
-            TeamModelOut modelOut = mapper.Map<TeamModelOut>(team);
-            return Ok(modelOut);
+            catch (UnauthorizedException ex)
+            {
+                return StatusCode(401, ex.Message);
+            }
+            catch (DomainException ex)
+            {
+                return UnprocessableEntity(ex.Message);
+            }
+            catch (LogicException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (UnknownDataAccessException ex)
+            {
+                return StatusCode(503, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
-        [HttpGet(Name = "GetAll")]
-        public IActionResult GetAll(string token)
+        [HttpGet(Name = "GetAllTeams")]
+        public IActionResult GetAll([FromHeader] string token)
         {
-            Guid realToken = Guid.Parse(token);
-            teamLogic.SetSession(realToken);
-            ICollection<Sport> sportList = sportLogic.GetAll();
-            if (sportList == null)
+            try
             {
-                return NotFound();
-            }
-            ICollection<TeamModelOut> teamModels = new List<TeamModelOut>();
-            foreach (Sport sport in sportList)
-            {
-                foreach (Team team in sport.Teams)
+                Guid realToken = Guid.Parse(token);
+                teamLogic.SetSession(realToken);
+                ICollection<Sport> sportList = sportLogic.GetAll();
+                if (sportList == null)
                 {
-                    TeamModelOut model = mapper.Map<TeamModelOut>(team);
-                    model.SportId = sport.Id;
-                    teamModels.Add(model);
+                    return NotFound();
                 }
+                ICollection<TeamModelOut> teamModels = new List<TeamModelOut>();
+                foreach (Sport sport in sportList)
+                {
+                    foreach (Team team in sport.Teams)
+                    {
+                        TeamModelOut model = mapper.Map<TeamModelOut>(team);
+                        teamModels.Add(model);
+                    }
+                }
+                return Ok(teamModels.ToList());
             }
-            return Ok(teamModels.ToList());
+            catch (UnauthorizedException ex)
+            {
+                return StatusCode(401, ex.Message);
+            }
+            catch (DomainException ex)
+            {
+                return UnprocessableEntity(ex.Message);
+            }
+            catch (LogicException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (UnknownDataAccessException ex)
+            {
+                return StatusCode(503, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpPut("{id}", Name = "ModifyTeam")]
-        public IActionResult PutTeam(int id, [FromBody] TeamModelIn teamIn, string token)
+        public IActionResult PutTeam(int id, [FromBody] TeamModelIn teamIn, [FromHeader] string token)
         {
-            Guid realToken = Guid.Parse(token);
-            teamLogic.SetSession(realToken);
-            Team team = mapper.Map<Team>(teamIn);
-            teamLogic.Modify(id, team);
-            return Ok("Team modified succesfully");
+            try
+            {
+                Guid realToken = Guid.Parse(token);
+                teamLogic.SetSession(realToken);
+                Team team = mapper.Map<Team>(teamIn);
+                teamLogic.Modify(id, team);
+                teamLogic.SetPictureFromPath(id, teamIn.ImagePath);
+                return Ok("Team modified succesfully");
+            }
+            catch (UnauthorizedException ex)
+            {
+                return StatusCode(401, ex.Message);
+            }
+            catch (DomainException ex)
+            {
+                return UnprocessableEntity(ex.Message);
+            }
+            catch (LogicException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (UnknownDataAccessException ex)
+            {
+                return StatusCode(503, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpDelete("{id}", Name = "DeleteTeam")]
-        public IActionResult DeleteTeam(int id, string token)
+        public IActionResult DeleteTeam(int id, [FromHeader] string token)
         {
-            Guid realToken = Guid.Parse(token);
-            teamLogic.SetSession(realToken);
-            teamLogic.Delete(id);
-            return Ok("Team deleted succesfully");
+            try
+            {
+                Guid realToken = Guid.Parse(token);
+                teamLogic.SetSession(realToken);
+                teamLogic.Delete(id);
+                return Ok("Team deleted succesfully");
+            }
+            catch (UnauthorizedException ex)
+            {
+                return StatusCode(401, ex.Message);
+            }
+            catch (DomainException ex)
+            {
+                return UnprocessableEntity(ex.Message);
+            }
+            catch (LogicException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (UnknownDataAccessException ex)
+            {
+                return StatusCode(503, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }

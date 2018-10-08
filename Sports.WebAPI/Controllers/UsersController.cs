@@ -8,7 +8,8 @@ using Sports.WebAPI.Models;
 using Sports.Logic.Interface;
 using Sports.Domain;
 using Sports.Domain.Exceptions;
-using Sports.Logic.Exceptions;
+using Sports.Logic.Interface.Exceptions;
+using Sports.Repository.Interface.Exceptions;
 using System.Web;
 using AutoMapper;
 
@@ -19,44 +20,92 @@ namespace Sports.WebAPI.Controllers
     public class UsersController : ControllerBase
     {
         private IUserLogic userLogic;
+        private IFavoriteLogic favoriteLogic;
         private ISessionLogic sessionLogic;
         private IMapper mapper;
 
-        public UsersController(IUserLogic aUserLogic, ISessionLogic aSessionLogic)
+        public UsersController(IUserLogic aUserLogic, ISessionLogic aSessionLogic, IFavoriteLogic aFavoriteLogic)
         {
+            favoriteLogic = aFavoriteLogic;
             userLogic = aUserLogic;
             sessionLogic = aSessionLogic;
             var config = new MapperConfiguration(cfg => cfg.AddProfile(new MapperProfile()));
             mapper = new Mapper(config);
         }
 
-        [HttpGet("{id}", Name = "GetById")]
-        public IActionResult Get(int id, string token)
+        [HttpGet("{id}", Name = "GetUserById")]
+        public IActionResult Get(int id, [FromHeader] string token)
         {
-            Guid realToken = Guid.Parse(token);
-            userLogic.SetSession(realToken);
-            User user = userLogic.GetUserById(id);
-            UserModelOut modelOut = mapper.Map<UserModelOut>(user);
-            return Ok(modelOut);
-        }
-
-        [HttpGet(Name = "GetAll")]
-        public IActionResult GetAll(string token)
-        {
-            Guid realToken = Guid.Parse(token);
-            userLogic.SetSession(realToken);
-            ICollection<User> userList = userLogic.GetAll();
-            ICollection<UserModelOut> userModels = new List<UserModelOut>();
-            foreach (User user in userList)
+            try
             {
-                UserModelOut model = mapper.Map<UserModelOut>(user);
-                userModels.Add(model);
+                Guid realToken = Guid.Parse(token);
+                userLogic.SetSession(realToken);
+                User user = userLogic.GetUserById(id);
+                UserModelOut modelOut = mapper.Map<UserModelOut>(user);
+                return Ok(modelOut);
             }
-            return Ok(userModels.ToList());
+            catch (UnauthorizedException ex)
+            {
+                return StatusCode(401, ex.Message);
+            }
+            catch (DomainException ex)
+            {
+                return UnprocessableEntity(ex.Message);
+            }
+            catch (LogicException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (UnknownDataAccessException ex)
+            {
+                return StatusCode(503, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
-        [HttpPost]
-        public IActionResult PostUser([FromBody] UserModelIn userIn, string token)
+        [HttpGet(Name = "GetUsersAll")]
+        public IActionResult GetAll([FromHeader] string token)
+        {
+            try
+            {
+                Guid realToken = Guid.Parse(token);
+                userLogic.SetSession(realToken);
+                ICollection<User> userList = userLogic.GetAll();
+                ICollection<UserModelOut> userModels = new List<UserModelOut>();
+                foreach (User user in userList)
+                {
+                    UserModelOut model = mapper.Map<UserModelOut>(user);
+                    userModels.Add(model);
+                }
+                return Ok(userModels.ToList());
+            }
+            catch (UnauthorizedException ex)
+            {
+                return Unauthorized();
+            }
+            catch (DomainException ex)
+            {
+                return UnprocessableEntity(ex.Message);
+            }
+            catch (LogicException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (UnknownDataAccessException ex)
+            {
+                return StatusCode(503);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPost(Name = "CreateUser")]
+        public IActionResult PostUser([FromBody] UserModelIn userIn, [FromHeader] string token)
         {
             try
             {
@@ -74,8 +123,8 @@ namespace Sports.WebAPI.Controllers
 
         }
 
-        [HttpPut]
-        public IActionResult PutUser([FromHeader] int userId, [FromBody]UserModelIn newUser, string token)
+        [HttpPut(Name = "ModifyUser")]
+        public IActionResult PutUser([FromHeader] int userId, [FromBody]UserModelIn newUser, [FromHeader] string token)
         {
             try
             {
@@ -85,15 +134,30 @@ namespace Sports.WebAPI.Controllers
                 userLogic.UpdateUser(userId, user);
                 return Ok("User modified correctly.");
             }
+            catch (UnauthorizedException ex)
+            {
+                return StatusCode(401, ex.Message);
+            }
+            catch (DomainException ex)
+            {
+                return UnprocessableEntity(ex.Message);
+            }
+            catch (LogicException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (UnknownDataAccessException ex)
+            {
+                return StatusCode(503, ex.Message);
+            }
             catch (Exception ex)
             {
-                return NotFound(ex.Message);
+                return StatusCode(500, ex.Message);
             }
-
         }
 
-        [HttpDelete]
-        public IActionResult DeleteUser([FromHeader] int userId, string token)
+        [HttpDelete(Name = "DeleteUser")]
+        public IActionResult DeleteUser([FromHeader] int userId, [FromHeader] string token)
         {
             try
             {
@@ -102,27 +166,61 @@ namespace Sports.WebAPI.Controllers
                 userLogic.RemoveUser(userId);
                 return Ok("User deleted");
             }
+            catch (UnauthorizedException ex)
+            {
+                return StatusCode(401, ex.Message);
+            }
+            catch (DomainException ex)
+            {
+                return UnprocessableEntity(ex.Message);
+            }
+            catch (LogicException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (UnknownDataAccessException ex)
+            {
+                return StatusCode(503, ex.Message);
+            }
             catch (Exception ex)
             {
-                return NotFound(ex.Message);
+                return StatusCode(500, ex.Message);
             }
 
         }
-        
 
-        public IActionResult Login([FromBody]LoginModel modelIn)
+        [Route("login")]
+        [HttpPost(Name = "LoginUser")]
+        public IActionResult Login([FromBody]LoginDTO modelIn)
         {
             try
             {
-                Guid token = sessionLogic.LogInUser(modelIn.Username,modelIn.Password);
+                Guid token = sessionLogic.LogInUser(modelIn.Username, modelIn.Password);
                 return Ok(token.ToString());
+            }
+            catch (UnauthorizedException ex)
+            {
+                return StatusCode(401, ex.Message);
+            }
+            catch (DomainException ex)
+            {
+                return UnprocessableEntity(ex.Message);
+            }
+            catch (LogicException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (UnknownDataAccessException ex)
+            {
+                return StatusCode(503, ex.Message);
             }
             catch (Exception ex)
             {
-                return NotFound(ex.Message);
+                return StatusCode(500, ex.Message);
             }
         }
-        public IActionResult Logout(string token)
+        [HttpPost("logout", Name = "LogoutUser")]
+        public IActionResult Logout([FromHeader] string token)
         {
             try
             {
@@ -130,9 +228,135 @@ namespace Sports.WebAPI.Controllers
                 sessionLogic.LogoutByToken(realToken);
                 return Ok("Succesfully logged out");
             }
+            catch (UnauthorizedException ex)
+            {
+                return StatusCode(401, ex.Message);
+            }
+            catch (DomainException ex)
+            {
+                return UnprocessableEntity(ex.Message);
+            }
+            catch (LogicException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (UnknownDataAccessException ex)
+            {
+                return StatusCode(503, ex.Message);
+            }
             catch (Exception ex)
             {
-                return NotFound(ex.Message);
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+
+        [HttpPost("favoriteTeams", Name = "SetFavoriteTeam")]
+        public IActionResult PostFavorite([FromBody] TeamModelIn teamIn, [FromHeader] string token)
+        {
+            try
+            {
+                Guid realToken = Guid.Parse(token);
+                favoriteLogic.SetSession(realToken);
+                Team team = mapper.Map<Team>(teamIn);
+                favoriteLogic.AddFavoriteTeam(team);
+                return Ok("Favorite added successfully.");
+            }
+            catch (UnauthorizedException ex)
+            {
+                return StatusCode(401, ex.Message);
+            }
+            catch (DomainException ex)
+            {
+                return UnprocessableEntity(ex.Message);
+            }
+            catch (LogicException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (UnknownDataAccessException ex)
+            {
+                return StatusCode(503, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet("favoriteTeams", Name = "GetFavoritesTeams")]
+        public IActionResult GetFavoriteTeams([FromHeader] string token)
+        {
+            try
+            {
+                Guid realToken = Guid.Parse(token);
+                favoriteLogic.SetSession(realToken);
+                ICollection<Team> favoriteTeams = favoriteLogic.GetFavoritesFromUser();
+                ICollection<TeamModelOut> teamModels = new List<TeamModelOut>();
+                foreach (Team team in favoriteTeams)
+                {
+                    TeamModelOut model = mapper.Map<TeamModelOut>(team);
+                    teamModels.Add(model);
+                }
+                return Ok(teamModels);
+            }
+            catch (UnauthorizedException ex)
+            {
+                return StatusCode(401, ex.Message);
+            }
+            catch (DomainException ex)
+            {
+                return UnprocessableEntity(ex.Message);
+            }
+            catch (LogicException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (UnknownDataAccessException ex)
+            {
+                return StatusCode(503, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet("favoriteComments", Name = "GetFavoritesTeamsComents")]
+        public IActionResult GetFavoritesTeamsComents([FromHeader] string token)
+        {
+            try
+            {
+                Guid realToken = Guid.Parse(token);
+                favoriteLogic.SetSession(realToken);
+                ICollection<Comment> favoriteTeamsComments = favoriteLogic.GetFavoritesTeamsComments();
+                ICollection<CommentModelOut> commentModels = new List<CommentModelOut>();
+                foreach (Comment comment in favoriteTeamsComments)
+                {
+                    CommentModelOut model = mapper.Map<CommentModelOut>(comment);
+                    commentModels.Add(model);
+                }
+                return Ok(commentModels.ToList());
+            }
+            catch (UnauthorizedException ex)
+            {
+                return StatusCode(401, ex.Message);
+            }
+            catch (DomainException ex)
+            {
+                return UnprocessableEntity(ex.Message);
+            }
+            catch (LogicException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (UnknownDataAccessException ex)
+            {
+                return StatusCode(503, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
             }
         }
     }

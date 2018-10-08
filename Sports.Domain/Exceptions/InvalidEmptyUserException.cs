@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 namespace Sports.Domain.Exceptions
 {
     [Serializable]
-    public class InvalidEmptyUserException : Exception
+    public class InvalidEmptyUserException : DomainException
     {
 
         public InvalidEmptyUserException(string message) : base(message)

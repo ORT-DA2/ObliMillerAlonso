@@ -159,7 +159,7 @@ namespace Sports.Repository.Context.Migrations
 
             modelBuilder.Entity("Sports.Domain.Comment", b =>
                 {
-                    b.HasOne("Sports.Domain.Match")
+                    b.HasOne("Sports.Domain.Match", "Match")
                         .WithMany("Comments")
                         .HasForeignKey("MatchId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -210,7 +210,7 @@ namespace Sports.Repository.Context.Migrations
 
             modelBuilder.Entity("Sports.Domain.Team", b =>
                 {
-                    b.HasOne("Sports.Domain.Sport")
+                    b.HasOne("Sports.Domain.Sport", "Sport")
                         .WithMany("Teams")
                         .HasForeignKey("SportId")
                         .OnDelete(DeleteBehavior.Cascade);

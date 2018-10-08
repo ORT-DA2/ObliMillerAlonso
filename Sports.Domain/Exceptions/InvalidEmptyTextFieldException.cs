@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 namespace Sports.Domain.Exceptions
 {
     [Serializable]
-    public class InvalidEmptyTextFieldException : Exception
+    public class InvalidEmptyTextFieldException : DomainException
     {
 
         public InvalidEmptyTextFieldException(string message) : base(message)

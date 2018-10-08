@@ -20,6 +20,7 @@ namespace Sports.WebAPI.Tests
         Mock<ITeamLogic> teamLogicMock;
         Mock<ISportLogic> sportLogicMock;
         Mock<IMatchLogic> matchLogicMock;
+        Mock<IFixtureLogic> fixtureLogicMock;
         MatchesController controller;
         IMapper mapper;
         string token;
@@ -30,10 +31,10 @@ namespace Sports.WebAPI.Tests
             matchLogicMock = new Mock<IMatchLogic>();
             teamLogicMock = new Mock<ITeamLogic>();
             sportLogicMock = new Mock<ISportLogic>();
+            fixtureLogicMock = new Mock<IFixtureLogic>();
             var config = new MapperConfiguration(cfg => cfg.AddProfile(new MapperProfile()));
             IMapper mapper = new Mapper(config);
-            controller = new MatchesController(matchLogicMock.Object,sportLogicMock.Object, teamLogicMock.Object);
-            matchLogicMock.Setup(matchLogic => matchLogic.SetSession(It.IsAny<Guid>()));
+            controller = new MatchesController(matchLogicMock.Object,sportLogicMock.Object, teamLogicMock.Object, fixtureLogicMock.Object);
             token = new Guid().ToString();
         }
         
@@ -56,9 +57,12 @@ namespace Sports.WebAPI.Tests
                 Sport = sport,
                 Date = DateTime.Today,
             };
-            ICollection<Domain.Match> matches = new List<Domain.Match>();
-            matches.Add(match);
+            ICollection<Domain.Match> matches = new List<Domain.Match>
+            {
+                match
+            };
 
+            matchLogicMock.Setup(matchLogic => matchLogic.SetSession(It.IsAny<Guid>()));
             matchLogicMock.Setup(matchLogic => matchLogic.GetAllMatches()).Returns(matches);
 
             IActionResult result = controller.GetAll(token);
@@ -91,7 +95,8 @@ namespace Sports.WebAPI.Tests
                 Sport = sport,
                 Date = DateTime.Today,
             };
-            
+
+            matchLogicMock.Setup(matchLogic => matchLogic.SetSession(It.IsAny<Guid>()));
             matchLogicMock.Setup(matchLogic => matchLogic.GetMatchById(It.IsAny<int>())).Returns(match);
 
             IActionResult result = controller.Get(matchId, token);
@@ -124,6 +129,7 @@ namespace Sports.WebAPI.Tests
                 Date = DateTime.Today.ToString("dd/MM/yyyy HH:mm")
             };
 
+            matchLogicMock.Setup(matchLogic => matchLogic.SetSession(It.IsAny<Guid>()));
             matchLogicMock.Setup(matchLogic => matchLogic.AddMatch(It.IsAny<Domain.Match>()));
 
             IActionResult result = controller.Post(model, token);
@@ -157,6 +163,7 @@ namespace Sports.WebAPI.Tests
                 Date = DateTime.Today.ToString("dd/MM/yyyy HH:mm")
             };
 
+            matchLogicMock.Setup(matchLogic => matchLogic.SetSession(It.IsAny<Guid>()));
             matchLogicMock.Setup(matchLogic => matchLogic.ModifyMatch(It.IsAny<int>(), It.IsAny<Domain.Match>()));
 
             IActionResult result = controller.Put(matchId, model, token);
@@ -172,6 +179,7 @@ namespace Sports.WebAPI.Tests
         {
             int matchId = 1;
 
+            matchLogicMock.Setup(matchLogic => matchLogic.SetSession(It.IsAny<Guid>()));
             matchLogicMock.Setup(matchLogic => matchLogic.DeleteMatch(It.IsAny<int>()));
 
             IActionResult result = controller.Delete(matchId, token);
@@ -202,6 +210,7 @@ namespace Sports.WebAPI.Tests
             ICollection<Comment> comments = new List<Comment>();
             comments.Add(fakeComment);
 
+            matchLogicMock.Setup(matchLogic => matchLogic.SetSession(It.IsAny<Guid>()));
             matchLogicMock.Setup(matchLogic => matchLogic.GetAllComments(It.IsAny<int>())).Returns(comments);
 
             IActionResult result = controller.GetComments(match.Id, token);
@@ -227,9 +236,86 @@ namespace Sports.WebAPI.Tests
                 Text = "comment text"
             };
 
+            matchLogicMock.Setup(matchLogic => matchLogic.SetSession(It.IsAny<Guid>()));
             matchLogicMock.Setup(matchLogic => matchLogic.AddCommentToMatch(It.IsAny<int>(),It.IsAny<Comment>()));
 
             IActionResult result = controller.PostComment(matchId, modelIn, token);
+            var okResult = result as OkObjectResult;
+
+            matchLogicMock.VerifyAll();
+
+            Assert.AreEqual(200, okResult.StatusCode);
+        }
+
+
+        [TestMethod]
+        public void AddFixtures()
+        {
+            FixturesPathDTO pathDTO = new FixturesPathDTO()
+            {
+                Path = "path"
+            };
+
+            fixtureLogicMock.Setup(fixtureLogic => fixtureLogic.SetSession(It.IsAny<Guid>()));
+            fixtureLogicMock.Setup(fixtureLogic => fixtureLogic.AddFixtureImplementations(It.IsAny<string>()));
+
+            IActionResult result = controller.PostFixtureImplementation(pathDTO, token);
+            var okResult = result as OkObjectResult;
+
+            matchLogicMock.VerifyAll();
+
+            Assert.AreEqual(200, okResult.StatusCode);
+        }
+
+
+        [TestMethod]
+        public void GenerateFixtures()
+        {
+            Team team = new Team()
+            {
+                Id = 1
+            };
+            Sport sport = new Sport()
+            {
+                Id = 1,
+                Name = "Deporte"
+            };
+
+            SportModelIn sportModel = new SportModelIn()
+            {
+                Name = "Deporte"
+            };
+            ICollection<SportModelIn> sportModels = new List<SportModelIn>
+            {
+                sportModel
+            };
+
+            FixtureDTO fixtureDTO = new FixtureDTO()
+            {
+                Sports = sportModels,
+                Date = "11/10/2014 10:10"
+            };
+
+            fixtureLogicMock.Setup(fixtureLogic => fixtureLogic.SetSession(It.IsAny<Guid>()));
+            fixtureLogicMock.Setup(fixtureLogic => fixtureLogic.GenerateFixture(It.IsAny<ICollection<Sport>>(),It.IsAny<DateTime>()));
+
+            IActionResult result = controller.GenerateFixture(fixtureDTO, token);
+            var okResult = result as OkObjectResult;
+
+            matchLogicMock.VerifyAll();
+
+            Assert.AreEqual(200, okResult.StatusCode);
+        }
+
+        [TestMethod]
+        public void NextFixture()
+        {
+            string message = "message";
+
+            fixtureLogicMock.Setup(fixtureLogic => fixtureLogic.SetSession(It.IsAny<Guid>()));
+            fixtureLogicMock.Setup(fixtureLogic => fixtureLogic.ChangeFixtureImplementation()).Returns(message);
+
+            IActionResult result = controller.NextFixture(token);
             var okResult = result as OkObjectResult;
 
             matchLogicMock.VerifyAll();

@@ -78,6 +78,12 @@ namespace FixtureImplementations
             daysToAddToDate++;
             return nextMatch;
         }
+
+
+        public string FixtureInfo()
+        {
+            return "Generates all versus all matches one each day, with rematch.";
+        }
         
     }
 }

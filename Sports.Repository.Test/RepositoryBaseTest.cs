@@ -5,11 +5,11 @@ using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using Sports.Repository.Context;
 using Sports.Repository.Interface;
-using Sports.Repository;
+using Sports.Repository.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Sports.Logic;
 using Sports.Logic.Exceptions;
-using Sports.Logic.Interface;
+using Sports.Logic.Interface.Exceptions;
 using Sports.Repository.UnitOfWork;
 using Sports.Domain;
 

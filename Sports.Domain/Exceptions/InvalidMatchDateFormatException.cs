@@ -6,7 +6,7 @@ namespace Sports.Domain.Exceptions
 {
 
     [Serializable]
-    public class InvalidMatchDateFormatException : Exception
+    public class InvalidMatchDateFormatException : DomainException
     {
         public InvalidMatchDateFormatException(string message) : base(message)
         {

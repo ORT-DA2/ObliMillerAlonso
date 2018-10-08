@@ -18,20 +18,20 @@ namespace Sports.WebAPI.Tests
     public class FavoritesControllerTest
     {
         Mock<IFavoriteLogic> favoriteLogicMock;
+        Mock<ISessionLogic> sessionLogicMock;
         Mock<IUserLogic> userLogicMock;
-        FavoritesController controller;
-        IMapper mapper;
+        UsersController controller;
         string token;
 
         [TestInitialize]
         public void SetUp()
         {
-
+            sessionLogicMock = new Mock<ISessionLogic>();
             favoriteLogicMock = new Mock<IFavoriteLogic>();
             userLogicMock = new Mock<IUserLogic>();
             var config = new MapperConfiguration(cfg => cfg.AddProfile(new MapperProfile()));
             IMapper mapper = new Mapper(config);
-            controller = new FavoritesController(userLogicMock.Object, favoriteLogicMock.Object);
+            controller = new UsersController(userLogicMock.Object, sessionLogicMock.Object, favoriteLogicMock.Object);
             favoriteLogicMock.Setup(favoriteLogic => favoriteLogic.SetSession(It.IsAny<Guid>()));
             userLogicMock.Setup(userLogic => userLogic.SetSession(It.IsAny<Guid>()));
             token = new Guid().ToString();
@@ -59,9 +59,8 @@ namespace Sports.WebAPI.Tests
         }
 
         [TestMethod]
-        public void ValidGetFavoritesFromUsers()
+        public void ValidGetFavoritesFromUser()
         {
-            int userId = 1;
             Team fakeTeam = new Team()
             {
                 Name = "Team name"
@@ -71,9 +70,9 @@ namespace Sports.WebAPI.Tests
 
             favoriteLogicMock.Setup(favoriteLogic => favoriteLogic.GetFavoritesFromUser()).Returns(teams);
 
-            var result = controller.GetFavoritesForUser(token);
+            var result = controller.GetFavoriteTeams(token);
             var okResult = result as OkObjectResult;
-            var favoriteTeams = okResult.Value as ICollection<Team>;
+            var favoriteTeams = okResult.Value as ICollection<TeamModelOut>;
 
             favoriteLogicMock.VerifyAll();
             Assert.AreEqual(200, okResult.StatusCode);
@@ -105,7 +104,7 @@ namespace Sports.WebAPI.Tests
 
             var result = controller.GetFavoritesTeamsComents(token);
             var okResult = result as OkObjectResult;
-            var favoriteTeamsComments = okResult.Value as ICollection<Comment>;
+            var favoriteTeamsComments = okResult.Value as ICollection<CommentModelOut>;
             
             favoriteLogicMock.VerifyAll();
             Assert.AreEqual(200, okResult.StatusCode);

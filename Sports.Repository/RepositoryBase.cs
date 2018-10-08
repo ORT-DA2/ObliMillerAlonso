@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using System.Text;
 using Sports.Repository.Interface;
 using Sports.Repository.Context;
-using Sports.Logic.Exceptions;
+using Sports.Repository.Exceptions;
 using Sports.Logic.Constants;
 using System.Linq;
 using System.Data.SqlClient;
@@ -21,7 +21,7 @@ namespace Sports.Repository
            this.RepositoryContext = repositoryContext;
         }
 
-        public ICollection<T> FindAll()
+        public virtual ICollection<T> FindAll()
         {
             try
             {
@@ -37,7 +37,7 @@ namespace Sports.Repository
             }
         }
 
-        public ICollection<T> FindByCondition(Expression<Func<T, bool>> expression)
+        public virtual ICollection<T> FindByCondition(Expression<Func<T, bool>> expression)
         {
             try
             {

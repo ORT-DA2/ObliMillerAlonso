@@ -6,7 +6,7 @@ using Sports.Logic.Interface.Exceptions;
 namespace Sports.Logic.Exceptions
 {
     [Serializable]
-    public class NonAdminException : LogicException
+    public class NonAdminException : UnauthorizedException
     {
         public NonAdminException(string message) : base(message)
         {
