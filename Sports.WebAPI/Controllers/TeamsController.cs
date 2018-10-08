@@ -32,7 +32,7 @@ namespace Sports.WebAPI.Controllers
         }
 
         [HttpGet("{id}", Name = "GetTeamById")]
-        public IActionResult Get(int id, string token)
+        public IActionResult Get(int id, [FromHeader] string token)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace Sports.WebAPI.Controllers
         }
 
         [HttpGet(Name = "GetAllTeams")]
-        public IActionResult GetAll(string token)
+        public IActionResult GetAll([FromHeader] string token)
         {
             try
             {
@@ -114,7 +114,7 @@ namespace Sports.WebAPI.Controllers
         }
 
         [HttpPut("{id}", Name = "ModifyTeam")]
-        public IActionResult PutTeam(int id, [FromBody] TeamModelIn teamIn, string token)
+        public IActionResult PutTeam(int id, [FromBody] TeamModelIn teamIn, [FromHeader] string token)
         {
             try
             {
@@ -148,7 +148,7 @@ namespace Sports.WebAPI.Controllers
         }
 
         [HttpDelete("{id}", Name = "DeleteTeam")]
-        public IActionResult DeleteTeam(int id, string token)
+        public IActionResult DeleteTeam(int id, [FromHeader] string token)
         {
             try
             {

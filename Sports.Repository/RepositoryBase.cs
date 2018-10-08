@@ -21,7 +21,7 @@ namespace Sports.Repository
            this.RepositoryContext = repositoryContext;
         }
 
-        public ICollection<T> FindAll()
+        public virtual ICollection<T> FindAll()
         {
             try
             {
@@ -37,7 +37,7 @@ namespace Sports.Repository
             }
         }
 
-        public ICollection<T> FindByCondition(Expression<Func<T, bool>> expression)
+        public virtual ICollection<T> FindByCondition(Expression<Func<T, bool>> expression)
         {
             try
             {

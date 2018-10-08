@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sports.WebAPI.Models
 {
-    public class LoginModel
+    public class LoginDTO
     {
         [Required]
         public string Username { get; set; }

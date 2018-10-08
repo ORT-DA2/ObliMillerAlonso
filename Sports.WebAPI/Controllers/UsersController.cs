@@ -34,7 +34,7 @@ namespace Sports.WebAPI.Controllers
         }
 
         [HttpGet("{id}", Name = "GetUserById")]
-        public IActionResult Get(int id, string token)
+        public IActionResult Get(int id, [FromHeader] string token)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace Sports.WebAPI.Controllers
         }
 
         [HttpGet(Name = "GetUsersAll")]
-        public IActionResult GetAll(string token)
+        public IActionResult GetAll([FromHeader] string token)
         {
             try
             {
@@ -105,7 +105,7 @@ namespace Sports.WebAPI.Controllers
         }
 
         [HttpPost(Name = "CreateUser")]
-        public IActionResult PostUser([FromBody] UserModelIn userIn, string token)
+        public IActionResult PostUser([FromBody] UserModelIn userIn, [FromHeader] string token)
         {
             try
             {
@@ -124,7 +124,7 @@ namespace Sports.WebAPI.Controllers
         }
 
         [HttpPut(Name = "ModifyUser")]
-        public IActionResult PutUser([FromHeader] int userId, [FromBody]UserModelIn newUser, string token)
+        public IActionResult PutUser([FromHeader] int userId, [FromBody]UserModelIn newUser, [FromHeader] string token)
         {
             try
             {
@@ -157,7 +157,7 @@ namespace Sports.WebAPI.Controllers
         }
 
         [HttpDelete(Name = "DeleteUser")]
-        public IActionResult DeleteUser([FromHeader] int userId, string token)
+        public IActionResult DeleteUser([FromHeader] int userId, [FromHeader] string token)
         {
             try
             {
@@ -191,7 +191,7 @@ namespace Sports.WebAPI.Controllers
 
         [Route("login")]
         [HttpPost(Name = "LoginUser")]
-        public IActionResult Login([FromBody]LoginModel modelIn)
+        public IActionResult Login([FromBody]LoginDTO modelIn)
         {
             try
             {
@@ -220,7 +220,7 @@ namespace Sports.WebAPI.Controllers
             }
         }
         [HttpPost("logout", Name = "LogoutUser")]
-        public IActionResult Logout(string token)
+        public IActionResult Logout([FromHeader] string token)
         {
             try
             {
@@ -252,7 +252,7 @@ namespace Sports.WebAPI.Controllers
 
 
         [HttpPost("favoriteTeams", Name = "SetFavoriteTeam")]
-        public IActionResult PostFavorite([FromBody] TeamModelIn teamIn, string token)
+        public IActionResult PostFavorite([FromBody] TeamModelIn teamIn, [FromHeader] string token)
         {
             try
             {
@@ -285,7 +285,7 @@ namespace Sports.WebAPI.Controllers
         }
 
         [HttpGet("favoriteTeams", Name = "GetFavoritesTeams")]
-        public IActionResult GetFavoriteTeams(string token)
+        public IActionResult GetFavoriteTeams([FromHeader] string token)
         {
             try
             {
@@ -323,7 +323,7 @@ namespace Sports.WebAPI.Controllers
         }
 
         [HttpGet("favoriteComments", Name = "GetFavoritesTeamsComents")]
-        public IActionResult GetFavoritesTeamsComents(string token)
+        public IActionResult GetFavoritesTeamsComents([FromHeader] string token)
         {
             try
             {

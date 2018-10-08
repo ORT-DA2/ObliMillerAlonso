@@ -37,7 +37,7 @@ namespace Sports.WebAPI.Controllers
         }
 
         [HttpGet("{id}", Name = "GetMatchById")]
-        public IActionResult Get(int id, string token)
+        public IActionResult Get(int id, [FromHeader] string token)
         {
             try
             {
@@ -70,7 +70,7 @@ namespace Sports.WebAPI.Controllers
         }
 
         [HttpGet(Name = "GetAllMatches")]
-        public IActionResult GetAll(string token)
+        public IActionResult GetAll([FromHeader] string token)
         {
             try
             {
@@ -109,7 +109,7 @@ namespace Sports.WebAPI.Controllers
 
 
         [HttpPost(Name = "AddMatch")]
-        public IActionResult Post([FromBody] MatchModelIn matchIn, string token)
+        public IActionResult Post([FromBody] MatchModelIn matchIn, [FromHeader] string token)
         {
             try
             {
@@ -143,7 +143,7 @@ namespace Sports.WebAPI.Controllers
         }
 
         [HttpPut("{id}", Name = "ModifyMatch")]
-        public IActionResult Put(int id, [FromBody] MatchModelIn matchIn, string token)
+        public IActionResult Put(int id, [FromBody] MatchModelIn matchIn, [FromHeader] string token)
         {
             try
             {
@@ -176,7 +176,7 @@ namespace Sports.WebAPI.Controllers
         }
 
         [HttpDelete("{id}", Name = "DeleteMatch")]
-        public IActionResult Delete(int id, string token)
+        public IActionResult Delete(int id, [FromHeader] string token)
         {
             try
             {
@@ -209,7 +209,7 @@ namespace Sports.WebAPI.Controllers
 
 
         [HttpGet("{id}/comments", Name = "GetAllComments")]
-        public IActionResult GetComments(int id, string token)
+        public IActionResult GetComments(int id, [FromHeader] string token)
         {
             try
             {
@@ -248,7 +248,7 @@ namespace Sports.WebAPI.Controllers
         }
 
         [HttpGet("{id}/comments", Name = "GetAllComments")]
-        public IActionResult PostComment(int id, [FromBody] CommentModelIn commentIn, string token)
+        public IActionResult PostComment(int id, [FromBody] CommentModelIn commentIn, [FromHeader] string token)
         {
             try
             {
@@ -283,14 +283,14 @@ namespace Sports.WebAPI.Controllers
 
         //testear
 
-        [HttpPut("FixtureImplementation", Name = "AddFixture")]
-        public IActionResult PutFixtureImplementation(string fixturesPath, string token)
+        [HttpPost("FixtureImplementations", Name = "AddFixture")]
+        public IActionResult PostFixtureImplementation([FromBody]FixturesPathDTO fixtureDTO, [FromHeader] string token)
         {
             try
             {
                 Guid realToken = Guid.Parse(token);
                 fixtureLogic.SetSession(realToken);
-                fixtureLogic.AddFixtureImplementations(fixturesPath);
+                fixtureLogic.AddFixtureImplementations(fixtureDTO.Path);
                 return Ok("Fixtures succesfully added");
 
             }
@@ -317,7 +317,7 @@ namespace Sports.WebAPI.Controllers
         }
 
         [HttpPost("GenerateFixture", Name = "GenerateFixture")]
-        public IActionResult GenerateFixture([FromBody] FixtureSports fixtureData, string token)
+        public IActionResult GenerateFixture([FromBody] FixtureDTO fixtureData, [FromHeader] string token)
         {
             try
             {
@@ -356,8 +356,8 @@ namespace Sports.WebAPI.Controllers
             }
         }
 
-        [HttpGet("ChangeFixture", Name = "ChangeFixture")]
-        public IActionResult ChangeeFixture(string token)
+        [HttpGet("NextFixture", Name = "ChangeFixture")]
+        public IActionResult NextFixture([FromHeader] string token)
         {
             try
             {

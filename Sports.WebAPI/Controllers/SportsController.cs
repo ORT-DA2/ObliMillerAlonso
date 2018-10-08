@@ -32,7 +32,7 @@ namespace Sports.WebAPI.Controllers
         }
 
         [HttpGet("{id}", Name = "GetSportsById")]
-        public IActionResult Get(int id, string token)
+        public IActionResult Get(int id, [FromHeader] string token)
         {
             try
             {
@@ -65,7 +65,7 @@ namespace Sports.WebAPI.Controllers
         }
 
         [HttpGet(Name = "GetAllSports")]
-        public IActionResult GetAll(string token)
+        public IActionResult GetAll([FromHeader] string token)
         {
             try
             {
@@ -98,7 +98,7 @@ namespace Sports.WebAPI.Controllers
         }
 
         [HttpPost(Name = "AddSport")]
-        public IActionResult PostSport([FromBody] SportModelIn sportIn, string token)
+        public IActionResult PostSport([FromBody] SportModelIn sportIn, [FromHeader] string token)
         {
             try
             {
@@ -132,7 +132,7 @@ namespace Sports.WebAPI.Controllers
         }
 
         [HttpPut("{id}", Name = "ModifySport")]
-        public IActionResult PutSport(int id, [FromBody]  SportModelIn sportIn, string token)
+        public IActionResult PutSport(int id, [FromBody]  SportModelIn sportIn, [FromHeader] string token)
         {
             try
             {
@@ -165,7 +165,7 @@ namespace Sports.WebAPI.Controllers
         }
 
         [HttpDelete("{id}", Name = "DeleteSport")]
-        public IActionResult DeleteSport(int id, string token)
+        public IActionResult DeleteSport(int id, [FromHeader] string token)
         {
             try
             {
@@ -197,7 +197,7 @@ namespace Sports.WebAPI.Controllers
         }
 
         [HttpPost("{id}/Teams", Name = "AddTeam")]
-        public IActionResult PostTeam(int id, [FromBody] TeamModelIn teamIn, string token)
+        public IActionResult PostTeam(int id, [FromBody] TeamModelIn teamIn, [FromHeader] string token)
         {
             try
             {
@@ -233,7 +233,7 @@ namespace Sports.WebAPI.Controllers
 
 
         [HttpGet("{id}/Teams", Name = "GetTeamsFromSport")]
-        public IActionResult GetTeams(int id, string token)
+        public IActionResult GetTeams(int id, [FromHeader] string token)
         {
             try
             {

@@ -154,7 +154,7 @@ namespace Sports.WebAPI.Tests
         public void ValidLogin()
         {
 
-            LoginModel modelIn = new LoginModel()
+            LoginDTO modelIn = new LoginDTO()
             {
                 Username = "iMiller",
                 Password = "root"
