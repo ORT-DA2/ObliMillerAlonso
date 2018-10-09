@@ -124,6 +124,15 @@ namespace Sports.Logic.Test
             Assert.IsNotNull(matchLogic.GetMatchById(match.Id));
         }
 
+
+        [TestMethod]
+        [ExpectedException(typeof(MatchAlreadyExistsException))]
+        public void AddFullMatchTwice()
+        {
+            matchLogic.AddMatch(match);
+            matchLogic.AddMatch(match);
+        }
+
         [TestMethod]
         [ExpectedException(typeof(InvalidNullValueException))]
         public void AddNullMatch()

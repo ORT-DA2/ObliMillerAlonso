@@ -73,6 +73,11 @@ namespace Sports.WebAPI.Controllers
                 sportLogic.SetSession(realToken);
                 ICollection<Sport> sportList = sportLogic.GetAll();
                 ICollection<SportModelOut> teamModels = new List<SportModelOut>();
+                foreach (Sport sport in sportList)
+                {
+                    SportModelOut modelOut = mapper.Map<SportModelOut>(sport);
+                    teamModels.Add(modelOut);
+                }
                 return Ok(teamModels.ToList());
             }
             catch (UnauthorizedException ex)
@@ -139,8 +144,10 @@ namespace Sports.WebAPI.Controllers
                 Guid realToken = Guid.Parse(token);
                 sportLogic.SetSession(realToken);
                 Sport sport = mapper.Map<Sport>(sportIn);
-                sportLogic.ModifySport(sport.Id, sport);
-                return Ok("Succesfully modified");
+                sportLogic.ModifySport(id, sport);
+                SportModelOut modelOut = mapper.Map<SportModelOut>(sport);
+                modelOut.Id = id;
+                return Ok(modelOut);
             }
             catch (UnauthorizedException ex)
             {

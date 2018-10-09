@@ -12,6 +12,7 @@ using Sports.Logic.Interface.Exceptions;
 using Sports.Repository.Interface.Exceptions;
 using System.Web;
 using AutoMapper;
+using Newtonsoft.Json.Linq;
 
 namespace Sports.WebAPI.Controllers
 {
@@ -34,7 +35,7 @@ namespace Sports.WebAPI.Controllers
         }
 
         [HttpGet("{id}", Name = "GetUserById")]
-        public IActionResult Get(int id, [FromHeader] string token)
+        public IActionResult GetUser(int id, [FromHeader] string token)
         {
             try
             {
@@ -67,7 +68,7 @@ namespace Sports.WebAPI.Controllers
         }
 
         [HttpGet(Name = "GetUsersAll")]
-        public IActionResult GetAll([FromHeader] string token)
+        public IActionResult GetAllUsers([FromHeader] string token)
         {
             try
             {
@@ -116,15 +117,32 @@ namespace Sports.WebAPI.Controllers
                 UserModelOut modelOut = mapper.Map<UserModelOut>(user);
                 return Ok(modelOut);
             }
-            catch (Exception ex)
+            catch (UnauthorizedException ex)
+            {
+                return StatusCode(401, ex.Message);
+            }
+            catch (DomainException ex)
+            {
+                return UnprocessableEntity(ex.Message);
+            }
+            catch (LogicException ex)
             {
                 return BadRequest(ex.Message);
             }
+            catch (UnknownDataAccessException ex)
+            {
+                return StatusCode(503, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        
 
-        }
+    }
 
-        [HttpPut(Name = "ModifyUser")]
-        public IActionResult PutUser([FromHeader] int userId, [FromBody]UserModelIn newUser, [FromHeader] string token)
+        [HttpPut("{userId}", Name = "ModifyUser")]
+        public IActionResult PutUser(int userId, [FromBody]UserModelIn newUser, [FromHeader] string token)
         {
             try
             {
@@ -132,7 +150,9 @@ namespace Sports.WebAPI.Controllers
                 userLogic.SetSession(realToken);
                 User user = mapper.Map<User>(newUser);
                 userLogic.UpdateUser(userId, user);
-                return Ok("User modified correctly.");
+                UserModelOut modelOut = mapper.Map<UserModelOut>(user);
+                modelOut.Id = userId;
+                return Ok(modelOut);
             }
             catch (UnauthorizedException ex)
             {
@@ -156,8 +176,8 @@ namespace Sports.WebAPI.Controllers
             }
         }
 
-        [HttpDelete(Name = "DeleteUser")]
-        public IActionResult DeleteUser([FromHeader] int userId, [FromHeader] string token)
+        [HttpDelete("{userId}", Name = "DeleteUser")]
+        public IActionResult DeleteUser(int userId, [FromHeader] string token)
         {
             try
             {
@@ -188,15 +208,16 @@ namespace Sports.WebAPI.Controllers
             }
 
         }
-
-        [Route("login")]
-        [HttpPost(Name = "LoginUser")]
+        
+        [HttpPost("login", Name = "LoginUser")]
         public IActionResult Login([FromBody]LoginDTO modelIn)
         {
             try
             {
                 Guid token = sessionLogic.LogInUser(modelIn.Username, modelIn.Password);
-                return Ok(token.ToString());
+                string tokenString = token.ToString();
+                TokenModelOut modelOut = new TokenModelOut() { Token = tokenString };
+                return Ok(modelOut);
             }
             catch (UnauthorizedException ex)
             {
@@ -219,7 +240,7 @@ namespace Sports.WebAPI.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
-        [HttpPost("logout", Name = "LogoutUser")]
+        [HttpDelete("logout", Name = "LogoutUser")]
         public IActionResult Logout([FromHeader] string token)
         {
             try

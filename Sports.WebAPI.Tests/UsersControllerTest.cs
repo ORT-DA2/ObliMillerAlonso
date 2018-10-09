@@ -164,12 +164,10 @@ namespace Sports.WebAPI.Tests
 
             IActionResult result = controller.Login(modelIn);
             var okResult = result as OkObjectResult;
-            var modelOut = okResult.Value as string;
 
             userLogicMock.VerifyAll();
 
             Assert.AreEqual(200, okResult.StatusCode);
-            Assert.IsNotNull(modelOut);
         }
 
         [TestMethod]
