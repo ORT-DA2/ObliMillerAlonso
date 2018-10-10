@@ -39,7 +39,7 @@ namespace Sports.Domain.Test
                 Sport = sport,
                 Local = localTeam,
                 Visitor = visitorTeam,
-                Date = DateTime.Now
+                Date = DateTime.Now.AddDays(1)
             };
             comment = new Comment()
             {
@@ -63,6 +63,7 @@ namespace Sports.Domain.Test
             };
             match.Visitor = team;
             match.IsValid();
+            match.IsValidMatch();
         }
 
 

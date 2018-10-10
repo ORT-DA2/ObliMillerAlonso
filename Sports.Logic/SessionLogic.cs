@@ -33,7 +33,7 @@ namespace Sports.Logic
         {
             if (token == null || token == Guid.Empty)
             {
-                throw new InvalidNullValueException("token must not be null");
+                throw new InvalidNullValueException(NullValue.INVALID_NO_TOKEN_MESSAGE);
             }
         }
 

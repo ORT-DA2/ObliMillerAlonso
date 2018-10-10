@@ -44,7 +44,7 @@ namespace Sports.WebAPI.Controllers
             }
             catch (UnauthorizedException ex)
             {
-                return StatusCode(401, ex.Message);
+                return Unauthorized();
             }
             catch (DomainException ex)
             {
@@ -56,56 +56,14 @@ namespace Sports.WebAPI.Controllers
             }
             catch (UnknownDataAccessException ex)
             {
-                return StatusCode(503, ex.Message);
+                return StatusCode((int)HttpStatusCode.ServiceUnavailable, ex.Message);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
             }
         }
-
-        [HttpGet(Name = "GetAllTeams")]
-        public IActionResult GetAll([FromHeader] string token)
-        {
-            try
-            {
-                Guid realToken = Guid.Parse(token);
-                teamLogic.SetSession(realToken);
-                sportLogic.SetSession(realToken);
-                ICollection<Sport> sportList = sportLogic.GetAll();
-                ICollection<TeamModelOut> teamModels = new List<TeamModelOut>();
-                foreach (Sport sport in sportList)
-                {
-                    foreach (Team team in sport.Teams)
-                    {
-                        TeamModelOut model = mapper.Map<TeamModelOut>(team);
-                        teamModels.Add(model);
-                    }
-                }
-                return Ok(teamModels.ToList());
-            }
-            catch (UnauthorizedException ex)
-            {
-                return StatusCode(401, ex.Message);
-            }
-            catch (DomainException ex)
-            {
-                return UnprocessableEntity(ex.Message);
-            }
-            catch (LogicException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (UnknownDataAccessException ex)
-            {
-                return StatusCode(503, ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
-
+        
         [HttpPut("{id}", Name = "ModifyTeam")]
         public IActionResult PutTeam(int id, [FromBody] TeamModelIn teamIn, [FromHeader] string token)
         {
@@ -116,11 +74,11 @@ namespace Sports.WebAPI.Controllers
                 Team team = mapper.Map<Team>(teamIn);
                 teamLogic.Modify(id, team);
                 teamLogic.SetPictureFromPath(id, teamIn.ImagePath);
-                return RedirectToRoute("GetTeamById", new { id = id, token = token});
+                return RedirectToRoute("GetTeamById", new { id = id, token = token });
             }
             catch (UnauthorizedException ex)
             {
-                return StatusCode(401, ex.Message);
+                return Unauthorized();
             }
             catch (DomainException ex)
             {
@@ -132,11 +90,11 @@ namespace Sports.WebAPI.Controllers
             }
             catch (UnknownDataAccessException ex)
             {
-                return StatusCode(503, ex.Message);
+                return StatusCode((int)HttpStatusCode.ServiceUnavailable, ex.Message);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
@@ -152,7 +110,7 @@ namespace Sports.WebAPI.Controllers
             }
             catch (UnauthorizedException ex)
             {
-                return StatusCode(401, ex.Message);
+                return Unauthorized();
             }
             catch (DomainException ex)
             {
@@ -164,12 +122,54 @@ namespace Sports.WebAPI.Controllers
             }
             catch (UnknownDataAccessException ex)
             {
-                return StatusCode(503, ex.Message);
+                return StatusCode((int)HttpStatusCode.ServiceUnavailable, ex.Message);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+
+
+        [HttpGet(Name = "GetAllTeams")]
+        public IActionResult GetAllTeams([FromHeader] string token, [FromHeader] string name, [FromHeader] string order)
+        {
+            try
+            {
+                Guid realToken = Guid.Parse(token);
+                teamLogic.SetSession(realToken);
+                sportLogic.SetSession(realToken);
+                ICollection<Team> teamList = teamLogic.GetFilteredTeams(name,order);
+                ICollection<TeamModelOut> teamModels = new List<TeamModelOut>();
+                foreach (Team team in teamList)
+                {
+                    TeamModelOut model = mapper.Map<TeamModelOut>(team);
+                    teamModels.Add(model);
+                }
+                return Ok(teamModels.ToList());
+            }
+            catch (UnauthorizedException ex)
+            {
+                return Unauthorized();
+            }
+            catch (DomainException ex)
+            {
+                return UnprocessableEntity(ex.Message);
+            }
+            catch (LogicException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (UnknownDataAccessException ex)
+            {
+                return StatusCode((int)HttpStatusCode.ServiceUnavailable, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+
     }
 }

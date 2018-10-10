@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sports.Logic.Test", "Sports
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sports.Logic.Interface", "Sports.Logic.Interface\Sports.Logic.Interface.csproj", "{14FA486A-D300-4DDC-AB47-1D6DFB843DA8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sports.Logic.Factory", "Sports.Logic.Factory\Sports.Logic.Factory.csproj", "{6A9CBE7E-B553-4A60-8390-D9898C2E2B93}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sports.Repository.Context", "Sports.Repository.Context\Sports.Repository.Context.csproj", "{BD290F45-2C5A-4CB5-A199-2699D6DAF5F7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sports.Repository", "Sports.Repository\Sports.Repository.csproj", "{347C388A-D8C5-48DC-AE49-8681466E35DC}"

@@ -87,7 +87,7 @@ namespace Sports.Logic
             Sport sport = sportRepository.FindByCondition(s => s.Id == team.Sport.Id).FirstOrDefault();
             if (sport.Teams.Where(t=>t.Id!=team.Id&&t.Equals(team)).Count() != 0)
             {
-                throw new TeamAlreadyInSportException("Team already exists in sport");
+                throw new TeamAlreadyInSportException(UniqueTeam.DUPLICATE_TEAM_IN_SPORT_MESSAGE);
             }
         }
 
@@ -121,27 +121,24 @@ namespace Sports.Logic
             user = sessionLogic.GetUserFromToken(token);
         }
 
-        public ICollection<Team> FilterOrderTeamName(string name, string order)
+        public ICollection<Team> GetFilteredTeams(string name, string order)
         {
-            sessionLogic.ValidateUser(user);
+            sessionLogic.ValidateUserNotNull(user);
             ICollection<Team> teams = new List<Team>();
             teams = FilterByName(name);
-            FilterByOrder(order, teams);
+            OrderTeams(order, ref teams);
             return teams;
         }
 
-        private void FilterByOrder(string order, ICollection<Team> teams)
+        private void OrderTeams(string order, ref ICollection<Team> teams)
         {
-            if (String.IsNullOrWhiteSpace(order))
+            if (String.IsNullOrWhiteSpace(order) || order.ToLower().Equals(ASCENDING))
             {
+                teams = teams.OrderBy(t => t.Name).ToList();
             }
-            else if (order.Equals(ASCENDING))
+            else if (order.ToLower().Equals(DESCENDING))
             {
-                teams.OrderBy(t => t.Name);
-            }
-            else if (order.Equals(DESCENDING))
-            {
-                teams.OrderByDescending(t => t.Name);
+                teams = teams.OrderByDescending(t => t.Name).ToList();
             }
         }
 
