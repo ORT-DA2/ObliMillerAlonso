@@ -10,6 +10,7 @@ namespace Sports.Logic.Interface
         void AddFixtureImplementations(String path);
         void GenerateFixture(ICollection<Sport> sports, DateTime startDate);
         string ChangeFixtureImplementation();
+        void ResetFixtureStrategies();
         void SetSession(Guid token);
     }
 }

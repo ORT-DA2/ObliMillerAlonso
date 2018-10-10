@@ -116,7 +116,7 @@ namespace Sports.WebAPI.Controllers
                 Team team = mapper.Map<Team>(teamIn);
                 teamLogic.Modify(id, team);
                 teamLogic.SetPictureFromPath(id, teamIn.ImagePath);
-                return RedirectToRoute("GetTeamById", new { id = id, token = token});
+                return RedirectToRoute("GetTeamById", new { id = id, token = token });
             }
             catch (UnauthorizedException ex)
             {
@@ -171,5 +171,47 @@ namespace Sports.WebAPI.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+
+        [HttpGet(Name = "GetFilteredTeams")]
+        public IActionResult GetFiltered([FromHeader] string token, [FromHeader] TeamFilterDTO teamFilter)
+        {
+            try
+            {
+                Guid realToken = Guid.Parse(token);
+                teamLogic.SetSession(realToken);
+                sportLogic.SetSession(realToken);
+                ICollection<Team> teamList = teamLogic.GetFilteredTeams(teamFilter.Name,teamFilter.Order);
+                ICollection<TeamModelOut> teamModels = new List<TeamModelOut>();
+                foreach (Team team in teamList)
+                {
+                    TeamModelOut model = mapper.Map<TeamModelOut>(team);
+                    teamModels.Add(model);
+                }
+                return Ok(teamModels.ToList());
+            }
+            catch (UnauthorizedException ex)
+            {
+                return StatusCode(401, ex.Message);
+            }
+            catch (DomainException ex)
+            {
+                return UnprocessableEntity(ex.Message);
+            }
+            catch (LogicException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (UnknownDataAccessException ex)
+            {
+                return StatusCode(503, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+
     }
 }

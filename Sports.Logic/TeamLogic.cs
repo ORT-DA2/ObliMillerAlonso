@@ -121,21 +121,18 @@ namespace Sports.Logic
             user = sessionLogic.GetUserFromToken(token);
         }
 
-        public ICollection<Team> FilterOrderTeamName(string name, string order)
+        public ICollection<Team> GetFilteredTeams(string name, string order)
         {
             sessionLogic.ValidateUser(user);
             ICollection<Team> teams = new List<Team>();
             teams = FilterByName(name);
-            FilterByOrder(order, teams);
+            OrderTeams(order.ToLower(), teams);
             return teams;
         }
 
-        private void FilterByOrder(string order, ICollection<Team> teams)
+        private void OrderTeams(string order, ICollection<Team> teams)
         {
-            if (String.IsNullOrWhiteSpace(order))
-            {
-            }
-            else if (order.Equals(ASCENDING))
+            if (String.IsNullOrWhiteSpace(order) || order.Equals(ASCENDING))
             {
                 teams.OrderBy(t => t.Name);
             }

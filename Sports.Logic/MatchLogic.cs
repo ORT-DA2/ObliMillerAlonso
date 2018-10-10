@@ -57,12 +57,6 @@ namespace Sports.Logic
             }
         }
 
-
-        private bool IsInMatch(Team team, Match match)
-        {
-            return match.Local.Equals(team) || match.Visitor.Equals(team);
-        }
-
         private void ValidateSport(Match match)
         {
             

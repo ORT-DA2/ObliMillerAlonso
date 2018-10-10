@@ -230,7 +230,7 @@ namespace Sports.Logic.Test
                 Name = "TeamName"
             };
             teamLogic.AddTeam(otherTeam);
-            ICollection<Team> filteredTeams = teamLogic.FilterOrderTeamName("TeamName","asc");
+            ICollection<Team> filteredTeams = teamLogic.GetFilteredTeams("TeamName","asc");
             Assert.AreEqual(filteredTeams.Count, 1);
         }
 
@@ -243,7 +243,7 @@ namespace Sports.Logic.Test
             };
             string order = "desc";
             teamLogic.AddTeam(otherTeam);
-            ICollection<Team> filteredTeams = teamLogic.FilterOrderTeamName("TeamName", order);
+            ICollection<Team> filteredTeams = teamLogic.GetFilteredTeams("TeamName", order);
             Assert.AreEqual(filteredTeams.Count, 1);
         }
 
@@ -255,7 +255,7 @@ namespace Sports.Logic.Test
                 Name = "TeamName"
             };
             teamLogic.AddTeam(otherTeam);
-            ICollection<Team> filteredTeams = teamLogic.FilterOrderTeamName(null,null);
+            ICollection<Team> filteredTeams = teamLogic.GetFilteredTeams(null,null);
             Assert.AreEqual(filteredTeams.Count, 1);
         }
 

@@ -20,17 +20,23 @@ namespace Sports.Logic
         private ISportLogic sportLogic;
         private IMatchLogic matchLogic;
         private ISessionLogic sessionLogic;
-        User user;
+        private User user;
 
         public FixtureLogic(IRepositoryUnitOfWork unit)
         {
             if (fixtureGeneratorStrategies == null)
             {
-                fixtureGeneratorStrategies = new List<IFixtureGeneratorStrategy>();
+                ResetFixtureStrategies();
             }
             sportLogic = new SportLogic(unit);
             matchLogic = new MatchLogic(unit);
             sessionLogic = new SessionLogic(unit);
+        }
+
+        public void ResetFixtureStrategies()
+        {
+            fixtureGeneratorStrategies = new List<IFixtureGeneratorStrategy>();
+            currentStrategy = 0;
         }
         
         public void AddFixtureImplementations(string dllFilesPath)
