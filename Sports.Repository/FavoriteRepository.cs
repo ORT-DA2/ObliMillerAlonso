@@ -26,6 +26,7 @@ namespace Sports.Repository
                 return RepositoryContext.Favorites
                     .Include(f => f.User)
                     .Include(f => f.Team)
+                    .ThenInclude(t => t.Sport)
                     .ToList<Favorite>();
             }
             catch (DbException)
@@ -46,6 +47,7 @@ namespace Sports.Repository
                     .Where(expression)
                     .Include(f => f.User)
                     .Include(f => f.Team)
+                    .ThenInclude(t=>t.Sport)
                     .ToList<Favorite>();
             }
             catch (DbException)

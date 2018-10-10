@@ -280,7 +280,7 @@ namespace Sports.WebAPI.Controllers
                 favoriteLogic.SetSession(realToken);
                 Team team = mapper.Map<Team>(teamIn);
                 favoriteLogic.AddFavoriteTeam(team);
-                return Ok("Favorite added successfully.");
+                return RedirectToRoute("GetFavoritesTeams", new {token = token });
             }
             catch (UnauthorizedException ex)
             {

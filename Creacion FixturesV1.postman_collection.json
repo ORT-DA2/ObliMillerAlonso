@@ -1,0 +1,2067 @@
+{
+	"id": "bb486145-5f4b-42cb-98eb-0596e02afd37",
+	"name": "Creacion Fixtures",
+	"description": "",
+	"auth": null,
+	"events": null,
+	"variables": [
+		{
+			"key": "apiUrl",
+			"value": "https://localhost:44384/",
+			"type": "text",
+			"disabled": false,
+			"description": ""
+		},
+		{
+			"key": "token",
+			"value": "null",
+			"type": "text",
+			"disabled": false,
+			"description": ""
+		}
+	],
+	"order": [],
+	"folders_order": [
+		"788f0ccd-356c-43f5-8538-3be998773483",
+		"96fd701f-1aed-437d-8f4d-8ae51b826776",
+		"bcb0bab7-3c5e-4481-a86a-ffcfd6c7ef85",
+		"ea277a48-aeb1-4dab-b70c-c36e3e5ea6e4",
+		"015fdf43-b11e-4705-8b6f-3e7117fb5c01",
+		"91c4a014-491b-4bb0-a272-a9791152473f",
+		"bc58db8c-d80a-4011-89b6-15e14eb62edc"
+	],
+	"folders": [
+		{
+			"id": "91c4a014-491b-4bb0-a272-a9791152473f",
+			"name": "Comments",
+			"description": "",
+			"auth": null,
+			"events": null,
+			"collection": "bb486145-5f4b-42cb-98eb-0596e02afd37",
+			"folder": null,
+			"order": [
+				"f452bee4-c884-4612-b878-0df23e383c44",
+				"2397add0-bc5b-41b8-b974-0821e899ed47",
+				"f4c2ba9b-964a-4699-b7c7-f89ac24df1b4",
+				"2aecae85-8357-464a-9561-574a38f7f635"
+			],
+			"folders_order": []
+		},
+		{
+			"id": "bc58db8c-d80a-4011-89b6-15e14eb62edc",
+			"name": "Favorites",
+			"description": "",
+			"auth": null,
+			"events": null,
+			"collection": "bb486145-5f4b-42cb-98eb-0596e02afd37",
+			"folder": null,
+			"order": [
+				"1be369ed-8d99-4414-8e49-50144e332adf",
+				"b4a524c8-6c92-41a7-aedc-a5d96b7f73b3",
+				"e3935c60-4158-4777-bb74-606d9ffff784"
+			],
+			"folders_order": []
+		},
+		{
+			"id": "015fdf43-b11e-4705-8b6f-3e7117fb5c01",
+			"name": "Fixtures",
+			"description": "",
+			"auth": null,
+			"events": null,
+			"collection": "bb486145-5f4b-42cb-98eb-0596e02afd37",
+			"folder": null,
+			"order": [
+				"16ca729f-4e43-4931-8c37-841bdeb63a9a",
+				"e5d1d73f-9328-4143-9a38-fc247dd4f3b8",
+				"51e912d8-1c53-44f8-a539-2ae92d60b4ec",
+				"e74e53eb-4111-4586-9689-4db9cdbc4f3a",
+				"a7416e41-b191-4525-a0b0-e605f3234567",
+				"172701d6-7c6d-4776-8d02-93f433e0d183",
+				"b8df9231-8571-4086-923d-5ca16c691d75",
+				"a697b467-ed15-4af4-971d-5b949ce6dd6f",
+				"4d09cf4d-ed50-4741-9081-428495d1aa61",
+				"793464b5-2eec-4f41-bcdf-4f184735df2b",
+				"1f9ede14-ddeb-4e69-be5a-7544c4297401",
+				"4871c3c1-c431-4f96-bef5-e24abe94d025"
+			],
+			"folders_order": []
+		},
+		{
+			"id": "ea277a48-aeb1-4dab-b70c-c36e3e5ea6e4",
+			"name": "Matches",
+			"description": "",
+			"auth": null,
+			"events": null,
+			"collection": "bb486145-5f4b-42cb-98eb-0596e02afd37",
+			"folder": null,
+			"order": [
+				"cdbf5d28-911f-489a-bf10-a58b94828882",
+				"2ba07f46-ef18-45b7-9069-f5016d50c772",
+				"d334fc7f-0900-486d-9daf-6432d8643783",
+				"1eb70ebb-d8ec-4761-84d8-09c3484c1e89",
+				"8ba2a9c1-74f4-47c0-a72f-dffda68d3e06",
+				"a282ab96-bc3f-4ff9-9940-af7e35fb42bb",
+				"516d3325-418a-46c4-8adc-584a938aa077",
+				"2311243b-a0cf-41c7-a459-cbf271349513",
+				"f68e2285-98fc-4dd1-8368-edd223ecf399",
+				"979d1a00-69e3-4714-b8f6-ab9704aaacf0"
+			],
+			"folders_order": []
+		},
+		{
+			"id": "96fd701f-1aed-437d-8f4d-8ae51b826776",
+			"name": "Sports",
+			"description": "",
+			"auth": null,
+			"events": null,
+			"collection": "bb486145-5f4b-42cb-98eb-0596e02afd37",
+			"folder": null,
+			"order": [
+				"4db4cf10-9e36-4cd7-a147-9f434c11d1a3",
+				"0024b1b8-a9a0-4081-88da-1420b4ca6a98",
+				"82511e8e-f74c-4eb4-916e-71a384b3b7d9",
+				"26913f5e-f4cd-4719-acca-d0cef5c09511",
+				"cc53760f-a648-4602-9c45-c689f8df8526",
+				"a0075ef6-784e-4021-aad8-e463f9321566",
+				"bab08049-0e76-4801-8622-48456f34897e"
+			],
+			"folders_order": []
+		},
+		{
+			"id": "bcb0bab7-3c5e-4481-a86a-ffcfd6c7ef85",
+			"name": "Teams",
+			"description": "",
+			"auth": null,
+			"events": null,
+			"collection": "bb486145-5f4b-42cb-98eb-0596e02afd37",
+			"folder": null,
+			"order": [
+				"d4c1569c-eb44-4e20-9c84-3a7f8b38e9e5",
+				"eb655234-b8f3-4809-8241-5e90775f37c5",
+				"359c3b90-7a14-4fb5-8f23-df6bd0675d55",
+				"93a21d66-0cbf-4737-98da-e456568e0d53",
+				"c61260c6-08a0-484e-86c1-9b6b85b66702",
+				"2585b4a0-26e3-42d5-a6ef-96a4af41365b",
+				"3e7aed63-ea1d-4281-810e-feb223746014",
+				"0709c467-b7e7-48a6-81f7-ef50f14cfaf6",
+				"59ee2b89-96c8-4036-a140-f8b056ae689c"
+			],
+			"folders_order": []
+		},
+		{
+			"id": "788f0ccd-356c-43f5-8538-3be998773483",
+			"name": "Users",
+			"description": "",
+			"auth": null,
+			"events": null,
+			"collection": "bb486145-5f4b-42cb-98eb-0596e02afd37",
+			"folder": null,
+			"order": [
+				"62eb4c36-79f4-4798-a393-2ccfb6e95774",
+				"edae8a6a-003b-4308-bfda-eb6e09205600",
+				"78d4d539-e464-4f49-939d-5a2a30e420d7",
+				"bec41af5-4e03-4ee5-9628-f7ac8a50ee36",
+				"57652a76-aef1-4f69-b41e-c494ba91dfb6",
+				"25f126b1-8ecd-488f-baee-f4c9755deb77",
+				"873ab47b-f675-4bc8-ad8d-a4ee8fc8728c",
+				"01051143-87f6-4156-8ac5-eaef438694c5",
+				"ff5aa3de-c8dd-4206-8f95-4469d6e0c59d",
+				"ac8061c6-5732-4b49-9586-3b0c945ec836",
+				"cc6eecbc-1981-409b-a3e4-1484195639b4"
+			],
+			"folders_order": []
+		}
+	],
+	"requests": [
+		{
+			"id": "0024b1b8-a9a0-4081-88da-1420b4ca6a98",
+			"name": "ModifySport",
+			"url": "{{apiUrl}}/sports/{{createdSportId}}",
+			"description": "",
+			"data": null,
+			"dataMode": "",
+			"headerData": [
+				{
+					"key": "token",
+					"value": "{{token}}",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"method": "PUT",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "96fd701f-1aed-437d-8f4d-8ae51b826776",
+			"headers": "token: {{token}}\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "01051143-87f6-4156-8ac5-eaef438694c5",
+			"name": "GetById",
+			"url": "",
+			"description": "",
+			"data": null,
+			"dataMode": "",
+			"headerData": [],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "788f0ccd-356c-43f5-8538-3be998773483",
+			"headers": "",
+			"pathVariables": {}
+		},
+		{
+			"id": "0709c467-b7e7-48a6-81f7-ef50f14cfaf6",
+			"name": "CreateSameNameTeam",
+			"url": "{{apiUrl}}/sports/{{createdSportId}}/teams",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"description": "",
+					"enabled": true,
+					"key": "token",
+					"type": "text",
+					"value": "{{token}}"
+				},
+				{
+					"description": "",
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"type": "text",
+					"value": "application/json"
+				}
+			],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1a4c2a89-aaeb-4f23-a16e-87b25aec8f6b",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"if(jsonData.id !== null)",
+							"{",
+							"    pm.environment.set(\"createdTeamId\", jsonData.id);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"folder": "bcb0bab7-3c5e-4481-a86a-ffcfd6c7ef85",
+			"rawModeData": "{\n\t\"Name\" : \"team2\",\n\t\"ImagePath\" : \"C:\\\\Users\\\\Rafael\\\\Documents\\\\Diseno2\\\\MillerAlonso\\\\Sports.Domain.Test\\\\TestImage\\\\gun.png\"\n}",
+			"headers": "token: {{token}}\nContent-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "16ca729f-4e43-4931-8c37-841bdeb63a9a",
+			"name": "GenericTeam1",
+			"url": "{{apiUrl}}/sports/{{createdSportId}}/teams",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"description": "",
+					"enabled": true,
+					"key": "token",
+					"type": "text",
+					"value": "{{token}}"
+				},
+				{
+					"description": "",
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"type": "text",
+					"value": "application/json"
+				}
+			],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1a4c2a89-aaeb-4f23-a16e-87b25aec8f6b",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"if(jsonData.id !== null)",
+							"{",
+							"    pm.environment.set(\"otherTeamId\", jsonData.id);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"folder": "015fdf43-b11e-4705-8b6f-3e7117fb5c01",
+			"rawModeData": "{\n\t\"Name\" : \"team3\"\n}",
+			"headers": "token: {{token}}\nContent-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "172701d6-7c6d-4776-8d02-93f433e0d183",
+			"name": "NextFixtureNoImplementations",
+			"url": "{{apiUrl}}/matches/nextFixture",
+			"description": "",
+			"data": null,
+			"dataMode": "",
+			"headerData": [
+				{
+					"key": "token",
+					"value": "{{token}}",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"method": "PUT",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "015fdf43-b11e-4705-8b6f-3e7117fb5c01",
+			"headers": "token: {{token}}\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "1be369ed-8d99-4414-8e49-50144e332adf",
+			"name": "AddFavoriteTeam",
+			"url": "{{apiUrl}}/users/favoriteTeams",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"key": "token",
+					"value": "{{token}}",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"type": "text"
+				}
+			],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "bc58db8c-d80a-4011-89b6-15e14eb62edc",
+			"rawModeData": "{\n\t\"Id\" : \"{{createdTeamId}}\"\n}",
+			"headers": "token: {{token}}\nContent-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "1eb70ebb-d8ec-4761-84d8-09c3484c1e89",
+			"name": "ModifyMatchInvalid",
+			"url": "{{apiUrl}}/matches/{{createdMatchId}}",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"description": "",
+					"enabled": true,
+					"key": "token",
+					"type": "text",
+					"value": "{{token}}"
+				},
+				{
+					"description": "",
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"type": "text",
+					"value": "application/json"
+				}
+			],
+			"method": "PUT",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "ea277a48-aeb1-4dab-b70c-c36e3e5ea6e4",
+			"rawModeData": "{\n\t\"LocalId\" : \"{{otherTeamId}}\",\n\t\"Date\" : \"01/06/2021 13:14\"\n}",
+			"headers": "token: {{token}}\nContent-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "1f9ede14-ddeb-4e69-be5a-7544c4297401",
+			"name": "GenerateFixtureWeekends",
+			"url": "{{apiUrl}}/matches/generateFixture",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"key": "token",
+					"value": "{{token}}",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"type": "text"
+				}
+			],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "015fdf43-b11e-4705-8b6f-3e7117fb5c01",
+			"rawModeData": "{\n\t\"Sports\" : [\n\t\t{\n\t\t\t\"Name\" : \"{{createdSportName}}\"\n\t\t}\n\t],\n\t\"Date\" : \"1/6/2025 1:14\"\n}",
+			"headers": "token: {{token}}\nContent-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "2311243b-a0cf-41c7-a459-cbf271349513",
+			"name": "GetMatchById",
+			"url": "{{apiUrl}}/matches",
+			"description": "",
+			"data": null,
+			"dataMode": "",
+			"headerData": [
+				{
+					"key": "token",
+					"value": "{{token}}",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "ea277a48-aeb1-4dab-b70c-c36e3e5ea6e4",
+			"headers": "token: {{token}}\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "2397add0-bc5b-41b8-b974-0821e899ed47",
+			"name": "LoginSimpleUser",
+			"url": "{{apiUrl}}/users/login",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"type": "text"
+				}
+			],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6de18db7-5241-42cf-b951-90010d0ae876",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"if(jsonData.token !== null)",
+							"{",
+							"    pm.environment.set(\"token\", jsonData.token);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"folder": "91c4a014-491b-4bb0-a272-a9791152473f",
+			"rawModeData": "{\n\t\"Username\" : \"user2\",\n\t\"Password\" : \"pass\"\n}",
+			"headers": "Content-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "2585b4a0-26e3-42d5-a6ef-96a4af41365b",
+			"name": "GetAllTeams",
+			"url": "{{apiUrl}}/teams",
+			"description": "",
+			"data": null,
+			"dataMode": "",
+			"headerData": [
+				{
+					"key": "token",
+					"value": "{{token}}",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "bcb0bab7-3c5e-4481-a86a-ffcfd6c7ef85",
+			"headers": "token: {{token}}\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "25f126b1-8ecd-488f-baee-f4c9755deb77",
+			"name": "LoginAdmin",
+			"url": "{{apiUrl}}/users/login",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"type": "text"
+				}
+			],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "79c612b2-c7e8-4dd1-9109-fef96c3a9b39",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "a45b7a36-a82d-4385-86a3-94bca788c0a9",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"if(jsonData.token !== null)",
+							"{",
+							"    pm.environment.set(\"token\", jsonData.token);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"folder": "788f0ccd-356c-43f5-8538-3be998773483",
+			"rawModeData": "{\n\t\"Username\" : \"user\",\n\t\"Password\" : \"pass\"\n}",
+			"headers": "Content-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "26913f5e-f4cd-4719-acca-d0cef5c09511",
+			"name": "GetAllSports",
+			"url": "",
+			"description": "",
+			"data": null,
+			"dataMode": "",
+			"headerData": [],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "96fd701f-1aed-437d-8f4d-8ae51b826776",
+			"headers": "",
+			"pathVariables": {}
+		},
+		{
+			"id": "2aecae85-8357-464a-9561-574a38f7f635",
+			"name": "GetAllComments",
+			"url": "",
+			"description": "",
+			"data": null,
+			"dataMode": "",
+			"headerData": [],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "91c4a014-491b-4bb0-a272-a9791152473f",
+			"headers": "",
+			"pathVariables": {}
+		},
+		{
+			"id": "2ba07f46-ef18-45b7-9069-f5016d50c772",
+			"name": "CreateTeamChange",
+			"url": "{{apiUrl}}/sports/{{createdSportId}}/teams",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"description": "",
+					"enabled": true,
+					"key": "token",
+					"type": "text",
+					"value": "{{token}}"
+				},
+				{
+					"description": "",
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"type": "text",
+					"value": "application/json"
+				}
+			],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1a4c2a89-aaeb-4f23-a16e-87b25aec8f6b",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"if(jsonData.id !== null)",
+							"{",
+							"    pm.environment.set(\"otherTeamId\", jsonData.id);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"folder": "ea277a48-aeb1-4dab-b70c-c36e3e5ea6e4",
+			"rawModeData": "{\n\t\"Name\" : \"team3\"\n}",
+			"headers": "token: {{token}}\nContent-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "359c3b90-7a14-4fb5-8f23-df6bd0675d55",
+			"name": "ModifyTeam",
+			"url": "",
+			"description": "",
+			"data": null,
+			"dataMode": "",
+			"headerData": [],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "bcb0bab7-3c5e-4481-a86a-ffcfd6c7ef85",
+			"headers": "",
+			"pathVariables": {}
+		},
+		{
+			"id": "3e7aed63-ea1d-4281-810e-feb223746014",
+			"name": "GetTeamById",
+			"url": "{{apiUrl}}/teams",
+			"description": "",
+			"data": null,
+			"dataMode": "",
+			"headerData": [
+				{
+					"key": "token",
+					"value": "{{token}}",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "bcb0bab7-3c5e-4481-a86a-ffcfd6c7ef85",
+			"headers": "token: {{token}}\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "4871c3c1-c431-4f96-bef5-e24abe94d025",
+			"name": "GetAllMatchesFixture2",
+			"url": "{{apiUrl}}/matches",
+			"description": "",
+			"data": null,
+			"dataMode": "",
+			"headerData": [
+				{
+					"key": "token",
+					"value": "{{token}}",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "015fdf43-b11e-4705-8b6f-3e7117fb5c01",
+			"headers": "token: {{token}}\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "4d09cf4d-ed50-4741-9081-428495d1aa61",
+			"name": "GetAllMatchesFixture1",
+			"url": "{{apiUrl}}/matches",
+			"description": "",
+			"data": null,
+			"dataMode": "",
+			"headerData": [
+				{
+					"key": "token",
+					"value": "{{token}}",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "015fdf43-b11e-4705-8b6f-3e7117fb5c01",
+			"headers": "token: {{token}}\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "4db4cf10-9e36-4cd7-a147-9f434c11d1a3",
+			"name": "CreateSport",
+			"url": "{{apiUrl}}/sports",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"key": "token",
+					"value": "{{token}}",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"type": "text"
+				}
+			],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "070502c1-4c4f-4691-ba86-1d123d456b16",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"if(jsonData.id !== null)",
+							"{",
+							"    pm.environment.set(\"createdSportId\", jsonData.id);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"folder": "96fd701f-1aed-437d-8f4d-8ae51b826776",
+			"rawModeData": "{\n\t\"Name\" : \"Tennis\"\n}",
+			"headers": "token: {{token}}\nContent-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "516d3325-418a-46c4-8adc-584a938aa077",
+			"name": "GetAllMatches",
+			"url": "{{apiUrl}}/matches",
+			"description": "",
+			"data": null,
+			"dataMode": "",
+			"headerData": [
+				{
+					"key": "token",
+					"value": "{{token}}",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "ea277a48-aeb1-4dab-b70c-c36e3e5ea6e4",
+			"headers": "token: {{token}}\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "51e912d8-1c53-44f8-a539-2ae92d60b4ec",
+			"name": "GenericTeam3",
+			"url": "{{apiUrl}}/sports/{{createdSportId}}/teams",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"description": "",
+					"enabled": true,
+					"key": "token",
+					"type": "text",
+					"value": "{{token}}"
+				},
+				{
+					"description": "",
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"type": "text",
+					"value": "application/json"
+				}
+			],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1a4c2a89-aaeb-4f23-a16e-87b25aec8f6b",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"if(jsonData.id !== null)",
+							"{",
+							"    pm.environment.set(\"otherTeamId\", jsonData.id);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"folder": "015fdf43-b11e-4705-8b6f-3e7117fb5c01",
+			"rawModeData": "{\n\t\"Name\" : \"genericTeam2\"\n}",
+			"headers": "token: {{token}}\nContent-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "57652a76-aef1-4f69-b41e-c494ba91dfb6",
+			"name": "GetAllUsersNonAdmin",
+			"url": "",
+			"description": "",
+			"data": null,
+			"dataMode": "",
+			"headerData": [],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "788f0ccd-356c-43f5-8538-3be998773483",
+			"headers": "",
+			"pathVariables": {}
+		},
+		{
+			"id": "59ee2b89-96c8-4036-a140-f8b056ae689c",
+			"name": "CreateThirdTeam",
+			"url": "{{apiUrl}}/sports/{{createdSportId}}/teams",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"description": "",
+					"enabled": true,
+					"key": "token",
+					"type": "text",
+					"value": "{{token}}"
+				},
+				{
+					"description": "",
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"type": "text",
+					"value": "application/json"
+				}
+			],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1a4c2a89-aaeb-4f23-a16e-87b25aec8f6b",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"if(jsonData.id !== null)",
+							"{",
+							"    pm.environment.set(\"otherTeamId\", jsonData.id);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"folder": "bcb0bab7-3c5e-4481-a86a-ffcfd6c7ef85",
+			"rawModeData": "{\n\t\"Name\" : \"team3\"\n}",
+			"headers": "token: {{token}}\nContent-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "62eb4c36-79f4-4798-a393-2ccfb6e95774",
+			"name": "Login",
+			"url": "{{apiUrl}}/users/login",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"type": "text"
+				}
+			],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "79c612b2-c7e8-4dd1-9109-fef96c3a9b39",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "a45b7a36-a82d-4385-86a3-94bca788c0a9",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"if(jsonData.token !== null)",
+							"{",
+							"    pm.environment.set(\"token\", jsonData.token);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"folder": "788f0ccd-356c-43f5-8538-3be998773483",
+			"rawModeData": "{\n\t\"Username\" : \"user\",\n\t\"Password\" : \"pass\"\n}",
+			"headers": "Content-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "78d4d539-e464-4f49-939d-5a2a30e420d7",
+			"name": "ModifyUser",
+			"url": "{{apiUrl}}/users/{{createdUserId}}",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"key": "token",
+					"value": "{{token}}",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"type": "text"
+				}
+			],
+			"method": "PUT",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "788f0ccd-356c-43f5-8538-3be998773483",
+			"rawModeData": "{\n\t\"FirstName\" : \"newName\",\n\t\"LastName\" : \"lastNewName\",\n\t\"Email\" : \"usesr@gmail.com\",\n\t\"Username\" : \"user2\"\n}",
+			"headers": "token: {{token}}\nContent-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "793464b5-2eec-4f41-bcdf-4f184735df2b",
+			"name": "NextFixture",
+			"url": "{{apiUrl}}/matches/nextFixture",
+			"description": "",
+			"data": null,
+			"dataMode": "",
+			"headerData": [
+				{
+					"key": "token",
+					"value": "{{token}}",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"method": "PUT",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "015fdf43-b11e-4705-8b6f-3e7117fb5c01",
+			"headers": "token: {{token}}\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "82511e8e-f74c-4eb4-916e-71a384b3b7d9",
+			"name": "CreateSecondSport",
+			"url": "{{apiUrl}}/sports",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"key": "token",
+					"value": "{{token}}",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"type": "text"
+				}
+			],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "070502c1-4c4f-4691-ba86-1d123d456b16",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"folder": "96fd701f-1aed-437d-8f4d-8ae51b826776",
+			"rawModeData": "{\n\t\"Name\" : \"Tennis\"\n}",
+			"headers": "token: {{token}}\nContent-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "873ab47b-f675-4bc8-ad8d-a4ee8fc8728c",
+			"name": "GetAllUsers",
+			"url": "{{apiUrl}}/users",
+			"description": "",
+			"data": null,
+			"dataMode": "",
+			"headerData": [],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "788f0ccd-356c-43f5-8538-3be998773483",
+			"headers": "",
+			"pathVariables": {}
+		},
+		{
+			"id": "8ba2a9c1-74f4-47c0-a72f-dffda68d3e06",
+			"name": "CreateSecondMatch",
+			"url": "{{apiUrl}}/matches",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"key": "token",
+					"value": "{{token}}",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"type": "text"
+				}
+			],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "47a15134-8fe0-4cb0-8646-abfa1b2ebf1e",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"if(jsonData.id !== null)",
+							"{",
+							"    pm.environment.set(\"createdMatchId\", jsonData.id);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"folder": "ea277a48-aeb1-4dab-b70c-c36e3e5ea6e4",
+			"rawModeData": "{\n\t\"SportId\" : \"{{createdSportId}}\",\n\t\"VisitorId\" : \"{{createdTeamId}}\",\n\t\"LocalId\" : \"{{otherTeamId}}\",\n\t\"Date\" : \"01/06/2020 13:14\"\n}",
+			"headers": "token: {{token}}\nContent-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "93a21d66-0cbf-4737-98da-e456568e0d53",
+			"name": "DeleteTeam",
+			"url": "{{apiUrl}}/teams/{{createdTeamId}}",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"key": "token",
+					"value": "{{token}}",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"type": "text",
+					"enabled": false
+				}
+			],
+			"method": "DELETE",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1a4c2a89-aaeb-4f23-a16e-87b25aec8f6b",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"folder": "bcb0bab7-3c5e-4481-a86a-ffcfd6c7ef85",
+			"rawModeData": "",
+			"headers": "token: {{token}}\n//Content-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "979d1a00-69e3-4714-b8f6-ab9704aaacf0",
+			"name": "GetAllMatchesAfterDelete",
+			"url": "{{apiUrl}}/matches",
+			"description": "",
+			"data": null,
+			"dataMode": "",
+			"headerData": [
+				{
+					"key": "token",
+					"value": "{{token}}",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "ea277a48-aeb1-4dab-b70c-c36e3e5ea6e4",
+			"headers": "token: {{token}}\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "a0075ef6-784e-4021-aad8-e463f9321566",
+			"name": "DeleteSport",
+			"url": "{{apiUrl}}/sports/{{createdSportId}}",
+			"description": "",
+			"data": null,
+			"dataMode": "",
+			"headerData": [
+				{
+					"key": "token",
+					"value": "{{token}}",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"method": "DELETE",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "96fd701f-1aed-437d-8f4d-8ae51b826776",
+			"headers": "token: {{token}}\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "a282ab96-bc3f-4ff9-9940-af7e35fb42bb",
+			"name": "CreateSameDayMatch",
+			"url": "{{apiUrl}}/matches",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"key": "token",
+					"value": "{{token}}",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"type": "text"
+				}
+			],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "47a15134-8fe0-4cb0-8646-abfa1b2ebf1e",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"if(jsonData.id !== null)",
+							"{",
+							"    pm.environment.set(\"createdMatchId\", jsonData.id);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"folder": "ea277a48-aeb1-4dab-b70c-c36e3e5ea6e4",
+			"rawModeData": "{\n\t\"SportId\" : \"{{createdSportId}}\",\n\t\"VisitorId\" : \"{{createdTeamId}}\",\n\t\"LocalId\" : \"{{otherTeamId}}\",\n\t\"Date\" : \"01/06/2020 13:14\"\n}",
+			"headers": "token: {{token}}\nContent-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "a697b467-ed15-4af4-971d-5b949ce6dd6f",
+			"name": "GenerateFixture",
+			"url": "{{apiUrl}}/matches/generateFixture",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"key": "token",
+					"value": "{{token}}",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"type": "text"
+				}
+			],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "015fdf43-b11e-4705-8b6f-3e7117fb5c01",
+			"rawModeData": "{\n\t\"Sports\" : [\n\t\t{\n\t\t\t\"Name\" : \"{{createdSportName}}\"\n\t\t}\n\t],\n\t\"Date\" : \"1/6/2025 1:14\"\n}",
+			"headers": "token: {{token}}\nContent-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "a7416e41-b191-4525-a0b0-e605f3234567",
+			"name": "GenerateFixtureNoImplementations",
+			"url": "{{apiUrl}}/matches/generateFixture",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"key": "token",
+					"value": "{{token}}",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"type": "text"
+				}
+			],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "015fdf43-b11e-4705-8b6f-3e7117fb5c01",
+			"rawModeData": "{\n\t\"Sports\" : [\n\t\t{\n\t\t\t\"Name\" : \"{{createdSportName}}\"\n\t\t}\n\t],\n\t\"Date\" : \"1/6/2025 1:14\"\n}",
+			"headers": "token: {{token}}\nContent-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "ac8061c6-5732-4b49-9586-3b0c945ec836",
+			"name": "LogoutUser",
+			"url": "",
+			"description": "",
+			"data": null,
+			"dataMode": "",
+			"headerData": [],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "788f0ccd-356c-43f5-8538-3be998773483",
+			"headers": "",
+			"pathVariables": {}
+		},
+		{
+			"id": "b4a524c8-6c92-41a7-aedc-a5d96b7f73b3",
+			"name": "GetFavoriteTeams",
+			"url": "{{apiUrl}}/users/favoriteTeams",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"description": "",
+					"enabled": true,
+					"key": "token",
+					"type": "text",
+					"value": "{{token}}"
+				},
+				{
+					"description": "",
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"type": "text",
+					"value": "application/json",
+					"enabled": false
+				}
+			],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "bc58db8c-d80a-4011-89b6-15e14eb62edc",
+			"rawModeData": "{\n\t\"Id\" : \"{{createdTeamId}}\"\n}",
+			"headers": "token: {{token}}\n//Content-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "b8df9231-8571-4086-923d-5ca16c691d75",
+			"name": "ImportFixtureStrategies",
+			"url": "{{apiUrl}}/matches/fixtureImplementations",
+			"description": "",
+			"data": null,
+			"dataMode": "",
+			"headerData": [
+				{
+					"key": "token",
+					"value": "{{token}}",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "015fdf43-b11e-4705-8b6f-3e7117fb5c01",
+			"headers": "token: {{token}}\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "bab08049-0e76-4801-8622-48456f34897e",
+			"name": "CreateThirdSport",
+			"url": "{{apiUrl}}/sports",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"key": "token",
+					"value": "{{token}}",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"type": "text"
+				}
+			],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "070502c1-4c4f-4691-ba86-1d123d456b16",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"if(jsonData.id !== null)",
+							"{",
+							"    pm.environment.set(\"createdSportId\", jsonData.id);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"folder": "96fd701f-1aed-437d-8f4d-8ae51b826776",
+			"rawModeData": "{\n\t\"Name\" : \"Tennis\"\n}",
+			"headers": "token: {{token}}\nContent-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "bec41af5-4e03-4ee5-9628-f7ac8a50ee36",
+			"name": "LoginNonAdmin",
+			"url": "{{apiUrl}}/users/login",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"type": "text"
+				}
+			],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6de18db7-5241-42cf-b951-90010d0ae876",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"if(jsonData.token !== null)",
+							"{",
+							"    pm.environment.set(\"token\", jsonData.token);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"folder": "788f0ccd-356c-43f5-8538-3be998773483",
+			"rawModeData": "{\n\t\"Username\" : \"user2\",\n\t\"Password\" : \"pass\"\n}",
+			"headers": "Content-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "c61260c6-08a0-484e-86c1-9b6b85b66702",
+			"name": "CreateSecondTeam",
+			"url": "{{apiUrl}}/sports/{{createdSportId}}/teams",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"description": "",
+					"enabled": true,
+					"key": "token",
+					"type": "text",
+					"value": "{{token}}"
+				},
+				{
+					"description": "",
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"type": "text",
+					"value": "application/json"
+				}
+			],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1a4c2a89-aaeb-4f23-a16e-87b25aec8f6b",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"if(jsonData.id !== null)",
+							"{",
+							"    pm.environment.set(\"createdTeamId\", jsonData.id);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"folder": "bcb0bab7-3c5e-4481-a86a-ffcfd6c7ef85",
+			"rawModeData": "{\n\t\"Name\" : \"team2\"\n}",
+			"headers": "token: {{token}}\nContent-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "cc53760f-a648-4602-9c45-c689f8df8526",
+			"name": "GetSportById",
+			"url": "{{apiUrl}}/sports/{{createdSportId}}",
+			"description": "",
+			"data": null,
+			"dataMode": "",
+			"headerData": [
+				{
+					"key": "token",
+					"value": "{{token}}",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "96fd701f-1aed-437d-8f4d-8ae51b826776",
+			"headers": "token: {{token}}\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "cc6eecbc-1981-409b-a3e4-1484195639b4",
+			"name": "LoginAdmin Copy",
+			"url": "{{apiUrl}}/users/login",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"type": "text"
+				}
+			],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "79c612b2-c7e8-4dd1-9109-fef96c3a9b39",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "a45b7a36-a82d-4385-86a3-94bca788c0a9",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"if(jsonData.token !== null)",
+							"{",
+							"    pm.environment.set(\"token\", jsonData.token);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"folder": "788f0ccd-356c-43f5-8538-3be998773483",
+			"rawModeData": "{\n\t\"Username\" : \"user\",\n\t\"Password\" : \"pass\"\n}",
+			"headers": "Content-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "cdbf5d28-911f-489a-bf10-a58b94828882",
+			"name": "CreateMatch",
+			"url": "{{apiUrl}}/matches",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"key": "token",
+					"value": "{{token}}",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"type": "text"
+				}
+			],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "47a15134-8fe0-4cb0-8646-abfa1b2ebf1e",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"if(jsonData.id !== null)",
+							"{",
+							"    pm.environment.set(\"createdMatchId\", jsonData.id);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"folder": "ea277a48-aeb1-4dab-b70c-c36e3e5ea6e4",
+			"rawModeData": "{\n\t\"SportId\" : \"{{createdSportId}}\",\n\t\"VisitorId\" : \"{{createdTeamId}}\",\n\t\"LocalId\" : \"{{otherTeamId}}\",\n\t\"Date\" : \"01/06/2020 13:14\"\n}",
+			"headers": "token: {{token}}\nContent-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "d334fc7f-0900-486d-9daf-6432d8643783",
+			"name": "ModifyMatch",
+			"url": "{{apiUrl}}/matches/{{createdMatchId}}",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"description": "",
+					"enabled": true,
+					"key": "token",
+					"type": "text",
+					"value": "{{token}}"
+				},
+				{
+					"description": "",
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"type": "text",
+					"value": "application/json"
+				}
+			],
+			"method": "PUT",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "ea277a48-aeb1-4dab-b70c-c36e3e5ea6e4",
+			"rawModeData": "{\n\t\"LocalId\" : \"{{otherTeamId}}\",\n\t\"Date\" : \"01/06/2021 13:14\"\n}",
+			"headers": "token: {{token}}\nContent-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "d4c1569c-eb44-4e20-9c84-3a7f8b38e9e5",
+			"name": "CreateTeam",
+			"url": "{{apiUrl}}/sports/{{createdSportId}}/teams",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"key": "token",
+					"value": "{{token}}",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"type": "text"
+				}
+			],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1a4c2a89-aaeb-4f23-a16e-87b25aec8f6b",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"if(jsonData.id !== null)",
+							"{",
+							"    pm.environment.set(\"createdTeamId\", jsonData.id);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"folder": "bcb0bab7-3c5e-4481-a86a-ffcfd6c7ef85",
+			"rawModeData": "{\n\t\"Name\" : \"FirstTeam\",\n\t\"ImagePath\" : \"C:\\\\Users\\\\Rafael\\\\Documents\\\\Diseno2\\\\MillerAlonso\\\\Sports.Domain.Test\\\\TestImage\\\\gun.png\"\n}",
+			"headers": "token: {{token}}\nContent-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "e3935c60-4158-4777-bb74-606d9ffff784",
+			"name": "GetFavoriteComments",
+			"url": "{{apiUrl}}/users/favoriteTeams",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"description": "",
+					"enabled": true,
+					"key": "token",
+					"type": "text",
+					"value": "{{token}}"
+				},
+				{
+					"description": "",
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"type": "text",
+					"value": "application/json",
+					"enabled": false
+				}
+			],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "bc58db8c-d80a-4011-89b6-15e14eb62edc",
+			"rawModeData": "{\n\t\"Id\" : \"{{createdTeamId}}\"\n}",
+			"headers": "token: {{token}}\n//Content-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "e5d1d73f-9328-4143-9a38-fc247dd4f3b8",
+			"name": "GenericTeam2",
+			"url": "{{apiUrl}}/sports/{{createdSportId}}/teams",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"description": "",
+					"enabled": true,
+					"key": "token",
+					"type": "text",
+					"value": "{{token}}"
+				},
+				{
+					"description": "",
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"type": "text",
+					"value": "application/json"
+				}
+			],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1a4c2a89-aaeb-4f23-a16e-87b25aec8f6b",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"if(jsonData.id !== null)",
+							"{",
+							"    pm.environment.set(\"otherTeamId\", jsonData.id);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"folder": "015fdf43-b11e-4705-8b6f-3e7117fb5c01",
+			"rawModeData": "{\n\t\"Name\" : \"genericTeam2\"\n}",
+			"headers": "token: {{token}}\nContent-Type: application/json\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "e74e53eb-4111-4586-9689-4db9cdbc4f3a",
+			"name": "GetAllTeamsAgain",
+			"url": "{{apiUrl}}/teams",
+			"description": "",
+			"data": null,
+			"dataMode": "",
+			"headerData": [
+				{
+					"key": "token",
+					"value": "{{token}}",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "015fdf43-b11e-4705-8b6f-3e7117fb5c01",
+			"headers": "token: {{token}}\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "eb655234-b8f3-4809-8241-5e90775f37c5",
+			"name": "GetSportTeams",
+			"url": "",
+			"description": "",
+			"data": null,
+			"dataMode": "",
+			"headerData": [],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "bcb0bab7-3c5e-4481-a86a-ffcfd6c7ef85",
+			"headers": "",
+			"pathVariables": {}
+		},
+		{
+			"id": "edae8a6a-003b-4308-bfda-eb6e09205600",
+			"name": "CreateUser",
+			"url": "{{apiUrl}}/users",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "token",
+					"value": "{{token}}",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "326a2f58-84f1-4f39-89d4-337d1b168126",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"if(jsonData.Id !== null)",
+							"{",
+							"    pm.environment.set(\"createdUserId\", jsonData.Id);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"folder": "788f0ccd-356c-43f5-8538-3be998773483",
+			"rawModeData": "{\n\t\"FirstName\" : \"firstName\",\n\t\"LastName\" : \"lastName\",\n\t\"Email\" : \"usesr@gmail.com\",\n\t\"Username\" : \"user2\",\n\t\"Password\" : \"pass\"\n}",
+			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "f452bee4-c884-4612-b878-0df23e383c44",
+			"name": "CreateSimpleUser",
+			"url": "{{apiUrl}}/users",
+			"description": "",
+			"data": [],
+			"dataMode": "raw",
+			"headerData": [
+				{
+					"description": "",
+					"enabled": true,
+					"key": "Content-Type",
+					"name": "Content-Type",
+					"type": "text",
+					"value": "application/json"
+				},
+				{
+					"description": "",
+					"enabled": true,
+					"key": "token",
+					"type": "text",
+					"value": "{{token}}"
+				}
+			],
+			"method": "POST",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "326a2f58-84f1-4f39-89d4-337d1b168126",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"if(jsonData.Id !== null)",
+							"{",
+							"    pm.environment.set(\"simpleUserId\", jsonData.Id);",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"folder": "91c4a014-491b-4bb0-a272-a9791152473f",
+			"rawModeData": "{\n\t\"FirstName\" : \"firstName\",\n\t\"LastName\" : \"lastName\",\n\t\"Email\" : \"usesr@gmail.com\",\n\t\"Username\" : \"user2\",\n\t\"Password\" : \"pass\"\n}",
+			"headers": "Content-Type: application/json\ntoken: {{token}}\n",
+			"pathVariables": {}
+		},
+		{
+			"id": "f4c2ba9b-964a-4699-b7c7-f89ac24df1b4",
+			"name": "AddComment",
+			"url": "",
+			"description": "",
+			"data": null,
+			"dataMode": "",
+			"headerData": [],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "91c4a014-491b-4bb0-a272-a9791152473f",
+			"headers": "",
+			"pathVariables": {}
+		},
+		{
+			"id": "f68e2285-98fc-4dd1-8368-edd223ecf399",
+			"name": "DeleteMatch",
+			"url": "",
+			"description": "",
+			"data": null,
+			"dataMode": "",
+			"headerData": [],
+			"method": "GET",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "ea277a48-aeb1-4dab-b70c-c36e3e5ea6e4",
+			"headers": "",
+			"pathVariables": {}
+		},
+		{
+			"id": "ff5aa3de-c8dd-4206-8f95-4469d6e0c59d",
+			"name": "DeleteUser",
+			"url": "{{apiUrl}}/users/{{createdUserId}}",
+			"description": "",
+			"data": null,
+			"dataMode": "",
+			"headerData": [
+				{
+					"key": "token",
+					"value": "{{token}}",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"method": "DELETE",
+			"pathVariableData": [],
+			"queryParams": [],
+			"auth": null,
+			"events": [],
+			"folder": "788f0ccd-356c-43f5-8538-3be998773483",
+			"headers": "token: {{token}}\n",
+			"pathVariables": {}
+		}
+	]
+}

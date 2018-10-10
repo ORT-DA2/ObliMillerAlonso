@@ -7,7 +7,7 @@ namespace Sports.WebAPI.Models
 {
     public class CommentModelOut
     {
-        public MatchModelOut Match { get; set; }
+        public MatchSimpleModelOut Match { get; set; }
         public UserSimpleModelOut User { get; set;  }
         public string Text { get; set; }
     }
