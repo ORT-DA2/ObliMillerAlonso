@@ -55,7 +55,7 @@ namespace Sports.WebAPI.Tests
 
             sportLogicMock.Setup(sportLogic => sportLogic.GetAll()).Returns(sports);
 
-            IActionResult result = controller.GetAll(token);
+            IActionResult result = controller.GetAllTeams(token,null,null);
             var okResult = result as OkObjectResult;
             var modelOut = okResult.Value as ICollection<TeamModelOut>;
 

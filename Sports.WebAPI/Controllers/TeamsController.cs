@@ -132,7 +132,7 @@ namespace Sports.WebAPI.Controllers
 
 
         [HttpGet(Name = "GetAllTeams")]
-        public IActionResult GetFiltered([FromHeader] string token, [FromHeader] string name, [FromHeader] string order)
+        public IActionResult GetAllTeams([FromHeader] string token, [FromHeader] string name, [FromHeader] string order)
         {
             try
             {
