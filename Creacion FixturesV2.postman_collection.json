@@ -1,0 +1,1600 @@
+{
+	"info": {
+		"_postman_id": "bb486145-5f4b-42cb-98eb-0596e02afd37",
+		"name": "Creacion Fixtures",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "79c612b2-c7e8-4dd1-9109-fef96c3a9b39",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "a45b7a36-a82d-4385-86a3-94bca788c0a9",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if(jsonData.token !== null)",
+									"{",
+									"    pm.environment.set(\"token\", jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Username\" : \"user\",\n\t\"Password\" : \"pass\"\n}"
+						},
+						"url": "{{apiUrl}}/users/login"
+					},
+					"response": []
+				},
+				{
+					"name": "CreateUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "326a2f58-84f1-4f39-89d4-337d1b168126",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if(jsonData.Id !== null)",
+									"{",
+									"    pm.environment.set(\"createdUserId\", jsonData.Id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"FirstName\" : \"firstName\",\n\t\"LastName\" : \"lastName\",\n\t\"Email\" : \"usesr@gmail.com\",\n\t\"Username\" : \"user2\",\n\t\"Password\" : \"pass\"\n}"
+						},
+						"url": "{{apiUrl}}/users"
+					},
+					"response": []
+				},
+				{
+					"name": "ModifyUser",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"FirstName\" : \"newName\",\n\t\"LastName\" : \"lastNewName\",\n\t\"Email\" : \"usesr@gmail.com\",\n\t\"Username\" : \"user2\"\n}"
+						},
+						"url": "{{apiUrl}}/users/{{createdUserId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "LoginNonAdmin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6de18db7-5241-42cf-b951-90010d0ae876",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if(jsonData.token !== null)",
+									"{",
+									"    pm.environment.set(\"token\", jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Username\" : \"user2\",\n\t\"Password\" : \"pass\"\n}"
+						},
+						"url": "{{apiUrl}}/users/login"
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllUsersNonAdmin",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": ""
+					},
+					"response": []
+				},
+				{
+					"name": "LoginAdmin",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "79c612b2-c7e8-4dd1-9109-fef96c3a9b39",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "a45b7a36-a82d-4385-86a3-94bca788c0a9",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if(jsonData.token !== null)",
+									"{",
+									"    pm.environment.set(\"token\", jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Username\" : \"user\",\n\t\"Password\" : \"pass\"\n}"
+						},
+						"url": "{{apiUrl}}/users/login"
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllUsers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "{{apiUrl}}/users"
+					},
+					"response": []
+				},
+				{
+					"name": "GetById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": ""
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteUser",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "{{apiUrl}}/users/{{createdUserId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "LogoutUser",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": ""
+					},
+					"response": []
+				},
+				{
+					"name": "LoginAdmin Copy",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "79c612b2-c7e8-4dd1-9109-fef96c3a9b39",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "a45b7a36-a82d-4385-86a3-94bca788c0a9",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if(jsonData.token !== null)",
+									"{",
+									"    pm.environment.set(\"token\", jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Username\" : \"user\",\n\t\"Password\" : \"pass\"\n}"
+						},
+						"url": "{{apiUrl}}/users/login"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sports",
+			"item": [
+				{
+					"name": "CreateSport",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "070502c1-4c4f-4691-ba86-1d123d456b16",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if(jsonData.id !== null)",
+									"{",
+									"    pm.environment.set(\"createdSportId\", jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Name\" : \"Tennis\"\n}"
+						},
+						"url": "{{apiUrl}}/sports"
+					},
+					"response": []
+				},
+				{
+					"name": "ModifySport",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "{{apiUrl}}/sports/{{createdSportId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "CreateSecondSport",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "070502c1-4c4f-4691-ba86-1d123d456b16",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Name\" : \"Tennis\"\n}"
+						},
+						"url": "{{apiUrl}}/sports"
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllSports",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": ""
+					},
+					"response": []
+				},
+				{
+					"name": "GetSportById",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "{{apiUrl}}/sports/{{createdSportId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteSport",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "{{apiUrl}}/sports/{{createdSportId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "CreateThirdSport",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "070502c1-4c4f-4691-ba86-1d123d456b16",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if(jsonData.id !== null)",
+									"{",
+									"    pm.environment.set(\"createdSportId\", jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Name\" : \"Tennis\"\n}"
+						},
+						"url": "{{apiUrl}}/sports"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Teams",
+			"item": [
+				{
+					"name": "CreateTeam",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1a4c2a89-aaeb-4f23-a16e-87b25aec8f6b",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if(jsonData.id !== null)",
+									"{",
+									"    pm.environment.set(\"createdTeamId\", jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Name\" : \"FirstTeam\",\n\t\"ImagePath\" : \"C:\\\\Users\\\\Rafael\\\\Documents\\\\Diseno2\\\\MillerAlonso\\\\Sports.Domain.Test\\\\TestImage\\\\gun.png\"\n}"
+						},
+						"url": "{{apiUrl}}/sports/{{createdSportId}}/teams"
+					},
+					"response": []
+				},
+				{
+					"name": "GetSportTeams",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": ""
+					},
+					"response": []
+				},
+				{
+					"name": "ModifyTeam",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": ""
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteTeam",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1a4c2a89-aaeb-4f23-a16e-87b25aec8f6b",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "{{apiUrl}}/teams/{{createdTeamId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "CreateSecondTeam",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1a4c2a89-aaeb-4f23-a16e-87b25aec8f6b",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if(jsonData.id !== null)",
+									"{",
+									"    pm.environment.set(\"createdTeamId\", jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Name\" : \"team2\"\n}"
+						},
+						"url": "{{apiUrl}}/sports/{{createdSportId}}/teams"
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllTeams",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "{{apiUrl}}/teams"
+					},
+					"response": []
+				},
+				{
+					"name": "GetTeamById",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "{{apiUrl}}/teams"
+					},
+					"response": []
+				},
+				{
+					"name": "CreateSameNameTeam",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1a4c2a89-aaeb-4f23-a16e-87b25aec8f6b",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if(jsonData.id !== null)",
+									"{",
+									"    pm.environment.set(\"createdTeamId\", jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Name\" : \"team2\",\n\t\"ImagePath\" : \"C:\\\\Users\\\\Rafael\\\\Documents\\\\Diseno2\\\\MillerAlonso\\\\Sports.Domain.Test\\\\TestImage\\\\gun.png\"\n}"
+						},
+						"url": "{{apiUrl}}/sports/{{createdSportId}}/teams"
+					},
+					"response": []
+				},
+				{
+					"name": "CreateThirdTeam",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1a4c2a89-aaeb-4f23-a16e-87b25aec8f6b",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if(jsonData.id !== null)",
+									"{",
+									"    pm.environment.set(\"otherTeamId\", jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Name\" : \"team3\"\n}"
+						},
+						"url": "{{apiUrl}}/sports/{{createdSportId}}/teams"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Matches",
+			"item": [
+				{
+					"name": "CreateMatch",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "47a15134-8fe0-4cb0-8646-abfa1b2ebf1e",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if(jsonData.id !== null)",
+									"{",
+									"    pm.environment.set(\"createdMatchId\", jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"SportId\" : \"{{createdSportId}}\",\n\t\"VisitorId\" : \"{{createdTeamId}}\",\n\t\"LocalId\" : \"{{otherTeamId}}\",\n\t\"Date\" : \"01/06/2020 13:14\"\n}"
+						},
+						"url": "{{apiUrl}}/matches"
+					},
+					"response": []
+				},
+				{
+					"name": "CreateTeamChange",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1a4c2a89-aaeb-4f23-a16e-87b25aec8f6b",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if(jsonData.id !== null)",
+									"{",
+									"    pm.environment.set(\"otherTeamId\", jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Name\" : \"team3\"\n}"
+						},
+						"url": "{{apiUrl}}/sports/{{createdSportId}}/teams"
+					},
+					"response": []
+				},
+				{
+					"name": "ModifyMatch",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"LocalId\" : \"{{otherTeamId}}\",\n\t\"Date\" : \"01/06/2021 13:14\"\n}"
+						},
+						"url": "{{apiUrl}}/matches/{{createdMatchId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "ModifyMatchInvalid",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"LocalId\" : \"{{otherTeamId}}\",\n\t\"Date\" : \"01/06/2021 13:14\"\n}"
+						},
+						"url": "{{apiUrl}}/matches/{{createdMatchId}}"
+					},
+					"response": []
+				},
+				{
+					"name": "CreateSecondMatch",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "47a15134-8fe0-4cb0-8646-abfa1b2ebf1e",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if(jsonData.id !== null)",
+									"{",
+									"    pm.environment.set(\"createdMatchId\", jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"SportId\" : \"{{createdSportId}}\",\n\t\"VisitorId\" : \"{{createdTeamId}}\",\n\t\"LocalId\" : \"{{otherTeamId}}\",\n\t\"Date\" : \"01/06/2020 13:14\"\n}"
+						},
+						"url": "{{apiUrl}}/matches"
+					},
+					"response": []
+				},
+				{
+					"name": "CreateSameDayMatch",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "47a15134-8fe0-4cb0-8646-abfa1b2ebf1e",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if(jsonData.id !== null)",
+									"{",
+									"    pm.environment.set(\"createdMatchId\", jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"SportId\" : \"{{createdSportId}}\",\n\t\"VisitorId\" : \"{{createdTeamId}}\",\n\t\"LocalId\" : \"{{otherTeamId}}\",\n\t\"Date\" : \"01/06/2020 13:14\"\n}"
+						},
+						"url": "{{apiUrl}}/matches"
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllMatches",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "{{apiUrl}}/matches"
+					},
+					"response": []
+				},
+				{
+					"name": "GetMatchById",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "{{apiUrl}}/matches"
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteMatch",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": ""
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllMatchesAfterDelete",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "{{apiUrl}}/matches"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Fixtures",
+			"item": [
+				{
+					"name": "GenericTeam1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1a4c2a89-aaeb-4f23-a16e-87b25aec8f6b",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if(jsonData.id !== null)",
+									"{",
+									"    pm.environment.set(\"otherTeamId\", jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Name\" : \"team3\"\n}"
+						},
+						"url": "{{apiUrl}}/sports/{{createdSportId}}/teams"
+					},
+					"response": []
+				},
+				{
+					"name": "GenericTeam2",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1a4c2a89-aaeb-4f23-a16e-87b25aec8f6b",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if(jsonData.id !== null)",
+									"{",
+									"    pm.environment.set(\"otherTeamId\", jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Name\" : \"genericTeam2\"\n}"
+						},
+						"url": "{{apiUrl}}/sports/{{createdSportId}}/teams"
+					},
+					"response": []
+				},
+				{
+					"name": "GenericTeam3",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1a4c2a89-aaeb-4f23-a16e-87b25aec8f6b",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if(jsonData.id !== null)",
+									"{",
+									"    pm.environment.set(\"otherTeamId\", jsonData.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Name\" : \"genericTeam2\"\n}"
+						},
+						"url": "{{apiUrl}}/sports/{{createdSportId}}/teams"
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllTeamsAgain",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "{{apiUrl}}/teams"
+					},
+					"response": []
+				},
+				{
+					"name": "GenerateFixtureNoImplementations",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Sports\" : [\n\t\t{\n\t\t\t\"Name\" : \"{{createdSportName}}\"\n\t\t}\n\t],\n\t\"Date\" : \"1/6/2025 1:14\"\n}"
+						},
+						"url": "{{apiUrl}}/matches/generateFixture"
+					},
+					"response": []
+				},
+				{
+					"name": "NextFixtureNoImplementations",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "{{apiUrl}}/matches/nextFixture"
+					},
+					"response": []
+				},
+				{
+					"name": "ImportFixtureStrategies",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "{{apiUrl}}/matches/fixtureImplementations"
+					},
+					"response": []
+				},
+				{
+					"name": "GenerateFixture",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Sports\" : [\n\t\t{\n\t\t\t\"Name\" : \"{{createdSportName}}\"\n\t\t}\n\t],\n\t\"Date\" : \"1/6/2025 1:14\"\n}"
+						},
+						"url": "{{apiUrl}}/matches/generateFixture"
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllMatchesFixture1",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "{{apiUrl}}/matches"
+					},
+					"response": []
+				},
+				{
+					"name": "NextFixture",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "{{apiUrl}}/matches/nextFixture"
+					},
+					"response": []
+				},
+				{
+					"name": "GenerateFixtureWeekends",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Sports\" : [\n\t\t{\n\t\t\t\"Name\" : \"{{createdSportName}}\"\n\t\t}\n\t],\n\t\"Date\" : \"1/6/2025 1:14\"\n}"
+						},
+						"url": "{{apiUrl}}/matches/generateFixture"
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllMatchesFixture2",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": "{{apiUrl}}/matches"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Comments",
+			"item": [
+				{
+					"name": "CreateSimpleUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "326a2f58-84f1-4f39-89d4-337d1b168126",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if(jsonData.Id !== null)",
+									"{",
+									"    pm.environment.set(\"simpleUserId\", jsonData.Id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"FirstName\" : \"firstName\",\n\t\"LastName\" : \"lastName\",\n\t\"Email\" : \"usesr@gmail.com\",\n\t\"Username\" : \"user2\",\n\t\"Password\" : \"pass\"\n}"
+						},
+						"url": "{{apiUrl}}/users"
+					},
+					"response": []
+				},
+				{
+					"name": "LoginSimpleUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6de18db7-5241-42cf-b951-90010d0ae876",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"if(jsonData.token !== null)",
+									"{",
+									"    pm.environment.set(\"token\", jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Username\" : \"user2\",\n\t\"Password\" : \"pass\"\n}"
+						},
+						"url": "{{apiUrl}}/users/login"
+					},
+					"response": []
+				},
+				{
+					"name": "AddComment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": ""
+					},
+					"response": []
+				},
+				{
+					"name": "GetAllComments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Favorites",
+			"item": [
+				{
+					"name": "AddFavoriteTeam",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "{{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Id\" : \"{{createdTeamId}}\"\n}"
+						},
+						"url": "{{apiUrl}}/users/favoriteTeams"
+					},
+					"response": []
+				},
+				{
+					"name": "GetFavoriteTeams",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Id\" : \"{{createdTeamId}}\"\n}"
+						},
+						"url": "{{apiUrl}}/users/favoriteTeams"
+					},
+					"response": []
+				},
+				{
+					"name": "GetFavoriteComments",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"type": "text",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"Id\" : \"{{createdTeamId}}\"\n}"
+						},
+						"url": "{{apiUrl}}/users/favoriteTeams"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"id": "262845aa-a786-4e89-8212-e314b4ecc6b6",
+			"key": "apiUrl",
+			"value": "https://localhost:44384/",
+			"type": "string"
+		},
+		{
+			"id": "6f866375-8ce6-45c7-9159-ce17eb1dd0e4",
+			"key": "token",
+			"value": "null",
+			"type": "string"
+		}
+	]
+}

@@ -16,15 +16,18 @@ namespace Sports.Logic
     public class FixtureLogic : IFixtureLogic
     {
         private static ICollection<IFixtureGeneratorStrategy> fixtureGeneratorStrategies;
-        private int currentStrategy;
+        private static int currentStrategy;
         private ISportLogic sportLogic;
         private IMatchLogic matchLogic;
         private ISessionLogic sessionLogic;
         User user;
 
         public FixtureLogic(IRepositoryUnitOfWork unit)
-        {   
-            fixtureGeneratorStrategies = new List<IFixtureGeneratorStrategy>();
+        {
+            if (fixtureGeneratorStrategies == null)
+            {
+                fixtureGeneratorStrategies = new List<IFixtureGeneratorStrategy>();
+            }
             sportLogic = new SportLogic(unit);
             matchLogic = new MatchLogic(unit);
             sessionLogic = new SessionLogic(unit);

@@ -29,7 +29,6 @@ namespace Sports.Domain
             CheckSportNotEmpty();
             CheckLocalNotEmpty();
             CheckVisitorNotEmpty();
-            IsValidMatch(this.Local, this.Visitor);
             IsValidDate(this.Date);
         }
 
@@ -72,9 +71,9 @@ namespace Sports.Domain
             }
         }
 
-        private void IsValidMatch(Team localTeam, Team visitorTeam)
+        public void IsValidMatch()
         {
-            if(localTeam.Name == visitorTeam.Name)
+            if(Local.Name == Visitor.Name)
             {
                 throw new InvalidTeamVersusException(TeamVersus.INVALID_TEAM_VERSUS_MESSAGE);
             }

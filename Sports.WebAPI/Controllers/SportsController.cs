@@ -31,7 +31,7 @@ namespace Sports.WebAPI.Controllers
             mapper = new Mapper(config);
         }
 
-        [HttpGet("{id}", Name = "GetSportsById")]
+        [HttpGet("{id}", Name = "GetSportById")]
         public IActionResult Get(int id, [FromHeader] string token)
         {
             try
@@ -73,6 +73,11 @@ namespace Sports.WebAPI.Controllers
                 sportLogic.SetSession(realToken);
                 ICollection<Sport> sportList = sportLogic.GetAll();
                 ICollection<SportModelOut> teamModels = new List<SportModelOut>();
+                foreach (Sport sport in sportList)
+                {
+                    SportModelOut modelOut = mapper.Map<SportModelOut>(sport);
+                    teamModels.Add(modelOut);
+                }
                 return Ok(teamModels.ToList());
             }
             catch (UnauthorizedException ex)
@@ -139,8 +144,9 @@ namespace Sports.WebAPI.Controllers
                 Guid realToken = Guid.Parse(token);
                 sportLogic.SetSession(realToken);
                 Sport sport = mapper.Map<Sport>(sportIn);
-                sportLogic.ModifySport(sport.Id, sport);
-                return Ok("Succesfully modified");
+                sportLogic.ModifySport(id, sport);
+                SportModelOut modelOut = mapper.Map<SportModelOut>(sport);
+                return RedirectToRoute("GetSportById", new { id = id, token = token });
             }
             catch (UnauthorizedException ex)
             {
@@ -196,13 +202,14 @@ namespace Sports.WebAPI.Controllers
             }
         }
 
-        [HttpPost("{id}/Teams", Name = "AddTeam")]
+        [HttpPost("{id}/teams", Name = "AddTeam")]
         public IActionResult PostTeam(int id, [FromBody] TeamModelIn teamIn, [FromHeader] string token)
         {
             try
             {
                 Guid realToken = Guid.Parse(token);
                 sportLogic.SetSession(realToken);
+                teamLogic.SetSession(realToken);
                 Team team = mapper.Map<Team>(teamIn);
                 sportLogic.AddTeamToSport(id, team);
                 teamLogic.SetPictureFromPath(team.Id, teamIn.ImagePath);
@@ -232,7 +239,7 @@ namespace Sports.WebAPI.Controllers
         }
 
 
-        [HttpGet("{id}/Teams", Name = "GetTeamsFromSport")]
+        [HttpGet("{id}/teams", Name = "GetTeamsFromSport")]
         public IActionResult GetTeams(int id, [FromHeader] string token)
         {
             try

@@ -68,10 +68,13 @@ namespace FixtureImplementations
             while (dateIsOcupied)
             {
                 DateTime date = initialDate.AddDays(lastFreeDate);
-                if (IsWeekend(date) && UnoccupiedDateByTeams(date, local, visitor))
+                if (IsWeekend(date) )
                 {
-                    dateIsOcupied = false;
-                    validDate = date;
+                    if(UnoccupiedDateByTeams(date, local, visitor))
+                    {
+                        dateIsOcupied = false;
+                        validDate = date;
+                    }
                     lastFreeDate += 5;
                 }
                 else

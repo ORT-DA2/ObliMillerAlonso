@@ -4,6 +4,7 @@ using System.Text;
 using System.Diagnostics.CodeAnalysis;
 using Sports.Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sports.Domain.Exceptions;
 
 namespace Sports.Domain.Test
 {
@@ -38,6 +39,14 @@ namespace Sports.Domain.Test
         {
             Assert.IsNotNull(favorite);
         }
-        
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidEmptyUserException))]
+        public void NullUserTest()
+        {
+            favorite.User = null;
+            favorite.Validate();
+        }
+
     }
 }

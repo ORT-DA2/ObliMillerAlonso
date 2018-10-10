@@ -151,7 +151,7 @@ namespace Sports.WebAPI.Controllers
                 matchLogic.SetSession(realToken);
                 Match match = mapper.Map<Match>(matchIn);
                 matchLogic.ModifyMatch(id, match);
-                return Ok("Match modified succesfully");
+                return RedirectToRoute("GetMatchById", new { id = id, token = token });
             }
             catch (UnauthorizedException ex)
             {
@@ -247,7 +247,7 @@ namespace Sports.WebAPI.Controllers
             }
         }
 
-        [HttpGet("{id}/comments", Name = "GetAllComments")]
+        [HttpPost("{id}/comments", Name = "GetAllComments")]
         public IActionResult PostComment(int id, [FromBody] CommentModelIn commentIn, [FromHeader] string token)
         {
             try
@@ -256,7 +256,7 @@ namespace Sports.WebAPI.Controllers
                 matchLogic.SetSession(realToken);
                 Comment comment = mapper.Map<Comment>(commentIn);
                 matchLogic.AddCommentToMatch(id, comment);
-                return Ok("Comment succesfully added");
+                return RedirectToRoute("GetAllComments", new { id = id, token = token });
 
             }
             catch (UnauthorizedException ex)
@@ -280,10 +280,9 @@ namespace Sports.WebAPI.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+        
 
-        //testear
-
-        [HttpPost("FixtureImplementations", Name = "AddFixture")]
+        [HttpPost("fixtureImplementations", Name = "AddFixture")]
         public IActionResult PostFixtureImplementation([FromBody]FixturesPathDTO fixtureDTO, [FromHeader] string token)
         {
             try
@@ -316,7 +315,7 @@ namespace Sports.WebAPI.Controllers
             }
         }
 
-        [HttpPost("GenerateFixture", Name = "GenerateFixture")]
+        [HttpPost("generateFixture", Name = "GenerateFixture")]
         public IActionResult GenerateFixture([FromBody] FixtureDTO fixtureData, [FromHeader] string token)
         {
             try
@@ -329,7 +328,7 @@ namespace Sports.WebAPI.Controllers
                     Sport sport = mapper.Map<Sport>(model);
                     sports.Add(sport);
                 }
-                DateTime startDate = DateTime.ParseExact(fixtureData.Date, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture);
+                DateTime startDate = Convert.ToDateTime(fixtureData.Date);
                 fixtureLogic.GenerateFixture(sports, startDate);
                 return Ok("Fixture succesfully generated");
 
@@ -356,7 +355,7 @@ namespace Sports.WebAPI.Controllers
             }
         }
 
-        [HttpGet("NextFixture", Name = "ChangeFixture")]
+        [HttpPut("nextFixture", Name = "ChangeFixture")]
         public IActionResult NextFixture([FromHeader] string token)
         {
             try

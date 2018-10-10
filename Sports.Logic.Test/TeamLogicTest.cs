@@ -27,17 +27,25 @@ namespace Sports.Logic.Test
         private RepositoryContext repository;
         private ITeamLogic teamLogic;
         private IUserLogic userLogic;
+        private ISportLogic sportLogic;
         private ISessionLogic sessionLogic;
         private Team team;
+        private Sport sport;
 
         [TestInitialize]
         public void SetUp()
         {
             SetUpRepositories();
             SetUpAdminSession();
+            sport = new Sport()
+            {
+                Name = "SportName"
+            };
+            sportLogic.AddSport(sport);
             team = new Team()
             {
-                Name = "Team"
+                Name = "Team",
+                Sport = sport
             };
             JObject jsonPaths = JObject.Parse(File.ReadAllText(@"testFilesPaths.json"));
             testImagePath = jsonPaths.SelectToken("TestImagePath").ToString();
@@ -60,6 +68,7 @@ namespace Sports.Logic.Test
             sessionLogic.GetUserFromToken(adminToken);
             userLogic.SetSession(adminToken);
             teamLogic.SetSession(adminToken);
+            sportLogic.SetSession(adminToken);
         }
 
         private void SetUpRepositories()
@@ -72,12 +81,14 @@ namespace Sports.Logic.Test
             teamLogic = new TeamLogic(unitOfWork);
             userLogic = new UserLogic(unitOfWork);
             sessionLogic = new SessionLogic(unitOfWork);
+            sportLogic = new SportLogic(unitOfWork);
         }
 
         [TestCleanup]
         public void TearDown()
         {
             repository.Teams.RemoveRange(repository.Teams);
+            repository.Sports.RemoveRange(repository.Sports);
             repository.Users.RemoveRange(repository.Users);
             repository.SaveChanges();
         }
@@ -143,7 +154,8 @@ namespace Sports.Logic.Test
             teamLogic.AddTeam(team);
             Team changeTeam = new Team()
             {
-                Name = "New Name"
+                Name = "New Name",
+                Sport = sport
             };
             teamLogic.Modify(team.Id, changeTeam);
             Assert.AreEqual<string>(teamLogic.GetTeamById(team.Id).Name,team.Name);
@@ -155,22 +167,25 @@ namespace Sports.Logic.Test
             teamLogic.AddTeam(team);
             Team changeTeam = new Team()
             {
-                Name = null
+                Name = null,
+                Sport = sport
             };
             teamLogic.Modify(team.Id, changeTeam);
             Assert.AreNotEqual<string>(teamLogic.GetTeamById(team.Id).Name, changeTeam.Name);
         }
 
         [TestMethod]
+        [ExpectedException(typeof(TeamAlreadyInSportException))]
         public void ChangeTeamNameInvalid()
         {
             teamLogic.AddTeam(team);
             Team changeTeam = new Team()
             {
-                Name = ""
+                Name = "Name",
+                Sport = sport
             };
+            teamLogic.AddTeam(changeTeam);
             teamLogic.Modify(team.Id, changeTeam);
-            Assert.AreNotEqual<string>(teamLogic.GetTeamById(team.Id).Name, changeTeam.Name);
         }
 
         [TestMethod]

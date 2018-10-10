@@ -40,15 +40,17 @@ namespace Sports.Logic
 
         private void ValidateMatch(Match match)
         {
-            
             CheckNotNull(match);
             match.IsValid();
             ValidateSport(match);
+            match.IsValidMatch();
         }
-
+        
         private void CheckMatchDoesntExist(Match match)
         {
-            ICollection<Match> matches = repository.FindByCondition(m => (IsInMatch(match.Local,m) || IsInMatch(match.Visitor,m))&&m.Date.DayOfYear==match.Date.DayOfYear);
+            ICollection<Match> matches = repository.FindByCondition(m => ((match.Local.Id.Equals(m.Local.Id) || match.Visitor.Id.Equals(m.Local.Id)) 
+            || (match.Local.Id.Equals(m.Visitor.Id) || match.Visitor.Id.Equals(m.Visitor.Id)))
+            && m.Date.Date.Equals(match.Date.Date));
             if (matches.Count != 0)
             {
                 throw new MatchAlreadyExistsException("Team already plays that day.");

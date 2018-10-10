@@ -13,17 +13,19 @@ namespace Sports.Logic
     public class TeamLogic : ITeamLogic
     {
         IMatchRepository matchRepository;
+        ISportRepository sportRepository;
         ITeamRepository repository;
         ISessionLogic sessionLogic;
         const string ASCENDING = "asc";
         const string DESCENDING = "desc";
         User user;
 
-        public TeamLogic(IRepositoryUnitOfWork unitOfwork)
+        public TeamLogic(IRepositoryUnitOfWork unit)
         {
-            repository = unitOfwork.Team;
-            matchRepository = unitOfwork.Match;
-            sessionLogic = new SessionLogic(unitOfwork);
+            repository = unit.Team;
+            matchRepository = unit.Match;
+            sportRepository = unit.Sport;
+            sessionLogic = new SessionLogic(unit);
 
         }
         public void AddTeam(Team team)
@@ -76,7 +78,17 @@ namespace Sports.Logic
             Team realTeam = GetTeamById(id);
             realTeam.UpdateData(team);
             ValidateTeam(realTeam);
+            ValidateNameInSport(realTeam);
             repository.Update(realTeam);
+        }
+
+        private void ValidateNameInSport(Team team)
+        {
+            Sport sport = sportRepository.FindByCondition(s => s.Id == team.Sport.Id).FirstOrDefault();
+            if (sport.Teams.Where(t=>t.Id!=team.Id&&t.Equals(team)).Count() != 0)
+            {
+                throw new TeamAlreadyInSportException("Team already exists in sport");
+            }
         }
 
         public void Delete(int teamId)

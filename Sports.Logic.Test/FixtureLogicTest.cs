@@ -197,6 +197,15 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
+        [ExpectedException(typeof(MalfunctioningImplementationException))]
+        public void ChangeFixtureInvalidImplementation()
+        {
+            fixtureLogic.AddFixtureImplementations(failingImplementationsPath);
+            fixtureLogic.ChangeFixtureImplementation();
+        }
+
+        
+        [TestMethod]
         [ExpectedException(typeof(NoImportedFixtureStrategiesException))]
         public void ChangeImplementationNoImports()
         {

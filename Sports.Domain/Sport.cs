@@ -67,12 +67,7 @@ namespace Sports.Domain
             CheckDuplicateTeam(team);
             Teams.Add(team);
         }
-
-        public void DeleteTeam(Team team)
-        {
-            CheckIfTeamDoesntExist(team);
-            Teams.Remove(team);
-        }
+        
 
         private void CheckDuplicateTeam(Team team)
         {
