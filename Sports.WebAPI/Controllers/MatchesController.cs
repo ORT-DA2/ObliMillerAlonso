@@ -151,7 +151,7 @@ namespace Sports.WebAPI.Controllers
                 matchLogic.SetSession(realToken);
                 Match match = mapper.Map<Match>(matchIn);
                 matchLogic.ModifyMatch(id, match);
-                return Ok("Match modified succesfully");
+                return RedirectToRoute("GetMatchById", new { id = id, token = token });
             }
             catch (UnauthorizedException ex)
             {

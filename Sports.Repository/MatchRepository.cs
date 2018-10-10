@@ -45,12 +45,12 @@ namespace Sports.Repository
             try
             {
                 return RepositoryContext.Matches
-                    .Where(expression)
                     .Include(m => m.Comments)
                         .ThenInclude(c => c.User)
                     .Include(m => m.Local)
                     .Include(m => m.Visitor)
                     .Include(m => m.Sport)
+                    .Where(expression)
                     .ToList<Match>();
             }
             catch (DbException)

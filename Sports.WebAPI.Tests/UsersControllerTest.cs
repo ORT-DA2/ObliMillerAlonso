@@ -139,7 +139,7 @@ namespace Sports.WebAPI.Tests
             userLogicMock.Setup(userLogic => userLogic.SetSession(It.IsAny<Guid>()));
             userLogicMock.Setup(userLogic => userLogic.GetAll()).Returns(users);
 
-            var result = controller.GetAll(token);
+            var result = controller.GetAllUsers(token);
             var okResult = result as OkObjectResult;
             var modelOut = okResult.Value as ICollection<UserModelOut>;
 

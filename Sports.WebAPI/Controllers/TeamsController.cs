@@ -39,10 +39,6 @@ namespace Sports.WebAPI.Controllers
                 Guid realToken = Guid.Parse(token);
                 teamLogic.SetSession(realToken);
                 Team team = teamLogic.GetTeamById(id);
-                if (team == null)
-                {
-                    return NotFound();
-                }
                 TeamModelOut modelOut = mapper.Map<TeamModelOut>(team);
                 return Ok(modelOut);
             }
@@ -75,11 +71,8 @@ namespace Sports.WebAPI.Controllers
             {
                 Guid realToken = Guid.Parse(token);
                 teamLogic.SetSession(realToken);
+                sportLogic.SetSession(realToken);
                 ICollection<Sport> sportList = sportLogic.GetAll();
-                if (sportList == null)
-                {
-                    return NotFound();
-                }
                 ICollection<TeamModelOut> teamModels = new List<TeamModelOut>();
                 foreach (Sport sport in sportList)
                 {
@@ -123,7 +116,7 @@ namespace Sports.WebAPI.Controllers
                 Team team = mapper.Map<Team>(teamIn);
                 teamLogic.Modify(id, team);
                 teamLogic.SetPictureFromPath(id, teamIn.ImagePath);
-                return Ok("Team modified succesfully");
+                return RedirectToRoute("GetTeamById", new { id = id, token = token});
             }
             catch (UnauthorizedException ex)
             {

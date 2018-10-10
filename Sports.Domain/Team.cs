@@ -34,9 +34,12 @@ namespace Sports.Domain
 
         public void AddPictureFromPath(string filePath)
         {
-            ValidateFile(filePath);
-            byte[] bytePicture = File.ReadAllBytes(filePath);
-            this.Picture = System.Text.Encoding.UTF8.GetString(bytePicture);
+            if (filePath != null)
+            {
+                ValidateFile(filePath);
+                byte[] bytePicture = File.ReadAllBytes(filePath);
+                this.Picture = System.Text.Encoding.UTF8.GetString(bytePicture);
+            }
         }
 
         public void ValidateFile(string filePath)

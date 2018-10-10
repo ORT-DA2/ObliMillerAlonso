@@ -151,8 +151,7 @@ namespace Sports.WebAPI.Controllers
                 User user = mapper.Map<User>(newUser);
                 userLogic.UpdateUser(userId, user);
                 UserModelOut modelOut = mapper.Map<UserModelOut>(user);
-                modelOut.Id = userId;
-                return Ok(modelOut);
+                return RedirectToRoute("GetUserById", new { id = userId, token = token });
             }
             catch (UnauthorizedException ex)
             {
