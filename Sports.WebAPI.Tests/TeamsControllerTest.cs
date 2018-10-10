@@ -20,7 +20,6 @@ namespace Sports.WebAPI.Tests
         Mock<ITeamLogic> teamLogicMock;
         Mock<ISportLogic> sportLogicMock;
         TeamsController controller;
-        IMapper mapper;
         string token;
 
         [TestInitialize]
@@ -45,15 +44,8 @@ namespace Sports.WebAPI.Tests
             };
             ICollection<Team> teams = new List<Team>();
             teams.Add(fakeTeam);
-            Sport fakeSport = new Sport()
-            {
-                Name = "Rugby",
-                Teams = teams
-            };
-            ICollection<Sport> sports = new List<Sport>();
-            sports.Add(fakeSport);
 
-            sportLogicMock.Setup(sportLogic => sportLogic.GetAll()).Returns(sports);
+            teamLogicMock.Setup(sportLogic => sportLogic.GetFilteredTeams(It.IsAny<string>(), It.IsAny<string>())).Returns(teams);
 
             IActionResult result = controller.GetAllTeams(token,null,null);
             var okResult = result as OkObjectResult;
@@ -99,14 +91,14 @@ namespace Sports.WebAPI.Tests
             int teamId = 1;
 
 
-            teamLogicMock.Setup(teamLogic => teamLogic.Modify( It.IsAny<int>(), It.IsAny<Team>()));
+            teamLogicMock.Setup(teamLogic => teamLogic.Modify(It.IsAny<int>(), It.IsAny<Team>()));
 
             IActionResult result = controller.PutTeam(teamId, fakeTeam, token);
-            var okResult = result as OkObjectResult;
+            var createdResult = result as RedirectToRouteResult;
 
-            teamLogicMock.VerifyAll();
+            sportLogicMock.VerifyAll();
 
-            Assert.AreEqual(200, okResult.StatusCode);
+            Assert.IsNotNull(createdResult);
         }
 
         [TestMethod]

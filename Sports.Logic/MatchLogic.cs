@@ -53,7 +53,7 @@ namespace Sports.Logic
             && m.Date.Date.Equals(match.Date.Date));
             if (matches.Count != 0)
             {
-                throw new MatchAlreadyExistsException("Team already plays that day.");
+                throw new MatchAlreadyExistsException(MatchValidation.TEAM_ALREADY_PLAYING);
             }
         }
 
@@ -95,7 +95,7 @@ namespace Sports.Logic
             ICollection<Match> matches = repository.FindByCondition(m => m.Local.Equals(playingTeam) ||m.Visitor.Equals(playingTeam));
             if (matches.Count == 0)
             {
-                throw new MatchDoesNotExistException("Team has no matches");
+                throw new MatchDoesNotExistException(MatchValidation.TEAM_DOESNT_PLAY);
             }
             return matches;
         }

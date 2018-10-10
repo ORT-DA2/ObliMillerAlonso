@@ -87,7 +87,7 @@ namespace Sports.Logic
             Sport sport = sportRepository.FindByCondition(s => s.Id == team.Sport.Id).FirstOrDefault();
             if (sport.Teams.Where(t=>t.Id!=team.Id&&t.Equals(team)).Count() != 0)
             {
-                throw new TeamAlreadyInSportException("Team already exists in sport");
+                throw new TeamAlreadyInSportException(UniqueTeam.DUPLICATE_TEAM_IN_SPORT_MESSAGE);
             }
         }
 

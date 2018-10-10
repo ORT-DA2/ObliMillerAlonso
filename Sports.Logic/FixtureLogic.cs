@@ -8,6 +8,7 @@ using Sports.Repository.Interface;
 using Sports.Logic.Interface;
 using Sports.Logic.Exceptions;
 using Sports.Domain.Constants;
+using Sports.Logic.Constants;
 using System.IO;
 using System.Reflection;
 
@@ -51,7 +52,7 @@ namespace Sports.Logic
         {
             if (!Directory.Exists(dllFilesPath))
             {
-                throw new FixtureImportingException("Invalid fixture implementation path");
+                throw new FixtureImportingException(FixtureValidation.INVALID_FIXTURE_PATH);
             }
         }
 
@@ -90,7 +91,7 @@ namespace Sports.Logic
             }
             catch (Exception)
             {
-                throw new MalfunctioningImplementationException("Fixture generation strategy is failing");
+                throw new MalfunctioningImplementationException(FixtureValidation.FAILING_FIXTURE_STRATEGY);
             }
         }
 
@@ -98,7 +99,7 @@ namespace Sports.Logic
         {
             if (fixtureGeneratorStrategies.Count == 0)
             {
-                throw new NoImportedFixtureStrategiesException("No strategies are imported");
+                throw new NoImportedFixtureStrategiesException(FixtureValidation.MISSING_FIXTURE_STRATEGIES);
             }
         }
 
@@ -116,7 +117,7 @@ namespace Sports.Logic
             }
             catch(Exception)
             {
-                throw new MalfunctioningImplementationException("Fixture generation strategy is failing");
+                throw new MalfunctioningImplementationException(FixtureValidation.FAILING_FIXTURE_STRATEGY);
             }
             matchLogic.AddMatches(fixtureMatches);
         }
@@ -150,7 +151,7 @@ namespace Sports.Logic
         {
             if (sports == null)
             {
-                throw new InvalidNullValueException("List of sports is empty");
+                throw new InvalidNullValueException(FixtureValidation.EMPTY_SPORTS);
             }
         }
 
@@ -158,7 +159,7 @@ namespace Sports.Logic
         {
             if (fixtureGeneratorStrategies.Count == 0)
             {
-                throw new NoImportedFixtureStrategiesException("No fixtures have been imported");
+                throw new NoImportedFixtureStrategiesException(FixtureValidation.MISSING_FIXTURE_STRATEGIES);
             }
         }
 

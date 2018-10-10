@@ -167,11 +167,11 @@ namespace Sports.WebAPI.Tests
             matchLogicMock.Setup(matchLogic => matchLogic.ModifyMatch(It.IsAny<int>(), It.IsAny<Domain.Match>()));
 
             IActionResult result = controller.Put(matchId, model, token);
-            var okResult = result as OkObjectResult;
+            var createdResult = result as RedirectToRouteResult;
 
             matchLogicMock.VerifyAll();
 
-            Assert.AreEqual(200, okResult.StatusCode);
+            Assert.IsNotNull(createdResult);
         }
 
         [TestMethod]
@@ -240,11 +240,11 @@ namespace Sports.WebAPI.Tests
             matchLogicMock.Setup(matchLogic => matchLogic.AddCommentToMatch(It.IsAny<int>(),It.IsAny<Comment>()));
 
             IActionResult result = controller.PostComment(matchId, modelIn, token);
-            var okResult = result as OkObjectResult;
+            var createdResult = result as RedirectToRouteResult;
 
             matchLogicMock.VerifyAll();
 
-            Assert.AreEqual(200, okResult.StatusCode);
+            Assert.IsNotNull(createdResult);
         }
 
 

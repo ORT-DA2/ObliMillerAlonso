@@ -13,6 +13,7 @@ using Sports.Repository.Interface.Exceptions;
 using System.Web;
 using AutoMapper;
 using System.Globalization;
+using static System.Net.WebRequestMethods;
 
 namespace Sports.WebAPI.Controllers
 {
@@ -61,11 +62,11 @@ namespace Sports.WebAPI.Controllers
             }
             catch (UnknownDataAccessException ex)
             {
-                return StatusCode(503, ex.Message);
+                return StatusCode((int)HttpStatusCode.ServiceUnavailable, ex.Message);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
@@ -99,11 +100,11 @@ namespace Sports.WebAPI.Controllers
             }
             catch (UnknownDataAccessException ex)
             {
-                return StatusCode(503, ex.Message);
+                return StatusCode((int)HttpStatusCode.ServiceUnavailable, ex.Message);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
@@ -134,11 +135,11 @@ namespace Sports.WebAPI.Controllers
             }
             catch (UnknownDataAccessException ex)
             {
-                return StatusCode(503, ex.Message);
+                return StatusCode((int)HttpStatusCode.ServiceUnavailable, ex.Message);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
@@ -167,11 +168,11 @@ namespace Sports.WebAPI.Controllers
             }
             catch (UnknownDataAccessException ex)
             {
-                return StatusCode(503, ex.Message);
+                return StatusCode((int)HttpStatusCode.ServiceUnavailable, ex.Message);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
@@ -199,11 +200,11 @@ namespace Sports.WebAPI.Controllers
             }
             catch (UnknownDataAccessException ex)
             {
-                return StatusCode(503, ex.Message);
+                return StatusCode((int)HttpStatusCode.ServiceUnavailable, ex.Message);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
@@ -239,11 +240,11 @@ namespace Sports.WebAPI.Controllers
             }
             catch (UnknownDataAccessException ex)
             {
-                return StatusCode(503, ex.Message);
+                return StatusCode((int)HttpStatusCode.ServiceUnavailable, ex.Message);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
@@ -273,11 +274,11 @@ namespace Sports.WebAPI.Controllers
             }
             catch (UnknownDataAccessException ex)
             {
-                return StatusCode(503, ex.Message);
+                return StatusCode((int)HttpStatusCode.ServiceUnavailable, ex.Message);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
             }
         }
         
@@ -307,11 +308,11 @@ namespace Sports.WebAPI.Controllers
             }
             catch (UnknownDataAccessException ex)
             {
-                return StatusCode(503, ex.Message);
+                return StatusCode((int)HttpStatusCode.ServiceUnavailable, ex.Message);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
@@ -347,11 +348,11 @@ namespace Sports.WebAPI.Controllers
             }
             catch (UnknownDataAccessException ex)
             {
-                return StatusCode(503, ex.Message);
+                return StatusCode((int)HttpStatusCode.ServiceUnavailable, ex.Message);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
             }
         }
 
@@ -379,11 +380,11 @@ namespace Sports.WebAPI.Controllers
             }
             catch (UnknownDataAccessException ex)
             {
-                return StatusCode(503, ex.Message);
+                return StatusCode((int)HttpStatusCode.ServiceUnavailable, ex.Message);
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
             }
         }
     }

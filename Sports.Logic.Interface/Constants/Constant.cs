@@ -43,6 +43,12 @@ namespace Sports.Logic.Constants
     {
         public const string TOKEN_NOT_EXIST_MESSAGE = "Session token does not exist";
     }
+    public static class MatchValidation
+    {
+        public const string TEAM_ALREADY_PLAYING = "Team already plays that day.";
+        public const string TEAM_DOESNT_PLAY = "Team has no matches";
+    }
+
 
     public static class UniqueSport
     {
@@ -75,4 +81,11 @@ namespace Sports.Logic.Constants
         public const string UNKNOWN_ERROR_MESSAGE = "An unexpected error ocuured.";
     }
 
+    public static class FixtureValidation
+    {
+        public const string INVALID_FIXTURE_PATH = "Invalid fixture implementation path";
+        public const string MISSING_FIXTURE_STRATEGIES = "No strategies are imported";
+        public const string FAILING_FIXTURE_STRATEGY = "Fixture generation strategy is failing";
+        public const string EMPTY_SPORTS = "List of sports is empty";
+    }
 }
