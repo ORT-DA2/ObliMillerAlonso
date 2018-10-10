@@ -123,22 +123,22 @@ namespace Sports.Logic
 
         public ICollection<Team> GetFilteredTeams(string name, string order)
         {
-            sessionLogic.ValidateUser(user);
+            sessionLogic.ValidateUserNotNull(user);
             ICollection<Team> teams = new List<Team>();
             teams = FilterByName(name);
-            OrderTeams(order.ToLower(), teams);
+            OrderTeams(order, ref teams);
             return teams;
         }
 
-        private void OrderTeams(string order, ICollection<Team> teams)
+        private void OrderTeams(string order, ref ICollection<Team> teams)
         {
-            if (String.IsNullOrWhiteSpace(order) || order.Equals(ASCENDING))
+            if (String.IsNullOrWhiteSpace(order) || order.ToLower().Equals(ASCENDING))
             {
-                teams.OrderBy(t => t.Name);
+                teams = teams.OrderBy(t => t.Name).ToList();
             }
-            else if (order.Equals(DESCENDING))
+            else if (order.ToLower().Equals(DESCENDING))
             {
-                teams.OrderByDescending(t => t.Name);
+                teams = teams.OrderByDescending(t => t.Name).ToList();
             }
         }
 
