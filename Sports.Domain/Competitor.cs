@@ -8,7 +8,7 @@ using Sports.Domain.Constants;
 
 namespace Sports.Domain
 {
-    public class Team
+    public class Competitor
     {
         const int MAX_FILE_SIZE = 2000000;
         public int Id { get; set; }
@@ -53,7 +53,7 @@ namespace Sports.Domain
         {
             if (!filePath.EndsWith(".png") && !filePath.EndsWith(".jpg"))
             {
-                throw new InvalidTeamImageException(ImageTeamValidation.INVALID_FILE_EXTENSION_MESSAGE);
+                throw new InvalidCompetitorImageException(ImageCompetitorValidation.INVALID_FILE_EXTENSION_MESSAGE);
             }
         }
 
@@ -61,7 +61,7 @@ namespace Sports.Domain
         {
             if (!File.Exists(filePath))
             {
-                throw new InvalidTeamImageException(ImageTeamValidation.INVALID_FILE_PATH_MESSAGE);
+                throw new InvalidCompetitorImageException(ImageCompetitorValidation.INVALID_FILE_PATH_MESSAGE);
             }
         }
 
@@ -70,7 +70,7 @@ namespace Sports.Domain
             FileInfo file = new FileInfo(filePath);
             if (file.Length > MAX_FILE_SIZE)
             {
-                throw new InvalidTeamImageException(ImageTeamValidation.INVALID_FILE_PATH_MESSAGE);
+                throw new InvalidCompetitorImageException(ImageCompetitorValidation.INVALID_FILE_PATH_MESSAGE);
             }
         }
 
@@ -82,7 +82,7 @@ namespace Sports.Domain
             }
             else
             {
-                return this.Name.Equals(((Team)obj).Name);
+                return this.Name.Equals(((Competitor)obj).Name);
             }
         }
 
@@ -91,9 +91,9 @@ namespace Sports.Domain
             return this.Name;
         }
 
-        public void UpdateData(Team team)
+        public void UpdateData(Competitor competitor)
         {
-            this.Name = IgnoreWhiteSpace(this.Name, team.Name);
+            this.Name = IgnoreWhiteSpace(this.Name, competitor.Name);
             this.IsValid();
         }
 

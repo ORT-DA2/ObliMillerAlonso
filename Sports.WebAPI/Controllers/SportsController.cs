@@ -19,13 +19,13 @@ namespace Sports.WebAPI.Controllers
     [ApiController]
     public class SportsController : ControllerBase
     {
-        private ITeamLogic teamLogic;
+        private ICompetitorLogic competitorLogic;
         private ISportLogic sportLogic;
         private IMapper mapper;
 
-        public SportsController(ITeamLogic aTeamLogic, ISportLogic aSportLogic)
+        public SportsController(ICompetitorLogic aCompetitorLogic, ISportLogic aSportLogic)
         {
-            teamLogic = aTeamLogic;
+            competitorLogic = aCompetitorLogic;
             sportLogic = aSportLogic;
             var config = new MapperConfiguration(cfg => cfg.AddProfile(new MapperProfile()));
             mapper = new Mapper(config);
@@ -72,13 +72,13 @@ namespace Sports.WebAPI.Controllers
                 Guid realToken = Guid.Parse(token);
                 sportLogic.SetSession(realToken);
                 ICollection<Sport> sportList = sportLogic.GetAll();
-                ICollection<SportModelOut> teamModels = new List<SportModelOut>();
+                ICollection<SportModelOut> competitorModels = new List<SportModelOut>();
                 foreach (Sport sport in sportList)
                 {
                     SportModelOut modelOut = mapper.Map<SportModelOut>(sport);
-                    teamModels.Add(modelOut);
+                    competitorModels.Add(modelOut);
                 }
-                return Ok(teamModels.ToList());
+                return Ok(competitorModels.ToList());
             }
             catch (UnauthorizedException ex)
             {
@@ -202,18 +202,18 @@ namespace Sports.WebAPI.Controllers
             }
         }
 
-        [HttpPost("{id}/teams", Name = "AddTeam")]
-        public IActionResult PostTeam(int id, [FromBody] TeamModelIn teamIn, [FromHeader] string token)
+        [HttpPost("{id}/competitors", Name = "AddCompetitor")]
+        public IActionResult PostCompetitor(int id, [FromBody] CompetitorModelIn competitorIn, [FromHeader] string token)
         {
             try
             {
                 Guid realToken = Guid.Parse(token);
                 sportLogic.SetSession(realToken);
-                teamLogic.SetSession(realToken);
-                Team team = mapper.Map<Team>(teamIn);
-                sportLogic.AddTeamToSport(id, team);
-                teamLogic.SetPictureFromPath(team.Id, teamIn.ImagePath);
-                TeamModelOut modelOut = mapper.Map<TeamModelOut>(team);
+                competitorLogic.SetSession(realToken);
+                Competitor competitor = mapper.Map<Competitor>(competitorIn);
+                sportLogic.AddCompetitorToSport(id, competitor);
+                competitorLogic.SetPictureFromPath(competitor.Id, competitorIn.ImagePath);
+                CompetitorModelOut modelOut = mapper.Map<CompetitorModelOut>(competitor);
                 return Ok(modelOut);
             }
             catch (UnauthorizedException ex)
@@ -239,21 +239,21 @@ namespace Sports.WebAPI.Controllers
         }
 
 
-        [HttpGet("{id}/teams", Name = "GetTeamsFromSport")]
-        public IActionResult GetTeams(int id, [FromHeader] string token)
+        [HttpGet("{id}/competitors", Name = "GetCompetitorsFromSport")]
+        public IActionResult GetCompetitors(int id, [FromHeader] string token)
         {
             try
             {
                 Guid realToken = Guid.Parse(token);
                 sportLogic.SetSession(realToken);
-                ICollection<Team> teams = sportLogic.GetTeamsFromSport(id);
-                ICollection<TeamModelOut> teamModels = new List<TeamModelOut>();
-                foreach (Team team in teams)
+                ICollection<Competitor> competitors = sportLogic.GetCompetitorsFromSport(id);
+                ICollection<CompetitorModelOut> competitorModels = new List<CompetitorModelOut>();
+                foreach (Competitor competitor in competitors)
                 {
-                    TeamModelOut model = mapper.Map<TeamModelOut>(team);
-                    teamModels.Add(model);
+                    CompetitorModelOut model = mapper.Map<CompetitorModelOut>(competitor);
+                    competitorModels.Add(model);
                 }
-                return Ok(teamModels);
+                return Ok(competitorModels);
             }
             catch (UnauthorizedException ex)
             {

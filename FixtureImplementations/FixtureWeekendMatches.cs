@@ -9,7 +9,7 @@ namespace FixtureImplementations
     public class FixtureWeekendMatches : IFixtureGeneratorStrategy
     {
         private List<Match> generatedMatches;
-        private List<Team> uncoveredTeams;
+        private List<Competitor> uncoveredCompetitors;
         private List<DateTime> occupiedDates;  
         private Sport currentSport;
         private int lastFreeDate;
@@ -21,7 +21,7 @@ namespace FixtureImplementations
             {
                 currentSport = sport;
                 initialDate = startDate;
-                uncoveredTeams = currentSport.Teams.ToList();
+                uncoveredCompetitors = currentSport.Competitors.ToList();
                 WeekendMatches();
             }
             return generatedMatches;
@@ -29,26 +29,26 @@ namespace FixtureImplementations
 
         private void WeekendMatches()
         {
-            foreach (Team team in currentSport.Teams.ToList())
+            foreach (Competitor competitor in currentSport.Competitors.ToList())
             {
                 lastFreeDate = 1;
-                uncoveredTeams.Remove(team);
-                GenerateMatches(team);
+                uncoveredCompetitors.Remove(competitor);
+                GenerateMatches(competitor);
             }
         }
       
 
-        private void GenerateMatches(Team team)
+        private void GenerateMatches(Competitor competitor)
         {
-            foreach (Team rivalTeam in uncoveredTeams)
+            foreach (Competitor rivalCompetitor in uncoveredCompetitors)
             {
-                Match nextMatch = CreateNextMatch(team, rivalTeam);
+                Match nextMatch = CreateNextMatch(competitor, rivalCompetitor);
                 generatedMatches.Add(nextMatch);
             }
         }
         
 
-        private Match CreateNextMatch(Team local, Team visitor)
+        private Match CreateNextMatch(Competitor local, Competitor visitor)
         {
             DateTime nextFreeDate = GetNextFreeWeekendDate(local, visitor);
             Match nextMatch = new Match()
@@ -61,7 +61,7 @@ namespace FixtureImplementations
             return nextMatch;
         }
 
-        private DateTime GetNextFreeWeekendDate(Team local, Team visitor)
+        private DateTime GetNextFreeWeekendDate(Competitor local, Competitor visitor)
         {
             bool dateIsOcupied = true;
             DateTime validDate = initialDate;
@@ -70,7 +70,7 @@ namespace FixtureImplementations
                 DateTime date = initialDate.AddDays(lastFreeDate);
                 if (IsWeekend(date) )
                 {
-                    if(UnoccupiedDateByTeams(date, local, visitor))
+                    if(UnoccupiedDateByCompetitors(date, local, visitor))
                     {
                         dateIsOcupied = false;
                         validDate = date;
@@ -90,14 +90,14 @@ namespace FixtureImplementations
             return date.DayOfWeek.Equals(DayOfWeek.Sunday) || date.DayOfWeek.Equals(DayOfWeek.Saturday);
         }
 
-        private bool UnoccupiedDateByTeams(DateTime date, Team local, Team visitor)
+        private bool UnoccupiedDateByCompetitors(DateTime date, Competitor local, Competitor visitor)
         {
             return !generatedMatches.Exists(m => m.Date.Date.Equals(date.Date) && (IsInMatch(local, m)||IsInMatch(visitor,m)));
         }
 
-        private bool IsInMatch(Team team, Match match)
+        private bool IsInMatch(Competitor competitor, Match match)
         {
-            return match.Local.Equals(team) || match.Visitor.Equals(team);
+            return match.Local.Equals(competitor) || match.Visitor.Equals(competitor);
         }
 
         public string FixtureInfo()

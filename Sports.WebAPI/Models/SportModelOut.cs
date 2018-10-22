@@ -9,6 +9,6 @@ namespace Sports.WebAPI.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public ICollection<TeamSimpleModelOut> Teams { get; set; }
+        public ICollection<CompetitorSimpleModelOut> Competitors { get; set; }
     }
 }

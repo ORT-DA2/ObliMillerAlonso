@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Sports.WebAPI.Models
 {
-    public class TeamFilterDTO
+    public class CompetitorFilterDTO
     {
         public string Name { get; set; }
         public string Order { get; set; }

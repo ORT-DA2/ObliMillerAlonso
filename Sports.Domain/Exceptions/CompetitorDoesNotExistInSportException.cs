@@ -6,9 +6,9 @@ namespace Sports.Domain.Exceptions
 {
 
     [Serializable]
-    public class TeamDoesNotExistInSportException : DomainException
+    public class CompetitorDoesNotExistInSportException : DomainException
     {
-        public TeamDoesNotExistInSportException(string message) : base(message)
+        public CompetitorDoesNotExistInSportException(string message) : base(message)
         {
         }
 

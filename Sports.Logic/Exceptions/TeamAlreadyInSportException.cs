@@ -5,9 +5,9 @@ using Sports.Logic.Interface.Exceptions;
 namespace Sports.Logic.Exceptions
 {
     [Serializable]
-    public class TeamAlreadyInSportException : LogicException
+    public class CompetitorAlreadyInSportException : LogicException
     {
-        public TeamAlreadyInSportException(string message) : base(message)
+        public CompetitorAlreadyInSportException(string message) : base(message)
         {
         }
 

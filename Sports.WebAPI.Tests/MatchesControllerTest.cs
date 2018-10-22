@@ -17,7 +17,7 @@ namespace Sports.WebAPI.Tests
     [TestClass]
     public class MatchesControllerTest
     {
-        Mock<ITeamLogic> teamLogicMock;
+        Mock<ICompetitorLogic> competitorLogicMock;
         Mock<ISportLogic> sportLogicMock;
         Mock<IMatchLogic> matchLogicMock;
         Mock<IFixtureLogic> fixtureLogicMock;
@@ -29,12 +29,12 @@ namespace Sports.WebAPI.Tests
         public void SetUp()
         {
             matchLogicMock = new Mock<IMatchLogic>();
-            teamLogicMock = new Mock<ITeamLogic>();
+            competitorLogicMock = new Mock<ICompetitorLogic>();
             sportLogicMock = new Mock<ISportLogic>();
             fixtureLogicMock = new Mock<IFixtureLogic>();
             var config = new MapperConfiguration(cfg => cfg.AddProfile(new MapperProfile()));
             IMapper mapper = new Mapper(config);
-            controller = new MatchesController(matchLogicMock.Object,sportLogicMock.Object, teamLogicMock.Object, fixtureLogicMock.Object);
+            controller = new MatchesController(matchLogicMock.Object,sportLogicMock.Object, competitorLogicMock.Object, fixtureLogicMock.Object);
             token = new Guid().ToString();
         }
         
@@ -42,7 +42,7 @@ namespace Sports.WebAPI.Tests
         [TestMethod]
         public void ValidGetMatches()
         {
-            Team team = new Team()
+            Competitor competitor = new Competitor()
             {
                 Id = 1
             };
@@ -52,8 +52,8 @@ namespace Sports.WebAPI.Tests
             };
             Domain.Match match = new Domain.Match()
             {
-                Local = team,
-                Visitor = team,
+                Local = competitor,
+                Visitor = competitor,
                 Sport = sport,
                 Date = DateTime.Today,
             };
@@ -79,7 +79,7 @@ namespace Sports.WebAPI.Tests
         public void ValidGetMatchById()
         {
             int matchId = 1;
-            Team team = new Team()
+            Competitor competitor = new Competitor()
             {
                 Id = 1
             };
@@ -90,8 +90,8 @@ namespace Sports.WebAPI.Tests
             Domain.Match match = new Domain.Match()
             {
                 Id = matchId,
-                Local = team,
-                Visitor = team,
+                Local = competitor,
+                Visitor = competitor,
                 Sport = sport,
                 Date = DateTime.Today,
             };
@@ -112,7 +112,7 @@ namespace Sports.WebAPI.Tests
         [TestMethod]
         public void ValidAddMatch()
         {
-            Team team = new Team()
+            Competitor competitor = new Competitor()
             {
                 Id = 1
             };
@@ -123,8 +123,8 @@ namespace Sports.WebAPI.Tests
 
             MatchModelIn model = new MatchModelIn()
             {
-                LocalId = team.Id,
-                VisitorId = team.Id,
+                LocalId = competitor.Id,
+                VisitorId = competitor.Id,
                 SportId = sport.Id,
                 Date = DateTime.Today.ToString("dd/MM/yyyy HH:mm")
             };
@@ -145,7 +145,7 @@ namespace Sports.WebAPI.Tests
         [TestMethod]
         public void ValidModifyMatch()
         {
-            Team team = new Team()
+            Competitor competitor = new Competitor()
             {
                 Id = 1
             };
@@ -157,8 +157,8 @@ namespace Sports.WebAPI.Tests
 
             MatchModelIn model = new MatchModelIn()
             {
-                LocalId = team.Id,
-                VisitorId = team.Id,
+                LocalId = competitor.Id,
+                VisitorId = competitor.Id,
                 SportId = sport.Id,
                 Date = DateTime.Today.ToString("dd/MM/yyyy HH:mm")
             };
@@ -271,7 +271,7 @@ namespace Sports.WebAPI.Tests
         [TestMethod]
         public void GenerateFixtures()
         {
-            Team team = new Team()
+            Competitor competitor = new Competitor()
             {
                 Id = 1
             };

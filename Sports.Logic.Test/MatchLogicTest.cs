@@ -71,13 +71,13 @@ namespace Sports.Logic.Test
                 Name = "Match Sport"
             };
             sportLogic.AddSport(sport);
-            Team localTeam = AddTeamToSport(sport, "Local team");
-            Team visitorTeam = AddTeamToSport(sport, "Visitor team");
+            Competitor localCompetitor = AddCompetitorToSport(sport, "Local competitor");
+            Competitor visitorCompetitor = AddCompetitorToSport(sport, "Visitor competitor");
             match = new Match()
             {
                 Sport = sport,
-                Local = localTeam,
-                Visitor = visitorTeam,
+                Local = localCompetitor,
+                Visitor = visitorCompetitor,
                 Date = DateTime.Now.AddDays(1)
             };
         }
@@ -96,21 +96,21 @@ namespace Sports.Logic.Test
             sessionLogic = new SessionLogic(unit);
         }
 
-        private Team AddTeamToSport(Sport sport, string teamName)
+        private Competitor AddCompetitorToSport(Sport sport, string competitorName)
         {
-            Team team = new Team()
+            Competitor competitor = new Competitor()
             {
-                Name = teamName,
+                Name = competitorName,
             };
-            sportLogic.AddTeamToSport(sport.Id, team);
-            return team;
+            sportLogic.AddCompetitorToSport(sport.Id, competitor);
+            return competitor;
         }
 
         [TestCleanup]
         public void TearDown()
         {
             repository.Matches.RemoveRange(repository.Matches);
-            repository.Teams.RemoveRange(repository.Teams);
+            repository.Competitors.RemoveRange(repository.Competitors);
             repository.Sports.RemoveRange(repository.Sports);
             repository.Users.RemoveRange(repository.Users);
             repository.Comments.RemoveRange(repository.Comments);
@@ -149,26 +149,26 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(TeamDoesNotExistException))]
-        public void AddMatchInvalidLocalTeam()
+        [ExpectedException(typeof(CompetitorDoesNotExistException))]
+        public void AddMatchInvalidLocalCompetitor()
         {
-            Team invalidTeam = new Team()
+            Competitor invalidCompetitor = new Competitor()
             {
-                Name = "Unregistered team"
+                Name = "Unregistered competitor"
             };
-            match.Local = invalidTeam;
+            match.Local = invalidCompetitor;
             matchLogic.AddMatch(match);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(TeamDoesNotExistException))]
-        public void AddMatchInvalidVisitorTeam()
+        [ExpectedException(typeof(CompetitorDoesNotExistException))]
+        public void AddMatchInvalidVisitorCompetitor()
         {
-            Team invalidTeam = new Team()
+            Competitor invalidCompetitor = new Competitor()
             {
-                Name = "Unregistered team"
+                Name = "Unregistered competitor"
             };
-            match.Visitor = invalidTeam;
+            match.Visitor = invalidCompetitor;
             matchLogic.AddMatch(match);
         }
 
@@ -211,7 +211,7 @@ namespace Sports.Logic.Test
         }
         
         [TestMethod]
-        public void ModifySportAndTeams()
+        public void ModifySportAndCompetitors()
         {
             matchLogic.AddMatch(match);
             Sport sport = new Sport()
@@ -219,11 +219,11 @@ namespace Sports.Logic.Test
                 Name = "New Sport"
             };
             sportLogic.AddSport(sport);
-            Team localTeam = AddTeamToSport(sport, "New Local team");
-            Team visitorTeam = AddTeamToSport(sport, "New Visitor team");
+            Competitor localCompetitor = AddCompetitorToSport(sport, "New Local competitor");
+            Competitor visitorCompetitor = AddCompetitorToSport(sport, "New Visitor competitor");
             match.Sport = sport;
-            match.Local = localTeam;
-            match.Visitor = visitorTeam;
+            match.Local = localCompetitor;
+            match.Visitor = visitorCompetitor;
             matchLogic.ModifyMatch(match.Id, match);
             Assert.AreEqual(matchLogic.GetMatchById(match.Id).Sport, sport);
         }
@@ -243,74 +243,74 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        public void ModifyVisitorTeam()
+        public void ModifyVisitorCompetitor()
         {
             matchLogic.AddMatch(match);
-            Team visitorTeam = new Team()
+            Competitor visitorCompetitor = new Competitor()
             {
-                Name = "New Visitor team",
+                Name = "New Visitor competitor",
 
             };
-            sportLogic.AddTeamToSport(sport.Id, visitorTeam);
-            match.Visitor = visitorTeam;
+            sportLogic.AddCompetitorToSport(sport.Id, visitorCompetitor);
+            match.Visitor = visitorCompetitor;
             matchLogic.ModifyMatch(match.Id, match);
-            Assert.AreEqual(matchLogic.GetMatchById(match.Id).Visitor, visitorTeam);
+            Assert.AreEqual(matchLogic.GetMatchById(match.Id).Visitor, visitorCompetitor);
         }
 
         [TestMethod]
-        public void ModifyLocalTeam()
+        public void ModifyLocalCompetitor()
         {
             matchLogic.AddMatch(match);
-            Team localTeam = new Team()
+            Competitor localCompetitor = new Competitor()
             {
-                Name = "New Local team",
+                Name = "New Local competitor",
 
             };
-            sportLogic.AddTeamToSport(sport.Id, localTeam);
-            match.Local = localTeam;
+            sportLogic.AddCompetitorToSport(sport.Id, localCompetitor);
+            match.Local = localCompetitor;
             matchLogic.ModifyMatch(match.Id, match);
-            Assert.AreEqual(matchLogic.GetMatchById(match.Id).Local, localTeam);
+            Assert.AreEqual(matchLogic.GetMatchById(match.Id).Local, localCompetitor);
         }
         
         [TestMethod]
-        [ExpectedException(typeof(TeamDoesNotExistException))]
-        public void ModifyInvalidVisitorTeam()
+        [ExpectedException(typeof(CompetitorDoesNotExistException))]
+        public void ModifyInvalidVisitorCompetitor()
         {
             matchLogic.AddMatch(match);
-            Team visitorTeam = new Team()
+            Competitor visitorCompetitor = new Competitor()
             {
-                Name = "New Visitor team",
+                Name = "New Visitor competitor",
 
             };
-            match.Visitor = visitorTeam;
+            match.Visitor = visitorCompetitor;
             matchLogic.ModifyMatch(match.Id, match);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(TeamDoesNotExistException))]
-        public void ModifyInvalidLocalTeam()
+        [ExpectedException(typeof(CompetitorDoesNotExistException))]
+        public void ModifyInvalidLocalCompetitor()
         {
             matchLogic.AddMatch(match);
-            Team localTeam = new Team()
+            Competitor localCompetitor = new Competitor()
             {
-                Name = "New Local team",
+                Name = "New Local competitor",
 
             };
-            match.Local = localTeam;
+            match.Local = localCompetitor;
             matchLogic.ModifyMatch(match.Id, match);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidTeamIsEmptyException))]
-        public void AddWithoutLocalTeam()
+        [ExpectedException(typeof(InvalidCompetitorIsEmptyException))]
+        public void AddWithoutLocalCompetitor()
         {
             match.Local = null;
             matchLogic.AddMatch(match);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidTeamIsEmptyException))]
-        public void AddWithoutVisitorTeam()
+        [ExpectedException(typeof(InvalidCompetitorIsEmptyException))]
+        public void AddWithoutVisitorCompetitor()
         {
             match.Visitor = null;
             matchLogic.AddMatch(match);
@@ -320,7 +320,7 @@ namespace Sports.Logic.Test
         public void ModifyIgnoresNullFields()
         {
             matchLogic.AddMatch(match);
-            Team original = match.Local;
+            Competitor original = match.Local;
             Match updatedMatch = new Match()
             {
             };
@@ -392,7 +392,7 @@ namespace Sports.Logic.Test
 
         [TestMethod]
         [ExpectedException(typeof(MatchDoesNotExistException))]
-        public void GetMatchesForTeamThatDidntPlay()
+        public void GetMatchesForCompetitorThatDidntPlay()
         {
             Sport sport = new Sport()
             {
@@ -400,12 +400,12 @@ namespace Sports.Logic.Test
             };
             sportLogic.AddSport(sport);
 
-            Team unplayedTeam = new Team()
+            Competitor unplayedCompetitor = new Competitor()
             {
-                Name = "New Local team"
+                Name = "New Local competitor"
             };
-            sportLogic.AddTeamToSport(sport.Id, unplayedTeam);
-            matchLogic.GetAllMatchesForTeam(unplayedTeam);
+            sportLogic.AddCompetitorToSport(sport.Id, unplayedCompetitor);
+            matchLogic.GetAllMatchesForCompetitor(unplayedCompetitor);
         }
 
 
@@ -418,18 +418,18 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        public void CascadeDeleteMatchFromLocalTeam()
+        public void CascadeDeleteMatchFromLocalCompetitor()
         {
             matchLogic.AddMatch(match);
-            sportLogic.DeleteTeamFromSport(sport.Id,match.Local.Id);
+            sportLogic.DeleteCompetitorFromSport(sport.Id,match.Local.Id);
             Assert.AreEqual(matchLogic.GetAllMatches().Count, 0);
         }
 
         [TestMethod]
-        public void CascadeDeleteMatchFromVisitorTeam()
+        public void CascadeDeleteMatchFromVisitorCompetitor()
         {
             matchLogic.AddMatch(match);
-            sportLogic.DeleteTeamFromSport(sport.Id, match.Visitor.Id);
+            sportLogic.DeleteCompetitorFromSport(sport.Id, match.Visitor.Id);
             Assert.AreEqual(matchLogic.GetAllMatches().Count, 0);
         }
 

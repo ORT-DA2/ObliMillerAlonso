@@ -25,7 +25,7 @@ namespace Sports.Repository
             {
                 return RepositoryContext.Favorites
                     .Include(f => f.User)
-                    .Include(f => f.Team)
+                    .Include(f => f.Competitor)
                     .ThenInclude(t => t.Sport)
                     .ToList<Favorite>();
             }
@@ -46,7 +46,7 @@ namespace Sports.Repository
                 return RepositoryContext.Favorites
                     .Where(expression)
                     .Include(f => f.User)
-                    .Include(f => f.Team)
+                    .Include(f => f.Competitor)
                     .ThenInclude(t=>t.Sport)
                     .ToList<Favorite>();
             }

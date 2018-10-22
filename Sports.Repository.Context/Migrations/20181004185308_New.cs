@@ -41,7 +41,7 @@ namespace Sports.Repository.Context.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Teams",
+                name: "Competitors",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -52,9 +52,9 @@ namespace Sports.Repository.Context.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Teams", x => x.Id);
+                    table.PrimaryKey("PK_Competitors", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Teams_Sports_SportId",
+                        name: "FK_Competitors_Sports_SportId",
                         column: x => x.SportId,
                         principalTable: "Sports",
                         principalColumn: "Id",
@@ -86,15 +86,15 @@ namespace Sports.Repository.Context.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     UserId = table.Column<int>(nullable: true),
-                    TeamId = table.Column<int>(nullable: true)
+                    CompetitorId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Favorites", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Favorites_Teams_TeamId",
-                        column: x => x.TeamId,
-                        principalTable: "Teams",
+                        name: "FK_Favorites_Competitors_CompetitorId",
+                        column: x => x.CompetitorId,
+                        principalTable: "Competitors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -120,9 +120,9 @@ namespace Sports.Repository.Context.Migrations
                 {
                     table.PrimaryKey("PK_Match", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Match_Teams_LocalId",
+                        name: "FK_Match_Competitors_LocalId",
                         column: x => x.LocalId,
-                        principalTable: "Teams",
+                        principalTable: "Competitors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -132,9 +132,9 @@ namespace Sports.Repository.Context.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Match_Teams_VisitorId",
+                        name: "FK_Match_Competitors_VisitorId",
                         column: x => x.VisitorId,
-                        principalTable: "Teams",
+                        principalTable: "Competitors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -178,9 +178,9 @@ namespace Sports.Repository.Context.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Favorites_TeamId",
+                name: "IX_Favorites_CompetitorId",
                 table: "Favorites",
-                column: "TeamId");
+                column: "CompetitorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Favorites_UserId",
@@ -208,8 +208,8 @@ namespace Sports.Repository.Context.Migrations
                 column: "VisitorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Teams_SportId",
-                table: "Teams",
+                name: "IX_Competitors_SportId",
+                table: "Competitors",
                 column: "SportId");
         }
 
@@ -231,7 +231,7 @@ namespace Sports.Repository.Context.Migrations
                 name: "User");
 
             migrationBuilder.DropTable(
-                name: "Teams");
+                name: "Competitors");
 
             migrationBuilder.DropTable(
                 name: "Sports");

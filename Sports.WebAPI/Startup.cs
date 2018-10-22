@@ -44,7 +44,7 @@ namespace Sports.WebAPI
             services.AddDbContext<RepositoryContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SportsDatabase")));
             services.AddScoped<IUserLogic, UserLogic>();
             services.AddScoped<IFavoriteLogic, FavoriteLogic>();
-            services.AddScoped<ITeamLogic, TeamLogic>();
+            services.AddScoped<ICompetitorLogic, CompetitorLogic>();
             services.AddScoped<ISportLogic, SportLogic>();
             services.AddScoped<IMatchLogic, MatchLogic>();
             services.AddScoped<IFixtureLogic, FixtureLogic>();

@@ -9,7 +9,7 @@ namespace Sports.Logic.Constants
         public const string INVALID_COMMENT_NULL_VALUE_MESSAGE = "Cannot add null comment";
         public const string INVALID_MATCH_NULL_VALUE_MESSAGE = "Cannot add null match";
         public const string INVALID_SPORT_NULL_VALUE_MESSAGE = "Cannot add null sport";
-        public const string INVALID_TEAM_NULL_VALUE_MESSAGE = "Cannot add null team";
+        public const string INVALID_COMPETITOR_NULL_VALUE_MESSAGE = "Cannot add null competitor";
         public const string INVALID_USER_NULL_VALUE_MESSAGE = "Cannot add null user";
         public const string INVALID_NO_TOKEN_MESSAGE = "Token invalid or missing, must set user session before using logic";
     }
@@ -30,9 +30,9 @@ namespace Sports.Logic.Constants
         public const string SPORT_NOT_FOUND_MESSAGE = "Id does not match any existing sports";
     }
 
-    public static class TeamNotFound
+    public static class CompetitorNotFound
     {
-        public const string TEAM_ID_NOT_FOUND_MESSAGE = "Id does not match any existing teams";
+        public const string COMPETITOR_ID_NOT_FOUND_MESSAGE = "Id does not match any existing competitors";
     }
 
     public static class FavoriteNotFound
@@ -45,8 +45,8 @@ namespace Sports.Logic.Constants
     }
     public static class MatchValidation
     {
-        public const string TEAM_ALREADY_PLAYING = "Team already plays that day.";
-        public const string TEAM_DOESNT_PLAY = "Team has no matches";
+        public const string COMPETITOR_ALREADY_PLAYING = "Competitor already plays that day.";
+        public const string COMPETITOR_DOESNT_PLAY = "Competitor has no matches";
     }
 
 
@@ -60,9 +60,9 @@ namespace Sports.Logic.Constants
         public const string UNIQUE_FAVORITE_MESSAGE = "Favorite already exist";
     }
 
-    public static class UniqueTeam
+    public static class UniqueCompetitor
     {
-        public const string DUPLICATE_TEAM_IN_SPORT_MESSAGE = "Team already in sport";
+        public const string DUPLICATE_COMPETITOR_IN_SPORT_MESSAGE = "Competitor already in sport";
     }
 
     public static class UniqueUsername

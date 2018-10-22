@@ -6,9 +6,9 @@ namespace Sports.Domain.Exceptions
 {
 
     [Serializable]
-    public class InvalidTeamIsEmptyException : DomainException
+    public class CompetitorAlreadyExistException : DomainException
     {
-        public InvalidTeamIsEmptyException(string message) : base(message)
+        public CompetitorAlreadyExistException(string message) : base(message)
         {
         }
 

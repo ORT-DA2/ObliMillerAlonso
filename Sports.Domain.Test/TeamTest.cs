@@ -14,18 +14,18 @@ namespace Sports.Domain.Test
 {
     [ExcludeFromCodeCoverage]
     [TestClass]
-    public class TeamTest
+    public class CompetitorTest
     {
         string testImagePath;
         string invalidFilePath;
         string largeFilePath;
-        Team team;
+        Competitor competitor;
         [TestInitialize]
         public void SetUp()
         {
-            team = new Team()
+            competitor = new Competitor()
             {
-                Name = "Test Team",
+                Name = "Test Competitor",
 
             };
             JObject jsonPaths = JObject.Parse(File.ReadAllText(@"testFilesPaths.json"));
@@ -35,95 +35,95 @@ namespace Sports.Domain.Test
         }
 
         [TestMethod]
-        public void NewTeam()
+        public void NewCompetitor()
         {
-            Assert.IsNotNull(team);
+            Assert.IsNotNull(competitor);
         }
 
         [ExpectedException(typeof(InvalidEmptyTextFieldException))]
         [TestMethod]
         public void InvalidName()
         {
-            Team invalidNameTeam = new Team()
+            Competitor invalidNameCompetitor = new Competitor()
             {
                 Name = "",
 
             };
-            invalidNameTeam.IsValid();
+            invalidNameCompetitor.IsValid();
         }
         
         [TestMethod]
         public void ValidName()
         {
-            team.IsValid();
-            Assert.AreEqual<string>(team.Name, "Test Team");
+            competitor.IsValid();
+            Assert.AreEqual<string>(competitor.Name, "Test Competitor");
         }
 
         [TestMethod]
         public void AddPictureFromPath()
         {
-            team.AddPictureFromPath(testImagePath);
+            competitor.AddPictureFromPath(testImagePath);
             byte[] file = File.ReadAllBytes(testImagePath);
             string fileString = System.Text.Encoding.UTF8.GetString(file);
-            Assert.AreEqual<string>(fileString, team.Picture);
+            Assert.AreEqual<string>(fileString, competitor.Picture);
         }
 
-        [ExpectedException(typeof(InvalidTeamImageException))]
+        [ExpectedException(typeof(InvalidCompetitorImageException))]
         [TestMethod]
         public void InvalidPicturePath()
         {
-            team.AddPictureFromPath("C:/testPicture.png");
+            competitor.AddPictureFromPath("C:/testPicture.png");
         }
 
 
-        [ExpectedException(typeof(InvalidTeamImageException))]
+        [ExpectedException(typeof(InvalidCompetitorImageException))]
         [TestMethod]
         public void InvalidFile()
         {
-            team.AddPictureFromPath(invalidFilePath);
+            competitor.AddPictureFromPath(invalidFilePath);
         }
 
-        [ExpectedException(typeof(InvalidTeamImageException))]
+        [ExpectedException(typeof(InvalidCompetitorImageException))]
         [TestMethod]
         public void OversizedFile()
         {
-            team.AddPictureFromPath(largeFilePath);
+            competitor.AddPictureFromPath(largeFilePath);
         }
 
         [TestMethod]
         public void EqualsIsTrue()
         {
-            Team secondTeam = new Team()
+            Competitor secondCompetitor = new Competitor()
             {
-                Name = "Test Team",
+                Name = "Test Competitor",
 
             };
-            Assert.IsTrue(team.Equals(secondTeam));
+            Assert.IsTrue(competitor.Equals(secondCompetitor));
         }
 
 
         [TestMethod]
         public void EqualsIsFalse()
         {
-            Team secondTeam = new Team()
+            Competitor secondCompetitor = new Competitor()
             {
-                Name = "Different Team",
+                Name = "Different Competitor",
 
             };
-            Assert.IsFalse(team.Equals(secondTeam));
+            Assert.IsFalse(competitor.Equals(secondCompetitor));
         }
 
 
         [TestMethod]
         public void EqualsNull()
         {
-            Assert.IsFalse(team.Equals(null));
+            Assert.IsFalse(competitor.Equals(null));
         }
 
         [TestMethod]
         public void ToStringRedefined()
         {
-            Assert.AreEqual<string>(team.ToString(),team.Name);
+            Assert.AreEqual<string>(competitor.ToString(),competitor.Name);
         }
     }
 }

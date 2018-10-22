@@ -15,8 +15,8 @@ namespace Sports.Domain
         public int Id { get;  set; }
         public DateTime Date { get; set; }
         public Sport Sport { get; set; }
-        public Team Local { get; set; }
-        public Team Visitor { get; set; }
+        public Competitor Local { get; set; }
+        public Competitor Visitor { get; set; }
         public ICollection<Comment> Comments {  get; set; }
 
         public Match()
@@ -43,14 +43,14 @@ namespace Sports.Domain
         {
             if (this.Visitor == null)
             {
-                throw new InvalidTeamIsEmptyException(EmptyTeam.EMPTY_VISITOR_TEAM_MESSAGE);
+                throw new InvalidCompetitorIsEmptyException(EmptyCompetitor.EMPTY_VISITOR_COMPETITOR_MESSAGE);
             }
         }
         private void CheckLocalNotEmpty()
         {
             if (this.Local == null)
             {
-                throw new InvalidTeamIsEmptyException(EmptyTeam.EMPTY_LOCAL_TEAM_MESSAGE);
+                throw new InvalidCompetitorIsEmptyException(EmptyCompetitor.EMPTY_LOCAL_COMPETITOR_MESSAGE);
             }
         }
 
@@ -75,13 +75,13 @@ namespace Sports.Domain
         {
             if(Local.Name == Visitor.Name)
             {
-                throw new InvalidTeamVersusException(TeamVersus.INVALID_TEAM_VERSUS_MESSAGE);
+                throw new InvalidCompetitorVersusException(CompetitorVersus.INVALID_COMPETITOR_VERSUS_MESSAGE);
             }
         }
 
         public override string ToString()
         {
-            string tostring = "Sport: " + Sport + " Local Team: " + Local + " Visitor Team: " + Visitor + " Date: " + Date;
+            string tostring = "Sport: " + Sport + " Local Competitor: " + Local + " Visitor Competitor: " + Visitor + " Date: " + Date;
             return tostring;
         }
 
@@ -89,8 +89,8 @@ namespace Sports.Domain
         {
             this.Date = IgnoreNullDate(this.Date,updatedMatch.Date);
             this.Sport = (Sport)IgnoreNull(this.Sport, updatedMatch.Sport);
-            this.Local = (Team)IgnoreNull(this.Local, updatedMatch.Local);
-            this.Visitor = (Team)IgnoreNull(this.Visitor, updatedMatch.Visitor);
+            this.Local = (Competitor)IgnoreNull(this.Local, updatedMatch.Local);
+            this.Visitor = (Competitor)IgnoreNull(this.Visitor, updatedMatch.Visitor);
             
         }
 

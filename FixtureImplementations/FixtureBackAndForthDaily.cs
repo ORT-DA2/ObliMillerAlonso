@@ -9,7 +9,7 @@ namespace FixtureImplementations
     public class FixtureBackAndForthDaily : IFixtureGeneratorStrategy
     {
         private List<Match> generatedMatches;
-        private List<Team> uncoveredTeams;
+        private List<Competitor> uncoveredCompetitors;
         private Sport currentSport;
         private int daysToAddToDate;
         private DateTime initialDate;
@@ -29,44 +29,44 @@ namespace FixtureImplementations
 
         private void LocalWeeklyMatches()
         {
-            uncoveredTeams = currentSport.Teams.ToList();
-            foreach (Team team in currentSport.Teams.ToList())
+            uncoveredCompetitors = currentSport.Competitors.ToList();
+            foreach (Competitor competitor in currentSport.Competitors.ToList())
             {
-                uncoveredTeams.Remove(team);
-                GenerateLocalMatches(team);
+                uncoveredCompetitors.Remove(competitor);
+                GenerateLocalMatches(competitor);
             }
         }
 
         private void VisitorWeeklyMatches()
         {
-            uncoveredTeams = currentSport.Teams.ToList();
-            foreach (Team team in currentSport.Teams.ToList())
+            uncoveredCompetitors = currentSport.Competitors.ToList();
+            foreach (Competitor competitor in currentSport.Competitors.ToList())
             {
-                uncoveredTeams.Remove(team);
-                GenerateVisitorMatches(team);
+                uncoveredCompetitors.Remove(competitor);
+                GenerateVisitorMatches(competitor);
             }
         }
 
-        private void GenerateVisitorMatches(Team team)
+        private void GenerateVisitorMatches(Competitor competitor)
         {
-            foreach (Team local in uncoveredTeams)
+            foreach (Competitor local in uncoveredCompetitors)
             {
-                Match visitorMatch = CreateNextMatch(local, team);
+                Match visitorMatch = CreateNextMatch(local, competitor);
                 generatedMatches.Add(visitorMatch);
             }
         }
 
-        private void GenerateLocalMatches(Team team)
+        private void GenerateLocalMatches(Competitor competitor)
         {
-            foreach (Team visitor in uncoveredTeams)
+            foreach (Competitor visitor in uncoveredCompetitors)
             {
-                Match localMatch = CreateNextMatch(team,visitor);
+                Match localMatch = CreateNextMatch(competitor,visitor);
                 generatedMatches.Add(localMatch);
             }
         }
         
 
-        private Match CreateNextMatch(Team local, Team visitor)
+        private Match CreateNextMatch(Competitor local, Competitor visitor)
         {
             Match nextMatch = new Match()
             {

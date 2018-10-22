@@ -20,8 +20,8 @@ namespace Sports.Repository.Test
     public class RepositoryBaseTest
     {
         IRepositoryUnitOfWork unit;
-        ITeamRepository teamRepository;
-        Team team;
+        ICompetitorRepository competitorRepository;
+        Competitor competitor;
 
      [TestInitialize]
         public void SetUp()
@@ -29,10 +29,10 @@ namespace Sports.Repository.Test
             var options = new DbContextOptionsBuilder<RepositoryContext>().Options;
             RepositoryContext repository = new RepositoryContext(options);
             unit = new RepositoryUnitOfWork(repository);
-            teamRepository = unit.Team;
-            team = new Team()
+            competitorRepository = unit.Competitor;
+            competitor = new Competitor()
             {
-                Name = "Team"
+                Name = "Competitor"
             };
         }
 
@@ -40,28 +40,28 @@ namespace Sports.Repository.Test
         [ExpectedException(typeof(UnknownDbException))]
         public void UnknownErrorSave()
         {
-            teamRepository.Save();
+            competitorRepository.Save();
         }
 
         [TestMethod]
         [ExpectedException(typeof(UnknownDbException))]
-        public void UnknownErrorAddTeam()
+        public void UnknownErrorAddCompetitor()
         {
-            teamRepository.Create(team);
+            competitorRepository.Create(competitor);
         }
 
         [TestMethod]
         [ExpectedException(typeof(UnknownDbException))]
-        public void UnknownErrorDeleteTeam()
+        public void UnknownErrorDeleteCompetitor()
         {
-            teamRepository.Delete(team);
+            competitorRepository.Delete(competitor);
         }
 
         [TestMethod]
         [ExpectedException(typeof(UnknownDbException))]
-        public void UnknownErrorUpdateTeam()
+        public void UnknownErrorUpdateCompetitor()
         {
-            teamRepository.Update(team);
+            competitorRepository.Update(competitor);
         }
         
     }

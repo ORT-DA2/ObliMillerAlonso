@@ -12,7 +12,7 @@ namespace Sports.Repository.Context
         public RepositoryContext(DbContextOptions options) : base(options) {
         }
         public DbSet<User> Users { get; set; }
-        public DbSet<Team> Teams { get; set; }
+        public DbSet<Competitor> Competitors { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Sport> Sports { get; set; }
         public DbSet<Match> Matches { get; set; }
@@ -30,18 +30,18 @@ namespace Sports.Repository.Context
             modelBuilder.Entity<User>().HasMany<Session>().WithOne(s => s.User).OnDelete(DeleteBehavior.Cascade);
 
 
-            modelBuilder.Entity<Team>().HasKey(t => t.Id);
-            modelBuilder.Entity<Team>().Property(t => t.Id).ValueGeneratedOnAdd();
-            modelBuilder.Entity<Team>().HasMany<Match>(t => t.LocalMatches).WithOne(m => m.Local).OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<Team>().HasMany<Match>(t => t.VisitorMatches).WithOne(m => m.Visitor).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<Team>().HasMany<Favorite>().WithOne(f => f.Team).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Competitor>().HasKey(t => t.Id);
+            modelBuilder.Entity<Competitor>().Property(t => t.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<Competitor>().HasMany<Match>(t => t.LocalMatches).WithOne(m => m.Local).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Competitor>().HasMany<Match>(t => t.VisitorMatches).WithOne(m => m.Visitor).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Competitor>().HasMany<Favorite>().WithOne(f => f.Competitor).OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Comment>().HasKey(c => c.Id);
             modelBuilder.Entity<Comment>().Property(c => c.Id).ValueGeneratedOnAdd();
             
             modelBuilder.Entity<Sport>().HasKey(s => s.Id);
             modelBuilder.Entity<Sport>().Property(s => s.Id).ValueGeneratedOnAdd();
-            modelBuilder.Entity<Sport>().HasMany<Team>(s => s.Teams).WithOne(t=>t.Sport).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Sport>().HasMany<Competitor>(s => s.Competitors).WithOne(t=>t.Sport).OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Match>().HasKey(m => m.Id);
             modelBuilder.Entity<Match>().Property(m => m.Id).ValueGeneratedOnAdd();

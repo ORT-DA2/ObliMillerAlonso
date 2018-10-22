@@ -14,7 +14,7 @@ namespace Sports.Logic
     {
         IFavoriteRepository repository;
         IUserLogic userLogic;
-        ITeamLogic teamLogic;
+        ICompetitorLogic competitorLogic;
         IMatchLogic matchLogic;
         ISessionLogic sessionLogic;
         User sessionUser;
@@ -23,54 +23,54 @@ namespace Sports.Logic
         {
             repository = unitOfWork.Favorite;
             userLogic = new UserLogic(unitOfWork);
-            teamLogic = new TeamLogic(unitOfWork);
+            competitorLogic = new CompetitorLogic(unitOfWork);
             matchLogic = new MatchLogic(unitOfWork);
             sessionLogic = new SessionLogic(unitOfWork);
         }
         
         
-        public void AddFavoriteTeam(Team team)
+        public void AddFavoriteCompetitor(Competitor competitor)
         {
             sessionLogic.ValidateUserNotNull(sessionUser);
             Favorite favorite = new Favorite()
             {
                 User = sessionUser,
-                Team = team
+                Competitor = competitor
             };
-            ValidateNewFavorite(sessionUser, team, favorite);
+            ValidateNewFavorite(sessionUser, competitor, favorite);
             repository.Create(favorite);
             repository.Save();
         }
 
-        private void ValidateNewFavorite(User user, Team team, Favorite favorite)
+        private void ValidateNewFavorite(User user, Competitor competitor, Favorite favorite)
         {
             favorite.Validate();
-            ValidateUserAndTeam(favorite);
-            ValidateFavoriteDoesntExist(user, team);
+            ValidateUserAndCompetitor(favorite);
+            ValidateFavoriteDoesntExist(user, competitor);
         }
 
-        private void ValidateUserAndTeam(Favorite favorite)
+        private void ValidateUserAndCompetitor(Favorite favorite)
         {
             favorite.User = userLogic.GetUserById(favorite.User.Id);
-            favorite.Team = teamLogic.GetTeamById(favorite.Team.Id);
+            favorite.Competitor = competitorLogic.GetCompetitorById(favorite.Competitor.Id);
         }
 
-        private void ValidateFavoriteDoesntExist(User user, Team team)
+        private void ValidateFavoriteDoesntExist(User user, Competitor competitor)
         {
-            ICollection<Favorite> favorites =repository.FindByCondition(f => f.Team.Equals(team) && f.User.Equals(user));
+            ICollection<Favorite> favorites =repository.FindByCondition(f => f.Competitor.Equals(competitor) && f.User.Equals(user));
             if (favorites.Count != 0)
             {
                 throw new FavoriteAlreadyExistException(UniqueFavorite.UNIQUE_FAVORITE_MESSAGE);
             }
         }
 
-        public ICollection<Team> GetFavoritesFromUser()
+        public ICollection<Competitor> GetFavoritesFromUser()
         {
             sessionLogic.ValidateUserNotNull(sessionUser);
             ICollection<Favorite> favorites = repository.FindByCondition(f => f.User.Id == sessionUser.Id);
             ValidateFavoritesExist(favorites);
-            ICollection<Team> teams = GetTeamsFromFavorites(favorites);
-            return teams;
+            ICollection<Competitor> competitors = GetCompetitorsFromFavorites(favorites);
+            return competitors;
         }
 
         private static void ValidateFavoritesExist(ICollection<Favorite> favorites)
@@ -81,21 +81,21 @@ namespace Sports.Logic
             }
         }
 
-        private static ICollection<Team> GetTeamsFromFavorites(ICollection<Favorite> favorites)
+        private static ICollection<Competitor> GetCompetitorsFromFavorites(ICollection<Favorite> favorites)
         {
-            ICollection<Team> teams = new List<Team>();
+            ICollection<Competitor> competitors = new List<Competitor>();
             foreach (Favorite favorite in favorites)
             {
-                teams.Add(favorite.Team);
+                competitors.Add(favorite.Competitor);
             }
-            return teams;
+            return competitors;
         }
 
-        public ICollection<Comment> GetFavoritesTeamsComments()
+        public ICollection<Comment> GetFavoritesCompetitorsComments()
         {
             sessionLogic.ValidateUserNotNull(sessionUser);
-            ICollection<Team> favoriteTeams = this.GetFavoritesFromUser();
-            ICollection<Match> favoriteMatches = GetMatchesForTeams(favoriteTeams);
+            ICollection<Competitor> favoriteCompetitors = this.GetFavoritesFromUser();
+            ICollection<Match> favoriteMatches = GetMatchesForCompetitors(favoriteCompetitors);
             List<Comment> favoriteComments = new List<Comment>();
             foreach (Match match in favoriteMatches)
             {
@@ -104,13 +104,13 @@ namespace Sports.Logic
             return favoriteComments;
         }
 
-        private ICollection<Match> GetMatchesForTeams(ICollection<Team> favoriteTeams)
+        private ICollection<Match> GetMatchesForCompetitors(ICollection<Competitor> favoriteCompetitors)
         {
             List<Match> favoriteMatches = new List<Match>();
-            foreach (Team favoriteTeam in favoriteTeams)
+            foreach (Competitor favoriteCompetitor in favoriteCompetitors)
             {
-                ICollection<Match> favoriteTeamMatches = matchLogic.GetAllMatchesForTeam(favoriteTeam);
-                favoriteMatches.AddRange(favoriteTeamMatches);
+                ICollection<Match> favoriteCompetitorMatches = matchLogic.GetAllMatchesForCompetitor(favoriteCompetitor);
+                favoriteMatches.AddRange(favoriteCompetitorMatches);
             }
             return favoriteMatches.OrderBy(m => m.Date).Distinct().ToList();
         }
@@ -124,7 +124,7 @@ namespace Sports.Logic
         public void SetSession(Guid token)
         {
             sessionUser = sessionLogic.GetUserFromToken(token);
-            teamLogic.SetSession(token);
+            competitorLogic.SetSession(token);
             matchLogic.SetSession(token);
             userLogic.SetSession(token);
         }

@@ -20,16 +20,16 @@ namespace Sports.Logic.Test
 {
     [ExcludeFromCodeCoverage]
     [TestClass]
-    public class TeamLogicTest
+    public class CompetitorLogicTest
     {
         string testImagePath;
         private IRepositoryUnitOfWork unitOfWork;
         private RepositoryContext repository;
-        private ITeamLogic teamLogic;
+        private ICompetitorLogic competitorLogic;
         private IUserLogic userLogic;
         private ISportLogic sportLogic;
         private ISessionLogic sessionLogic;
-        private Team team;
+        private Competitor competitor;
         private Sport sport;
 
         [TestInitialize]
@@ -42,9 +42,9 @@ namespace Sports.Logic.Test
                 Name = "SportName"
             };
             sportLogic.AddSport(sport);
-            team = new Team()
+            competitor = new Competitor()
             {
-                Name = "Team",
+                Name = "Competitor",
                 Sport = sport
             };
             JObject jsonPaths = JObject.Parse(File.ReadAllText(@"testFilesPaths.json"));
@@ -67,18 +67,18 @@ namespace Sports.Logic.Test
             Guid adminToken = sessionLogic.LogInUser(admin.UserName, admin.Password);
             sessionLogic.GetUserFromToken(adminToken);
             userLogic.SetSession(adminToken);
-            teamLogic.SetSession(adminToken);
+            competitorLogic.SetSession(adminToken);
             sportLogic.SetSession(adminToken);
         }
 
         private void SetUpRepositories()
         {
             var options = new DbContextOptionsBuilder<RepositoryContext>()
-                .UseInMemoryDatabase<RepositoryContext>(databaseName: "TeamLogicTestDB")
+                .UseInMemoryDatabase<RepositoryContext>(databaseName: "CompetitorLogicTestDB")
                 .Options;
             repository = new RepositoryContext(options);
             unitOfWork = new RepositoryUnitOfWork(repository);
-            teamLogic = new TeamLogic(unitOfWork);
+            competitorLogic = new CompetitorLogic(unitOfWork);
             userLogic = new UserLogic(unitOfWork);
             sessionLogic = new SessionLogic(unitOfWork);
             sportLogic = new SportLogic(unitOfWork);
@@ -87,53 +87,53 @@ namespace Sports.Logic.Test
         [TestCleanup]
         public void TearDown()
         {
-            repository.Teams.RemoveRange(repository.Teams);
+            repository.Competitors.RemoveRange(repository.Competitors);
             repository.Sports.RemoveRange(repository.Sports);
             repository.Users.RemoveRange(repository.Users);
             repository.SaveChanges();
         }
 
         [TestMethod]
-        public void AddTeam()
+        public void AddCompetitor()
         {
-            teamLogic.AddTeam(team);
-            Assert.IsNotNull(teamLogic.GetTeamById(team.Id));
+            competitorLogic.AddCompetitor(competitor);
+            Assert.IsNotNull(competitorLogic.GetCompetitorById(competitor.Id));
         }
 
 
         [TestMethod]
         [ExpectedException(typeof(InvalidNullValueException))]
-        public void AddNullTeam()
+        public void AddNullCompetitor()
         {
-            teamLogic.AddTeam(null);
+            competitorLogic.AddCompetitor(null);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidEmptyTextFieldException))]
-        public void AddInvalidTeam()
+        public void AddInvalidCompetitor()
         {
-            Team invalidNameTeam = new Team()
+            Competitor invalidNameCompetitor = new Competitor()
             {
                 Name = ""
             };
-            teamLogic.AddTeam(invalidNameTeam);
+            competitorLogic.AddCompetitor(invalidNameCompetitor);
         }
 
         [TestMethod]
-        public void AddTeamPicture()
+        public void AddCompetitorPicture()
         {
-            teamLogic.AddTeam(team);
-            teamLogic.SetPictureFromPath(team.Id,testImagePath);
-            Assert.IsNotNull(teamLogic.GetTeamById(team.Id).Picture);
+            competitorLogic.AddCompetitor(competitor);
+            competitorLogic.SetPictureFromPath(competitor.Id,testImagePath);
+            Assert.IsNotNull(competitorLogic.GetCompetitorById(competitor.Id).Picture);
         }
 
 
         [TestMethod]
-        [ExpectedException(typeof(TeamDoesNotExistException))]
-        public void AddPictureToInvalidTeam()
+        [ExpectedException(typeof(CompetitorDoesNotExistException))]
+        public void AddPictureToInvalidCompetitor()
         {
-            teamLogic.SetPictureFromPath(team.Id, testImagePath);
-            Assert.IsNotNull(teamLogic.GetTeamById(team.Id).Picture);
+            competitorLogic.SetPictureFromPath(competitor.Id, testImagePath);
+            Assert.IsNotNull(competitorLogic.GetCompetitorById(competitor.Id).Picture);
         }
 
         private User ValidUser()
@@ -149,63 +149,63 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        public void ChangeTeamName()
+        public void ChangeCompetitorName()
         {
-            teamLogic.AddTeam(team);
-            Team changeTeam = new Team()
+            competitorLogic.AddCompetitor(competitor);
+            Competitor changeCompetitor = new Competitor()
             {
                 Name = "New Name",
                 Sport = sport
             };
-            teamLogic.Modify(team.Id, changeTeam);
-            Assert.AreEqual<string>(teamLogic.GetTeamById(team.Id).Name,team.Name);
+            competitorLogic.Modify(competitor.Id, changeCompetitor);
+            Assert.AreEqual<string>(competitorLogic.GetCompetitorById(competitor.Id).Name,competitor.Name);
         }
 
         [TestMethod]
-        public void ChangeTeamNameNull()
+        public void ChangeCompetitorNameNull()
         {
-            teamLogic.AddTeam(team);
-            Team changeTeam = new Team()
+            competitorLogic.AddCompetitor(competitor);
+            Competitor changeCompetitor = new Competitor()
             {
                 Name = null,
                 Sport = sport
             };
-            teamLogic.Modify(team.Id, changeTeam);
-            Assert.AreNotEqual<string>(teamLogic.GetTeamById(team.Id).Name, changeTeam.Name);
+            competitorLogic.Modify(competitor.Id, changeCompetitor);
+            Assert.AreNotEqual<string>(competitorLogic.GetCompetitorById(competitor.Id).Name, changeCompetitor.Name);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(TeamAlreadyInSportException))]
-        public void ChangeTeamNameInvalid()
+        [ExpectedException(typeof(CompetitorAlreadyInSportException))]
+        public void ChangeCompetitorNameInvalid()
         {
-            teamLogic.AddTeam(team);
-            Team changeTeam = new Team()
+            competitorLogic.AddCompetitor(competitor);
+            Competitor changeCompetitor = new Competitor()
             {
                 Name = "Name",
                 Sport = sport
             };
-            teamLogic.AddTeam(changeTeam);
-            teamLogic.Modify(team.Id, changeTeam);
+            competitorLogic.AddCompetitor(changeCompetitor);
+            competitorLogic.Modify(competitor.Id, changeCompetitor);
         }
 
         [TestMethod]
-        public void DeleteTeam()
+        public void DeleteCompetitor()
         {
-            teamLogic.AddTeam(team);
-            teamLogic.Delete(team.Id);
-            Assert.AreEqual(teamLogic.GetAll().Count, 0);
+            competitorLogic.AddCompetitor(competitor);
+            competitorLogic.Delete(competitor.Id);
+            Assert.AreEqual(competitorLogic.GetAll().Count, 0);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(TeamDoesNotExistException))]
-        public void DeleteInvalidTeam()
+        [ExpectedException(typeof(CompetitorDoesNotExistException))]
+        public void DeleteInvalidCompetitor()
         {
-            teamLogic.Delete(team.Id);
+            competitorLogic.Delete(competitor.Id);
         }
 
         [TestMethod]
         [ExpectedException(typeof(NonAdminException))]
-        public void TeamSetSessionNonAdminUser()
+        public void CompetitorSetSessionNonAdminUser()
         {
             User user = new User()
             {
@@ -218,45 +218,45 @@ namespace Sports.Logic.Test
             userLogic.AddUser(user);
             Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
             sessionLogic.GetUserFromToken(token);
-            teamLogic.SetSession(token);
-            teamLogic.AddTeam(team);
+            competitorLogic.SetSession(token);
+            competitorLogic.AddCompetitor(competitor);
         }
 
         [TestMethod]
-        public void FilterOrderTeamName()
+        public void FilterOrderCompetitorName()
         {
-            Team otherTeam = new Team()
+            Competitor otherCompetitor = new Competitor()
             {
-                Name = "TeamName"
+                Name = "CompetitorName"
             };
-            teamLogic.AddTeam(otherTeam);
-            ICollection<Team> filteredTeams = teamLogic.GetFilteredTeams("TeamName","asc");
-            Assert.AreEqual(filteredTeams.Count, 1);
+            competitorLogic.AddCompetitor(otherCompetitor);
+            ICollection<Competitor> filteredCompetitors = competitorLogic.GetFilteredCompetitors("CompetitorName","asc");
+            Assert.AreEqual(filteredCompetitors.Count, 1);
         }
 
         [TestMethod]
-        public void FilterOrderTeamNameDesc()
+        public void FilterOrderCompetitorNameDesc()
         {
-            Team otherTeam = new Team()
+            Competitor otherCompetitor = new Competitor()
             {
-                Name = "TeamName"
+                Name = "CompetitorName"
             };
             string order = "desc";
-            teamLogic.AddTeam(otherTeam);
-            ICollection<Team> filteredTeams = teamLogic.GetFilteredTeams("TeamName", order);
-            Assert.AreEqual(filteredTeams.Count, 1);
+            competitorLogic.AddCompetitor(otherCompetitor);
+            ICollection<Competitor> filteredCompetitors = competitorLogic.GetFilteredCompetitors("CompetitorName", order);
+            Assert.AreEqual(filteredCompetitors.Count, 1);
         }
 
         [TestMethod]
-        public void InvalidFilterOrderTeamName()
+        public void InvalidFilterOrderCompetitorName()
         {
-            Team otherTeam = new Team()
+            Competitor otherCompetitor = new Competitor()
             {
-                Name = "TeamName"
+                Name = "CompetitorName"
             };
-            teamLogic.AddTeam(otherTeam);
-            ICollection<Team> filteredTeams = teamLogic.GetFilteredTeams(null,null);
-            Assert.AreEqual(filteredTeams.Count, 1);
+            competitorLogic.AddCompetitor(otherCompetitor);
+            ICollection<Competitor> filteredCompetitors = competitorLogic.GetFilteredCompetitors(null,null);
+            Assert.AreEqual(filteredCompetitors.Count, 1);
         }
 
     }

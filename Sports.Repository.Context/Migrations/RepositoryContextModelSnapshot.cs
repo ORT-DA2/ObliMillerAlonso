@@ -50,13 +50,13 @@ namespace Sports.Repository.Context.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("TeamId");
+                    b.Property<int?>("CompetitorId");
 
                     b.Property<int?>("UserId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TeamId");
+                    b.HasIndex("CompetitorId");
 
                     b.HasIndex("UserId");
 
@@ -115,7 +115,7 @@ namespace Sports.Repository.Context.Migrations
                     b.ToTable("Sports");
                 });
 
-            modelBuilder.Entity("Sports.Domain.Team", b =>
+            modelBuilder.Entity("Sports.Domain.Competitor", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -131,7 +131,7 @@ namespace Sports.Repository.Context.Migrations
 
                     b.HasIndex("SportId");
 
-                    b.ToTable("Teams");
+                    b.ToTable("Competitors");
                 });
 
             modelBuilder.Entity("Sports.Domain.User", b =>
@@ -172,9 +172,9 @@ namespace Sports.Repository.Context.Migrations
 
             modelBuilder.Entity("Sports.Domain.Favorite", b =>
                 {
-                    b.HasOne("Sports.Domain.Team", "Team")
+                    b.HasOne("Sports.Domain.Competitor", "Competitor")
                         .WithMany()
-                        .HasForeignKey("TeamId")
+                        .HasForeignKey("CompetitorId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Sports.Domain.User", "User")
@@ -185,7 +185,7 @@ namespace Sports.Repository.Context.Migrations
 
             modelBuilder.Entity("Sports.Domain.Match", b =>
                 {
-                    b.HasOne("Sports.Domain.Team", "Local")
+                    b.HasOne("Sports.Domain.Competitor", "Local")
                         .WithMany("LocalMatches")
                         .HasForeignKey("LocalId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -194,7 +194,7 @@ namespace Sports.Repository.Context.Migrations
                         .WithMany()
                         .HasForeignKey("SportId");
 
-                    b.HasOne("Sports.Domain.Team", "Visitor")
+                    b.HasOne("Sports.Domain.Competitor", "Visitor")
                         .WithMany("VisitorMatches")
                         .HasForeignKey("VisitorId")
                         .OnDelete(DeleteBehavior.Restrict);
@@ -208,10 +208,10 @@ namespace Sports.Repository.Context.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("Sports.Domain.Team", b =>
+            modelBuilder.Entity("Sports.Domain.Competitor", b =>
                 {
                     b.HasOne("Sports.Domain.Sport", "Sport")
-                        .WithMany("Teams")
+                        .WithMany("Competitors")
                         .HasForeignKey("SportId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
