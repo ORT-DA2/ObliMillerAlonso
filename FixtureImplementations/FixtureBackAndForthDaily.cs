@@ -21,62 +21,40 @@ namespace FixtureImplementations
                 currentSport = sport;
                 daysToAddToDate = 1;
                 initialDate = startDate;
-                LocalWeeklyMatches();
-                VisitorWeeklyMatches();
+                GenerateMatches(sport.Competitors.ToList(),new List<Competitor>(), sport.Competitors.Count -1, 0);
+                GenerateMatches(sport.Competitors.ToList(), new List<Competitor>(), sport.Competitors.Count - 1, 0);
             }
             return generatedMatches;
         }
 
-        private void LocalWeeklyMatches()
+
+
+        public void GenerateMatches(ICollection<Competitor> competitors, ICollection<Competitor> currentCompetitors, int start, int end)
         {
-            uncoveredCompetitors = currentSport.Competitors.ToList();
-            foreach (Competitor competitor in currentSport.Competitors.ToList())
+            if (currentCompetitors.Count == currentSport.Amount)
             {
-                uncoveredCompetitors.Remove(competitor);
-                GenerateLocalMatches(competitor);
+                CreateNextMatch(currentCompetitors);
+                return;
+            }
+            for (int i = start; i <= end && end - i + 1 >= currentSport.Amount - currentCompetitors.Count; i++)
+            {
+                currentCompetitors.Add(competitors.ElementAt(i));
+                GenerateMatches(competitors, currentCompetitors, i + 1, end);
+                currentCompetitors.Remove(competitors.ElementAt(i));
             }
         }
 
-        private void VisitorWeeklyMatches()
-        {
-            uncoveredCompetitors = currentSport.Competitors.ToList();
-            foreach (Competitor competitor in currentSport.Competitors.ToList())
-            {
-                uncoveredCompetitors.Remove(competitor);
-                GenerateVisitorMatches(competitor);
-            }
-        }
 
-        private void GenerateVisitorMatches(Competitor competitor)
-        {
-            foreach (Competitor local in uncoveredCompetitors)
-            {
-                Match visitorMatch = CreateNextMatch(local, competitor);
-                generatedMatches.Add(visitorMatch);
-            }
-        }
-
-        private void GenerateLocalMatches(Competitor competitor)
-        {
-            foreach (Competitor visitor in uncoveredCompetitors)
-            {
-                Match localMatch = CreateNextMatch(competitor,visitor);
-                generatedMatches.Add(localMatch);
-            }
-        }
-        
-
-        private Match CreateNextMatch(Competitor local, Competitor visitor)
+        private void CreateNextMatch(ICollection<Competitor> competitors)
         {
             Match nextMatch = new Match()
             {
                 Sport = currentSport,
-                Local = local,
-                Visitor = visitor,
+                Competitors = competitors,
                 Date = initialDate.AddDays(daysToAddToDate),
             };
             daysToAddToDate++;
-            return nextMatch;
+            generatedMatches.Add(nextMatch);
         }
 
 

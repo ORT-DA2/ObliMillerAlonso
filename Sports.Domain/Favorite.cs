@@ -31,7 +31,7 @@ namespace Sports.Domain
         {
             if (Competitor == null)
             {
-                throw new InvalidCompetitorIsEmptyException(EmptyCompetitor.EMPTY_LOCAL_COMPETITOR_MESSAGE);
+                throw new InvalidCompetitorAmountException(EmptyCompetitor.EMPTY_LOCAL_COMPETITOR_MESSAGE);
             }
         }
     }

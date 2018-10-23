@@ -61,11 +61,9 @@ namespace Sports.Logic
         {
             
             Sport sport = match.Sport;
-            Competitor local = match.Local;
-            Competitor visitor = match.Visitor;
+            ICollection<Competitor> competitors = match.Competitors.ToList();
             match.Sport = sportLogic.GetSportById(sport.Id);
-            match.Local = sportLogic.GetCompetitorFromSport(sport.Id, local.Id);
-            match.Visitor = sportLogic.GetCompetitorFromSport(sport.Id, visitor.Id);
+            match.Competitors = sportLogic.GetCompetitorsFromSport(sport.Id, competitors)
         }
 
         private void CheckNotNull(Match match)
@@ -92,7 +90,7 @@ namespace Sports.Logic
         {
             sessionLogic.ValidateUserNotNull(user);
             Competitor playingCompetitor = competitorLogic.GetCompetitorById(competitor.Id);
-            ICollection<Match> matches = repository.FindByCondition(m => m.Local.Equals(playingCompetitor) ||m.Visitor.Equals(playingCompetitor));
+            ICollection<Match> matches = repository.FindByCondition(m => m.Competitors.Contains(playingCompetitor));
             if (matches.Count == 0)
             {
                 throw new MatchDoesNotExistException(MatchValidation.COMPETITOR_DOESNT_PLAY);

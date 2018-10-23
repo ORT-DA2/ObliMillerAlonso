@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Sports.Domain.Exceptions;
 using Sports.Domain.Constants;
+using System.Linq;
 
 namespace Sports.Domain
 {
@@ -15,20 +16,19 @@ namespace Sports.Domain
         public int Id { get;  set; }
         public DateTime Date { get; set; }
         public Sport Sport { get; set; }
-        public Competitor Local { get; set; }
-        public Competitor Visitor { get; set; }
+        public ICollection<Competitor> Competitors { get; set; }
         public ICollection<Comment> Comments {  get; set; }
 
         public Match()
         {
+            Competitors = new List<Competitor>();
             Comments = new List<Comment>();
         }
 
         public void IsValid()
         {
             CheckSportNotEmpty();
-            CheckLocalNotEmpty();
-            CheckVisitorNotEmpty();
+            CheckCompetitorsAmount();
             IsValidDate(this.Date);
         }
 
@@ -39,21 +39,14 @@ namespace Sports.Domain
                 throw new InvalidSportIsEmptyException(EmptySport.EMPTY_SPORT_MESSAGE);
             }
         }
-        private void CheckVisitorNotEmpty()
+        private void CheckCompetitorsAmount()
         {
-            if (this.Visitor == null)
+            if (this.Sport.Amount != this.Competitors.Count)
             {
-                throw new InvalidCompetitorIsEmptyException(EmptyCompetitor.EMPTY_VISITOR_COMPETITOR_MESSAGE);
+                throw new InvalidCompetitorAmountException(InvalidCompetitorAmount.INVALID_COMPETITORS_AMOUNT_MESSAGE);
             }
         }
-        private void CheckLocalNotEmpty()
-        {
-            if (this.Local == null)
-            {
-                throw new InvalidCompetitorIsEmptyException(EmptyCompetitor.EMPTY_LOCAL_COMPETITOR_MESSAGE);
-            }
-        }
-
+        
         private void CheckCommentNotEmpty(Comment comment)
         {
             if (comment == null)
@@ -73,24 +66,37 @@ namespace Sports.Domain
 
         public void IsValidMatch()
         {
-            if(Local.Name == Visitor.Name)
+            foreach(Competitor competitor in Competitors)
             {
-                throw new InvalidCompetitorVersusException(CompetitorVersus.INVALID_COMPETITOR_VERSUS_MESSAGE);
+                List<Competitor> occurences = Competitors.Where(c => c.Name.Equals(competitor.Name)).ToList();
+                if (occurences.Count>1)
+                {
+                    throw new InvalidCompetitorVersusException(CompetitorVersus.INVALID_COMPETITOR_VERSUS_MESSAGE);
+                }
             }
         }
 
         public override string ToString()
         {
-            string tostring = "Sport: " + Sport + " Local Competitor: " + Local + " Visitor Competitor: " + Visitor + " Date: " + Date;
+            string tostring = "Sport: " + Sport + " Competitors: " + PrintCompetitors() + " Date: " + Date;
             return tostring;
+        }
+
+        private string PrintCompetitors()
+        {
+            string competitorsList = "";
+            foreach(Competitor competitor in Competitors)
+            {
+                competitorsList += competitor.ToString() + ", ";
+            }
+            return competitorsList;
         }
 
         public void UpdateMatch(Match updatedMatch)
         {
             this.Date = IgnoreNullDate(this.Date,updatedMatch.Date);
             this.Sport = (Sport)IgnoreNull(this.Sport, updatedMatch.Sport);
-            this.Local = (Competitor)IgnoreNull(this.Local, updatedMatch.Local);
-            this.Visitor = (Competitor)IgnoreNull(this.Visitor, updatedMatch.Visitor);
+            this.Competitors = (ICollection<Competitor>)IgnoreNull(this.Competitors, updatedMatch.Competitors);
             
         }
 

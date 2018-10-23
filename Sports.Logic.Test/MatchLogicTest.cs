@@ -301,7 +301,7 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidCompetitorIsEmptyException))]
+        [ExpectedException(typeof(InvalidCompetitorAmountException))]
         public void AddWithoutLocalCompetitor()
         {
             match.Local = null;
@@ -309,7 +309,7 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidCompetitorIsEmptyException))]
+        [ExpectedException(typeof(InvalidCompetitorAmountException))]
         public void AddWithoutVisitorCompetitor()
         {
             match.Visitor = null;

@@ -20,10 +20,10 @@ namespace Sports.Domain.Constants
         public const string EMPTY_SPORT_MESSAGE = "Match should include a sport.";
     }
 
-    public static class EmptyCompetitor
+    public static class InvalidCompetitorAmount
     {
-        public const string EMPTY_VISITOR_COMPETITOR_MESSAGE = "Match should include a visitor competitor.";
-        public const string EMPTY_LOCAL_COMPETITOR_MESSAGE = "Match should include a local competitor.";
+        public const string INVALID_COMPETITORS_AMOUNT_MESSAGE = "Match should have as many competitors as the Sport requires";
+        public const string INVALID_ONE_COMPETITOR_MESSAGE = "Sport should include at least two competitors.";
 
     }
     public static class EmptyComment
@@ -47,7 +47,7 @@ namespace Sports.Domain.Constants
 
     public static class CompetitorVersus
     {
-        public const string INVALID_COMPETITOR_VERSUS_MESSAGE = "Invalid Match. Local and Visitor must be different.";
+        public const string INVALID_COMPETITOR_VERSUS_MESSAGE = "Invalid Match. Competitors must be different.";
        
     }
 

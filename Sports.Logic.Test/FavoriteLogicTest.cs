@@ -189,7 +189,7 @@ namespace Sports.Logic.Test
 
         
         [TestMethod]
-        [ExpectedException(typeof(InvalidCompetitorIsEmptyException))]
+        [ExpectedException(typeof(InvalidCompetitorAmountException))]
         public void AddNullCompetitor()
         {
             favoriteLogic.AddFavoriteCompetitor( null);

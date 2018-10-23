@@ -12,8 +12,7 @@ namespace Sports.Domain
     {
         public int Id { get;  set; }
         public string Name { get; set; }
-        public int MinCompetitors { get; set; }
-        public int MaxCompetitors { get; set; }
+        public int Amount { get; set; }
         public ICollection<Competitor> Competitors { get; set; }
         
 
@@ -42,6 +41,15 @@ namespace Sports.Domain
         public void IsValid()
         {
             IsValidSportName();
+            IsValidAmount();
+        }
+
+        private void IsValidAmount()
+        {
+            if (Amount < 2)
+            {
+                throw new InvalidCompetitorAmountException(InvalidCompetitorAmount.INVALID_ONE_COMPETITOR_MESSAGE);
+            }
         }
 
         private void IsValidSportName()
