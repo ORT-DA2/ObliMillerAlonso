@@ -13,7 +13,7 @@ namespace Sports.Logic.Interface
         void ModifyMatch(int id, Match match);
         void DeleteMatch(int id);
         ICollection<Match> GetAllMatches();
-        ICollection<Match> GetAllMatchesForTeam(Team team);
+        ICollection<Match> GetAllMatchesForCompetitor(Competitor competitor);
         void AddCommentToMatch(int id, Comment comment);
         ICollection<Comment> GetAllComments(int matchId);
         void SetSession(Guid token);

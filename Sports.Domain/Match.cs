@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Sports.Domain.Exceptions;
 using Sports.Domain.Constants;
+using System.Linq;
 
 namespace Sports.Domain
 {
@@ -15,20 +16,19 @@ namespace Sports.Domain
         public int Id { get;  set; }
         public DateTime Date { get; set; }
         public Sport Sport { get; set; }
-        public Team Local { get; set; }
-        public Team Visitor { get; set; }
         public ICollection<Comment> Comments {  get; set; }
+        public ICollection<CompetitorScore> Competitors { get; set; }
 
         public Match()
         {
             Comments = new List<Comment>();
+            Competitors = new List<CompetitorScore>();
         }
 
         public void IsValid()
         {
             CheckSportNotEmpty();
-            CheckLocalNotEmpty();
-            CheckVisitorNotEmpty();
+            CheckCompetitorsAmount();
             IsValidDate(this.Date);
         }
 
@@ -39,21 +39,14 @@ namespace Sports.Domain
                 throw new InvalidSportIsEmptyException(EmptySport.EMPTY_SPORT_MESSAGE);
             }
         }
-        private void CheckVisitorNotEmpty()
+        private void CheckCompetitorsAmount()
         {
-            if (this.Visitor == null)
+            if (this.Sport.Amount != this.Competitors.Count)
             {
-                throw new InvalidTeamIsEmptyException(EmptyTeam.EMPTY_VISITOR_TEAM_MESSAGE);
+                throw new InvalidCompetitorAmountException(InvalidCompetitorAmount.INVALID_COMPETITORS_AMOUNT_MESSAGE);
             }
         }
-        private void CheckLocalNotEmpty()
-        {
-            if (this.Local == null)
-            {
-                throw new InvalidTeamIsEmptyException(EmptyTeam.EMPTY_LOCAL_TEAM_MESSAGE);
-            }
-        }
-
+        
         private void CheckCommentNotEmpty(Comment comment)
         {
             if (comment == null)
@@ -73,25 +66,48 @@ namespace Sports.Domain
 
         public void IsValidMatch()
         {
-            if(Local.Name == Visitor.Name)
+            foreach(CompetitorScore mCompetitor in Competitors)
             {
-                throw new InvalidTeamVersusException(TeamVersus.INVALID_TEAM_VERSUS_MESSAGE);
+                string competitorName = mCompetitor.Competitor.Name;
+                List<CompetitorScore> occurences = Competitors.Where(c => c.Competitor.Name.Equals(competitorName)).ToList();
+                if (occurences.Count>1)
+                {
+                    throw new InvalidCompetitorVersusException(CompetitorVersus.INVALID_COMPETITOR_VERSUS_MESSAGE);
+                }
             }
         }
 
         public override string ToString()
         {
-            string tostring = "Sport: " + Sport + " Local Team: " + Local + " Visitor Team: " + Visitor + " Date: " + Date;
+            string tostring = "Sport: " + Sport + " Competitors: " + PrintCompetitors() + " Date: " + Date;
             return tostring;
+        }
+
+        private string PrintCompetitors()
+        {
+            string competitorsList = "";
+            foreach(CompetitorScore mCompetitor in Competitors)
+            {
+                competitorsList += mCompetitor.ToString() + ", ";
+            }
+            return competitorsList;
         }
 
         public void UpdateMatch(Match updatedMatch)
         {
             this.Date = IgnoreNullDate(this.Date,updatedMatch.Date);
             this.Sport = (Sport)IgnoreNull(this.Sport, updatedMatch.Sport);
-            this.Local = (Team)IgnoreNull(this.Local, updatedMatch.Local);
-            this.Visitor = (Team)IgnoreNull(this.Visitor, updatedMatch.Visitor);
-            
+            this.Competitors = IgnoreEmpty(this.Competitors, updatedMatch.Competitors);
+        }
+
+        private ICollection<CompetitorScore> IgnoreEmpty(ICollection<CompetitorScore> original, ICollection<CompetitorScore> updated)
+        {
+
+            if (updated == null || updated.Count() == 0)
+            {
+                return original;
+            }
+            return updated;
         }
 
         private DateTime IgnoreNullDate(DateTime originalDate, DateTime updatedDate)

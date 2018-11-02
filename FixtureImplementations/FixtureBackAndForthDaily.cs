@@ -9,7 +9,6 @@ namespace FixtureImplementations
     public class FixtureBackAndForthDaily : IFixtureGeneratorStrategy
     {
         private List<Match> generatedMatches;
-        private List<Team> uncoveredTeams;
         private Sport currentSport;
         private int daysToAddToDate;
         private DateTime initialDate;
@@ -21,62 +20,49 @@ namespace FixtureImplementations
                 currentSport = sport;
                 daysToAddToDate = 1;
                 initialDate = startDate;
-                LocalWeeklyMatches();
-                VisitorWeeklyMatches();
+                GenerateMatches(sport.Competitors.ToList(),new List<Competitor>(), 0, sport.Competitors.Count - 1);
+                GenerateMatches(sport.Competitors.ToList(), new List<Competitor>(), 0, sport.Competitors.Count - 1);
             }
             return generatedMatches;
         }
 
-        private void LocalWeeklyMatches()
+
+
+        public void GenerateMatches(ICollection<Competitor> competitors, ICollection<Competitor> currentCompetitors, int start, int end)
         {
-            uncoveredTeams = currentSport.Teams.ToList();
-            foreach (Team team in currentSport.Teams.ToList())
+            if (currentCompetitors.Count == currentSport.Amount)
             {
-                uncoveredTeams.Remove(team);
-                GenerateLocalMatches(team);
+                CreateNextMatch(AdaptForMatch(currentCompetitors));
+                return;
+            }
+            for (int i = start; i <= end && end - i + 1 >= currentSport.Amount - currentCompetitors.Count; i++)
+            {
+                currentCompetitors.Add(competitors.ElementAt(i));
+                GenerateMatches(competitors, currentCompetitors, i + 1, end);
+                currentCompetitors.Remove(competitors.ElementAt(i));
             }
         }
 
-        private void VisitorWeeklyMatches()
+        private ICollection<CompetitorScore> AdaptForMatch(ICollection<Competitor> currentCompetitors)
         {
-            uncoveredTeams = currentSport.Teams.ToList();
-            foreach (Team team in currentSport.Teams.ToList())
+            ICollection<CompetitorScore> adapted = new List<CompetitorScore>();
+            foreach (Competitor competitor in currentCompetitors)
             {
-                uncoveredTeams.Remove(team);
-                GenerateVisitorMatches(team);
+                adapted.Add(new CompetitorScore(competitor));
             }
+            return adapted;
         }
 
-        private void GenerateVisitorMatches(Team team)
-        {
-            foreach (Team local in uncoveredTeams)
-            {
-                Match visitorMatch = CreateNextMatch(local, team);
-                generatedMatches.Add(visitorMatch);
-            }
-        }
-
-        private void GenerateLocalMatches(Team team)
-        {
-            foreach (Team visitor in uncoveredTeams)
-            {
-                Match localMatch = CreateNextMatch(team,visitor);
-                generatedMatches.Add(localMatch);
-            }
-        }
-        
-
-        private Match CreateNextMatch(Team local, Team visitor)
+        private void CreateNextMatch(ICollection<CompetitorScore> competitors)
         {
             Match nextMatch = new Match()
             {
                 Sport = currentSport,
-                Local = local,
-                Visitor = visitor,
+                Competitors = competitors,
                 Date = initialDate.AddDays(daysToAddToDate),
             };
             daysToAddToDate++;
-            return nextMatch;
+            generatedMatches.Add(nextMatch);
         }
 
 

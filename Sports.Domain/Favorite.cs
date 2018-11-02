@@ -11,12 +11,12 @@ namespace Sports.Domain
     {
         public int Id { get;  set; }
         public User User { get; set; }
-        public Team Team { get; set; }
+        public Competitor Competitor { get; set; }
 
         public void Validate()
         {
             CheckUserNotNull();
-            CheckTeamNotNull();
+            CheckCompetitorNotNull();
         }
 
         private void CheckUserNotNull()
@@ -27,11 +27,11 @@ namespace Sports.Domain
             }
         }
 
-        private void CheckTeamNotNull()
+        private void CheckCompetitorNotNull()
         {
-            if (Team == null)
+            if (Competitor == null)
             {
-                throw new InvalidTeamIsEmptyException(EmptyTeam.EMPTY_LOCAL_TEAM_MESSAGE);
+                throw new InvalidCompetitorEmptyException("");
             }
         }
     }

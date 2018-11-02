@@ -26,9 +26,8 @@ namespace Sports.Repository
                 return RepositoryContext.Comments
                     .Include(c=>c.User)
                     .Include(c=>c.Match)
-                        .ThenInclude(m=>m.Local)
-                    .Include(c => c.Match)
-                        .ThenInclude(m => m.Visitor)
+                        .ThenInclude(m=>m.Competitors)
+                            .ThenInclude(c => c.Competitor)
                     .Include(c => c.Match)
                         .ThenInclude(m => m.Sport)
                     .ToList<Comment>();
@@ -51,9 +50,8 @@ namespace Sports.Repository
                     .Where(expression)
                     .Include(c => c.User)
                     .Include(c => c.Match)
-                        .ThenInclude(m => m.Local)
-                    .Include(c => c.Match)
-                        .ThenInclude(m => m.Visitor)
+                        .ThenInclude(m => m.Competitors)
+                            .ThenInclude(c => c.Competitor)
                     .Include(c => c.Match)
                         .ThenInclude(m => m.Sport)
                     .ToList<Comment>();

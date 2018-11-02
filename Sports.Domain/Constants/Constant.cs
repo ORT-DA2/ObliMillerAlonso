@@ -20,10 +20,10 @@ namespace Sports.Domain.Constants
         public const string EMPTY_SPORT_MESSAGE = "Match should include a sport.";
     }
 
-    public static class EmptyTeam
+    public static class InvalidCompetitorAmount
     {
-        public const string EMPTY_VISITOR_TEAM_MESSAGE = "Match should include a visitor team.";
-        public const string EMPTY_LOCAL_TEAM_MESSAGE = "Match should include a local team.";
+        public const string INVALID_COMPETITORS_AMOUNT_MESSAGE = "Match should have as many competitors as the Sport requires";
+        public const string INVALID_ONE_COMPETITOR_MESSAGE = "Sport should include at least two competitors.";
 
     }
     public static class EmptyComment
@@ -35,23 +35,23 @@ namespace Sports.Domain.Constants
     {
         public const string EMPTY_USER = "User must be included.";
     }
-    public static class TeamValidation
+    public static class CompetitorValidation
     {
-        public const string TEAM_NOT_EXIST_IN_SPORT_MESSAGE = "Team does not exist in Sport";
+        public const string COMPETITOR_NOT_EXIST_IN_SPORT_MESSAGE = "Competitor does not exist in Sport";
     }
 
-    public static class UniqueTeam
+    public static class UniqueCompetitor
     {
-        public const string DUPLICATE_TEAM_IN_SPORT_MESSAGE = "Team already exist in Sport";
+        public const string DUPLICATE_COMPETITOR_IN_SPORT_MESSAGE = "Competitor already exist in Sport";
     }
 
-    public static class TeamVersus
+    public static class CompetitorVersus
     {
-        public const string INVALID_TEAM_VERSUS_MESSAGE = "Invalid Match. Local and Visitor must be different.";
+        public const string INVALID_COMPETITOR_VERSUS_MESSAGE = "Invalid Match. Competitors must be different.";
        
     }
 
-    public static class ImageTeamValidation
+    public static class ImageCompetitorValidation
     {
         public const string INVALID_FILE_EXTENSION_MESSAGE = "Invalid file extension";
         public const string INVALID_FILE_PATH_MESSAGE = "Invalid file path";

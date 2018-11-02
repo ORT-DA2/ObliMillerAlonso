@@ -23,7 +23,7 @@ namespace Sports.Repository
             try
             {
                 return RepositoryContext.Sports
-                    .Include(s => s.Teams)
+                    .Include(s => s.Competitors)
                     .ToList<Sport>();
             }
             catch (DbException)
@@ -42,7 +42,7 @@ namespace Sports.Repository
             {
                 return RepositoryContext.Sports
                     .Where(expression)
-                    .Include(s => s.Teams)
+                    .Include(s => s.Competitors)
                     .ToList<Sport>();
             }
             catch (DbException)

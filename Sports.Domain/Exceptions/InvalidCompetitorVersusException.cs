@@ -4,9 +4,9 @@ using System.Runtime.Serialization;
 namespace Sports.Domain.Exceptions
 {
     [Serializable]
-    public class InvalidTeamVersusException : DomainException
+    public class InvalidCompetitorVersusException : DomainException
     {
-        public InvalidTeamVersusException(string message) : base(message)
+        public InvalidCompetitorVersusException(string message) : base(message)
         {
         }
         

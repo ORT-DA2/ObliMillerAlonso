@@ -17,29 +17,29 @@ namespace Sports.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TeamsController : ControllerBase
+    public class CompetitorsController : ControllerBase
     {
-        private ITeamLogic teamLogic;
+        private ICompetitorLogic competitorLogic;
         private ISportLogic sportLogic;
         private IMapper mapper;
 
-        public TeamsController(ITeamLogic aTeamLogic, ISportLogic aSportLogic)
+        public CompetitorsController(ICompetitorLogic aCompetitorLogic, ISportLogic aSportLogic)
         {
-            teamLogic = aTeamLogic;
+            competitorLogic = aCompetitorLogic;
             sportLogic = aSportLogic;
             var config = new MapperConfiguration(cfg => cfg.AddProfile(new MapperProfile()));
             mapper = new Mapper(config);
         }
 
-        [HttpGet("{id}", Name = "GetTeamById")]
+        [HttpGet("{id}", Name = "GetCompetitorById")]
         public IActionResult Get(int id, [FromHeader] string token)
         {
             try
             {
                 Guid realToken = Guid.Parse(token);
-                teamLogic.SetSession(realToken);
-                Team team = teamLogic.GetTeamById(id);
-                TeamModelOut modelOut = mapper.Map<TeamModelOut>(team);
+                competitorLogic.SetSession(realToken);
+                Competitor competitor = competitorLogic.GetCompetitorById(id);
+                CompetitorModelOut modelOut = mapper.Map<CompetitorModelOut>(competitor);
                 return Ok(modelOut);
             }
             catch (UnauthorizedException ex)
@@ -64,17 +64,17 @@ namespace Sports.WebAPI.Controllers
             }
         }
         
-        [HttpPut("{id}", Name = "ModifyTeam")]
-        public IActionResult PutTeam(int id, [FromBody] TeamModelIn teamIn, [FromHeader] string token)
+        [HttpPut("{id}", Name = "ModifyCompetitor")]
+        public IActionResult PutCompetitor(int id, [FromBody] CompetitorModelIn competitorIn, [FromHeader] string token)
         {
             try
             {
                 Guid realToken = Guid.Parse(token);
-                teamLogic.SetSession(realToken);
-                Team team = mapper.Map<Team>(teamIn);
-                teamLogic.Modify(id, team);
-                teamLogic.SetPictureFromPath(id, teamIn.ImagePath);
-                return RedirectToRoute("GetTeamById", new { id = id, token = token });
+                competitorLogic.SetSession(realToken);
+                Competitor competitor = mapper.Map<Competitor>(competitorIn);
+                competitorLogic.Modify(id, competitor);
+                competitorLogic.SetPictureFromPath(id, competitorIn.ImagePath);
+                return RedirectToRoute("GetCompetitorById", new { id = id, token = token });
             }
             catch (UnauthorizedException ex)
             {
@@ -98,15 +98,15 @@ namespace Sports.WebAPI.Controllers
             }
         }
 
-        [HttpDelete("{id}", Name = "DeleteTeam")]
-        public IActionResult DeleteTeam(int id, [FromHeader] string token)
+        [HttpDelete("{id}", Name = "DeleteCompetitor")]
+        public IActionResult DeleteCompetitor(int id, [FromHeader] string token)
         {
             try
             {
                 Guid realToken = Guid.Parse(token);
-                teamLogic.SetSession(realToken);
-                teamLogic.Delete(id);
-                return Ok("Team deleted succesfully");
+                competitorLogic.SetSession(realToken);
+                competitorLogic.Delete(id);
+                return Ok("Competitor deleted succesfully");
             }
             catch (UnauthorizedException ex)
             {
@@ -131,22 +131,22 @@ namespace Sports.WebAPI.Controllers
         }
 
 
-        [HttpGet(Name = "GetAllTeams")]
-        public IActionResult GetAllTeams([FromHeader] string token, [FromHeader] string name, [FromHeader] string order)
+        [HttpGet(Name = "GetAllCompetitors")]
+        public IActionResult GetAllCompetitors([FromHeader] string token, [FromHeader] string name, [FromHeader] string order)
         {
             try
             {
                 Guid realToken = Guid.Parse(token);
-                teamLogic.SetSession(realToken);
+                competitorLogic.SetSession(realToken);
                 sportLogic.SetSession(realToken);
-                ICollection<Team> teamList = teamLogic.GetFilteredTeams(name,order);
-                ICollection<TeamModelOut> teamModels = new List<TeamModelOut>();
-                foreach (Team team in teamList)
+                ICollection<Competitor> competitorList = competitorLogic.GetFilteredCompetitors(name,order);
+                ICollection<CompetitorModelOut> competitorModels = new List<CompetitorModelOut>();
+                foreach (Competitor competitor in competitorList)
                 {
-                    TeamModelOut model = mapper.Map<TeamModelOut>(team);
-                    teamModels.Add(model);
+                    CompetitorModelOut model = mapper.Map<CompetitorModelOut>(competitor);
+                    competitorModels.Add(model);
                 }
-                return Ok(teamModels.ToList());
+                return Ok(competitorModels.ToList());
             }
             catch (UnauthorizedException ex)
             {

@@ -13,14 +13,14 @@ namespace Sports.Logic
     public class SportLogic : ISportLogic
     {
         ISportRepository repository;
-        ITeamLogic teamLogic;
+        ICompetitorLogic competitorLogic;
         ISessionLogic sessionLogic;
         User user;
 
         public SportLogic(IRepositoryUnitOfWork unitOfwork)
         {
             repository = unitOfwork.Sport;
-            teamLogic = new TeamLogic(unitOfwork);
+            competitorLogic = new CompetitorLogic(unitOfwork);
             sessionLogic = new SessionLogic(unitOfwork);
         }
 
@@ -65,12 +65,12 @@ namespace Sports.Logic
             return sports.First();
         }
 
-        public Team GetTeamFromSport(int sportId, int teamId)
+        public Competitor GetCompetitorFromSport(int sportId, int competitorId)
         {
             sessionLogic.ValidateUserNotNull(user);
             Sport realSport = GetSportById(sportId);
-            Team team = teamLogic.GetTeamById(teamId);
-            return teamLogic.GetTeamById(realSport.GetTeam(team).Id);
+            Competitor competitor = competitorLogic.GetCompetitorById(competitorId);
+            return competitorLogic.GetCompetitorById(realSport.GetCompetitor(competitor).Id);
         }
 
         
@@ -109,54 +109,54 @@ namespace Sports.Logic
             return repository.FindAll();
         }
         
-        public void AddTeamToSport(int sportId, Team team)
+        public void AddCompetitorToSport(int sportId, Competitor competitor)
         {
             sessionLogic.ValidateUser(user);
             Sport realSport = GetSportById(sportId);
-            CheckTeamIsNotUsed(realSport, team);
-            teamLogic.AddTeam(team);
-            realSport.AddTeam(team);
+            CheckCompetitorIsNotUsed(realSport, competitor);
+            competitorLogic.AddCompetitor(competitor);
+            realSport.AddCompetitor(competitor);
             repository.Update(realSport);
             repository.Save();
         }
 
-        private void CheckTeamIsNotUsed(Sport sport, Team team)
+        private void CheckCompetitorIsNotUsed(Sport sport, Competitor competitor)
         {
-            if (sport.Teams.Contains(team))
+            if (sport.Competitors.Contains(competitor))
             {
-                throw new TeamAlreadyInSportException(UniqueTeam.DUPLICATE_TEAM_IN_SPORT_MESSAGE);
+                throw new CompetitorAlreadyInSportException(UniqueCompetitor.DUPLICATE_COMPETITOR_IN_SPORT_MESSAGE);
             }
         }
 
-        public void DeleteTeamFromSport(int sportId, int teamId)
+        public void DeleteCompetitorFromSport(int sportId, int competitorId)
         {
             sessionLogic.ValidateUser(user);
             Sport realSport = GetSportById(sportId);
-            teamLogic.Delete(teamId);
+            competitorLogic.Delete(competitorId);
             repository.Update(realSport);
             repository.Save();
         }
 
-        public void UpdateTeamSport(int sportId, int teamId, Team teamChanges)
+        public void UpdateCompetitorSport(int sportId, int competitorId, Competitor competitorChanges)
         {
             sessionLogic.ValidateUser(user);
-            Team original = GetTeamFromSport(sportId, teamId);
-            teamLogic.Modify(original.Id, teamChanges);
+            Competitor original = GetCompetitorFromSport(sportId, competitorId);
+            competitorLogic.Modify(original.Id, competitorChanges);
             Sport originalSport = GetSportById(sportId);
             repository.Update(originalSport);
             repository.Save();
         }
 
-        public ICollection<Team> GetTeamsFromSport(int sportId)
+        public ICollection<Competitor> GetCompetitorsFromSport(int sportId)
         {
             Sport sport = GetSportById(sportId);
-            return sport.Teams;
+            return sport.Competitors;
         }
 
         public void SetSession(Guid token)
         {
             user = sessionLogic.GetUserFromToken(token);
-            teamLogic.SetSession(token);
+            competitorLogic.SetSession(token);
         }
     }
 }

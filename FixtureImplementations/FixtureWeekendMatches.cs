@@ -9,8 +9,6 @@ namespace FixtureImplementations
     public class FixtureWeekendMatches : IFixtureGeneratorStrategy
     {
         private List<Match> generatedMatches;
-        private List<Team> uncoveredTeams;
-        private List<DateTime> occupiedDates;  
         private Sport currentSport;
         private int lastFreeDate;
         private DateTime initialDate;
@@ -21,47 +19,55 @@ namespace FixtureImplementations
             {
                 currentSport = sport;
                 initialDate = startDate;
-                uncoveredTeams = currentSport.Teams.ToList();
-                WeekendMatches();
+                GenerateMatches(sport.Competitors.ToList(), new List<Competitor>(), 0, sport.Competitors.Count - 1);
             }
             return generatedMatches;
         }
-
-        private void WeekendMatches()
-        {
-            foreach (Team team in currentSport.Teams.ToList())
-            {
-                lastFreeDate = 1;
-                uncoveredTeams.Remove(team);
-                GenerateMatches(team);
-            }
-        }
-      
-
-        private void GenerateMatches(Team team)
-        {
-            foreach (Team rivalTeam in uncoveredTeams)
-            {
-                Match nextMatch = CreateNextMatch(team, rivalTeam);
-                generatedMatches.Add(nextMatch);
-            }
-        }
         
 
-        private Match CreateNextMatch(Team local, Team visitor)
+
+        public void GenerateMatches(ICollection<Competitor> competitors, ICollection<Competitor> currentCompetitors, int start, int end)
         {
-            DateTime nextFreeDate = GetNextFreeWeekendDate(local, visitor);
+            if (currentCompetitors.Count < 1)
+            {
+                lastFreeDate = 1;
+            }
+            if (currentCompetitors.Count == currentSport.Amount)
+            {
+                CreateNextMatch(AdaptForMatch(currentCompetitors));
+                return;
+            }
+            for (int i = start; i <= end && end - i + 1 >= currentSport.Amount - currentCompetitors.Count; i++)
+            {
+                currentCompetitors.Add(competitors.ElementAt(i));
+                GenerateMatches(competitors, currentCompetitors, i + 1, end);
+                currentCompetitors.Remove(competitors.ElementAt(i));
+            }
+        }
+
+        private ICollection<CompetitorScore> AdaptForMatch(ICollection<Competitor> currentCompetitors)
+        {
+            ICollection<CompetitorScore> adapted = new List<CompetitorScore>();
+            foreach (Competitor competitor in currentCompetitors)
+            {
+                adapted.Add(new CompetitorScore(competitor));
+            }
+            return adapted;
+        }
+
+        private void CreateNextMatch(ICollection<CompetitorScore> competitors)
+        {
+            DateTime nextFreeDate = GetNextFreeWeekendDate(competitors);
             Match nextMatch = new Match()
             {
                 Sport = currentSport,
-                Local = local,
-                Visitor = visitor,
+                Competitors = competitors,
                 Date = nextFreeDate
             };
-            return nextMatch;
+            generatedMatches.Add(nextMatch);
         }
 
-        private DateTime GetNextFreeWeekendDate(Team local, Team visitor)
+        private DateTime GetNextFreeWeekendDate(ICollection<CompetitorScore> competitors)
         {
             bool dateIsOcupied = true;
             DateTime validDate = initialDate;
@@ -70,7 +76,7 @@ namespace FixtureImplementations
                 DateTime date = initialDate.AddDays(lastFreeDate);
                 if (IsWeekend(date) )
                 {
-                    if(UnoccupiedDateByTeams(date, local, visitor))
+                    if(UnoccupiedDateByCompetitors(date, competitors))
                     {
                         dateIsOcupied = false;
                         validDate = date;
@@ -90,14 +96,16 @@ namespace FixtureImplementations
             return date.DayOfWeek.Equals(DayOfWeek.Sunday) || date.DayOfWeek.Equals(DayOfWeek.Saturday);
         }
 
-        private bool UnoccupiedDateByTeams(DateTime date, Team local, Team visitor)
+        private bool UnoccupiedDateByCompetitors(DateTime date, ICollection<CompetitorScore> competitors)
         {
-            return !generatedMatches.Exists(m => m.Date.Date.Equals(date.Date) && (IsInMatch(local, m)||IsInMatch(visitor,m)));
+            return !generatedMatches.Exists(m => m.Date.Date.Equals(date.Date) && AreInMatch(competitors, m));
         }
 
-        private bool IsInMatch(Team team, Match match)
+        private bool AreInMatch(ICollection<CompetitorScore> competitors, Match match)
         {
-            return match.Local.Equals(team) || match.Visitor.Equals(team);
+
+            ICollection<CompetitorScore> alreadyPlaying = match.Competitors.Intersect(competitors).ToList();
+            return alreadyPlaying.Count>0;
         }
 
         public string FixtureInfo()

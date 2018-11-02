@@ -40,17 +40,17 @@ namespace Sports.WebAPI.Tests
         [TestMethod]
         public void ValidPostFavorite()
         {
-            Team fakeTeam = new Team()
+            Competitor fakeCompetitor = new Competitor()
             {
-                Name = "Team"
+                Name = "Competitor"
             };
-            TeamModelIn teamModelIn = new TeamModelIn()
+            CompetitorModelIn competitorModelIn = new CompetitorModelIn()
             {
                 Id = 1,
-                Name = "Team"
+                Name = "Competitor"
             };
-            favoriteLogicMock.Setup(favoriteLogic => favoriteLogic.AddFavoriteTeam(It.IsAny<Team>()));
-            IActionResult result = controller.PostFavorite(teamModelIn, token);
+            favoriteLogicMock.Setup(favoriteLogic => favoriteLogic.AddFavoriteCompetitor(It.IsAny<Competitor>()));
+            IActionResult result = controller.PostFavorite(competitorModelIn, token);
             var createdResult = result as RedirectToRouteResult;
 
             favoriteLogicMock.VerifyAll();
@@ -61,26 +61,26 @@ namespace Sports.WebAPI.Tests
         [TestMethod]
         public void ValidGetFavoritesFromUser()
         {
-            Team fakeTeam = new Team()
+            Competitor fakeCompetitor = new Competitor()
             {
-                Name = "Team name"
+                Name = "Competitor name"
             };
-            ICollection<Team> teams = new List<Team>();
-            teams.Add(fakeTeam);
+            ICollection<Competitor> competitors = new List<Competitor>();
+            competitors.Add(fakeCompetitor);
 
-            favoriteLogicMock.Setup(favoriteLogic => favoriteLogic.GetFavoritesFromUser()).Returns(teams);
+            favoriteLogicMock.Setup(favoriteLogic => favoriteLogic.GetFavoritesFromUser()).Returns(competitors);
 
-            var result = controller.GetFavoriteTeams(token);
+            var result = controller.GetFavoriteCompetitors(token);
             var okResult = result as OkObjectResult;
-            var favoriteTeams = okResult.Value as ICollection<TeamModelOut>;
+            var favoriteCompetitors = okResult.Value as ICollection<CompetitorModelOut>;
 
             favoriteLogicMock.VerifyAll();
             Assert.AreEqual(200, okResult.StatusCode);
-            Assert.IsNotNull(favoriteTeams);
+            Assert.IsNotNull(favoriteCompetitors);
         }
 
         [TestMethod]
-        public void GetFavoritesTeamsComments()
+        public void GetFavoritesCompetitorsComments()
         {
 
             Domain.Match match = new Domain.Match()
@@ -100,15 +100,15 @@ namespace Sports.WebAPI.Tests
             ICollection<Comment> comments = new List<Comment>();
             comments.Add(fakeComment);
 
-            favoriteLogicMock.Setup(favoriteLogic => favoriteLogic.GetFavoritesTeamsComments()).Returns(comments);
+            favoriteLogicMock.Setup(favoriteLogic => favoriteLogic.GetFavoritesCompetitorsComments()).Returns(comments);
 
-            var result = controller.GetFavoritesTeamsComents(token);
+            var result = controller.GetFavoritesCompetitorsComents(token);
             var okResult = result as OkObjectResult;
-            var favoriteTeamsComments = okResult.Value as ICollection<CommentModelOut>;
+            var favoriteCompetitorsComments = okResult.Value as ICollection<CommentModelOut>;
             
             favoriteLogicMock.VerifyAll();
             Assert.AreEqual(200, okResult.StatusCode);
-            Assert.IsNotNull(favoriteTeamsComments);
+            Assert.IsNotNull(favoriteCompetitorsComments);
         }
 
 

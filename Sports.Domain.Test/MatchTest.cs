@@ -12,33 +12,33 @@ namespace Sports.Domain.Test
     public class MatchTest
     {
         Match match;
-        Team localTeam;
-        Team visitorTeam;
+        Competitor localCompetitor;
+        Competitor visitorCompetitor;
         Sport sport;
         Comment comment;
 
         [TestInitialize]
         public void SetUp()
         {
-            localTeam = new Team()
+            localCompetitor = new Competitor()
             {
-                Name = "Local team"
+                Name = "Local competitor"
             };
-            visitorTeam = new Team()
+            visitorCompetitor = new Competitor()
             {
-                Name = "Visitor team"
+                Name = "Visitor competitor"
             };
             sport = new Sport()
             {
-                Name = "Tennis"
+                Name = "Tennis",
+                Amount = 2
             };
-            sport.AddTeam(localTeam);
-            sport.AddTeam(visitorTeam);
+            sport.AddCompetitor(localCompetitor);
+            sport.AddCompetitor(visitorCompetitor);
             match = new Match()
             {
                 Sport = sport,
-                Local = localTeam,
-                Visitor = visitorTeam,
+                Competitors = new List<CompetitorScore>() { new CompetitorScore(localCompetitor), new CompetitorScore(visitorCompetitor) },
                 Date = DateTime.Now.AddDays(1)
             };
             comment = new Comment()
@@ -54,14 +54,16 @@ namespace Sports.Domain.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidTeamVersusException))]
-        public void InvalidMatchTeams()
+        [ExpectedException(typeof(InvalidCompetitorVersusException))]
+        public void InvalidMatchCompetitors()
         {
-            Team team = new Team()
+            Competitor competitor = new Competitor()
             {
-                Name = "Local team"
+                Name = "Local competitor"
             };
-            match.Visitor = team;
+            match.Competitors = new List<CompetitorScore>();
+            match.Competitors.Add(new CompetitorScore(competitor));
+            match.Competitors.Add(new CompetitorScore(competitor));
             match.IsValid();
             match.IsValidMatch();
         }
@@ -80,7 +82,7 @@ namespace Sports.Domain.Test
         [TestMethod]
         public void ToStringIsOk()
         {
-            String expectedToString = string.Format("Sport: {0} Local Team: {1} Visitor Team: {2} Date: {3}", match.Sport, match.Local, match.Visitor, match.Date);
+            String expectedToString = string.Format("Sport: {0} Competitors: {1}, {2},  Date: {3}", match.Sport, localCompetitor, visitorCompetitor, match.Date);
             Assert.AreEqual(expectedToString, match.ToString());
         }
 

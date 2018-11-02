@@ -40,7 +40,7 @@ namespace Sports.Logic.Test
             SetUpRepositories();
             SetUpAdminSession();
             fixtureLogic.ResetFixtureStrategies();
-            SetUpSportWithTeams();
+            SetUpSportWithCompetitors();
             JObject jsonPaths = JObject.Parse(File.ReadAllText(@"testFilesPaths.json"));
             failingImplementationsPath = jsonPaths.SelectToken("FailingFixtureDlls").ToString();
             validImplementationsPath = jsonPaths.SelectToken("FixtureDlls").ToString();
@@ -81,29 +81,30 @@ namespace Sports.Logic.Test
             fixtureLogic.SetSession(adminToken);
         }
 
-        private void SetUpSportWithTeams()
+        private void SetUpSportWithCompetitors()
         {
             Sport sport = new Sport()
             {
-                Name = "Match Sport"
+                Name = "Match Sport",
+                Amount = 2
             };
             sportLogic.AddSport(sport);
-            AddTeam(sport, "First Team");
-            AddTeam(sport, "Second Team");
-            AddTeam(sport, "Third Team");
-            AddTeam(sport, "Forth Team");
-            AddTeam(sport, "Fifth Team");
-            AddTeam(sport, "Sixth Team");
+            AddCompetitor(sport, "First Competitor");
+            AddCompetitor(sport, "Second Competitor");
+            AddCompetitor(sport, "Third Competitor");
+            AddCompetitor(sport, "Forth Competitor");
+            AddCompetitor(sport, "Fifth Competitor");
+            AddCompetitor(sport, "Sixth Competitor");
         }
 
-        private void AddTeam(Sport sport, string teamName)
+        private void AddCompetitor(Sport sport, string competitorName)
         {
-            Team team = new Team()
+            Competitor competitor = new Competitor()
             {
-                Name = teamName,
+                Name = competitorName,
 
             };
-            sportLogic.AddTeamToSport(sport.Id, team);
+            sportLogic.AddCompetitorToSport(sport.Id, competitor);
         }
 
         [TestCleanup]
@@ -112,7 +113,7 @@ namespace Sports.Logic.Test
             repository.Users.RemoveRange(repository.Users);
             repository.Matches.RemoveRange(repository.Matches);
             repository.Sports.RemoveRange(repository.Sports);
-            repository.Teams.RemoveRange(repository.Teams);
+            repository.Competitors.RemoveRange(repository.Competitors);
             repository.SaveChanges();
         }
 
@@ -181,7 +182,7 @@ namespace Sports.Logic.Test
             int invalidMatches = 0;
             foreach(Match match in matches)
             {
-                invalidMatches += MatchesWhereTeamPlaysTwice(matches, match).Count;
+                invalidMatches += MatchesWhereCompetitorPlaysTwice(matches, match).Count;
             }
             Assert.AreEqual(0, invalidMatches);
         }
@@ -224,28 +225,22 @@ namespace Sports.Logic.Test
             int invalidMatches = 0;
             foreach(Match match in matches)
             {
-                invalidMatches += MatchesWhereTeamPlaysTwice(matches, match).Count;
+                invalidMatches += MatchesWhereCompetitorPlaysTwice(matches, match).Count;
             }
             invalidMatches += matches.Where(m => !IsWeekend(m.Date)).ToList().Count;
             Assert.AreEqual(0, invalidMatches);
         }
 
-        private List<Match> MatchesWhereTeamPlaysTwice(ICollection<Match> matches, Match match)
+        private List<Match> MatchesWhereCompetitorPlaysTwice(ICollection<Match> matches, Match match)
         {
             return matches.Where(m => m.Date.Equals(match.Date)
-                             && (IsInMatch(match.Visitor, m) || IsInMatch(match.Local, m))
+                             && (m.Competitors.Intersect(match.Competitors).Count() > 0)
                              && !m.Equals(match)).ToList();
         }
 
         private bool IsWeekend(DateTime date)
         {
             return date.DayOfWeek.Equals(DayOfWeek.Sunday) || date.DayOfWeek.Equals(DayOfWeek.Saturday);
-        }
-
-
-        private bool IsInMatch(Team team, Match match)
-        {
-            return match.Local.Equals(team) || match.Visitor.Equals(team);
         }
 
         private User ValidUser()

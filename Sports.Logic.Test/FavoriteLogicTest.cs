@@ -30,7 +30,7 @@ namespace Sports.Logic.Test
         private ISessionLogic sessionLogic;
         User user;
         Comment comment;
-        Team favoriteTeam;
+        Competitor favoriteCompetitor;
         Match match;
         Sport sport;
 
@@ -73,13 +73,13 @@ namespace Sports.Logic.Test
         private void AddMatchWithDataToRepository()
         {
             sport = AddSportToRepository();
-            favoriteTeam = AddTeamToSport(sport, "Local team");
-            Team visitorTeam = AddTeamToSport(sport, "Visitor team");
+            favoriteCompetitor = AddCompetitorToSport(sport, "Local competitor");
+            Competitor visitorCompetitor = AddCompetitorToSport(sport, "Visitor competitor");
+            ICollection<CompetitorScore> competitors = new List<CompetitorScore>() { new CompetitorScore(favoriteCompetitor), new CompetitorScore(visitorCompetitor) };
             match = new Match()
             {
                 Sport = sport,
-                Local = favoriteTeam,
-                Visitor = visitorTeam,
+                Competitors = competitors,
                 Date = DateTime.Now.AddDays(1)
             };
             matchLogic.AddMatch(match);
@@ -89,7 +89,8 @@ namespace Sports.Logic.Test
         {
             Sport sport = new Sport()
             {
-                Name = "Match Sport"
+                Name = "Match Sport",
+                Amount = 2
             };
             sportLogic.AddSport(sport);
             return sport;
@@ -121,14 +122,14 @@ namespace Sports.Logic.Test
             sessionLogic = new SessionLogic(unitOfWork);
         }
 
-        private Team AddTeamToSport(Sport sport, string teamName)
+        private Competitor AddCompetitorToSport(Sport sport, string competitorName)
         {
-            Team team = new Team()
+            Competitor competitor = new Competitor()
             {
-                Name = teamName,
+                Name = competitorName,
             };
-            sportLogic.AddTeamToSport(sport.Id, team);
-            return team;
+            sportLogic.AddCompetitorToSport(sport.Id, competitor);
+            return competitor;
         }
 
         [TestCleanup]
@@ -136,7 +137,8 @@ namespace Sports.Logic.Test
         {
             repository.Favorites.RemoveRange(repository.Favorites);
             repository.Users.RemoveRange(repository.Users);
-            repository.Teams.RemoveRange(repository.Teams);
+            repository.Competitors.RemoveRange(repository.Competitors);
+            repository.CompetitorScores.RemoveRange(repository.CompetitorScores);
             repository.Matches.RemoveRange(repository.Matches);
             repository.Sports.RemoveRange(repository.Sports);
             repository.SaveChanges();
@@ -145,8 +147,8 @@ namespace Sports.Logic.Test
         [TestMethod]
         public void GetFavoritesForUser()
         {
-            favoriteLogic.AddFavoriteTeam(favoriteTeam);
-            ICollection<Team> favorites = favoriteLogic.GetFavoritesFromUser();
+            favoriteLogic.AddFavoriteCompetitor(favoriteCompetitor);
+            ICollection<Competitor> favorites = favoriteLogic.GetFavoritesFromUser();
             Assert.AreEqual(favorites.Count, 1);
         }
 
@@ -155,44 +157,44 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(FavoriteAlreadyExistException))]
         public void AddFavoriteTwice()
         {
-            favoriteLogic.AddFavoriteTeam( favoriteTeam);
-            favoriteLogic.AddFavoriteTeam( favoriteTeam);
+            favoriteLogic.AddFavoriteCompetitor( favoriteCompetitor);
+            favoriteLogic.AddFavoriteCompetitor( favoriteCompetitor);
         }
 
         [TestMethod]
         [ExpectedException(typeof(FavoriteDoesNotExistException))]
         public void GetFavoritesForInexistentUser()
         {
-            ICollection<Team> favorites = favoriteLogic.GetFavoritesFromUser();
+            ICollection<Competitor> favorites = favoriteLogic.GetFavoritesFromUser();
             Assert.AreEqual(favorites.Count, 0);
         }
 
 
         [TestMethod]
-        public void GetFavoritesTeamsComments()
+        public void GetFavoritesCompetitorsComments()
         {
-            favoriteLogic.AddFavoriteTeam( favoriteTeam);
+            favoriteLogic.AddFavoriteCompetitor( favoriteCompetitor);
             matchLogic.AddCommentToMatch(match.Id, comment);
-            ICollection<Comment> favoriteComments = favoriteLogic.GetFavoritesTeamsComments();
+            ICollection<Comment> favoriteComments = favoriteLogic.GetFavoritesCompetitorsComments();
             Assert.AreEqual(favoriteComments.Count, 1);
         }
         
 
 
         [TestMethod]
-        [ExpectedException(typeof(TeamDoesNotExistException))]
-        public void AddInvalidTeam()
+        [ExpectedException(typeof(CompetitorDoesNotExistException))]
+        public void AddInvalidCompetitor()
         {
-            Team fakeTeam = new Team();
-            favoriteLogic.AddFavoriteTeam( fakeTeam);
+            Competitor fakeCompetitor = new Competitor();
+            favoriteLogic.AddFavoriteCompetitor( fakeCompetitor);
         }
 
         
         [TestMethod]
-        [ExpectedException(typeof(InvalidTeamIsEmptyException))]
-        public void AddNullTeam()
+        [ExpectedException(typeof(InvalidCompetitorEmptyException))]
+        public void AddNullCompetitor()
         {
-            favoriteLogic.AddFavoriteTeam( null);
+            favoriteLogic.AddFavoriteCompetitor( null);
         }
 
 
@@ -202,16 +204,16 @@ namespace Sports.Logic.Test
         {
             Guid userToken = sessionLogic.LogInUser(user.UserName, user.Password);
             favoriteLogic.SetSession(userToken);
-            favoriteLogic.AddFavoriteTeam(favoriteTeam);
+            favoriteLogic.AddFavoriteCompetitor(favoriteCompetitor);
             userLogic.RemoveUser(user.Id);
             Assert.AreEqual(favoriteLogic.GetAll().Count, 0);
         }
 
         [TestMethod]
-        public void CascadeDeleteFavoritesFromTeam()
+        public void CascadeDeleteFavoritesFromCompetitor()
         {
-            favoriteLogic.AddFavoriteTeam(favoriteTeam);
-            sportLogic.DeleteTeamFromSport(sport.Id, favoriteTeam.Id);
+            favoriteLogic.AddFavoriteCompetitor(favoriteCompetitor);
+            sportLogic.DeleteCompetitorFromSport(sport.Id, favoriteCompetitor.Id);
             Assert.AreEqual(favoriteLogic.GetAll().Count, 0);
         }
 
@@ -221,7 +223,7 @@ namespace Sports.Logic.Test
         public void NullSession()
         {
             favoriteLogic = new FavoriteLogic(unitOfWork);
-            favoriteLogic.AddFavoriteTeam(favoriteTeam);
+            favoriteLogic.AddFavoriteCompetitor(favoriteCompetitor);
         }
 
 

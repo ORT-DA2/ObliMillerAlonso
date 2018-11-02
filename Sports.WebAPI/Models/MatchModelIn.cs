@@ -8,8 +8,7 @@ namespace Sports.WebAPI.Models
     public class MatchModelIn
     {
         public int SportId { get; set; }
-        public int VisitorId { get;  set; }
-        public int LocalId { get; set; }
+        public ICollection<CompetitorScoreModelIn> Competitors { get;  set; }
         public string Date { get; set; }
     }
 }

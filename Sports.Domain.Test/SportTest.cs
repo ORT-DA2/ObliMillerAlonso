@@ -11,7 +11,7 @@ namespace Sports.Domain.Test
     [TestClass]
     public class SportTest
     {
-        Team team;
+        Competitor competitor;
         Sport sport;
 
         [TestInitialize]
@@ -21,7 +21,7 @@ namespace Sports.Domain.Test
             {
                 Name = "Test sport"
             };
-            team = new Team()
+            competitor = new Competitor()
             {
                 Name = "Barcelona"
             };
@@ -42,38 +42,38 @@ namespace Sports.Domain.Test
         }
 
         [TestMethod]
-        public void ValidateAddTeam()
+        public void ValidateAddCompetitor()
         {
-            sport.AddTeam(team);
-            Assert.AreEqual(1, sport.Teams.Count);
+            sport.AddCompetitor(competitor);
+            Assert.AreEqual(1, sport.Competitors.Count);
         }
 
         [TestMethod]
-        public void ValidateRemoveTeam()
+        public void ValidateRemoveCompetitor()
         {
-            sport.AddTeam(team);
-            sport.RemoveTeam(team);
-            Assert.AreEqual(0, sport.Teams.Count);
+            sport.AddCompetitor(competitor);
+            sport.RemoveCompetitor(competitor);
+            Assert.AreEqual(0, sport.Competitors.Count);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(TeamDoesNotExistInSportException))]
-        public void InvalidRemoveTeam()
+        [ExpectedException(typeof(CompetitorDoesNotExistInSportException))]
+        public void InvalidRemoveCompetitor()
         {
-            sport.AddTeam(team);
-            Team secondTeam = new Team()
+            sport.AddCompetitor(competitor);
+            Competitor secondCompetitor = new Competitor()
             {
                 Name = "Real"
             };
-            sport.RemoveTeam(secondTeam);
+            sport.RemoveCompetitor(secondCompetitor);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(TeamAlreadyExistException))]
-        public void InvalidAddTeam()
+        [ExpectedException(typeof(CompetitorAlreadyExistException))]
+        public void InvalidAddCompetitor()
         {
-            sport.AddTeam(team);
-            sport.AddTeam(team);
+            sport.AddCompetitor(competitor);
+            sport.AddCompetitor(competitor);
         }
 
         [TestMethod]
@@ -91,7 +91,7 @@ namespace Sports.Domain.Test
         {
             Sport secondSport = new Sport()
             {
-                Name = "Different Team",
+                Name = "Different Competitor",
             };
             Assert.IsFalse(sport.Equals(secondSport));
         }

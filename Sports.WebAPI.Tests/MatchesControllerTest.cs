@@ -17,7 +17,7 @@ namespace Sports.WebAPI.Tests
     [TestClass]
     public class MatchesControllerTest
     {
-        Mock<ITeamLogic> teamLogicMock;
+        Mock<ICompetitorLogic> competitorLogicMock;
         Mock<ISportLogic> sportLogicMock;
         Mock<IMatchLogic> matchLogicMock;
         Mock<IFixtureLogic> fixtureLogicMock;
@@ -29,31 +29,36 @@ namespace Sports.WebAPI.Tests
         public void SetUp()
         {
             matchLogicMock = new Mock<IMatchLogic>();
-            teamLogicMock = new Mock<ITeamLogic>();
+            competitorLogicMock = new Mock<ICompetitorLogic>();
             sportLogicMock = new Mock<ISportLogic>();
             fixtureLogicMock = new Mock<IFixtureLogic>();
             var config = new MapperConfiguration(cfg => cfg.AddProfile(new MapperProfile()));
             IMapper mapper = new Mapper(config);
-            controller = new MatchesController(matchLogicMock.Object,sportLogicMock.Object, teamLogicMock.Object, fixtureLogicMock.Object);
+            controller = new MatchesController(matchLogicMock.Object,sportLogicMock.Object, competitorLogicMock.Object, fixtureLogicMock.Object);
             token = new Guid().ToString();
         }
         
-
+        
         [TestMethod]
         public void ValidGetMatches()
         {
-            Team team = new Team()
+            Competitor competitor = new Competitor()
             {
                 Id = 1
+            };
+            CompetitorScore competitorScore = new CompetitorScore()
+            {
+                Id = 1,
+                Competitor = competitor
             };
             Sport sport = new Sport()
             {
                 Id = 1
             };
+            ICollection<CompetitorScore> scores = new List<CompetitorScore>() { competitorScore };
             Domain.Match match = new Domain.Match()
             {
-                Local = team,
-                Visitor = team,
+                Competitors = scores,
                 Sport = sport,
                 Date = DateTime.Today,
             };
@@ -78,20 +83,25 @@ namespace Sports.WebAPI.Tests
         [TestMethod]
         public void ValidGetMatchById()
         {
-            int matchId = 1;
-            Team team = new Team()
+            Competitor competitor = new Competitor()
             {
                 Id = 1
+            };
+            CompetitorScore competitorScore = new CompetitorScore()
+            {
+                Id = 1,
+                Competitor = competitor
             };
             Sport sport = new Sport()
             {
                 Id = 1
             };
+            int matchId = 1;
+            ICollection<CompetitorScore> scores = new List<CompetitorScore>() { competitorScore };
             Domain.Match match = new Domain.Match()
             {
                 Id = matchId,
-                Local = team,
-                Visitor = team,
+                Competitors = scores,
                 Sport = sport,
                 Date = DateTime.Today,
             };
@@ -112,19 +122,22 @@ namespace Sports.WebAPI.Tests
         [TestMethod]
         public void ValidAddMatch()
         {
-            Team team = new Team()
+            Competitor comp = new Competitor()
             {
                 Id = 1
+            };
+            CompetitorScoreModelIn competitor = new CompetitorScoreModelIn()
+            {
+                CompetitorId = comp.Id
             };
             Sport sport = new Sport()
             {
                 Id = 1
             };
-
+            ICollection<CompetitorScoreModelIn> competitors = new List<CompetitorScoreModelIn>() { competitor };
             MatchModelIn model = new MatchModelIn()
             {
-                LocalId = team.Id,
-                VisitorId = team.Id,
+                Competitors = competitors,
                 SportId = sport.Id,
                 Date = DateTime.Today.ToString("dd/MM/yyyy HH:mm")
             };
@@ -145,9 +158,14 @@ namespace Sports.WebAPI.Tests
         [TestMethod]
         public void ValidModifyMatch()
         {
-            Team team = new Team()
+
+            Competitor comp = new Competitor()
             {
                 Id = 1
+            };
+            CompetitorScoreModelIn competitor = new CompetitorScoreModelIn()
+            {
+                CompetitorId = comp.Id
             };
             Sport sport = new Sport()
             {
@@ -155,10 +173,10 @@ namespace Sports.WebAPI.Tests
             };
             int matchId = 1;
 
+            ICollection<CompetitorScoreModelIn> competitors = new List<CompetitorScoreModelIn>() { competitor };
             MatchModelIn model = new MatchModelIn()
             {
-                LocalId = team.Id,
-                VisitorId = team.Id,
+                Competitors = competitors,
                 SportId = sport.Id,
                 Date = DateTime.Today.ToString("dd/MM/yyyy HH:mm")
             };
@@ -173,7 +191,7 @@ namespace Sports.WebAPI.Tests
 
             Assert.IsNotNull(createdResult);
         }
-
+        
         [TestMethod]
         public void ValidDeleteMatch()
         {
@@ -271,7 +289,7 @@ namespace Sports.WebAPI.Tests
         [TestMethod]
         public void GenerateFixtures()
         {
-            Team team = new Team()
+            Competitor competitor = new Competitor()
             {
                 Id = 1
             };

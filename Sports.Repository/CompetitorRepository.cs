@@ -13,19 +13,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Sports.Repository
 {
-    public class TeamRepository : RepositoryBase<Team>, ITeamRepository
+    public class CompetitorRepository : RepositoryBase<Competitor>, ICompetitorRepository
     {
-        public TeamRepository(RepositoryContext repositoryContext) : base(repositoryContext)
+        public CompetitorRepository(RepositoryContext repositoryContext) : base(repositoryContext)
         {
         }
 
-        public override ICollection<Team> FindAll()
+        public override ICollection<Competitor> FindAll()
         {
             try
             {
-                return RepositoryContext.Teams
+                return RepositoryContext.Competitors
                     .Include(t=>t.Sport)
-                    .ToList<Team>();
+                    .ToList<Competitor>();
             }
             catch (DbException)
             {
@@ -37,14 +37,14 @@ namespace Sports.Repository
             }
         }
 
-        public override ICollection<Team> FindByCondition(Expression<Func<Team, bool>> expression)
+        public override ICollection<Competitor> FindByCondition(Expression<Func<Competitor, bool>> expression)
         {
             try
             {
-                return RepositoryContext.Teams
+                return RepositoryContext.Competitors
                     .Where(expression)
                     .Include(t => t.Sport)
-                    .ToList<Team>();
+                    .ToList<Competitor>();
             }
             catch (DbException)
             {

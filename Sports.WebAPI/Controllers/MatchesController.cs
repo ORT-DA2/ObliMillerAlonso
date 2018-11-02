@@ -21,15 +21,15 @@ namespace Sports.WebAPI.Controllers
     [ApiController]
     public class MatchesController : ControllerBase
     {
-        private ITeamLogic teamLogic;
+        private ICompetitorLogic competitorLogic;
         private ISportLogic sportLogic;
         private IMatchLogic matchLogic;
         private IFixtureLogic fixtureLogic;
         private IMapper mapper;
 
-        public MatchesController(IMatchLogic aMatchLogic, ISportLogic aSportLogic, ITeamLogic aTeamLogic, IFixtureLogic aFixtureLogic)
+        public MatchesController(IMatchLogic aMatchLogic, ISportLogic aSportLogic, ICompetitorLogic aCompetitorLogic, IFixtureLogic aFixtureLogic)
         {
-            teamLogic = aTeamLogic;
+            competitorLogic = aCompetitorLogic;
             sportLogic = aSportLogic;
             matchLogic = aMatchLogic;
             fixtureLogic = aFixtureLogic;

@@ -12,12 +12,13 @@ namespace Sports.Domain
     {
         public int Id { get;  set; }
         public string Name { get; set; }
-        public ICollection<Team> Teams { get; set; }
+        public int Amount { get; set; }
+        public ICollection<Competitor> Competitors { get; set; }
         
 
         public Sport()
         {
-            Teams = new List<Team>();
+            Competitors = new List<Competitor>();
         }
 
         public override bool Equals(object obj)
@@ -40,6 +41,15 @@ namespace Sports.Domain
         public void IsValid()
         {
             IsValidSportName();
+            IsValidAmount();
+        }
+
+        private void IsValidAmount()
+        {
+            if (Amount < 2)
+            {
+                throw new InvalidCompetitorAmountException(InvalidCompetitorAmount.INVALID_ONE_COMPETITOR_MESSAGE);
+            }
         }
 
         private void IsValidSportName()
@@ -48,39 +58,39 @@ namespace Sports.Domain
                 throw new InvalidEmptyTextFieldException(EmptyField.EMPTY_NAME_MESSAGE);
         }
 
-        public void RemoveTeam(Team team)
+        public void RemoveCompetitor(Competitor competitor)
         {
-            CheckIfTeamDoesntExist(team);
-            Teams.Remove(team);
+            CheckIfCompetitorDoesntExist(competitor);
+            Competitors.Remove(competitor);
         }
 
-        private void CheckIfTeamDoesntExist(Team team)
+        private void CheckIfCompetitorDoesntExist(Competitor competitor)
         {
-            if (!Teams.Contains(team))
+            if (!Competitors.Contains(competitor))
             {
-                throw new TeamDoesNotExistInSportException(TeamValidation.TEAM_NOT_EXIST_IN_SPORT_MESSAGE);
+                throw new CompetitorDoesNotExistInSportException(CompetitorValidation.COMPETITOR_NOT_EXIST_IN_SPORT_MESSAGE);
             }
         }
 
-        public void AddTeam(Team team)
+        public void AddCompetitor(Competitor competitor)
         {
-            CheckDuplicateTeam(team);
-            Teams.Add(team);
+            CheckDuplicateCompetitor(competitor);
+            Competitors.Add(competitor);
         }
         
 
-        private void CheckDuplicateTeam(Team team)
+        private void CheckDuplicateCompetitor(Competitor competitor)
         {
-            if (Teams.Contains(team))
+            if (Competitors.Contains(competitor))
             {
-                throw new TeamAlreadyExistException(UniqueTeam.DUPLICATE_TEAM_IN_SPORT_MESSAGE);
+                throw new CompetitorAlreadyExistException(UniqueCompetitor.DUPLICATE_COMPETITOR_IN_SPORT_MESSAGE);
             }
         }
 
-        public Team GetTeam(Team team)
+        public Competitor GetCompetitor(Competitor competitor)
         {
-            CheckIfTeamDoesntExist(team);
-            return Teams.First(t=>t.Name == team.Name|| t.Id == team.Id);
+            CheckIfCompetitorDoesntExist(competitor);
+            return Competitors.First(t=>t.Name == competitor.Name|| t.Id == competitor.Id);
         }
 
         public void UpdateData(Sport sport)

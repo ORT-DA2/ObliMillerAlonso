@@ -1,6 +1,6 @@
 {
-  "FixtureDlls": "C:\\Users\\Rafael\\Documents\\Diseno2\\MillerAlonso\\FixtureImplementations\\bin\\Debug\\netcoreapp2.1",
-  "FailingFixtureDlls": "C:\\Users\\Rafael\\Documents\\Diseno2\\MillerAlonso\\FailingFixtureImplementations\\bin\\Debug\\netcoreapp2.1",
-  "TestImagePath": "C:\\Users\\Rafael\\Documents\\Diseno2\\MillerAlonso\\Sports.Domain.Test\\TestImage\\gun.png"
+  "FixtureDlls": "C:\\Users\\pepe1\\Documentos\\UltimoMillerAlonso\\FixtureImplementations\\bin\\Debug\\netcoreapp2.1",
+  "FailingFixtureDlls": "C:\\Users\\pepe1\\Documentos\\UltimoMillerAlonso\\FailingFixtureImplementations\\bin\\Debug\\netcoreapp2.1",
+  "TestImagePath": "C:\\Users\\pepe1\\Documentos\\UltimoMillerAlonso\\Sports.Domain.Test\\TestImage\\gun.png"
 
 }

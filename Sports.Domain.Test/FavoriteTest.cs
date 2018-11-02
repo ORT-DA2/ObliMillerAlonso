@@ -13,7 +13,7 @@ namespace Sports.Domain.Test
     public class FavoriteTest
     {
         User user;
-        Team team;
+        Competitor competitor;
         Favorite favorite;
         [TestInitialize]
         public void SetUp()
@@ -22,14 +22,14 @@ namespace Sports.Domain.Test
             {
                 UserName = "Pepe"
             };
-            team = new Team()
+            competitor = new Competitor()
             {
                 Name = "Manya"
             };
             favorite = new Favorite()
             {
                User = user,
-               Team = team
+               Competitor = competitor
 
             };
         }

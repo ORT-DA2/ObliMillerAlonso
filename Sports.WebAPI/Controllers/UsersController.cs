@@ -269,16 +269,16 @@ namespace Sports.WebAPI.Controllers
         }
 
 
-        [HttpPost("favoriteTeams", Name = "SetFavoriteTeam")]
-        public IActionResult PostFavorite([FromBody] TeamModelIn teamIn, [FromHeader] string token)
+        [HttpPost("favoriteCompetitors", Name = "SetFavoriteCompetitor")]
+        public IActionResult PostFavorite([FromBody] CompetitorModelIn competitorIn, [FromHeader] string token)
         {
             try
             {
                 Guid realToken = Guid.Parse(token);
                 favoriteLogic.SetSession(realToken);
-                Team team = mapper.Map<Team>(teamIn);
-                favoriteLogic.AddFavoriteTeam(team);
-                return RedirectToRoute("GetFavoritesTeams", new {token = token });
+                Competitor competitor = mapper.Map<Competitor>(competitorIn);
+                favoriteLogic.AddFavoriteCompetitor(competitor);
+                return RedirectToRoute("GetFavoritesCompetitors", new {token = token });
             }
             catch (UnauthorizedException ex)
             {
@@ -302,21 +302,21 @@ namespace Sports.WebAPI.Controllers
             }
         }
 
-        [HttpGet("favoriteTeams", Name = "GetFavoritesTeams")]
-        public IActionResult GetFavoriteTeams([FromHeader] string token)
+        [HttpGet("favoriteCompetitors", Name = "GetFavoritesCompetitors")]
+        public IActionResult GetFavoriteCompetitors([FromHeader] string token)
         {
             try
             {
                 Guid realToken = Guid.Parse(token);
                 favoriteLogic.SetSession(realToken);
-                ICollection<Team> favoriteTeams = favoriteLogic.GetFavoritesFromUser();
-                ICollection<TeamModelOut> teamModels = new List<TeamModelOut>();
-                foreach (Team team in favoriteTeams)
+                ICollection<Competitor> favoriteCompetitors = favoriteLogic.GetFavoritesFromUser();
+                ICollection<CompetitorModelOut> competitorModels = new List<CompetitorModelOut>();
+                foreach (Competitor competitor in favoriteCompetitors)
                 {
-                    TeamModelOut model = mapper.Map<TeamModelOut>(team);
-                    teamModels.Add(model);
+                    CompetitorModelOut model = mapper.Map<CompetitorModelOut>(competitor);
+                    competitorModels.Add(model);
                 }
-                return Ok(teamModels);
+                return Ok(competitorModels);
             }
             catch (UnauthorizedException ex)
             {
@@ -340,16 +340,16 @@ namespace Sports.WebAPI.Controllers
             }
         }
 
-        [HttpGet("favoriteComments", Name = "GetFavoritesTeamsComents")]
-        public IActionResult GetFavoritesTeamsComents([FromHeader] string token)
+        [HttpGet("favoriteComments", Name = "GetFavoritesCompetitorsComents")]
+        public IActionResult GetFavoritesCompetitorsComents([FromHeader] string token)
         {
             try
             {
                 Guid realToken = Guid.Parse(token);
                 favoriteLogic.SetSession(realToken);
-                ICollection<Comment> favoriteTeamsComments = favoriteLogic.GetFavoritesTeamsComments();
+                ICollection<Comment> favoriteCompetitorsComments = favoriteLogic.GetFavoritesCompetitorsComments();
                 ICollection<CommentModelOut> commentModels = new List<CommentModelOut>();
-                foreach (Comment comment in favoriteTeamsComments)
+                foreach (Comment comment in favoriteCompetitorsComments)
                 {
                     CommentModelOut model = mapper.Map<CommentModelOut>(comment);
                     commentModels.Add(model);

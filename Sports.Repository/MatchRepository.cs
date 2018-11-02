@@ -25,8 +25,8 @@ namespace Sports.Repository
                 return RepositoryContext.Matches
                     .Include(m => m.Comments)
                         .ThenInclude(c => c.User)
-                    .Include(m => m.Local)
-                    .Include(m => m.Visitor)
+                    .Include(m => m.Competitors)
+                        .ThenInclude(c => c.Competitor)
                     .Include(m => m.Sport)
                     .ToList<Match>();
             }
@@ -47,8 +47,8 @@ namespace Sports.Repository
                 return RepositoryContext.Matches
                     .Include(m => m.Comments)
                         .ThenInclude(c => c.User)
-                    .Include(m => m.Local)
-                    .Include(m => m.Visitor)
+                    .Include(m => m.Competitors)
+                        .ThenInclude(c => c.Competitor)
                     .Include(m => m.Sport)
                     .Where(expression)
                     .ToList<Match>();

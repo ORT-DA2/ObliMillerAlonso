@@ -11,7 +11,7 @@ namespace Sports.Repository.UnitOfWork
     {
         private RepositoryContext _repositoryContext;
         private IUserRepository _user;
-        private ITeamRepository _team;
+        private ICompetitorRepository _competitor;
         private ICommentRepository _comment;
         private ISportRepository _sport;
         private IMatchRepository _match;
@@ -31,11 +31,11 @@ namespace Sports.Repository.UnitOfWork
                 return _user;
             }
         }
-        public ITeamRepository Team {
+        public ICompetitorRepository Competitor {
             get {
-                if (_team == null)
-                    _team = new TeamRepository(_repositoryContext);
-                return _team;
+                if (_competitor == null)
+                    _competitor = new CompetitorRepository(_repositoryContext);
+                return _competitor;
             }
         }
 

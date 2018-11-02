@@ -15,7 +15,7 @@ namespace Sports.Logic
         IMatchRepository repository;
         ISportLogic sportLogic;
         ICommentLogic commentLogic;
-        ITeamLogic teamLogic;
+        ICompetitorLogic competitorLogic;
         ISessionLogic sessionLogic;
         IUserLogic userLogic;
         User user;
@@ -24,7 +24,7 @@ namespace Sports.Logic
         {
             repository = unit.Match;
             sportLogic = new SportLogic(unit);
-            teamLogic = new TeamLogic(unit);
+            competitorLogic = new CompetitorLogic(unit);
             commentLogic = new CommentLogic(unit);
             sessionLogic = new SessionLogic(unit);
             userLogic = new UserLogic(unit);
@@ -48,12 +48,10 @@ namespace Sports.Logic
         
         private void CheckMatchDoesntExist(Match match)
         {
-            ICollection<Match> matches = repository.FindByCondition(m => ((match.Local.Id.Equals(m.Local.Id) || match.Visitor.Id.Equals(m.Local.Id)) 
-            || (match.Local.Id.Equals(m.Visitor.Id) || match.Visitor.Id.Equals(m.Visitor.Id)))
-            && m.Date.Date.Equals(match.Date.Date));
+            ICollection<Match> matches = repository.FindByCondition(m => match.Competitors.Intersect(m.Competitors).Count() > 0 && m.Date.Date.Equals(match.Date.Date));
             if (matches.Count != 0)
             {
-                throw new MatchAlreadyExistsException(MatchValidation.TEAM_ALREADY_PLAYING);
+                throw new MatchAlreadyExistsException(MatchValidation.COMPETITOR_ALREADY_PLAYING);
             }
         }
 
@@ -61,11 +59,12 @@ namespace Sports.Logic
         {
             
             Sport sport = match.Sport;
-            Team local = match.Local;
-            Team visitor = match.Visitor;
-            match.Sport = sportLogic.GetSportById(sport.Id);
-            match.Local = sportLogic.GetTeamFromSport(sport.Id, local.Id);
-            match.Visitor = sportLogic.GetTeamFromSport(sport.Id, visitor.Id);
+            ICollection<CompetitorScore> competitorsInMatch = match.Competitors.ToList();
+            ICollection<Competitor> competitors = new List<Competitor>();
+            foreach (CompetitorScore comp in competitorsInMatch)
+            {
+                comp.Competitor = sportLogic.GetCompetitorFromSport(sport.Id, comp.Competitor.Id);
+            }
         }
 
         private void CheckNotNull(Match match)
@@ -88,16 +87,15 @@ namespace Sports.Logic
         }
 
 
-        public ICollection<Match> GetAllMatchesForTeam(Team team)
+        public ICollection<Match> GetAllMatchesForCompetitor(Competitor competitor)
         {
             sessionLogic.ValidateUserNotNull(user);
-            Team playingTeam = teamLogic.GetTeamById(team.Id);
-            ICollection<Match> matches = repository.FindByCondition(m => m.Local.Equals(playingTeam) ||m.Visitor.Equals(playingTeam));
-            if (matches.Count == 0)
+            List<Match> relatedMatches = repository.FindByCondition(m => m.Competitors.Where(c => c.Competitor.Equals(competitor)).Count() > 0).ToList();
+            if (relatedMatches.Count == 0)
             {
-                throw new MatchDoesNotExistException(MatchValidation.TEAM_DOESNT_PLAY);
+                throw new MatchDoesNotExistException(MatchValidation.COMPETITOR_DOESNT_PLAY);
             }
-            return matches;
+            return relatedMatches;
         }
 
         public void ModifyMatch(int id, Match match)
@@ -148,7 +146,7 @@ namespace Sports.Logic
             user = sessionLogic.GetUserFromToken(token);
             sportLogic.SetSession(token);
             commentLogic.SetSession(token);
-            teamLogic.SetSession(token);
+            competitorLogic.SetSession(token);
         }
 
         public void AddMatches(ICollection<Match> matches)

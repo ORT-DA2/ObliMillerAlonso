@@ -8,7 +8,7 @@ namespace Sports.Repository.Interface
     public interface IRepositoryUnitOfWork
     {
         IUserRepository User { get; }
-        ITeamRepository Team { get; }
+        ICompetitorRepository Competitor { get; }
         ICommentRepository Comment { get; }
         ISportRepository Sport { get; }
         IMatchRepository Match { get; }
