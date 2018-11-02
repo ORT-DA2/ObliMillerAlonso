@@ -48,9 +48,7 @@ namespace Sports.Logic
         
         private void CheckMatchDoesntExist(Match match)
         {
-            ICollection<Match> matches = repository.FindByCondition(m => ((match.Local.Id.Equals(m.Local.Id) || match.Visitor.Id.Equals(m.Local.Id)) 
-            || (match.Local.Id.Equals(m.Visitor.Id) || match.Visitor.Id.Equals(m.Visitor.Id)))
-            && m.Date.Date.Equals(match.Date.Date));
+            ICollection<Match> matches = repository.FindByCondition(m => match.Competitors.Intersect(m.Competitors).Count() > 0 && m.Date.Date.Equals(match.Date.Date));
             if (matches.Count != 0)
             {
                 throw new MatchAlreadyExistsException(MatchValidation.COMPETITOR_ALREADY_PLAYING);
@@ -61,9 +59,12 @@ namespace Sports.Logic
         {
             
             Sport sport = match.Sport;
-            ICollection<Competitor> competitors = match.Competitors.ToList();
-            match.Sport = sportLogic.GetSportById(sport.Id);
-            match.Competitors = sportLogic.GetCompetitorsFromSport(sport.Id, competitors)
+            ICollection<CompetitorScore> competitorsInMatch = match.Competitors.ToList();
+            ICollection<Competitor> competitors = new List<Competitor>();
+            foreach (CompetitorScore comp in competitorsInMatch)
+            {
+                comp.Competitor = sportLogic.GetCompetitorFromSport(sport.Id, comp.Competitor.Id);
+            }
         }
 
         private void CheckNotNull(Match match)
@@ -89,7 +90,7 @@ namespace Sports.Logic
         public ICollection<Match> GetAllMatchesForCompetitor(Competitor competitor)
         {
             sessionLogic.ValidateUserNotNull(user);
-            Competitor playingCompetitor = competitorLogic.GetCompetitorById(competitor.Id);
+            CompetitorScore playingCompetitor = new CompetitorScore(competitorLogic.GetCompetitorById(competitor.Id));
             ICollection<Match> matches = repository.FindByCondition(m => m.Competitors.Contains(playingCompetitor));
             if (matches.Count == 0)
             {

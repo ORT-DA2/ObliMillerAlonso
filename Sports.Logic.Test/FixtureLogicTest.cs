@@ -85,7 +85,8 @@ namespace Sports.Logic.Test
         {
             Sport sport = new Sport()
             {
-                Name = "Match Sport"
+                Name = "Match Sport",
+                Amount = 2
             };
             sportLogic.AddSport(sport);
             AddCompetitor(sport, "First Competitor");
@@ -233,19 +234,13 @@ namespace Sports.Logic.Test
         private List<Match> MatchesWhereCompetitorPlaysTwice(ICollection<Match> matches, Match match)
         {
             return matches.Where(m => m.Date.Equals(match.Date)
-                             && (IsInMatch(match.Visitor, m) || IsInMatch(match.Local, m))
+                             && (m.Competitors.Intersect(match.Competitors).Count() > 0)
                              && !m.Equals(match)).ToList();
         }
 
         private bool IsWeekend(DateTime date)
         {
             return date.DayOfWeek.Equals(DayOfWeek.Sunday) || date.DayOfWeek.Equals(DayOfWeek.Saturday);
-        }
-
-
-        private bool IsInMatch(Competitor competitor, Match match)
-        {
-            return match.Local.Equals(competitor) || match.Visitor.Equals(competitor);
         }
 
         private User ValidUser()

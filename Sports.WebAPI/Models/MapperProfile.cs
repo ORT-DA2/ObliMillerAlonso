@@ -17,18 +17,18 @@ namespace Sports.WebAPI.Models
             CreateMap<CompetitorModelIn, Competitor>();
             CreateMap<Competitor, CompetitorModelOut>();
             CreateMap<Competitor, CompetitorSimpleModelOut>();
+            CreateMap<CompetitorScoreModelIn, CompetitorScore>()
+                .ForMember(m => m.Score, opt => opt.Condition(source => source.Score != 0))
+                .ForMember(m => m.Competitor, s => s.MapFrom(src => new Competitor { Id = src.CompetitorId }));
             CreateMap<SportModelIn, Sport>();
             CreateMap<Sport, SportModelOut>();
             CreateMap<Sport, SportSimpleModelOut>();
             CreateMap<Match, MatchModelOut>();
             CreateMap<Match, MatchSimpleModelOut>();
+            CreateMap<CompetitorScore, CompetitorScoreModelOut>();
             CreateMap<MatchModelIn, Match>()
                 .ForMember(m => m.Sport, opt => opt.Condition(source => source.SportId != 0))
-                .ForMember(m=>m.Sport, s=>s.MapFrom(src=> new Sport { Id = src.SportId}))
-                .ForMember(m => m.Local, opt => opt.Condition(source => source.LocalId != 0))
-                .ForMember(m => m.Local, s => s.MapFrom(src => new Competitor { Id = src.LocalId }))
-                .ForMember(m => m.Visitor, opt => opt.Condition(source => source.VisitorId != 0))
-                .ForMember(m => m.Visitor, s => s.MapFrom(src => new Competitor { Id = src.VisitorId }));
+                .ForMember(m => m.Sport, s => s.MapFrom(src => new Sport { Id = src.SportId }));
             CreateMap<string, DateTime>().ConvertUsing(Convert.ToDateTime);
             CreateMap<DateTime, string>().ConvertUsing(Convert.ToString);
             CreateMap<Comment, CommentModelOut>();

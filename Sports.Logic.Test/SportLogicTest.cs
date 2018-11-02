@@ -36,7 +36,8 @@ namespace Sports.Logic.Test
             SetUpAdminSession();
             sport = new Sport()
             {
-                Name = "Tennis"
+                Name = "Tennis",
+                Amount = 2
             };
         }
 
@@ -148,7 +149,8 @@ namespace Sports.Logic.Test
             sportLogic.AddSport(sport);
             Sport identicalSport = new Sport()
             {
-                Name = "Tennis"
+                Name = "Tennis",
+                Amount = 4
             };
             sportLogic.AddSport(identicalSport);
         }

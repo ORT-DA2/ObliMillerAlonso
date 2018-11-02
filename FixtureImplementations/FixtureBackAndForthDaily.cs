@@ -9,7 +9,6 @@ namespace FixtureImplementations
     public class FixtureBackAndForthDaily : IFixtureGeneratorStrategy
     {
         private List<Match> generatedMatches;
-        private List<Competitor> uncoveredCompetitors;
         private Sport currentSport;
         private int daysToAddToDate;
         private DateTime initialDate;
@@ -33,7 +32,7 @@ namespace FixtureImplementations
         {
             if (currentCompetitors.Count == currentSport.Amount)
             {
-                CreateNextMatch(currentCompetitors);
+                CreateNextMatch(AdaptForMatch(currentCompetitors));
                 return;
             }
             for (int i = start; i <= end && end - i + 1 >= currentSport.Amount - currentCompetitors.Count; i++)
@@ -44,8 +43,17 @@ namespace FixtureImplementations
             }
         }
 
+        private ICollection<CompetitorScore> AdaptForMatch(ICollection<Competitor> currentCompetitors)
+        {
+            ICollection<CompetitorScore> adapted = new List<CompetitorScore>();
+            foreach (Competitor competitor in currentCompetitors)
+            {
+                adapted.Add(new CompetitorScore(competitor));
+            }
+            return adapted;
+        }
 
-        private void CreateNextMatch(ICollection<Competitor> competitors)
+        private void CreateNextMatch(ICollection<CompetitorScore> competitors)
         {
             Match nextMatch = new Match()
             {

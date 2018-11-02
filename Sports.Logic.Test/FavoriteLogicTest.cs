@@ -75,11 +75,11 @@ namespace Sports.Logic.Test
             sport = AddSportToRepository();
             favoriteCompetitor = AddCompetitorToSport(sport, "Local competitor");
             Competitor visitorCompetitor = AddCompetitorToSport(sport, "Visitor competitor");
+            ICollection<CompetitorScore> competitors = new List<CompetitorScore>() { new CompetitorScore(favoriteCompetitor), new CompetitorScore(visitorCompetitor) };
             match = new Match()
             {
                 Sport = sport,
-                Local = favoriteCompetitor,
-                Visitor = visitorCompetitor,
+                Competitors = competitors,
                 Date = DateTime.Now.AddDays(1)
             };
             matchLogic.AddMatch(match);
@@ -89,7 +89,8 @@ namespace Sports.Logic.Test
         {
             Sport sport = new Sport()
             {
-                Name = "Match Sport"
+                Name = "Match Sport",
+                Amount = 2
             };
             sportLogic.AddSport(sport);
             return sport;
@@ -137,6 +138,7 @@ namespace Sports.Logic.Test
             repository.Favorites.RemoveRange(repository.Favorites);
             repository.Users.RemoveRange(repository.Users);
             repository.Competitors.RemoveRange(repository.Competitors);
+            repository.CompetitorScores.RemoveRange(repository.CompetitorScores);
             repository.Matches.RemoveRange(repository.Matches);
             repository.Sports.RemoveRange(repository.Sports);
             repository.SaveChanges();
@@ -189,7 +191,7 @@ namespace Sports.Logic.Test
 
         
         [TestMethod]
-        [ExpectedException(typeof(InvalidCompetitorAmountException))]
+        [ExpectedException(typeof(InvalidCompetitorEmptyException))]
         public void AddNullCompetitor()
         {
             favoriteLogic.AddFavoriteCompetitor( null);

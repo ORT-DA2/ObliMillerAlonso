@@ -39,7 +39,8 @@ namespace Sports.Logic.Test
             SetUpAdminSession();
             sport = new Sport()
             {
-                Name = "SportName"
+                Name = "SportName",
+                Amount = 2
             };
             sportLogic.AddSport(sport);
             competitor = new Competitor()

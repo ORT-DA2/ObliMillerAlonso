@@ -9,7 +9,6 @@ namespace FixtureImplementations
     public class FixtureWeekendMatches : IFixtureGeneratorStrategy
     {
         private List<Match> generatedMatches;
-        private List<Competitor> uncoveredCompetitors;
         private Sport currentSport;
         private int lastFreeDate;
         private DateTime initialDate;
@@ -35,7 +34,7 @@ namespace FixtureImplementations
             }
             if (currentCompetitors.Count == currentSport.Amount)
             {
-                CreateNextMatch(currentCompetitors);
+                CreateNextMatch(AdaptForMatch(currentCompetitors));
                 return;
             }
             for (int i = start; i <= end && end - i + 1 >= currentSport.Amount - currentCompetitors.Count; i++)
@@ -46,8 +45,17 @@ namespace FixtureImplementations
             }
         }
 
+        private ICollection<CompetitorScore> AdaptForMatch(ICollection<Competitor> currentCompetitors)
+        {
+            ICollection<CompetitorScore> adapted = new List<CompetitorScore>();
+            foreach (Competitor competitor in currentCompetitors)
+            {
+                adapted.Add(new CompetitorScore(competitor));
+            }
+            return adapted;
+        }
 
-        private void CreateNextMatch(ICollection<Competitor> competitors)
+        private void CreateNextMatch(ICollection<CompetitorScore> competitors)
         {
             DateTime nextFreeDate = GetNextFreeWeekendDate(competitors);
             Match nextMatch = new Match()
@@ -59,7 +67,7 @@ namespace FixtureImplementations
             generatedMatches.Add(nextMatch);
         }
 
-        private DateTime GetNextFreeWeekendDate(ICollection<Competitor> competitors)
+        private DateTime GetNextFreeWeekendDate(ICollection<CompetitorScore> competitors)
         {
             bool dateIsOcupied = true;
             DateTime validDate = initialDate;
@@ -88,14 +96,15 @@ namespace FixtureImplementations
             return date.DayOfWeek.Equals(DayOfWeek.Sunday) || date.DayOfWeek.Equals(DayOfWeek.Saturday);
         }
 
-        private bool UnoccupiedDateByCompetitors(DateTime date, ICollection<Competitor> competitors)
+        private bool UnoccupiedDateByCompetitors(DateTime date, ICollection<CompetitorScore> competitors)
         {
             return !generatedMatches.Exists(m => m.Date.Date.Equals(date.Date) && AreInMatch(competitors, m));
         }
 
-        private bool AreInMatch(ICollection<Competitor> competitors, Match match)
+        private bool AreInMatch(ICollection<CompetitorScore> competitors, Match match)
         {
-            ICollection<Competitor> alreadyPlaying = match.Competitors.Intersect(competitors).ToList();
+
+            ICollection<CompetitorScore> alreadyPlaying = match.Competitors.Intersect(competitors).ToList();
             return alreadyPlaying.Count>0;
         }
 

@@ -38,7 +38,7 @@ namespace Sports.WebAPI.Tests
             token = new Guid().ToString();
         }
         
-
+        /*
         [TestMethod]
         public void ValidGetMatches()
         {
@@ -173,7 +173,7 @@ namespace Sports.WebAPI.Tests
 
             Assert.IsNotNull(createdResult);
         }
-
+        */
         [TestMethod]
         public void ValidDeleteMatch()
         {

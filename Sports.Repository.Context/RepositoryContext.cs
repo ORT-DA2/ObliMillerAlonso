@@ -18,6 +18,7 @@ namespace Sports.Repository.Context
         public DbSet<Match> Matches { get; set; }
         public DbSet<Session> Logins { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
+        public DbSet<CompetitorScore> CompetitorScores { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -46,6 +47,8 @@ namespace Sports.Repository.Context
             modelBuilder.Entity<Match>().Property(m => m.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<Match>().HasMany<Comment>(m => m.Comments).WithOne(c => c.Match).OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<Match>().HasMany<CompetitorScore>(m => m.Competitors).WithOne().OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<CompetitorScore>().HasOne<Match>().WithMany(m=>m.Competitors).OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Session>().HasKey(l => l.Token);
             modelBuilder.Entity<Session>().Property(l => l.Token).ValueGeneratedOnAdd();
