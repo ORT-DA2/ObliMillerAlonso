@@ -30,7 +30,8 @@ namespace Sports.Domain.Test
             };
             sport = new Sport()
             {
-                Name = "Tennis"
+                Name = "Tennis",
+                Amount = 2
             };
             sport.AddCompetitor(localCompetitor);
             sport.AddCompetitor(visitorCompetitor);
@@ -60,6 +61,8 @@ namespace Sports.Domain.Test
             {
                 Name = "Local competitor"
             };
+            match.Competitors = new List<CompetitorScore>();
+            match.Competitors.Add(new CompetitorScore(competitor));
             match.Competitors.Add(new CompetitorScore(competitor));
             match.IsValid();
             match.IsValidMatch();
@@ -79,7 +82,7 @@ namespace Sports.Domain.Test
         [TestMethod]
         public void ToStringIsOk()
         {
-            String expectedToString = string.Format("Sport: {0} Date: {1}", match.Sport, match.Date);
+            String expectedToString = string.Format("Sport: {0} Competitors: {1}, {2},  Date: {3}", match.Sport, localCompetitor, visitorCompetitor, match.Date);
             Assert.AreEqual(expectedToString, match.ToString());
         }
 

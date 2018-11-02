@@ -29,9 +29,11 @@ namespace Sports.Logic.Test
         private ICommentLogic commentLogic;
         private ISessionLogic sessionLogic;
         private Match match;
+        private CompetitorScore localCompetitor;
+        private CompetitorScore visitorCompetitor;
         private User user;
         private Sport sport;
-/*
+
         [TestInitialize]
         public void SetUp()
         {
@@ -68,12 +70,13 @@ namespace Sports.Logic.Test
         {
             sport = new Sport()
             {
-                Name = "Match Sport"
+                Name = "Match Sport",
+                Amount = 2
             };
             sportLogic.AddSport(sport);
-            Competitor localCompetitor = AddCompetitorToSport(sport, "Local competitor");
-            Competitor visitorCompetitor = AddCompetitorToSport(sport, "Visitor competitor");
-            ICollection<CompetitorScore> competitors = new List<CompetitorScore>() { new CompetitorScore(localCompetitor), new CompetitorScore(visitorCompetitor) };
+            localCompetitor = new CompetitorScore(AddCompetitorToSport(sport, "Local competitor"));
+            visitorCompetitor = new CompetitorScore(AddCompetitorToSport(sport, "Visitor competitor"));
+            ICollection<CompetitorScore> competitors = new List<CompetitorScore>() { localCompetitor, visitorCompetitor };
             match = new Match()
             {
                 Sport = sport,
@@ -111,6 +114,7 @@ namespace Sports.Logic.Test
         {
             repository.Matches.RemoveRange(repository.Matches);
             repository.Competitors.RemoveRange(repository.Competitors);
+            repository.CompetitorScores.RemoveRange(repository.CompetitorScores);
             repository.Sports.RemoveRange(repository.Sports);
             repository.Users.RemoveRange(repository.Users);
             repository.Comments.RemoveRange(repository.Comments);
@@ -156,23 +160,10 @@ namespace Sports.Logic.Test
             {
                 Name = "Unregistered competitor"
             };
-            match.Competitors = new List<CompetitorScore>() { new CompetitorScore(invalidCompetitor) };
+            match.Competitors = new List<CompetitorScore>() { new CompetitorScore(invalidCompetitor),visitorCompetitor };
             matchLogic.AddMatch(match);
         }
-
-        [TestMethod]
-        [ExpectedException(typeof(CompetitorDoesNotExistException))]
-        public void AddMatchInvalidVisitorCompetitor()
-        {
-            Competitor invalidCompetitor = new Competitor()
-            {
-                Name = "Unregistered competitor"
-            };
-            match.Visitor = invalidCompetitor;
-            matchLogic.AddMatch(match);
-        }
-
-
+        
         [TestMethod]
         public void ModifyDate()
         {
@@ -181,7 +172,6 @@ namespace Sports.Logic.Test
             matchLogic.ModifyMatch(match.Id, match);
             Assert.AreEqual(matchLogic.GetMatchById(match.Id).Date, match.Date);
         }
-
 
         [TestMethod]
         [ExpectedException(typeof(MatchDoesNotExistException))]
@@ -196,7 +186,8 @@ namespace Sports.Logic.Test
         {
             Sport newSport = new Sport()
             {
-                Name = "Test Sport"
+                Name = "Test Sport",
+                Amount = 2
             };
             match.Sport = newSport;
             matchLogic.AddMatch(match);
@@ -216,12 +207,13 @@ namespace Sports.Logic.Test
             matchLogic.AddMatch(match);
             Sport sport = new Sport()
             {
-                Name = "New Sport"
+                Name = "New Sport",
+                Amount = 2
             };
             sportLogic.AddSport(sport);
-            Competitor localCompetitor = AddCompetitorToSport(sport, "New Local competitor");
-            Competitor visitorCompetitor = AddCompetitorToSport(sport, "New Visitor competitor");
-            ICollection<CompetitorScore> competitors = new List<CompetitorScore>() { new CompetitorScore(localCompetitor), new CompetitorScore(visitorCompetitor) };
+            Competitor newLocalCompetitor = AddCompetitorToSport(sport, "New Local competitor");
+            Competitor newVisitorCompetitor = AddCompetitorToSport(sport, "New Visitor competitor");
+            ICollection<CompetitorScore> competitors = new List<CompetitorScore>() { new CompetitorScore(newLocalCompetitor), new CompetitorScore(newVisitorCompetitor) };
             match.Sport = sport;
             match.Competitors = competitors;
             matchLogic.ModifyMatch(match.Id, match);
@@ -235,27 +227,14 @@ namespace Sports.Logic.Test
             matchLogic.AddMatch(match);
             Sport sport = new Sport()
             {
-                Name = "Test Sport"
+                Name = "Test Sport",
+                Amount = 2
             };
             
             match.Sport = sport;
             matchLogic.ModifyMatch(match.Id, match);
         }
-
-        [TestMethod]
-        public void ModifyVisitorCompetitor()
-        {
-            matchLogic.AddMatch(match);
-            Competitor visitorCompetitor = new Competitor()
-            {
-                Name = "New Visitor competitor",
-
-            };
-            sportLogic.AddCompetitorToSport(sport.Id, visitorCompetitor);
-            match.Visitor = visitorCompetitor;
-            matchLogic.ModifyMatch(match.Id, match);
-            Assert.AreEqual(matchLogic.GetMatchById(match.Id).Visitor, visitorCompetitor);
-        }
+        
 
         [TestMethod]
         public void ModifyCompetitor()
@@ -268,8 +247,7 @@ namespace Sports.Logic.Test
             };
             sportLogic.AddCompetitorToSport(sport.Id, localCompetitor);
             CompetitorScore adaptedCompetitor = new CompetitorScore(localCompetitor);
-            CompetitorScore adaptedCompetitorVisitor = new CompetitorScore(match);
-            ICollection<CompetitorScore> competitors = new List<CompetitorScore>() { adaptedCompetitor };
+            ICollection<CompetitorScore> competitors = new List<CompetitorScore>() { adaptedCompetitor , visitorCompetitor};
             match.Competitors = competitors;
             matchLogic.ModifyMatch(match.Id, match);
             Assert.IsTrue(matchLogic.GetMatchById(match.Id).Competitors.Contains(adaptedCompetitor));
@@ -287,36 +265,44 @@ namespace Sports.Logic.Test
 
             };
             CompetitorScore adaptedCompetitor = new CompetitorScore(localCompetitor);
-            ICollection<CompetitorScore> competitors = new List<CompetitorScore>() { adaptedCompetitor };
+            match.Competitors = new List<CompetitorScore>() { adaptedCompetitor , visitorCompetitor};
             matchLogic.ModifyMatch(match.Id, match);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidCompetitorAmountException))]
-        public void AddWithoutLocalCompetitor()
+        public void AddWithLessCompetitors()
         {
-            match.Local = null;
+            match.Competitors = new List<CompetitorScore>() { localCompetitor };
+            matchLogic.AddMatch(match);
+        }
+
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidCompetitorAmountException))]
+        public void AddWithMoreCompetitors()
+        {
+            Competitor newCompetitor = new Competitor()
+            {
+                Name = "New Local competitor",
+
+            };
+            sportLogic.AddCompetitorToSport(sport.Id, newCompetitor);
+            CompetitorScore adaptedCompetitor = new CompetitorScore(newCompetitor);
+            match.Competitors = new List<CompetitorScore>() { localCompetitor, adaptedCompetitor, visitorCompetitor };
             matchLogic.AddMatch(match);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidCompetitorAmountException))]
-        public void AddWithoutVisitorCompetitor()
-        {
-            match.Visitor = null;
-            matchLogic.AddMatch(match);
-        }
-        
-        [TestMethod]
         public void ModifyIgnoresNullFields()
         {
             matchLogic.AddMatch(match);
-            Competitor original = match.Local;
+            Competitor original = match.Competitors.First().Competitor;
             Match updatedMatch = new Match()
             {
             };
             matchLogic.ModifyMatch(match.Id, updatedMatch);
-            Assert.AreEqual(matchLogic.GetMatchById(match.Id).Local, original);
+            Assert.AreEqual(matchLogic.GetMatchById(match.Id).Competitors.First().Competitor, original);
         }
         
         [TestMethod]
@@ -387,7 +373,8 @@ namespace Sports.Logic.Test
         {
             Sport sport = new Sport()
             {
-                Name = "Unplayed Sport"
+                Name = "Unplayed Sport",
+                Amount = 2
             };
             sportLogic.AddSport(sport);
 
@@ -409,20 +396,13 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
-        public void CascadeDeleteMatchFromLocalCompetitor()
+        public void CascadeDeleteMatchFromCompetitor()
         {
             matchLogic.AddMatch(match);
-            sportLogic.DeleteCompetitorFromSport(sport.Id,match.Local.Id);
+            sportLogic.DeleteCompetitorFromSport(sport.Id,match.Competitors.First().Competitor.Id);
             Assert.AreEqual(matchLogic.GetAllMatches().Count, 0);
         }
-
-        [TestMethod]
-        public void CascadeDeleteMatchFromVisitorCompetitor()
-        {
-            matchLogic.AddMatch(match);
-            sportLogic.DeleteCompetitorFromSport(sport.Id, match.Visitor.Id);
-            Assert.AreEqual(matchLogic.GetAllMatches().Count, 0);
-        }
+        
 
         [TestMethod]
         public void CascadeDeleteCommentsFromMatch()
@@ -456,7 +436,7 @@ namespace Sports.Logic.Test
             matchLogic.SetSession(token);
             matchLogic.AddMatch(match);
         }
-        */
+        
 
     }
 }

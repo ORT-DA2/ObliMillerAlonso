@@ -97,7 +97,17 @@ namespace Sports.Domain
         {
             this.Date = IgnoreNullDate(this.Date,updatedMatch.Date);
             this.Sport = (Sport)IgnoreNull(this.Sport, updatedMatch.Sport);
-            this.Competitors = (ICollection<CompetitorScore>)IgnoreNull(this.Competitors, updatedMatch.Competitors);
+            this.Competitors = IgnoreEmpty(this.Competitors, updatedMatch.Competitors);
+        }
+
+        private ICollection<CompetitorScore> IgnoreEmpty(ICollection<CompetitorScore> original, ICollection<CompetitorScore> updated)
+        {
+
+            if (updated == null || updated.Count() == 0)
+            {
+                return original;
+            }
+            return updated;
         }
 
         private DateTime IgnoreNullDate(DateTime originalDate, DateTime updatedDate)

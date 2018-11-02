@@ -20,8 +20,8 @@ namespace FixtureImplementations
                 currentSport = sport;
                 daysToAddToDate = 1;
                 initialDate = startDate;
-                GenerateMatches(sport.Competitors.ToList(),new List<Competitor>(), sport.Competitors.Count -1, 0);
-                GenerateMatches(sport.Competitors.ToList(), new List<Competitor>(), sport.Competitors.Count - 1, 0);
+                GenerateMatches(sport.Competitors.ToList(),new List<Competitor>(), 0, sport.Competitors.Count - 1);
+                GenerateMatches(sport.Competitors.ToList(), new List<Competitor>(), 0, sport.Competitors.Count - 1);
             }
             return generatedMatches;
         }

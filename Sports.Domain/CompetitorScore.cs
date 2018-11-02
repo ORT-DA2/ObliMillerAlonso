@@ -5,7 +5,7 @@ using Sports.Domain.Exceptions;
 
 namespace Sports.Domain
 {
-    public class CompetitorScore
+    public class CompetitorScore : IEquatable<CompetitorScore>
     {
         public int Id { get; set; }
         public Competitor Competitor { get; set; }
@@ -52,8 +52,29 @@ namespace Sports.Domain
             }
             else
             {
-                return this.Competitor.Equals(((CompetitorScore)obj).Competitor);
+                return this.Competitor.Id.Equals(((CompetitorScore)obj).Competitor.Id);
             }
+        }
+
+        public bool Equals(CompetitorScore other)
+        {
+            if (other.Competitor == null )
+            {
+                return false;
+            }
+            else
+            {
+                return this.Competitor.Id == other.Competitor.Id;
+            }
+        }
+        public override int GetHashCode()
+        {
+            return Id;
+        }
+
+        public override string ToString()
+        {
+            return Competitor.ToString();
         }
     }
 }

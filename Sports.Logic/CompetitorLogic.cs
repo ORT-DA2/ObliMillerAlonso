@@ -103,7 +103,8 @@ namespace Sports.Logic
         private void DeleteAllRelatedMatches(Competitor realCompetitor)
         {
             CompetitorScore adaptedCompetitor = new CompetitorScore(realCompetitor);
-            List<Match> relatedMatches = matchRepository.FindByCondition(m => m.Competitors.Contains(adaptedCompetitor)).ToList();
+            List<Match> allmatches = matchRepository.FindAll().ToList();
+            List<Match> relatedMatches = matchRepository.FindByCondition(m => m.Competitors.Where(c => c.Competitor.Equals(realCompetitor)).Count() > 0).ToList();
             foreach(Match match in relatedMatches)
             {
                 matchRepository.Delete(match);

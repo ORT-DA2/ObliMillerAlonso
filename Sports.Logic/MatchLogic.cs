@@ -90,13 +90,12 @@ namespace Sports.Logic
         public ICollection<Match> GetAllMatchesForCompetitor(Competitor competitor)
         {
             sessionLogic.ValidateUserNotNull(user);
-            CompetitorScore playingCompetitor = new CompetitorScore(competitorLogic.GetCompetitorById(competitor.Id));
-            ICollection<Match> matches = repository.FindByCondition(m => m.Competitors.Contains(playingCompetitor));
-            if (matches.Count == 0)
+            List<Match> relatedMatches = repository.FindByCondition(m => m.Competitors.Where(c => c.Competitor.Equals(competitor)).Count() > 0).ToList();
+            if (relatedMatches.Count == 0)
             {
                 throw new MatchDoesNotExistException(MatchValidation.COMPETITOR_DOESNT_PLAY);
             }
-            return matches;
+            return relatedMatches;
         }
 
         public void ModifyMatch(int id, Match match)

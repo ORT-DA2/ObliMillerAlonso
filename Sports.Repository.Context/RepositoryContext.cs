@@ -42,6 +42,7 @@ namespace Sports.Repository.Context
             modelBuilder.Entity<Sport>().HasKey(s => s.Id);
             modelBuilder.Entity<Sport>().Property(s => s.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<Sport>().HasMany<Competitor>(s => s.Competitors).WithOne(t=>t.Sport).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Sport>().HasMany<Match>().WithOne(m => m.Sport).OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Match>().HasKey(m => m.Id);
             modelBuilder.Entity<Match>().Property(m => m.Id).ValueGeneratedOnAdd();
@@ -49,6 +50,7 @@ namespace Sports.Repository.Context
             modelBuilder.Entity<Match>().HasMany<CompetitorScore>(m => m.Competitors).WithOne().OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<CompetitorScore>().HasOne<Match>().WithMany(m=>m.Competitors).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<CompetitorScore>().HasOne<Competitor>(s=> s.Competitor).WithMany().OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Session>().HasKey(l => l.Token);
             modelBuilder.Entity<Session>().Property(l => l.Token).ValueGeneratedOnAdd();
