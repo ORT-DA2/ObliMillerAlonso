@@ -16,13 +16,13 @@ namespace Sports.Domain
         public int Id { get;  set; }
         public DateTime Date { get; set; }
         public Sport Sport { get; set; }
-        public ICollection<Competitor> Competitors { get; set; }
         public ICollection<Comment> Comments {  get; set; }
+        public ICollection<CompetitorScore> Competitors { get; set; }
 
         public Match()
         {
-            Competitors = new List<Competitor>();
             Comments = new List<Comment>();
+            Competitors = new List<CompetitorScore>();
         }
 
         public void IsValid()
@@ -66,9 +66,10 @@ namespace Sports.Domain
 
         public void IsValidMatch()
         {
-            foreach(Competitor competitor in Competitors)
+            foreach(CompetitorScore mCompetitor in Competitors)
             {
-                List<Competitor> occurences = Competitors.Where(c => c.Name.Equals(competitor.Name)).ToList();
+                string competitorName = mCompetitor.Competitor.Name;
+                List<CompetitorScore> occurences = Competitors.Where(c => c.Competitor.Name.Equals(competitorName)).ToList();
                 if (occurences.Count>1)
                 {
                     throw new InvalidCompetitorVersusException(CompetitorVersus.INVALID_COMPETITOR_VERSUS_MESSAGE);
@@ -85,9 +86,9 @@ namespace Sports.Domain
         private string PrintCompetitors()
         {
             string competitorsList = "";
-            foreach(Competitor competitor in Competitors)
+            foreach(CompetitorScore mCompetitor in Competitors)
             {
-                competitorsList += competitor.ToString() + ", ";
+                competitorsList += mCompetitor.ToString() + ", ";
             }
             return competitorsList;
         }
@@ -96,8 +97,7 @@ namespace Sports.Domain
         {
             this.Date = IgnoreNullDate(this.Date,updatedMatch.Date);
             this.Sport = (Sport)IgnoreNull(this.Sport, updatedMatch.Sport);
-            this.Competitors = (ICollection<Competitor>)IgnoreNull(this.Competitors, updatedMatch.Competitors);
-            
+            this.Competitors = (ICollection<CompetitorScore>)IgnoreNull(this.Competitors, updatedMatch.Competitors);
         }
 
         private DateTime IgnoreNullDate(DateTime originalDate, DateTime updatedDate)

@@ -82,7 +82,7 @@ namespace Sports.Logic.Test
 
         private User ValidUser()
         {
-            return new User(true)
+            return new User()
             {
                 FirstName = "Itai",
                 LastName = "Miller",
@@ -323,14 +323,7 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(NonAdminException))]
         public void SportSetSessionNonAdminUser()
         {
-            User user = new User()
-            {
-                FirstName = "Itai",
-                LastName = "Miller",
-                Email = "itaimiller@gmail.com",
-                UserName = "newUser",
-                Password = "root"
-            };
+            User user = ValidUser();
             Competitor competitor = new Competitor()
             {
                 Name = "Competitor"
@@ -344,12 +337,8 @@ namespace Sports.Logic.Test
             sessionLogic.GetUserFromToken(token);
             sportLogic.SetSession(token);
             sportLogic.AddSport(sport);
-            sportLogic.ModifySport(sport.Id, sport);
-            sportLogic.AddCompetitorToSport(sport.Id, competitor);
-            sportLogic.UpdateCompetitorSport(sport.Id, competitor.Id, competitorChanges);
-            sportLogic.DeleteCompetitorFromSport(sport.Id, competitor.Id);
-            sportLogic.RemoveSport(sport.Id);
         }
+        
 
     }
 }
