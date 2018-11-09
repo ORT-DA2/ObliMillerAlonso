@@ -17,7 +17,6 @@ namespace Sports.Domain
         public Sport Sport { get; set; }
         public int Score { get; set; }
         
-        public ICollection<Match> Matches { get; set; }
 
         public void IsValid()
         {
