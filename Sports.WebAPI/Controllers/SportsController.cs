@@ -212,7 +212,6 @@ namespace Sports.WebAPI.Controllers
                 competitorLogic.SetSession(realToken);
                 Competitor competitor = mapper.Map<Competitor>(competitorIn);
                 sportLogic.AddCompetitorToSport(id, competitor);
-                competitorLogic.SetPictureFromPath(competitor.Id, competitorIn.ImagePath);
                 CompetitorModelOut modelOut = mapper.Map<CompetitorModelOut>(competitor);
                 return Ok(modelOut);
             }

@@ -67,6 +67,39 @@ namespace Sports.WebAPI.Controllers
             }
         }
 
+
+        [HttpGet("current", Name = "GetUserByToken")]
+        public IActionResult GetCurrentUser([FromHeader] string token)
+        {
+            try
+            {
+                Guid realToken = Guid.Parse(token);
+                User user = sessionLogic.GetUserFromToken(realToken);
+                UserFullModelOut modelOut = mapper.Map<UserFullModelOut>(user);
+                return Ok(modelOut);
+            }
+            catch (UnauthorizedException ex)
+            {
+                return Unauthorized();
+            }
+            catch (DomainException ex)
+            {
+                return UnprocessableEntity(ex.Message);
+            }
+            catch (LogicException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (UnknownDataAccessException ex)
+            {
+                return StatusCode((int)HttpStatusCode.ServiceUnavailable, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
         [HttpGet(Name = "GetUsersAll")]
         public IActionResult GetAllUsers([FromHeader] string token)
         {

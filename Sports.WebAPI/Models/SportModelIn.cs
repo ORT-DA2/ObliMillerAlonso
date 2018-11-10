@@ -8,5 +8,6 @@ namespace Sports.WebAPI.Models
     public class SportModelIn
     {
         public string Name { get; set; }
+        public int Amount { get; set; }
     }
 }

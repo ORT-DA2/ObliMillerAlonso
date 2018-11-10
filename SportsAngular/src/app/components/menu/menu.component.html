@@ -1,0 +1,39 @@
+<div class="contentHeader">
+    <div id="headerContainer">
+        <div class="headerLogoContainer">
+            <img class="headerLogo" src="assets/images/logo.png">
+        </div>
+        <div class="headerOption dropdown">
+            <div class="dropbtn">Deportistas y Equipos</div>
+            <div class="dropdown-content">
+                <a href="#" [routerLink]="['/documents']">Mis documentos</a>
+                <a href="#" [routerLink]="['/documents/top']">Top 3 documentos</a>
+            </div>
+        </div>
+        <div class="headerOption dropdown">
+            <div class="dropbtn">Favourites</div>
+            <div class="dropdown-content">
+                <a href="#" [routerLink]="['/favourites']">Ver Favoritos</a>
+                <a href="#" [routerLink]="['/addFriends']">Agregar amigos</a>
+                <a href="#" [routerLink]="['/viewFriendRequests']">Ver Solicitudes</a>
+            </div>
+        </div>
+        <div *ngIf="isAdmin()" class="headerOption dropdown">
+            <div class="dropbtn">Usuarios</div>
+            <div class="dropdown-content">
+                <a href="#" [routerLink]="['/registerUser']">Crear Usuario</a>
+                <a href="#" [routerLink]="['/users/viewAll']">Ver Usuarios</a>
+            </div>
+        </div>
+        <div *ngIf="isAdmin()" class="headerOption dropdown">
+            <div class="dropbtn">Reportes</div>
+            <div class="dropdown-content">
+                    <a href="#" [routerLink]="['/reports/creations']">Creaciones</a>
+                    <a href="#" [routerLink]="['/reports/modifications']">Modificaciones</a>
+            </div>
+        </div>
+        <div class="headerOption">
+            <a href="#" [routerLink]="['/']" (click)="logout()">Cerrar Sesión</a>
+        </div>
+    </div>
+</div>

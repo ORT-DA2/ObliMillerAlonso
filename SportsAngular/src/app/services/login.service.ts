@@ -9,6 +9,7 @@ import {
 import { Observable, throwError } from "rxjs";
 import { map, tap, catchError } from "rxjs/operators";
 import { environment } from '../../environments/environment';
+
 import { User } from "../classes/user";
 
 @Injectable({
@@ -39,10 +40,47 @@ export class LoginService {
           catchError(this.handleError)
         );
     }
+
+     isAdminUser(): Observable<User>{
+      let headers = new Headers({
+        "Content-Type": "application/json",
+        "token": localStorage.getItem("user_token")
+      });
+      let options = new RequestOptions({ headers: headers });
+      let address = environment.apiUrl + "users/1";
+      return this._httpService
+        .get( address, options)
+        .pipe(
+          map((response: Response) => {
+            let user = <User>response.json();
+            let admin = user.isAdmin.toString();
+            localStorage.setItem("isAdmin", admin);
+            return <User>user;
+          }),
+          tap(data => console.log('Los datos que obtuvimos fueron: ' + JSON.stringify(data))),
+          catchError(this.handleError)
+        )
+        
+    }
     
+
+    logout() {
+      let headers = new Headers({
+        "Content-Type": "application/json",
+        "token": localStorage.getItem("user_token")
+      });
+      let options = new RequestOptions({ headers: headers });
+      return this._httpService
+        .delete(environment.apiUrl + "users/logout", options)
+        .pipe(map((response: Response) => {
+  
+        }), catchError(this.handleError));
+    }
+
   private handleError(error: Response) {
     if (error.status == 0)
       return throwError(new Error("Ocurrió un error inesperado en el servidor."));
-    return throwError(new Error(error.json()));
+    let body = error["_body"];
+    return throwError(new Error(body));
   }
 }

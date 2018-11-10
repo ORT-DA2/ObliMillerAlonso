@@ -62,16 +62,6 @@ namespace Sports.Logic
 
         }
 
-        public void SetPictureFromPath(int CompetitorId, string testImagePath)
-        {
-            sessionLogic.ValidateUserNotNull(user);
-            Competitor realCompetitor = GetCompetitorById(CompetitorId);
-            ValidateCompetitor(realCompetitor);
-            realCompetitor.AddPictureFromPath(testImagePath);
-            repository.Update(realCompetitor);
-            repository.Save();
-        }
-
         public void Modify(int id, Competitor Competitor)
         {
             sessionLogic.ValidateUser(user);

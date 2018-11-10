@@ -10,7 +10,6 @@ namespace Sports.Logic.Interface
     {
         void AddCompetitor(Competitor competitor);
         Competitor GetCompetitorById(int id);
-        void SetPictureFromPath(int competitorId, string testImagePath);
         void Modify(int id, Competitor competitor);
         void Delete(int id);
         ICollection<Competitor> GetAll();
