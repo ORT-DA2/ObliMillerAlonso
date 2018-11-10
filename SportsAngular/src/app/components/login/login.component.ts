@@ -32,7 +32,11 @@ export class LoginComponent {
             
             this.loginService.login(this.data['UserName'], this.data['Password']).subscribe(
                 data => {
-                    var da = this.loginService.isAdminUser();
+                    var da = this.loginService.isAdminUser().subscribe(data => {
+                    },
+                    error => {
+                        this.alertService.error(error.message);
+                    });
                     this.router.navigate(['favourites']);
                 },
                 error => {
