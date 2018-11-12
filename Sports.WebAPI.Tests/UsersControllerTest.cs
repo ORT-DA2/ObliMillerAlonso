@@ -69,7 +69,7 @@ namespace Sports.WebAPI.Tests
             
             IActionResult result = controller.PostUser(modelIn, token);
             var okResult = result as OkObjectResult;
-            var modelOut = okResult.Value as UserModelOut;
+            var modelOut = okResult.Value as UserFullModelOut;
             
             userLogicMock.VerifyAll();
 
@@ -145,7 +145,7 @@ namespace Sports.WebAPI.Tests
 
             var result = controller.GetAllUsers(token);
             var okResult = result as OkObjectResult;
-            var modelOut = okResult.Value as ICollection<UserModelOut>;
+            var modelOut = okResult.Value as ICollection<UserFullModelOut>;
 
             userLogicMock.VerifyAll();
 

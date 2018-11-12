@@ -57,7 +57,7 @@ namespace Sports.Logic
 
         private void ValidateSport(Match match)
         {
-            
+            match.Sport = sportLogic.GetSportById(match.Sport.Id);
             Sport sport = match.Sport;
             ICollection<CompetitorScore> competitorsInMatch = match.Competitors.ToList();
             ICollection<Competitor> competitors = new List<Competitor>();

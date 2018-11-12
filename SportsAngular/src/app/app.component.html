@@ -1,0 +1,18 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<script src="node_modules/chart.js/src/chart.js"></script>
+<div *ngIf="userLogged(); else loginComponent">
+  <menu>
+  </menu>
+  <div class='container'>
+    <router-outlet>
+    
+    </router-outlet>
+    <alert></alert>
+  </div>
+</div>
+
+
+<ng-template #loginComponent>
+  <pm-login [pageTitle]="componentTitle" [style.width.px]="loginWidth"></pm-login>
+  <alert></alert>
+</ng-template>

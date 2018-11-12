@@ -12,6 +12,7 @@ namespace Sports.WebAPI.Models
         public MapperProfile()
         {
             CreateMap<UserModelIn, User>().ConstructUsing(u => new User(u.IsAdmin));
+            CreateMap<User, UserFullModelOut>();
             CreateMap<User, UserModelOut>();
             CreateMap<User, UserSimpleModelOut>();
             CreateMap<CompetitorModelIn, Competitor>();

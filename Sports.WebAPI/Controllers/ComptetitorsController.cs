@@ -73,7 +73,6 @@ namespace Sports.WebAPI.Controllers
                 competitorLogic.SetSession(realToken);
                 Competitor competitor = mapper.Map<Competitor>(competitorIn);
                 competitorLogic.Modify(id, competitor);
-                competitorLogic.SetPictureFromPath(id, competitorIn.ImagePath);
                 return RedirectToRoute("GetCompetitorById", new { id = id, token = token });
             }
             catch (UnauthorizedException ex)

@@ -28,7 +28,6 @@ namespace Sports.Domain
         public void IsValid()
         {
             CheckSportNotEmpty();
-            CheckCompetitorsAmount();
             IsValidDate(this.Date);
         }
 
@@ -66,7 +65,9 @@ namespace Sports.Domain
 
         public void IsValidMatch()
         {
-            foreach(CompetitorScore mCompetitor in Competitors)
+
+            CheckCompetitorsAmount();
+            foreach (CompetitorScore mCompetitor in Competitors)
             {
                 string competitorName = mCompetitor.Competitor.Name;
                 List<CompetitorScore> occurences = Competitors.Where(c => c.Competitor.Name.Equals(competitorName)).ToList();

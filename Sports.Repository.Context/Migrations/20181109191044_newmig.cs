@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Sports.Repository.Context.Migrations
 {
-    public partial class New : Migration
+    public partial class newmig : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,7 +14,8 @@ namespace Sports.Repository.Context.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    Amount = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -48,13 +48,34 @@ namespace Sports.Repository.Context.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(nullable: true),
                     Picture = table.Column<string>(nullable: true),
-                    SportId = table.Column<int>(nullable: true)
+                    SportId = table.Column<int>(nullable: true),
+                    Score = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Competitors", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Competitors_Sports_SportId",
+                        column: x => x.SportId,
+                        principalTable: "Sports",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Match",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Date = table.Column<DateTime>(nullable: false),
+                    SportId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Match", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Match_Sports_SportId",
                         column: x => x.SportId,
                         principalTable: "Sports",
                         principalColumn: "Id",
@@ -106,40 +127,6 @@ namespace Sports.Repository.Context.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Match",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Date = table.Column<DateTime>(nullable: false),
-                    SportId = table.Column<int>(nullable: true),
-                    LocalId = table.Column<int>(nullable: true),
-                    VisitorId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Match", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Match_Competitors_LocalId",
-                        column: x => x.LocalId,
-                        principalTable: "Competitors",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Match_Sports_SportId",
-                        column: x => x.SportId,
-                        principalTable: "Sports",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Match_Competitors_VisitorId",
-                        column: x => x.VisitorId,
-                        principalTable: "Competitors",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Comments",
                 columns: table => new
                 {
@@ -167,6 +154,33 @@ namespace Sports.Repository.Context.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "CompetitorScores",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CompetitorId = table.Column<int>(nullable: true),
+                    Score = table.Column<int>(nullable: false),
+                    MatchId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CompetitorScores", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CompetitorScores_Competitors_CompetitorId",
+                        column: x => x.CompetitorId,
+                        principalTable: "Competitors",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CompetitorScores_Match_MatchId",
+                        column: x => x.MatchId,
+                        principalTable: "Match",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_MatchId",
                 table: "Comments",
@@ -176,6 +190,21 @@ namespace Sports.Repository.Context.Migrations
                 name: "IX_Comments_UserId",
                 table: "Comments",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Competitors_SportId",
+                table: "Competitors",
+                column: "SportId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CompetitorScores_CompetitorId",
+                table: "CompetitorScores",
+                column: "CompetitorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CompetitorScores_MatchId",
+                table: "CompetitorScores",
+                column: "MatchId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Favorites_CompetitorId",
@@ -193,23 +222,8 @@ namespace Sports.Repository.Context.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Match_LocalId",
-                table: "Match",
-                column: "LocalId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Match_SportId",
                 table: "Match",
-                column: "SportId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Match_VisitorId",
-                table: "Match",
-                column: "VisitorId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Competitors_SportId",
-                table: "Competitors",
                 column: "SportId");
         }
 
@@ -217,6 +231,9 @@ namespace Sports.Repository.Context.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Comments");
+
+            migrationBuilder.DropTable(
+                name: "CompetitorScores");
 
             migrationBuilder.DropTable(
                 name: "Favorites");
@@ -228,10 +245,10 @@ namespace Sports.Repository.Context.Migrations
                 name: "Match");
 
             migrationBuilder.DropTable(
-                name: "User");
+                name: "Competitors");
 
             migrationBuilder.DropTable(
-                name: "Competitors");
+                name: "User");
 
             migrationBuilder.DropTable(
                 name: "Sports");

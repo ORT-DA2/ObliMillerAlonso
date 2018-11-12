@@ -1,0 +1,19 @@
+.loginRow{
+    width: 30%;
+    margin: 15px auto;
+}
+
+.loginBtn{
+    width: 30%;
+    margin: 30px auto;
+    float: none;
+    display: block;
+}
+
+.loginLogo{
+    width: 25%;
+    margin: 0px auto;
+    position: relative;
+    display: block;
+    margin-top: 100px;
+}
