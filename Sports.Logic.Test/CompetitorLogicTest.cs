@@ -123,8 +123,8 @@ namespace Sports.Logic.Test
         [TestMethod]
         public void AddCompetitorPicture()
         {
+            competitor.Picture = testImagePath;
             competitorLogic.AddCompetitor(competitor);
-            competitorLogic.SetPictureFromPath(competitor.Id,testImagePath);
             Assert.IsNotNull(competitorLogic.GetCompetitorById(competitor.Id).Picture);
         }
 
@@ -133,7 +133,7 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(CompetitorDoesNotExistException))]
         public void AddPictureToInvalidCompetitor()
         {
-            competitorLogic.SetPictureFromPath(competitor.Id, testImagePath);
+            competitor.Picture = testImagePath;
             Assert.IsNotNull(competitorLogic.GetCompetitorById(competitor.Id).Picture);
         }
 

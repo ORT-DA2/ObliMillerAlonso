@@ -60,37 +60,6 @@ namespace Sports.Domain.Test
         }
 
         [TestMethod]
-        public void AddPictureFromPath()
-        {
-            competitor.AddPictureFromPath(testImagePath);
-            byte[] file = File.ReadAllBytes(testImagePath);
-            string fileString = System.Text.Encoding.UTF8.GetString(file);
-            Assert.AreEqual<string>(fileString, competitor.Picture);
-        }
-
-        [ExpectedException(typeof(InvalidCompetitorImageException))]
-        [TestMethod]
-        public void InvalidPicturePath()
-        {
-            competitor.AddPictureFromPath("C:/testPicture.png");
-        }
-
-
-        [ExpectedException(typeof(InvalidCompetitorImageException))]
-        [TestMethod]
-        public void InvalidFile()
-        {
-            competitor.AddPictureFromPath(invalidFilePath);
-        }
-
-        [ExpectedException(typeof(InvalidCompetitorImageException))]
-        [TestMethod]
-        public void OversizedFile()
-        {
-            competitor.AddPictureFromPath(largeFilePath);
-        }
-
-        [TestMethod]
         public void EqualsIsTrue()
         {
             Competitor secondCompetitor = new Competitor()

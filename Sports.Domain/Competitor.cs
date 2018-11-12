@@ -12,7 +12,7 @@ namespace Sports.Domain
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Picture { get; private set; }
+        public string Picture { get; set; }
         public Sport Sport { get; set; }
         public int Score { get; set; }
         

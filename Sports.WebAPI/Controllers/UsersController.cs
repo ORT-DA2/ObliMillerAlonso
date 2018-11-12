@@ -23,13 +23,15 @@ namespace Sports.WebAPI.Controllers
         private IUserLogic userLogic;
         private IFavoriteLogic favoriteLogic;
         private ISessionLogic sessionLogic;
+        private ILogLogic logLogic;
         private IMapper mapper;
 
-        public UsersController(IUserLogic aUserLogic, ISessionLogic aSessionLogic, IFavoriteLogic aFavoriteLogic)
+        public UsersController(IUserLogic aUserLogic, ISessionLogic aSessionLogic, IFavoriteLogic aFavoriteLogic, ILogLogic aLogLogic)
         {
             favoriteLogic = aFavoriteLogic;
             userLogic = aUserLogic;
             sessionLogic = aSessionLogic;
+            logLogic = aLogLogic;
             var config = new MapperConfiguration(cfg => cfg.AddProfile(new MapperProfile()));
             mapper = new Mapper(config);
         }
@@ -245,6 +247,7 @@ namespace Sports.WebAPI.Controllers
             try
             {
                 Guid token = sessionLogic.LogInUser(modelIn.Username, modelIn.Password);
+                logLogic.AddEntry("Login", modelIn.Username, DateTime.Now);
                 string tokenString = token.ToString();
                 TokenModelOut modelOut = new TokenModelOut() { Token = tokenString };
                 return Ok(modelOut);
@@ -388,6 +391,47 @@ namespace Sports.WebAPI.Controllers
                     commentModels.Add(model);
                 }
                 return Ok(commentModels.ToList());
+            }
+            catch (UnauthorizedException ex)
+            {
+                return Unauthorized();
+            }
+            catch (DomainException ex)
+            {
+                return UnprocessableEntity(ex.Message);
+            }
+            catch (LogicException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (UnknownDataAccessException ex)
+            {
+                return StatusCode((int)HttpStatusCode.ServiceUnavailable, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPost("log", Name = "LogBetweenDates")]
+        public IActionResult LogBetweenDates([FromHeader] string token, [FromBody] LogDatesDTO dates)
+        {
+            try
+            {
+                IActionResult result = GetCurrentUser(token);
+                var code = result as ObjectResult;
+                if(code.StatusCode == 200)
+                {
+                    var okResult = result as ObjectResult;
+                    var modelOut = okResult.Value as UserFullModelOut;
+                    if (modelOut.isAdmin)
+                    {
+                        return Ok(logLogic.GetBetweenDates(mapper.Map<DateTime>(dates.StartDate), mapper.Map<DateTime>(dates.FinishDate)));
+                    }
+                    return Unauthorized();
+                }
+                return result;
             }
             catch (UnauthorizedException ex)
             {

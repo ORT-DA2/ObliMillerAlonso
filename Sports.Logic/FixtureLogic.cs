@@ -163,11 +163,12 @@ namespace Sports.Logic
             }
         }
 
-        public void SetSession(Guid token)
+        public User SetSession(Guid token)
         {
             user = sessionLogic.GetUserFromToken(token);
             sportLogic.SetSession(token);
             matchLogic.SetSession(token);
+            return user;
         }
     }
 }

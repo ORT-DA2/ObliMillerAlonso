@@ -49,6 +49,7 @@ namespace Sports.WebAPI
             services.AddScoped<IMatchLogic, MatchLogic>();
             services.AddScoped<IFixtureLogic, FixtureLogic>();
             services.AddScoped<ISessionLogic, SessionLogic>();
+            services.AddScoped<ILogLogic, TextLog>();
             services.AddScoped<IRepositoryUnitOfWork, RepositoryUnitOfWork>();
             services.AddCors();
         }

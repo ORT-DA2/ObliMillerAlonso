@@ -20,6 +20,7 @@ namespace Sports.WebAPI.Tests
         Mock<IFavoriteLogic> favoriteLogicMock;
         Mock<ISessionLogic> sessionLogicMock;
         Mock<IUserLogic> userLogicMock;
+        Mock<ILogLogic> logLogicMock;
         UsersController controller;
         string token;
 
@@ -29,9 +30,10 @@ namespace Sports.WebAPI.Tests
             sessionLogicMock = new Mock<ISessionLogic>();
             favoriteLogicMock = new Mock<IFavoriteLogic>();
             userLogicMock = new Mock<IUserLogic>();
+            logLogicMock = new Mock<ILogLogic>();
             var config = new MapperConfiguration(cfg => cfg.AddProfile(new MapperProfile()));
             IMapper mapper = new Mapper(config);
-            controller = new UsersController(userLogicMock.Object, sessionLogicMock.Object, favoriteLogicMock.Object);
+            controller = new UsersController(userLogicMock.Object, sessionLogicMock.Object, favoriteLogicMock.Object, logLogicMock.Object);
             favoriteLogicMock.Setup(favoriteLogic => favoriteLogic.SetSession(It.IsAny<Guid>()));
             userLogicMock.Setup(userLogic => userLogic.SetSession(It.IsAny<Guid>()));
             token = new Guid().ToString();

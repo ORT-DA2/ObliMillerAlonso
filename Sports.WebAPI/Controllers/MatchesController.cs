@@ -25,14 +25,16 @@ namespace Sports.WebAPI.Controllers
         private ISportLogic sportLogic;
         private IMatchLogic matchLogic;
         private IFixtureLogic fixtureLogic;
+        private ILogLogic logLogic;
         private IMapper mapper;
 
-        public MatchesController(IMatchLogic aMatchLogic, ISportLogic aSportLogic, ICompetitorLogic aCompetitorLogic, IFixtureLogic aFixtureLogic)
+        public MatchesController(IMatchLogic aMatchLogic, ISportLogic aSportLogic, ICompetitorLogic aCompetitorLogic, IFixtureLogic aFixtureLogic, ILogLogic aLogLogic)
         {
             competitorLogic = aCompetitorLogic;
             sportLogic = aSportLogic;
             matchLogic = aMatchLogic;
             fixtureLogic = aFixtureLogic;
+            logLogic = aLogLogic;
             var config = new MapperConfiguration(cfg => cfg.AddProfile(new MapperProfile()));
             mapper = new Mapper(config);
         }
@@ -322,7 +324,7 @@ namespace Sports.WebAPI.Controllers
             try
             {
                 Guid realToken = Guid.Parse(token);
-                fixtureLogic.SetSession(realToken);
+                User user =  fixtureLogic.SetSession(realToken);
                 ICollection<Sport> sports = new List<Sport>();
                 foreach (SportModelIn model in fixtureData.Sports)
                 {
@@ -331,6 +333,7 @@ namespace Sports.WebAPI.Controllers
                 }
                 DateTime startDate = Convert.ToDateTime(fixtureData.Date);
                 fixtureLogic.GenerateFixture(sports, startDate);
+                logLogic.AddEntry("Fixture", user.UserName, DateTime.Now);
                 return Ok("Fixture succesfully generated");
 
             }

@@ -11,6 +11,6 @@ namespace Sports.Logic.Interface
         void GenerateFixture(ICollection<Sport> sports, DateTime startDate);
         string ChangeFixtureImplementation();
         void ResetFixtureStrategies();
-        void SetSession(Guid token);
+        User SetSession(Guid token);
     }
 }

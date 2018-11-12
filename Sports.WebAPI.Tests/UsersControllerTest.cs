@@ -24,6 +24,7 @@ namespace Sports.WebAPI.Tests
         Mock<IUserLogic> userLogicMock;
         Mock<ISessionLogic> sessionLogicMock;
         Mock<IFavoriteLogic> favoriteLogicMock;
+        Mock<ILogLogic> logLogicMock;
         UsersController controller;
         IMapper mapper;
         string token;
@@ -35,9 +36,10 @@ namespace Sports.WebAPI.Tests
             userLogicMock = new Mock<IUserLogic>();
             sessionLogicMock = new Mock<ISessionLogic>();
             favoriteLogicMock = new Mock<IFavoriteLogic>();
+            logLogicMock = new Mock<ILogLogic>();
             var config = new MapperConfiguration(cfg => cfg.AddProfile(new MapperProfile()));
             mapper = new Mapper(config);
-            controller = new UsersController(userLogicMock.Object, sessionLogicMock.Object, favoriteLogicMock.Object);
+            controller = new UsersController(userLogicMock.Object, sessionLogicMock.Object, favoriteLogicMock.Object, logLogicMock.Object);
             token = new Guid().ToString();
         }
 
@@ -69,7 +71,7 @@ namespace Sports.WebAPI.Tests
             
             IActionResult result = controller.PostUser(modelIn, token);
             var okResult = result as OkObjectResult;
-            var modelOut = okResult.Value as UserFullModelOut;
+            var modelOut = okResult.Value as UserModelOut;
             
             userLogicMock.VerifyAll();
 
@@ -145,7 +147,7 @@ namespace Sports.WebAPI.Tests
 
             var result = controller.GetAllUsers(token);
             var okResult = result as OkObjectResult;
-            var modelOut = okResult.Value as ICollection<UserFullModelOut>;
+            var modelOut = okResult.Value as ICollection<UserModelOut>;
 
             userLogicMock.VerifyAll();
 
@@ -164,6 +166,7 @@ namespace Sports.WebAPI.Tests
                 Password = "root"
             };
 
+            logLogicMock.Setup(logLogic => logLogic.AddEntry(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DateTime>()));
             sessionLogicMock.Setup(sessionLogic => sessionLogic.LogInUser(It.IsAny<string>(), It.IsAny<string>())).Returns(new Guid());
 
             IActionResult result = controller.Login(modelIn);

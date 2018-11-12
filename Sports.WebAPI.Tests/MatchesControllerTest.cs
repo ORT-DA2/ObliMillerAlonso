@@ -21,6 +21,7 @@ namespace Sports.WebAPI.Tests
         Mock<ISportLogic> sportLogicMock;
         Mock<IMatchLogic> matchLogicMock;
         Mock<IFixtureLogic> fixtureLogicMock;
+        Mock<ILogLogic> logLogicMock;
         MatchesController controller;
         IMapper mapper;
         string token;
@@ -32,9 +33,10 @@ namespace Sports.WebAPI.Tests
             competitorLogicMock = new Mock<ICompetitorLogic>();
             sportLogicMock = new Mock<ISportLogic>();
             fixtureLogicMock = new Mock<IFixtureLogic>();
+            logLogicMock = new Mock<ILogLogic>();
             var config = new MapperConfiguration(cfg => cfg.AddProfile(new MapperProfile()));
             IMapper mapper = new Mapper(config);
-            controller = new MatchesController(matchLogicMock.Object,sportLogicMock.Object, competitorLogicMock.Object, fixtureLogicMock.Object);
+            controller = new MatchesController(matchLogicMock.Object,sportLogicMock.Object, competitorLogicMock.Object, fixtureLogicMock.Object, logLogicMock.Object);
             token = new Guid().ToString();
         }
         
@@ -289,6 +291,10 @@ namespace Sports.WebAPI.Tests
         [TestMethod]
         public void GenerateFixtures()
         {
+            User user = new User()
+            {
+                UserName = "name"
+            };
             Competitor competitor = new Competitor()
             {
                 Id = 1
@@ -314,7 +320,8 @@ namespace Sports.WebAPI.Tests
                 Date = "11/10/2014 10:10"
             };
 
-            fixtureLogicMock.Setup(fixtureLogic => fixtureLogic.SetSession(It.IsAny<Guid>()));
+            logLogicMock.Setup(logLogic => logLogic.AddEntry(It.IsAny<string>(),It.IsAny<string>(), It.IsAny<DateTime>()));
+            fixtureLogicMock.Setup(fixtureLogic => fixtureLogic.SetSession(It.IsAny<Guid>())).Returns(user);
             fixtureLogicMock.Setup(fixtureLogic => fixtureLogic.GenerateFixture(It.IsAny<ICollection<Sport>>(),It.IsAny<DateTime>()));
 
             IActionResult result = controller.GenerateFixture(fixtureDTO, token);

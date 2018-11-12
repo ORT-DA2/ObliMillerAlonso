@@ -25,6 +25,7 @@ namespace Sports.Logic
         {
             ValidateNotNullToken(token);
             Session session = repository.FindByCondition(s => s.Token == token).FirstOrDefault();
+            ValidateNotNullSession(session);
             return session.User;
         }
 
