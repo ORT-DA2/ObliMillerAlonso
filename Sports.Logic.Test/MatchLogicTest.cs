@@ -436,7 +436,27 @@ namespace Sports.Logic.Test
             matchLogic.SetSession(token);
             matchLogic.AddMatch(match);
         }
-        
+
+
+
+        [TestMethod]
+        public void GenerateTeamRanking()
+        {
+            matchLogic.AddMatch(match);
+            Comment comment = new Comment
+            {
+                Text = "Text",
+                User = user
+            };
+            matchLogic.AddCommentToMatch(match.Id, comment);
+            localCompetitor.Score = 1;
+            visitorCompetitor.Score = 0;
+            ICollection<CompetitorScore> competitors = new List<CompetitorScore>() { localCompetitor, visitorCompetitor };
+            match.Competitors = competitors;
+            matchLogic.ModifyMatch(match.Id,match);
+            ICollection<CompetitorScore> ranking = matchLogic.GenerateRanking(sport);
+            Assert.AreEqual(ranking.Count, 2);
+        }
 
     }
 }
