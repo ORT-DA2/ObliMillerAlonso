@@ -458,5 +458,25 @@ namespace Sports.Logic.Test
             Assert.AreEqual(ranking.Count, 2);
         }
 
+
+        [TestMethod]
+        public void GenerateTeamRankingDraw()
+        {
+            matchLogic.AddMatch(match);
+            Comment comment = new Comment
+            {
+                Text = "Text",
+                User = user
+            };
+            matchLogic.AddCommentToMatch(match.Id, comment);
+            localCompetitor.Score = 0;
+            visitorCompetitor.Score = 0;
+            ICollection<CompetitorScore> competitors = new List<CompetitorScore>() { localCompetitor, visitorCompetitor };
+            match.Competitors = competitors;
+            matchLogic.ModifyMatch(match.Id, match);
+            ICollection<CompetitorScore> ranking = matchLogic.GenerateRanking(sport);
+            Assert.AreEqual(ranking.ElementAt(0).Score, 1);
+        }
+
     }
 }

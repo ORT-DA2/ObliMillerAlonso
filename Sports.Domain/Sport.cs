@@ -107,6 +107,18 @@ namespace Sports.Domain
             return updatedText;
         }
 
+        public IRankingGenerator GetRankingGenerator()
+        {
+            if (Amount == 2)
+            {
+                return new TeamRanking();
+            }
+            else
+            {
+                return new AthleteRanking();
+            }
+        }
+
 
     }
 }
