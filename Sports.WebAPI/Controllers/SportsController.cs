@@ -21,12 +21,14 @@ namespace Sports.WebAPI.Controllers
     {
         private ICompetitorLogic competitorLogic;
         private ISportLogic sportLogic;
+        private IMatchLogic matchLogic;
         private IMapper mapper;
 
-        public SportsController(ICompetitorLogic aCompetitorLogic, ISportLogic aSportLogic)
+        public SportsController(ICompetitorLogic aCompetitorLogic, ISportLogic aSportLogic, IMatchLogic aMatchLogic)
         {
             competitorLogic = aCompetitorLogic;
             sportLogic = aSportLogic;
+            matchLogic = aMatchLogic;
             var config = new MapperConfiguration(cfg => cfg.AddProfile(new MapperProfile()));
             mapper = new Mapper(config);
         }
@@ -257,6 +259,45 @@ namespace Sports.WebAPI.Controllers
             catch (UnauthorizedException ex)
             {
                 return Unauthorized();
+            }
+            catch (DomainException ex)
+            {
+                return UnprocessableEntity(ex.Message);
+            }
+            catch (LogicException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (UnknownDataAccessException ex)
+            {
+                return StatusCode((int)HttpStatusCode.ServiceUnavailable, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet("{id}/ranking", Name = "GetRanking")]
+        public IActionResult GetRanking(int id, [FromHeader] string token)
+        {
+            try
+            {
+                Guid realToken = Guid.Parse(token);
+                matchLogic.SetSession(realToken);
+                ICollection<CompetitorScore> ranking = matchLogic.GenerateRanking(id);
+                ICollection<CompetitorScoreModelOut> rankingModels = new List<CompetitorScoreModelOut>();
+                foreach (CompetitorScore competitor in ranking)
+                {
+                    CompetitorScoreModelOut model = mapper.Map<CompetitorScoreModelOut>(competitor);
+                    rankingModels.Add(model);
+                }
+                return Ok(rankingModels.ToList());
+
+            }
+            catch (UnauthorizedException ex)
+            {
+                return StatusCode(401, ex.Message);
             }
             catch (DomainException ex)
             {

@@ -17,6 +17,6 @@ namespace Sports.Logic.Interface
         void AddCommentToMatch(int id, Comment comment);
         ICollection<Comment> GetAllComments(int matchId);
         void SetSession(Guid token);
-        ICollection<CompetitorScore> GenerateRanking(Sport sport);
+        ICollection<CompetitorScore> GenerateRanking(int sportId);
     }
 }

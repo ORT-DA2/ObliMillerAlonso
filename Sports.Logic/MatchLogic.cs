@@ -170,9 +170,10 @@ namespace Sports.Logic
             }
         }
 
-        public ICollection<CompetitorScore> GenerateRanking(Sport sport)
+        public ICollection<CompetitorScore> GenerateRanking(int sportId)
         {
             sessionLogic.ValidateUserNotNull(user);
+            Sport sport = sportLogic.GetSportById(sportId);
             ICollection<CompetitorScore> ranking = new List<CompetitorScore>();
             foreach (Competitor competitor in sport.Competitors)
             {

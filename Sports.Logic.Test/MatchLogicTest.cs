@@ -454,7 +454,7 @@ namespace Sports.Logic.Test
             ICollection<CompetitorScore> competitors = new List<CompetitorScore>() { localCompetitor, visitorCompetitor };
             match.Competitors = competitors;
             matchLogic.ModifyMatch(match.Id,match);
-            ICollection<CompetitorScore> ranking = matchLogic.GenerateRanking(sport);
+            ICollection<CompetitorScore> ranking = matchLogic.GenerateRanking(sport.Id);
             Assert.AreEqual(ranking.Count, 2);
         }
 
@@ -474,7 +474,7 @@ namespace Sports.Logic.Test
             ICollection<CompetitorScore> competitors = new List<CompetitorScore>() { localCompetitor, visitorCompetitor };
             match.Competitors = competitors;
             matchLogic.ModifyMatch(match.Id, match);
-            ICollection<CompetitorScore> ranking = matchLogic.GenerateRanking(sport);
+            ICollection<CompetitorScore> ranking = matchLogic.GenerateRanking(sport.Id);
             Assert.AreEqual(ranking.ElementAt(0).Score, 1);
         }
 
