@@ -18,8 +18,10 @@ import { User } from "../classes/user";
 export class LoginService {
 
   public token: string;
+
   constructor(
-    private _httpService: Http) { }
+    private _httpService: Http
+    ) { }
 
   login(username: string, password: string) {
     let headers = new Headers({ "Content-Type": "application/json" });

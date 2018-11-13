@@ -12,16 +12,19 @@ import { FavouritesComponent } from './components/favourites/favourites.componen
 import { MenuComponent } from './components/menu/menu.component';
 import { CreateUserComponent } from './components/users/create-user/create-user.component';
 
+import { CreateSportComponent } from './components/sports/create-sport/create-sport.component';
 
 import {LoginService} from './services/login.service';
 import { AlertService } from './services/alert.service';
 import { UserService } from './services/user.service';
+import { SportsService } from './services/sports.service';
 
 
 
 const appRoutes: Routes = [
   { path: 'favourites',component: FavouritesComponent},
   { path: 'users/createUser',component: CreateUserComponent},
+  { path: 'sports/createSport',component: CreateSportComponent},
 ]
 
 @NgModule({
@@ -31,7 +34,8 @@ const appRoutes: Routes = [
     AlertComponent,
     FavouritesComponent,
     MenuComponent,
-    CreateUserComponent
+    CreateUserComponent,
+    CreateSportComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +44,7 @@ const appRoutes: Routes = [
     FormsModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [LoginService, AlertService, UserService],
+  providers: [LoginService, AlertService, SportsService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
