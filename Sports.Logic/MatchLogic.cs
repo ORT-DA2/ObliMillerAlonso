@@ -99,13 +99,13 @@ namespace Sports.Logic
         }
 
 
-        public ICollection<Match> GetAllMatchesForSport(Sport sport)
+        public ICollection<Match> GetAllPastMatchesForSport(Sport sport)
         {
             sessionLogic.ValidateUserNotNull(user);
-            List<Match> relatedMatches = repository.FindByCondition(m =>m.Sport.Equals(sport)).ToList();
+            List<Match> relatedMatches = repository.FindByCondition(m =>m.Sport.Equals(sport)&&m.Date.Date.CompareTo(DateTime.Now.Date) <= 1).ToList();
             if (relatedMatches.Count == 0)
             {
-                throw new MatchDoesNotExistException(MatchValidation.COMPETITOR_DOESNT_PLAY);
+                throw new MatchDoesNotExistException(MatchValidation.SPORT_DIDNT_PLAY);
             }
             return relatedMatches;
         }
@@ -181,7 +181,7 @@ namespace Sports.Logic
                 ranking.Add(rank);
             }
             IRankingGenerator rankingGenerator = sport.GetRankingGenerator();
-            ICollection<Match> matches = GetAllMatchesForSport(sport);
+            ICollection<Match> matches = GetAllPastMatchesForSport(sport);
             foreach (Match match in matches)
             {
                 ICollection<CompetitorScore> matchRanking = rankingGenerator.GenerateScores(match.Competitors);

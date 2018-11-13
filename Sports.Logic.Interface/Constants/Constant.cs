@@ -47,6 +47,7 @@ namespace Sports.Logic.Constants
     {
         public const string COMPETITOR_ALREADY_PLAYING = "Competitor already plays that day.";
         public const string COMPETITOR_DOESNT_PLAY = "Competitor has no matches";
+        public const string SPORT_DIDNT_PLAY = "Sport has no finished matches";
     }
 
 
