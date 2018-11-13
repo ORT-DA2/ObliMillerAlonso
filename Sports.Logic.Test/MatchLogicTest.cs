@@ -28,11 +28,15 @@ namespace Sports.Logic.Test
         private IUserLogic userLogic;
         private ICommentLogic commentLogic;
         private ISessionLogic sessionLogic;
-        private Match match;
+        private Match teamMatch;
+        private Match athleteMatch;
         private CompetitorScore localCompetitor;
         private CompetitorScore visitorCompetitor;
+        private CompetitorScore thirdCompetitor;
+        private CompetitorScore fourthCompetitor;
         private User user;
-        private Sport sport;
+        private Sport teamSport;
+        private Sport athleteSport;
 
         [TestInitialize]
         public void SetUp()
@@ -68,20 +72,42 @@ namespace Sports.Logic.Test
 
         private void CreateBaseDataForTests()
         {
-            sport = new Sport()
+            teamSport = new Sport()
             {
                 Name = "Match Sport",
                 Amount = 2
             };
-            sportLogic.AddSport(sport);
-            localCompetitor = new CompetitorScore(AddCompetitorToSport(sport, "Local competitor"));
-            visitorCompetitor = new CompetitorScore(AddCompetitorToSport(sport, "Visitor competitor"));
+            sportLogic.AddSport(teamSport);
+            localCompetitor = new CompetitorScore(AddCompetitorToSport(teamSport, "Local competitor"));
+            visitorCompetitor = new CompetitorScore(AddCompetitorToSport(teamSport, "Visitor competitor"));
             ICollection<CompetitorScore> competitors = new List<CompetitorScore>() { localCompetitor, visitorCompetitor };
-            match = new Match()
+            teamMatch = new Match()
             {
-                Sport = sport,
+                Sport = teamSport,
                 Competitors = competitors,
-                Date = DateTime.Now.AddDays(1)
+                Date = DateTime.Now.AddHours(2)
+            };
+        }
+
+
+        private void CreateAthleteMatch()
+        {
+            athleteSport = new Sport()
+            {
+                Name = "Athlete Sport",
+                Amount = 4
+            };
+            sportLogic.AddSport(athleteSport);
+            localCompetitor = new CompetitorScore(AddCompetitorToSport(athleteSport, "Local competitor"));
+            visitorCompetitor = new CompetitorScore(AddCompetitorToSport(athleteSport, "Visitor competitor"));
+            thirdCompetitor = new CompetitorScore(AddCompetitorToSport(athleteSport, "Third competitor"));
+            fourthCompetitor = new CompetitorScore(AddCompetitorToSport(athleteSport, "Fourth competitor"));
+            ICollection<CompetitorScore> competitors = new List<CompetitorScore>() { localCompetitor, visitorCompetitor, thirdCompetitor, fourthCompetitor };
+            athleteMatch = new Match()
+            {
+                Sport = athleteSport,
+                Competitors = competitors,
+                Date = DateTime.Now.AddHours(2)
             };
         }
 
@@ -124,8 +150,8 @@ namespace Sports.Logic.Test
         [TestMethod]
         public void AddFullMatch()
         {
-            matchLogic.AddMatch(match);
-            Assert.IsNotNull(matchLogic.GetMatchById(match.Id));
+            matchLogic.AddMatch(teamMatch);
+            Assert.IsNotNull(matchLogic.GetMatchById(teamMatch.Id));
         }
 
 
@@ -133,8 +159,8 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(MatchAlreadyExistsException))]
         public void AddFullMatchTwice()
         {
-            matchLogic.AddMatch(match);
-            matchLogic.AddMatch(match);
+            matchLogic.AddMatch(teamMatch);
+            matchLogic.AddMatch(teamMatch);
         }
 
         [TestMethod]
@@ -148,8 +174,8 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(InvalidMatchDateFormatException))]
         public void AddMatchInvalidDate()
         {
-            match.Date = DateTime.Now.AddDays(-1);
-            matchLogic.AddMatch(match);
+            teamMatch.Date = DateTime.Now.AddDays(-1);
+            matchLogic.AddMatch(teamMatch);
         }
 
         [TestMethod]
@@ -160,24 +186,24 @@ namespace Sports.Logic.Test
             {
                 Name = "Unregistered competitor"
             };
-            match.Competitors = new List<CompetitorScore>() { new CompetitorScore(invalidCompetitor),visitorCompetitor };
-            matchLogic.AddMatch(match);
+            teamMatch.Competitors = new List<CompetitorScore>() { new CompetitorScore(invalidCompetitor),visitorCompetitor };
+            matchLogic.AddMatch(teamMatch);
         }
         
         [TestMethod]
         public void ModifyDate()
         {
-            matchLogic.AddMatch(match);
-            match.Date = DateTime.Now.AddDays(+2);
-            matchLogic.ModifyMatch(match.Id, match);
-            Assert.AreEqual(matchLogic.GetMatchById(match.Id).Date, match.Date);
+            matchLogic.AddMatch(teamMatch);
+            teamMatch.Date = DateTime.Now.AddDays(+2);
+            matchLogic.ModifyMatch(teamMatch.Id, teamMatch);
+            Assert.AreEqual(matchLogic.GetMatchById(teamMatch.Id).Date, teamMatch.Date);
         }
 
         [TestMethod]
         [ExpectedException(typeof(MatchDoesNotExistException))]
         public void ModifyInvalidMatch()
         {
-            matchLogic.ModifyMatch(match.Id, match);
+            matchLogic.ModifyMatch(teamMatch.Id, teamMatch);
         }
         
         [TestMethod]
@@ -189,22 +215,22 @@ namespace Sports.Logic.Test
                 Name = "Test Sport",
                 Amount = 2
             };
-            match.Sport = newSport;
-            matchLogic.AddMatch(match);
+            teamMatch.Sport = newSport;
+            matchLogic.AddMatch(teamMatch);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidSportIsEmptyException))]
         public void AddMatchWithoutSport()
         {
-            match.Sport = null;
-            matchLogic.AddMatch(match);
+            teamMatch.Sport = null;
+            matchLogic.AddMatch(teamMatch);
         }
         
         [TestMethod]
         public void ModifySportAndCompetitors()
         {
-            matchLogic.AddMatch(match);
+            matchLogic.AddMatch(teamMatch);
             Sport sport = new Sport()
             {
                 Name = "New Sport",
@@ -214,43 +240,43 @@ namespace Sports.Logic.Test
             Competitor newLocalCompetitor = AddCompetitorToSport(sport, "New Local competitor");
             Competitor newVisitorCompetitor = AddCompetitorToSport(sport, "New Visitor competitor");
             ICollection<CompetitorScore> competitors = new List<CompetitorScore>() { new CompetitorScore(newLocalCompetitor), new CompetitorScore(newVisitorCompetitor) };
-            match.Sport = sport;
-            match.Competitors = competitors;
-            matchLogic.ModifyMatch(match.Id, match);
-            Assert.AreEqual(matchLogic.GetMatchById(match.Id).Sport, sport);
+            teamMatch.Sport = sport;
+            teamMatch.Competitors = competitors;
+            matchLogic.ModifyMatch(teamMatch.Id, teamMatch);
+            Assert.AreEqual(matchLogic.GetMatchById(teamMatch.Id).Sport, sport);
         }
         
         [TestMethod]
         [ExpectedException(typeof(SportDoesNotExistException))]
         public void ModifyInvalidSport()
         {
-            matchLogic.AddMatch(match);
+            matchLogic.AddMatch(teamMatch);
             Sport sport = new Sport()
             {
                 Name = "Test Sport",
                 Amount = 2
             };
             
-            match.Sport = sport;
-            matchLogic.ModifyMatch(match.Id, match);
+            teamMatch.Sport = sport;
+            matchLogic.ModifyMatch(teamMatch.Id, teamMatch);
         }
         
 
         [TestMethod]
         public void ModifyCompetitor()
         {
-            matchLogic.AddMatch(match);
+            matchLogic.AddMatch(teamMatch);
             Competitor localCompetitor = new Competitor()
             {
                 Name = "New Local competitor",
 
             };
-            sportLogic.AddCompetitorToSport(sport.Id, localCompetitor);
+            sportLogic.AddCompetitorToSport(teamSport.Id, localCompetitor);
             CompetitorScore adaptedCompetitor = new CompetitorScore(localCompetitor);
             ICollection<CompetitorScore> competitors = new List<CompetitorScore>() { adaptedCompetitor , visitorCompetitor};
-            match.Competitors = competitors;
-            matchLogic.ModifyMatch(match.Id, match);
-            Assert.IsTrue(matchLogic.GetMatchById(match.Id).Competitors.Contains(adaptedCompetitor));
+            teamMatch.Competitors = competitors;
+            matchLogic.ModifyMatch(teamMatch.Id, teamMatch);
+            Assert.IsTrue(matchLogic.GetMatchById(teamMatch.Id).Competitors.Contains(adaptedCompetitor));
         }
         
 
@@ -258,23 +284,23 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(CompetitorDoesNotExistException))]
         public void ModifyInvalidCompetitor()
         {
-            matchLogic.AddMatch(match);
+            matchLogic.AddMatch(teamMatch);
             Competitor localCompetitor = new Competitor()
             {
                 Name = "New Local competitor",
 
             };
             CompetitorScore adaptedCompetitor = new CompetitorScore(localCompetitor);
-            match.Competitors = new List<CompetitorScore>() { adaptedCompetitor , visitorCompetitor};
-            matchLogic.ModifyMatch(match.Id, match);
+            teamMatch.Competitors = new List<CompetitorScore>() { adaptedCompetitor , visitorCompetitor};
+            matchLogic.ModifyMatch(teamMatch.Id, teamMatch);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidCompetitorAmountException))]
         public void AddWithLessCompetitors()
         {
-            match.Competitors = new List<CompetitorScore>() { localCompetitor };
-            matchLogic.AddMatch(match);
+            teamMatch.Competitors = new List<CompetitorScore>() { localCompetitor };
+            matchLogic.AddMatch(teamMatch);
         }
 
 
@@ -287,29 +313,29 @@ namespace Sports.Logic.Test
                 Name = "New Local competitor",
 
             };
-            sportLogic.AddCompetitorToSport(sport.Id, newCompetitor);
+            sportLogic.AddCompetitorToSport(teamSport.Id, newCompetitor);
             CompetitorScore adaptedCompetitor = new CompetitorScore(newCompetitor);
-            match.Competitors = new List<CompetitorScore>() { localCompetitor, adaptedCompetitor, visitorCompetitor };
-            matchLogic.AddMatch(match);
+            teamMatch.Competitors = new List<CompetitorScore>() { localCompetitor, adaptedCompetitor, visitorCompetitor };
+            matchLogic.AddMatch(teamMatch);
         }
 
         [TestMethod]
         public void ModifyIgnoresNullFields()
         {
-            matchLogic.AddMatch(match);
-            Competitor original = match.Competitors.First().Competitor;
+            matchLogic.AddMatch(teamMatch);
+            Competitor original = teamMatch.Competitors.First().Competitor;
             Match updatedMatch = new Match()
             {
             };
-            matchLogic.ModifyMatch(match.Id, updatedMatch);
-            Assert.AreEqual(matchLogic.GetMatchById(match.Id).Competitors.First().Competitor, original);
+            matchLogic.ModifyMatch(teamMatch.Id, updatedMatch);
+            Assert.AreEqual(matchLogic.GetMatchById(teamMatch.Id).Competitors.First().Competitor, original);
         }
         
         [TestMethod]
         public void DeleteMatch()
         {
-            matchLogic.AddMatch(match);
-            matchLogic.DeleteMatch(match.Id);
+            matchLogic.AddMatch(teamMatch);
+            matchLogic.DeleteMatch(teamMatch.Id);
             Assert.AreEqual(matchLogic.GetAllMatches().Count, 0);
         }
 
@@ -317,21 +343,21 @@ namespace Sports.Logic.Test
         [ExpectedException(typeof(MatchDoesNotExistException))]
         public void DeleteNonExistingMatch()
         {
-            matchLogic.DeleteMatch(match.Id);
+            matchLogic.DeleteMatch(teamMatch.Id);
         }
 
 
         [TestMethod]
         public void AddCommentToMatch()
         {
-            matchLogic.AddMatch(match);
+            matchLogic.AddMatch(teamMatch);
             Comment comment = new Comment
             {
                 Text = "Text",
                 User = user
             };
-            matchLogic.AddCommentToMatch(match.Id, comment);
-            Comment commentInMatchStored = matchLogic.GetAllComments(match.Id).FirstOrDefault();
+            matchLogic.AddCommentToMatch(teamMatch.Id, comment);
+            Comment commentInMatchStored = matchLogic.GetAllComments(teamMatch.Id).FirstOrDefault();
             Assert.AreEqual(commentInMatchStored.Id, comment.Id);
         }
 
@@ -356,14 +382,14 @@ namespace Sports.Logic.Test
                 Text = "Text",
                 User = user
             };
-            matchLogic.AddCommentToMatch(match.Id, comment);
+            matchLogic.AddCommentToMatch(teamMatch.Id, comment);
         }
         
 
         [TestMethod]
         public void CheckSportIsNotDuplicated()
         {
-            matchLogic.AddMatch(match);
+            matchLogic.AddMatch(teamMatch);
             Assert.AreEqual(sportLogic.GetAll().Count,1);
         }
 
@@ -390,16 +416,16 @@ namespace Sports.Logic.Test
         [TestMethod]
         public void CascadeDeleteMatchFromSport()
         { 
-            matchLogic.AddMatch(match);
-            sportLogic.RemoveSport(sport.Id);
+            matchLogic.AddMatch(teamMatch);
+            sportLogic.RemoveSport(teamSport.Id);
             Assert.AreEqual(matchLogic.GetAllMatches().Count,0);
         }
 
         [TestMethod]
         public void CascadeDeleteMatchFromCompetitor()
         {
-            matchLogic.AddMatch(match);
-            sportLogic.DeleteCompetitorFromSport(sport.Id,match.Competitors.First().Competitor.Id);
+            matchLogic.AddMatch(teamMatch);
+            sportLogic.DeleteCompetitorFromSport(teamSport.Id,teamMatch.Competitors.First().Competitor.Id);
             Assert.AreEqual(matchLogic.GetAllMatches().Count, 0);
         }
         
@@ -407,14 +433,14 @@ namespace Sports.Logic.Test
         [TestMethod]
         public void CascadeDeleteCommentsFromMatch()
         {
-            matchLogic.AddMatch(match);
+            matchLogic.AddMatch(teamMatch);
             Comment comment = new Comment
             {
                 Text = "Text",
                 User = user
             };
-            matchLogic.AddCommentToMatch(match.Id, comment);
-            matchLogic.DeleteMatch(match.Id);
+            matchLogic.AddCommentToMatch(teamMatch.Id, comment);
+            matchLogic.DeleteMatch(teamMatch.Id);
             Assert.AreEqual(commentLogic.GetAll().Count, 0);
         }
 
@@ -434,9 +460,52 @@ namespace Sports.Logic.Test
             Guid token = sessionLogic.LogInUser(user.UserName, user.Password);
             sessionLogic.GetUserFromToken(token);
             matchLogic.SetSession(token);
-            matchLogic.AddMatch(match);
+            matchLogic.AddMatch(teamMatch);
         }
-        
+
+
+
+        [TestMethod]
+        public void GenerateTeamRanking()
+        {
+            matchLogic.AddMatch(teamMatch);
+            Comment comment = new Comment
+            {
+                Text = "Text",
+                User = user
+            };
+            matchLogic.AddCommentToMatch(teamMatch.Id, comment);
+            localCompetitor.Score = 1;
+            visitorCompetitor.Score = 0;
+            ICollection<CompetitorScore> competitors = new List<CompetitorScore>() { localCompetitor, visitorCompetitor };
+            teamMatch.Competitors = competitors;
+            matchLogic.ModifyMatch(teamMatch.Id,teamMatch);
+            ICollection<CompetitorScore> ranking = matchLogic.GenerateRanking(teamSport.Id);
+            Assert.AreEqual(ranking.Count, 2);
+        }
+
+
+        [TestMethod]
+        public void GenerateAthleteRankingOrder()
+        {
+            CreateAthleteMatch();
+            matchLogic.AddMatch(athleteMatch);
+            Comment comment = new Comment
+            {
+                Text = "Text",
+                User = user
+            };
+            matchLogic.AddCommentToMatch(athleteMatch.Id, comment);
+            localCompetitor.Score = 1;
+            visitorCompetitor.Score = 2;
+            thirdCompetitor.Score = 3;
+            fourthCompetitor.Score = 4;
+            ICollection<CompetitorScore> competitors = new List<CompetitorScore>() { localCompetitor, visitorCompetitor, thirdCompetitor, fourthCompetitor };
+            athleteMatch.Competitors = competitors;
+            matchLogic.ModifyMatch(athleteMatch.Id, athleteMatch);
+            ICollection<CompetitorScore> ranking = matchLogic.GenerateRanking(athleteSport.Id).OrderByDescending(c=>c.Score).ToList();
+            Assert.AreEqual(ranking.ElementAt(0).Score, 3);
+        }
 
     }
 }

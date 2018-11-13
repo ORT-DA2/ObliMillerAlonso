@@ -15,26 +15,16 @@ namespace Sports.Logic
 
         public void AddEntry(string entry, string username, DateTime date)
         {
-            try
+            if (!File.Exists(logFilePath))
             {
-                if (!File.Exists(logFilePath))
-                {
-                    StreamWriter writer = File.CreateText(logFilePath);
-                    writer.Close();
-                }
-                string logLine = entry + separator + username + separator + date.ToString() + ';';
-                File.AppendAllText(logFilePath, logLine);
+                CleanLog();
             }
-            catch (Exception e)
-            {
-                throw new Exception("Formato de texto invalidos");
-            }
+            string logLine = entry + separator + username + separator + date.ToString() + ';';
+            File.AppendAllText(logFilePath, logLine);
         }
 
         public ICollection<string> GetBetweenDates(DateTime startDate, DateTime endDate)
         {
-            try
-            {
                 StreamReader reader = File.OpenText(logFilePath);
                 string text = reader.ReadToEnd();
                 text = text.Replace("\n", "").Replace("\r", "");
@@ -54,25 +44,13 @@ namespace Sports.Logic
                 }
                 reader.Close();
                 return entries;
-            }
-            catch (Exception e)
-            {
-                throw new Exception("Error trayendo logs");
-            }
         }
 
         public void CleanLog()
         {
-            try
-            {
                 StreamWriter writer = File.CreateText(logFilePath);
                 writer.Close();
                 File.WriteAllText(logFilePath, String.Empty);
-            }
-            catch (Exception e)
-            {
-                throw new Exception("Error trayendo logs");
-            }
         }
     }
 }

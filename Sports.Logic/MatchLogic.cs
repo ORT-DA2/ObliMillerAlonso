@@ -98,6 +98,18 @@ namespace Sports.Logic
             return relatedMatches;
         }
 
+
+        public ICollection<Match> GetAllPastMatchesForSport(Sport sport)
+        {
+            sessionLogic.ValidateUserNotNull(user);
+            List<Match> relatedMatches = repository.FindByCondition(m =>m.Sport.Equals(sport)&&m.Date.Date.CompareTo(DateTime.Now.Date) <= 1).ToList();
+            if (relatedMatches.Count == 0)
+            {
+                throw new MatchDoesNotExistException(MatchValidation.SPORT_DIDNT_PLAY);
+            }
+            return relatedMatches;
+        }
+
         public void ModifyMatch(int id, Match match)
         {
             sessionLogic.ValidateUser(user);
@@ -156,6 +168,29 @@ namespace Sports.Logic
                 DateTime date = match.Date.Date;
                 AddMatch(match);
             }
+        }
+
+        public ICollection<CompetitorScore> GenerateRanking(int sportId)
+        {
+            sessionLogic.ValidateUserNotNull(user);
+            Sport sport = sportLogic.GetSportById(sportId);
+            ICollection<CompetitorScore> ranking = new List<CompetitorScore>();
+            foreach (Competitor competitor in sport.Competitors)
+            {
+                CompetitorScore rank = new CompetitorScore(competitor);
+                ranking.Add(rank);
+            }
+            IRankingGenerator rankingGenerator = sport.GetRankingGenerator();
+            ICollection<Match> matches = GetAllPastMatchesForSport(sport);
+            foreach (Match match in matches)
+            {
+                ICollection<CompetitorScore> matchRanking = rankingGenerator.GenerateScores(match.Competitors);
+                foreach (CompetitorScore competitorResult in matchRanking)
+                {
+                    ranking.Where(c => c.Competitor.Equals(competitorResult.Competitor)).FirstOrDefault().Score += competitorResult.Score;
+                }
+            }
+            return ranking;
         }
     }
 }
