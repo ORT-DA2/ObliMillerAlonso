@@ -10,12 +10,18 @@ import { LoginComponent } from './components/login/login.component';
 import { AlertComponent } from './components/alert/alert.component';
 import { FavouritesComponent } from './components/favourites/favourites.component';
 import { MenuComponent } from './components/menu/menu.component';
+import { CreateUserComponent } from './components/users/create-user/create-user.component';
+
 
 import {LoginService} from './services/login.service';
 import { AlertService } from './services/alert.service';
+import { UserService } from './services/user.service';
+
+
 
 const appRoutes: Routes = [
   { path: 'favourites',component: FavouritesComponent},
+  { path: 'users/createUser',component: CreateUserComponent},
 ]
 
 @NgModule({
@@ -24,7 +30,8 @@ const appRoutes: Routes = [
     LoginComponent,
     AlertComponent,
     FavouritesComponent,
-    MenuComponent
+    MenuComponent,
+    CreateUserComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +40,7 @@ const appRoutes: Routes = [
     FormsModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [LoginService, AlertService],
+  providers: [LoginService, AlertService, UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
