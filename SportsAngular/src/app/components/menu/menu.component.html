@@ -11,7 +11,15 @@
             </div>
         </div>
         <div class="headerOption dropdown">
-            <div class="dropbtn">Favourites</div>
+            <div class="dropbtn">Favoritos</div>
+            <div class="dropdown-content">
+                <a href="#" [routerLink]="['/favourites']">Ver Favoritos</a>
+                <a href="#" [routerLink]="['/addFriends']">Agregar amigos</a>
+                <a href="#" [routerLink]="['/viewFriendRequests']">Ver Solicitudes</a>
+            </div>
+        </div>
+        <div class="headerOption dropdown">
+            <div class="dropbtn">Partidos</div>
             <div class="dropdown-content">
                 <a href="#" [routerLink]="['/favourites']">Ver Favoritos</a>
                 <a href="#" [routerLink]="['/addFriends']">Agregar amigos</a>
@@ -21,15 +29,15 @@
         <div *ngIf="isAdmin()" class="headerOption dropdown">
             <div class="dropbtn">Usuarios</div>
             <div class="dropdown-content">
-                <a href="#" [routerLink]="['/users/createUser']">Crear Usuario</a>
+                <a href="#" [routerLink]="['/users/create']">Crear Usuario</a>
                 <a href="#" [routerLink]="['/users']">Ver Usuarios</a>
             </div>
         </div>
         <div *ngIf="isAdmin()" class="headerOption dropdown">
             <div class="dropbtn">Deportes</div>
             <div class="dropdown-content">
-                    <a href="#" [routerLink]="['/sports/createSport']">Crear Deporte</a>
-                    <a href="#" [routerLink]="['/reports/modifications']">Modificaciones</a>
+                    <a href="#" [routerLink]="['/sports/create']">Crear Deporte</a>
+                    <a href="#" [routerLink]="['/sports']">Ver Deportes</a>
             </div>
         </div>
         <div class="headerOption">

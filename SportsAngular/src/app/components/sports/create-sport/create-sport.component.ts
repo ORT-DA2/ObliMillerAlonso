@@ -4,7 +4,7 @@ import { SportsService } from '../../../services/sports.service';
 import { AlertService } from '../../../services/alert.service';
 
 @Component({
-    selector: 'createSport',
+    selector: 'app-create-sport',
     templateUrl: './create-sport.component.html',
     styleUrls: ["create-sport.component.css"]
 })

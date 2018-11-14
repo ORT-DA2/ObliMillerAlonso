@@ -14,22 +14,13 @@ namespace Sports.Domain
         public string Name { get; set; }
         public string Picture { get; set; }
         public Sport Sport { get; set; }
-        public int Score { get; set; }
         
 
         public void IsValid()
         {
             IsValidName();
-            ValidScore();
         }
-
-        private void ValidScore()
-        {
-            if (Score < 0)
-            {
-                throw new InvalidCompetitorScoreException("");
-            }
-        }
+        
 
         private void IsValidName()
         {
