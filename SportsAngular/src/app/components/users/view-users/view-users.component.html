@@ -1,0 +1,43 @@
+<div class='panel panel-primary'>
+  <h2 class="usersTitle">
+      Lista de usuarios
+  </h2>
+  <div class='table-responsive table-hover table-striped'>
+      <table class='table'>
+          <thead>
+              <tr>
+                  <th>Id</th>
+                  <th>Nombre</th>
+                  <th>Apellido</th>
+                  <th>EMail</th>
+                  <th>Administrador</th>
+                  <th>Usuario</th>
+              </tr>
+          </thead>
+          <tbody *ngIf='users && users.length; else noUsers'>
+              <tr *ngFor='let aUser of users '>
+                  <td>{{aUser.id }}</td>
+                  <td>{{aUser.firstName | uppercase}}</td>
+                  <td>{{aUser.lastName | uppercase}}</td>
+                  <td>{{aUser.email | uppercase}}</td>
+                  <td *ngIf='aUser.isAdmin===true  ; else noAdmin'>SI</td>
+                  <ng-template #noAdmin>
+                      <td> NO</td>
+                  </ng-template>
+                  <td>{{aUser.userName | uppercase}}</td>
+                  <td>
+                    <a  href="#modifyUser" [routerLink]="['/users/modify/', aUser.id ]">Editar usuario</a>
+                </td>
+              </tr>
+          </tbody>
+          <ng-template #noUsers>
+              <tbody>
+                  <tr>
+                      <td>No hay usuarios en el sistema</td>
+                  </tr>
+              </tbody>
+          </ng-template>
+      </table>
+  </div>
+
+</div>

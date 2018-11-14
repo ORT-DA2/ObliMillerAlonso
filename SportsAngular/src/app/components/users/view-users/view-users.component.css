@@ -1,0 +1,10 @@
+.usersTitle{
+    width: 50%;
+    position: relative;
+    margin: 30px auto;
+    text-align: center;
+}
+
+.table thead th{
+    border-top: 0px;
+}

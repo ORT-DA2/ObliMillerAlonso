@@ -11,8 +11,11 @@ import { AlertComponent } from './components/alert/alert.component';
 import { FavouritesComponent } from './components/favourites/favourites.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { CreateUserComponent } from './components/users/create-user/create-user.component';
-
 import { CreateSportComponent } from './components/sports/create-sport/create-sport.component';
+import { ViewUsersComponent } from './components/users/view-users/view-users.component';
+import { ModifyUserComponent } from './components/users/modify-user/modify-user.component';
+
+
 
 import {LoginService} from './services/login.service';
 import { AlertService } from './services/alert.service';
@@ -25,6 +28,8 @@ const appRoutes: Routes = [
   { path: 'favourites',component: FavouritesComponent},
   { path: 'users/createUser',component: CreateUserComponent},
   { path: 'sports/createSport',component: CreateSportComponent},
+  { path: 'users',component: ViewUsersComponent},
+  { path: 'users/modify/:id',component: ModifyUserComponent},
 ]
 
 @NgModule({
@@ -35,7 +40,9 @@ const appRoutes: Routes = [
     FavouritesComponent,
     MenuComponent,
     CreateUserComponent,
-    CreateSportComponent
+    CreateSportComponent,
+    ViewUsersComponent,
+    ModifyUserComponent
   ],
   imports: [
     BrowserModule,
