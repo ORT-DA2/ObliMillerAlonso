@@ -70,6 +70,7 @@ namespace Sports.Logic
             ValidateCompetitor(realCompetitor);
             ValidateNameInSport(realCompetitor);
             repository.Update(realCompetitor);
+            repository.Save();
         }
 
         private void ValidateNameInSport(Competitor Competitor)

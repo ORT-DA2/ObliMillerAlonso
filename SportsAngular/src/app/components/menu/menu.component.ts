@@ -30,8 +30,6 @@ export class MenuComponent implements OnInit {
     logout(): void {
         this.loginService.logout().subscribe(
             data => {
-                localStorage.removeItem('user_token');
-                localStorage.removeItem('isAdmin');
                 location.reload();
             },
             error => {

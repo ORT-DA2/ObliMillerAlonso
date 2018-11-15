@@ -9,7 +9,7 @@
                   <th>Id</th>
                   <th>Nombre</th>
                   <th>Apellido</th>
-                  <th>EMail</th>
+                  <th>Email</th>
                   <th>Administrador</th>
                   <th>Usuario</th>
               </tr>
@@ -22,7 +22,7 @@
                   <td>{{aUser.email | uppercase}}</td>
                   <td *ngIf='aUser.isAdmin===true  ; else noAdmin'>SI</td>
                   <ng-template #noAdmin>
-                      <td> NO</td>
+                      <td>NO</td>
                   </ng-template>
                   <td>{{aUser.userName | uppercase}}</td>
                   <td>

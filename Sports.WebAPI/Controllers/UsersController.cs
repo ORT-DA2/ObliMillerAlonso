@@ -44,7 +44,7 @@ namespace Sports.WebAPI.Controllers
                 Guid realToken = Guid.Parse(token);
                 userLogic.SetSession(realToken);
                 User user = userLogic.GetUserById(id);
-                UserModelOut modelOut = mapper.Map<UserModelOut>(user);
+                UserFullModelOut modelOut = mapper.Map<UserFullModelOut>(user);
                 return Ok(modelOut);
             }
             catch (UnauthorizedException ex)
@@ -110,10 +110,10 @@ namespace Sports.WebAPI.Controllers
                 Guid realToken = Guid.Parse(token);
                 userLogic.SetSession(realToken);
                 ICollection<User> userList = userLogic.GetAll();
-                ICollection<UserModelOut> userModels = new List<UserModelOut>();
+                ICollection<UserFullModelOut> userModels = new List<UserFullModelOut>();
                 foreach (User user in userList)
                 {
-                    UserModelOut model = mapper.Map<UserModelOut>(user);
+                    UserFullModelOut model = mapper.Map<UserFullModelOut>(user);
                     userModels.Add(model);
                 }
                 return Ok(userModels.ToList());

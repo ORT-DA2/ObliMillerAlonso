@@ -111,8 +111,9 @@ namespace Sports.Repository
             {
                 throw new DisconnectedDatabaseException(AccessValidation.INVALID_ACCESS_MESSAGE);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                string message = e.Message;
                 throw new UnknownDbException(AccessValidation.UNKNOWN_ERROR_MESSAGE);
             }
         }

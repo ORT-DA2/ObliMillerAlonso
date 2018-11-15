@@ -16,23 +16,29 @@ import { ViewUsersComponent } from './components/users/view-users/view-users.com
 import { ModifyUserComponent } from './components/users/modify-user/modify-user.component';
 import { ViewSportsComponent } from './components/sports/view-sports/view-sports.component';
 import { ModifySportComponent } from './components/sports/modify-sport/modify-sport.component';
+import { CreateCompetitorComponent } from './components/competitors/create-competitor/create-competitor.component';
 
 import {LoginService} from './services/login.service';
 import { AlertService } from './services/alert.service';
 import { UserService } from './services/user.service';
 import { SportsService } from './services/sports.service';
+import { CompetitorService } from './services/competitor.service';
+import { ViewCompetitorsComponent } from './components/competitors/view-competitors/view-competitors.component';
+import { ModifyCompetitorsComponent } from './components/competitors/modify-competitors/modify-competitors.component';
 
 
 
 const appRoutes: Routes = [
   { path: 'favourites',component: FavouritesComponent},
   { path: 'users/create',component: CreateUserComponent},
-  { path: 'sports/create',component: CreateSportComponent},
   { path: 'users',component: ViewUsersComponent},
   { path: 'users/modify/:id',component: ModifyUserComponent},
   { path: 'sports/create',component: CreateSportComponent},
   { path: 'sports',component: ViewSportsComponent},
   { path: 'sports/modify/:id',component: ModifySportComponent},
+  { path: 'competitors/create',component: CreateCompetitorComponent},
+  { path: 'competitors',component: ViewCompetitorsComponent},
+  { path: 'competitors/modify/:id',component: ModifyCompetitorsComponent},
 ]
 
 @NgModule({
@@ -47,7 +53,10 @@ const appRoutes: Routes = [
     ViewUsersComponent,
     ModifyUserComponent,
     ViewSportsComponent,
-    ModifySportComponent
+    ModifySportComponent,
+    CreateCompetitorComponent,
+    ViewCompetitorsComponent,
+    ModifyCompetitorsComponent
   ],
   imports: [
     BrowserModule,
@@ -56,7 +65,7 @@ const appRoutes: Routes = [
     FormsModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [LoginService, AlertService, SportsService, UserService],
+  providers: [LoginService, AlertService, SportsService, UserService, CompetitorService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

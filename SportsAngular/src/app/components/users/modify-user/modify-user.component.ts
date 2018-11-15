@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../../services/user.service';
 import { repeat } from 'rxjs/operators';
 import { AlertService } from '../../../services/alert.service';
+import { LoginService } from '../../../services/login.service';
 
 @Component({
   selector: 'modifyUser',
@@ -23,6 +24,7 @@ export class ModifyUserComponent{
         private route: ActivatedRoute,
         private alertService: AlertService,
         private router: Router,
+        private loginService: LoginService
         ) { }
 
         ngOnInit(): void {
@@ -62,7 +64,14 @@ export class ModifyUserComponent{
       deleteUser() {
           this._userService.deleteUser(this.id).subscribe(
               data => {
-                  this.router.navigate(['/users']);
+                let storedId = localStorage.getItem("currentUserId")
+                  if(storedId==this.id.toString()){
+                      this.loginService.logout();
+                      location.reload();
+                      this.router.navigate(['']);
+                  }else{
+                    this.router.navigate(['/users']);
+                  }
               },
               error => {
                   this.alertService.error(error.message);

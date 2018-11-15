@@ -18,6 +18,7 @@ import { User } from "../classes/user";
 export class LoginService {
 
   public token: string;
+  public loggedUser: User;
 
   constructor(
     private _httpService: Http
@@ -58,6 +59,7 @@ export class LoginService {
           let user = <User>response.json();
           let admin = user.isAdmin.toString();
           localStorage.setItem("isAdmin", admin);
+          localStorage.setItem("currentUserId", user.id.toString());
         }),
         catchError(this.handleError)
       )
@@ -74,6 +76,9 @@ export class LoginService {
     return this._httpService
       .delete(environment.apiUrl + "users/logout", options)
       .pipe(map((response: Response) => {
+        localStorage.removeItem('user_token');
+        localStorage.removeItem('isAdmin');
+        localStorage.removeItem('currentUserId');
 
       }), catchError(this.handleError));
   }

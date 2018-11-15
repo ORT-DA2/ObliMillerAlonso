@@ -19,7 +19,7 @@ export class CreateUserComponent {
     constructor(private _userService: UserService,
         private route: ActivatedRoute,
         private alertService: AlertService,
-        private router: Router,
+        private router: Router
         ) { }
 
     create() {
