@@ -51,7 +51,15 @@ namespace Sports.WebAPI
             services.AddScoped<ISessionLogic, SessionLogic>();
             services.AddScoped<ILogLogic, TextLog>();
             services.AddScoped<IRepositoryUnitOfWork, RepositoryUnitOfWork>();
-            services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins",
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+                    });
+
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,9 +70,8 @@ namespace Sports.WebAPI
             {
                 app.UseDeveloperExceptionPage();
             }
-            
-            app.UseCors(builder =>
-                builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().AllowCredentials());
+
+            app.UseCors("AllowAllOrigins");
             app.UseMvc();
         }
     }

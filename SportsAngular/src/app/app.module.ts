@@ -39,6 +39,8 @@ const appRoutes: Routes = [
   { path: 'competitors/create',component: CreateCompetitorComponent},
   { path: 'competitors',component: ViewCompetitorsComponent},
   { path: 'competitors/modify/:id',component: ModifyCompetitorsComponent},
+  { path: '',component: FavouritesComponent},
+  { path: '**',redirectTo: ''},
 ]
 
 @NgModule({

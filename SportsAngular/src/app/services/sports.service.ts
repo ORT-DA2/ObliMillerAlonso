@@ -78,6 +78,7 @@ export class SportsService {
     }
   
     modifySport(data: any, sportId: number): any {
+      console.log('2')
       let headers = new Headers({
         "Content-Type": "application/json",
         Token: localStorage.getItem("user_token")
@@ -91,8 +92,7 @@ export class SportsService {
         )
         .pipe(
           map((response: Response) => {
-            let sportModel = <String>response.json();
-            return sportModel;
+
           }),
           catchError(this.handleError)
         );

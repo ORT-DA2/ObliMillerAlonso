@@ -184,7 +184,8 @@ namespace Sports.WebAPI.Controllers
                 User user = mapper.Map<User>(newUser);
                 userLogic.UpdateUser(userId, user);
                 UserModelOut modelOut = mapper.Map<UserModelOut>(user);
-                return RedirectToRoute("GetUserById", new { id = userId, token = token });
+                return Ok("Modificado");
+                //return RedirectToRoute("GetUserById", new { id = userId, token = token });
             }
             catch (UnauthorizedException ex)
             {
@@ -314,7 +315,9 @@ namespace Sports.WebAPI.Controllers
                 favoriteLogic.SetSession(realToken);
                 Competitor competitor = mapper.Map<Competitor>(competitorIn);
                 favoriteLogic.AddFavoriteCompetitor(competitor);
-                return RedirectToRoute("GetFavoritesCompetitors", new {token = token });
+
+                return Ok("Modificado");
+                //return RedirectToRoute("GetFavoritesCompetitors", new {token = token });
             }
             catch (UnauthorizedException ex)
             {

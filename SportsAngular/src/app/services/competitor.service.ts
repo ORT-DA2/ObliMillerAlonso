@@ -33,7 +33,7 @@ export class CompetitorService {
       return this._httpService
         .post(
           environment.apiUrl +
-          "competitors/"+competitorId+"/competitors", JSON.stringify(data),
+          "sports/"+competitorId+"/competitors", JSON.stringify(data),
           options
         )
         .pipe(
@@ -76,8 +76,6 @@ export class CompetitorService {
         )
         .pipe(
           map((response: Response) => {
-            let competitorModel = <String>response.json();
-            return competitorModel;
           }),
           catchError(this.handleError)
         );

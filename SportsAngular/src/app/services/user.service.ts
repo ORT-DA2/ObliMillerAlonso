@@ -91,9 +91,6 @@ export class UserService {
       )
       .pipe(
         map((response: Response) => {
-          let userModel = response.json();
-          if (userModel) {
-          }
         }),
         catchError(this.handleError)
       );

@@ -154,7 +154,8 @@ namespace Sports.WebAPI.Controllers
                 matchLogic.SetSession(realToken);
                 Match match = mapper.Map<Match>(matchIn);
                 matchLogic.ModifyMatch(id, match);
-                return RedirectToRoute("GetMatchById", new { id = id, token = token });
+                return Ok("Modificado");
+                //return RedirectToRoute("GetMatchById", new { id = id, token = token });
             }
             catch (UnauthorizedException ex)
             {
@@ -259,7 +260,8 @@ namespace Sports.WebAPI.Controllers
                 matchLogic.SetSession(realToken);
                 Comment comment = mapper.Map<Comment>(commentIn);
                 matchLogic.AddCommentToMatch(id, comment);
-                return RedirectToRoute("GetAllComments", new { id = id, token = token });
+                return Ok(comment.Id);
+               // return RedirectToRoute("GetAllComments", new { id = id, token = token });
 
             }
             catch (UnauthorizedException ex)

@@ -148,7 +148,8 @@ namespace Sports.WebAPI.Controllers
                 Sport sport = mapper.Map<Sport>(sportIn);
                 sportLogic.ModifySport(id, sport);
                 SportModelOut modelOut = mapper.Map<SportModelOut>(sport);
-                return RedirectToRoute("GetSportById", new { id = id, token = token });
+                return Ok("Modificado");
+                //return RedirectToRoute("GetSportById", new { id = id, token = token });
             }
             catch (UnauthorizedException ex)
             {
