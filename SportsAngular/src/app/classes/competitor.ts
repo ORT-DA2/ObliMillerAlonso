@@ -7,8 +7,7 @@ export class Competitor {
     sport:Sport;
 
 
-    constructor(id:number, name:string, picture:string,sport:Sport) {
-        this.id = id;
+    constructor(name:string, picture:string,sport:Sport) {
         this.name = name;
         this.picture = picture;
         this.sport = sport;

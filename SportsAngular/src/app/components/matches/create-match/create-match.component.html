@@ -1,0 +1,29 @@
+<h1 class="createMatchTitle">Crear Partido</h1>
+
+<form (ngSubmit)="create()" class="createMatchContainer">
+    <div class="form-group">
+        <label for="Sport">
+            Seleccione un deporte:
+        </label>
+        <select id="selectedSport" class="selectSport" (change)="onSportSelected($event.target.value)" [(ngModel)]="data.SportId" name="Sport">
+            <option *ngFor='let x of sportsArray' value="{{x.id}}">{{x.name}}</option>
+        </select>
+      </div>
+    <div class="form-group">
+        <label for="Competitor">
+            Seleccione los participantes:
+        </label>
+        <div *ngFor="let competitor of competitors" class="form-group">
+        <select  class="selectCompetitor" [(ngModel)]="competitorScores[competitor].competitorId" name="comp{{competitor}}">
+            <option *ngFor='let x of competitorsArray' value="{{x.id}}">{{x.name}}</option>
+        </select>
+      </div>
+      </div>
+    <div class="form-group">
+        <label for="Date">
+            Eliga la fecha:
+        </label>
+        <input type="date" id="Date" class="form-control" [(ngModel)]="Date" name="Date">
+    </div>
+    <button type="submit" class="btn-default btn createMatch">CREAR</button>
+</form>

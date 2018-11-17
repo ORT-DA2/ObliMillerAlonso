@@ -17,14 +17,18 @@ import { ModifyUserComponent } from './components/users/modify-user/modify-user.
 import { ViewSportsComponent } from './components/sports/view-sports/view-sports.component';
 import { ModifySportComponent } from './components/sports/modify-sport/modify-sport.component';
 import { CreateCompetitorComponent } from './components/competitors/create-competitor/create-competitor.component';
+import { ViewCompetitorsComponent } from './components/competitors/view-competitors/view-competitors.component';
+import { ModifyCompetitorsComponent } from './components/competitors/modify-competitors/modify-competitors.component';
+import { CreateMatchComponent } from './components/matches/create-match/create-match.component';
+import { ModifyMatchComponent } from './components/matches/modify-match/modify-match.component';
+import { ViewMatchesComponent } from './components/matches/view-matches/view-matches.component';
 
-import {LoginService} from './services/login.service';
+import { LoginService } from './services/login.service';
 import { AlertService } from './services/alert.service';
 import { UserService } from './services/user.service';
 import { SportsService } from './services/sports.service';
 import { CompetitorService } from './services/competitor.service';
-import { ViewCompetitorsComponent } from './components/competitors/view-competitors/view-competitors.component';
-import { ModifyCompetitorsComponent } from './components/competitors/modify-competitors/modify-competitors.component';
+import { MatchService } from './services/match.service';
 
 
 
@@ -39,6 +43,7 @@ const appRoutes: Routes = [
   { path: 'competitors/create',component: CreateCompetitorComponent},
   { path: 'competitors',component: ViewCompetitorsComponent},
   { path: 'competitors/modify/:id',component: ModifyCompetitorsComponent},
+  { path: 'matches/create',component: CreateMatchComponent},
   { path: '',component: FavouritesComponent},
   { path: '**',redirectTo: ''},
 ]
@@ -58,7 +63,10 @@ const appRoutes: Routes = [
     ModifySportComponent,
     CreateCompetitorComponent,
     ViewCompetitorsComponent,
-    ModifyCompetitorsComponent
+    ModifyCompetitorsComponent,
+    CreateMatchComponent,
+    ModifyMatchComponent,
+    ViewMatchesComponent
   ],
   imports: [
     BrowserModule,
@@ -67,7 +75,7 @@ const appRoutes: Routes = [
     FormsModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [LoginService, AlertService, SportsService, UserService, CompetitorService],
+  providers: [LoginService, AlertService, SportsService, UserService, CompetitorService, MatchService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
