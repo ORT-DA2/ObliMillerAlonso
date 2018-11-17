@@ -37,7 +37,7 @@ export class LoginComponent {
                     error => {
                         this.alertService.error(error.message);
                     });
-                    this.router.navigate(['favourites']);
+                    this.router.navigate(['']);
                 },
                 error => {
                     this.alertService.error(error.message);

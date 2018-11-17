@@ -72,6 +72,23 @@ export class FavoriteService {
         );
     }
 
+    getAllComments():  Observable<Array<Comment>> {
+      let headers = new Headers({
+        "Content-Type": "application/json",
+        Token: localStorage.getItem("user_token")
+      });
+      let options = new RequestOptions({ headers: headers });
+      return this._httpService
+        .get(environment.apiUrl + "users/favoriteComments", options)
+        .pipe(
+          map((response: Response) => {
+            return <Array<Comment>>response.json();
+          }),
+          catchError(this.handleError)
+        );
+    }
+
+
     private handleError(error: Response) {
       if (error.status == 0)
         return throwError(new Error("Ocurrió un error inesperado en el servidor."));

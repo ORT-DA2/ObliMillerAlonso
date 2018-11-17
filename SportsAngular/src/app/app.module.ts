@@ -19,6 +19,8 @@ import { CreateCompetitorComponent } from './components/competitors/create-compe
 import { ViewCompetitorsComponent } from './components/competitors/view-competitors/view-competitors.component';
 import { ModifyCompetitorsComponent } from './components/competitors/modify-competitors/modify-competitors.component';
 import { ViewFavouritesComponent } from './components/favourites/view-favourites/view-favourites.component';
+import { ViewCommentsComponent } from './components/favourites/view-comments/view-comments.component';
+
 
 
 
@@ -41,7 +43,7 @@ const appRoutes: Routes = [
   { path: 'competitors',component: ViewCompetitorsComponent},
   { path: 'competitors/modify/:id',component: ModifyCompetitorsComponent},
   { path: 'favourites', component: ViewFavouritesComponent},
-  { path: '**',redirectTo: ''},
+  { path: '**', component: ViewCommentsComponent}
 ]
 
 @NgModule({
@@ -59,7 +61,8 @@ const appRoutes: Routes = [
     CreateCompetitorComponent,
     ViewCompetitorsComponent,
     ModifyCompetitorsComponent,
-    ViewFavouritesComponent
+    ViewFavouritesComponent,
+    ViewCommentsComponent
   ],
   imports: [
     BrowserModule,

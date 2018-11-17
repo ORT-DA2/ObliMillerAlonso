@@ -1,0 +1,31 @@
+<div class='panel panel-primary'>
+    <h2 class="commentsListTitle">
+        Lista de comentarios
+    </h2>
+  <div class='table-responsive table-hover table-striped'>
+        <table class='table'>
+            <thead>
+                <tr>
+                    <th>Usuario</th>
+                    <th>Comentario</th>
+                    <th>Partido</th>
+                </tr>
+            </thead>
+            <tbody *ngIf='comments && comments.length; else noComments'>
+                <tr *ngFor='let aComment of comments '>
+                    <td>{{aComment.user }}</td>
+                    <td>{{aComment.text }}</td>
+                    <td></td>
+                </tr>
+            </tbody>
+            <ng-template #noComments>
+                <tbody>
+                    <tr>
+                        <td>No hay comentarios para mostrar</td>
+                    </tr>
+                </tbody>
+            </ng-template>
+        </table>
+    </div>
+  
+  </div>
