@@ -3,6 +3,19 @@
       Lista de Competidores
   </h2>
 <div class='table-responsive table-hover table-striped'>
+        <div class="form-group filterContent">
+            <label for="filter inline">
+                Filtrar nombre:
+            </label>
+            <input class="form-control inline" width="100px" value="" [(ngModel)]="filter.filterName" name="filter">
+            <div class="form-check inline">
+                <label for="ascendingOrder" class="contain">  Ascendente
+                    <input type="checkbox"  name="ascendingOrder" id="ascendingOrder" checked="checked" [(ngModel)]="filter.ascendingOrder"   ng-true-value="asc" ng-false-value="desc">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <button type="submit" class="btn-default btn inline" (click)="applyFilters()">Buscar</button>
+        </div>
       <table class='table'>
           <thead>
               <tr>

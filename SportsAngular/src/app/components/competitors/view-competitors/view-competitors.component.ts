@@ -13,6 +13,9 @@ import { Competitor } from "../../../classes/competitor";
 })
 export class ViewCompetitorsComponent{
 
+    public filter = { 'filterName':"", 'ascendingOrder':true};
+
+
   competitorId:number;
  
   @Input() pageTitle: string;
@@ -55,4 +58,16 @@ export class ViewCompetitorsComponent{
             }
         )
     }
+
+    applyFilters(){
+        
+        this.competitorsService.filterByName(this.filter['filterName'], this.filter['ascendingOrder']?"asc":"desc").subscribe(
+          obtainedDocuments => {
+            this.competitors = obtainedDocuments;
+          },
+          (error: any) => {
+            this.alertService.error(error.message);
+          }
+        );
+      }
 }

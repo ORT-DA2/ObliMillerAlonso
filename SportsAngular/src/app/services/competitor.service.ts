@@ -112,6 +112,24 @@ export class CompetitorService {
         );
     }
 
+    filterByName(name:String, order:String): Observable<Array<Competitor>> {
+      let headers = new Headers({
+        "Content-Type": "application/json",
+        Token: localStorage.getItem("user_token"),
+        name: name,
+        order: order
+      });
+      let options = new RequestOptions({ headers: headers });
+      return this._httpService
+        .get(environment.apiUrl + "competitors", options)
+        .pipe(
+          map((response: Response) => {
+            return <Array<Competitor>>response.json();
+          }),
+          catchError(this.handleError)
+        );
+    }
+
   private handleError(error: Response) {
     if (error.status == 0)
       return throwError(new Error("Ocurrió un error inesperado en el servidor."));
