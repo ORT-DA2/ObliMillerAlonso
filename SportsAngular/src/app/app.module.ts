@@ -8,7 +8,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { AlertComponent } from './components/alert/alert.component';
-import { FavouritesComponent } from './components/favourites/favourites.component';
 import { MenuComponent } from './components/menu/menu.component';
 import { CreateUserComponent } from './components/users/create-user/create-user.component';
 import { CreateSportComponent } from './components/sports/create-sport/create-sport.component';
@@ -17,19 +16,19 @@ import { ModifyUserComponent } from './components/users/modify-user/modify-user.
 import { ViewSportsComponent } from './components/sports/view-sports/view-sports.component';
 import { ModifySportComponent } from './components/sports/modify-sport/modify-sport.component';
 import { CreateCompetitorComponent } from './components/competitors/create-competitor/create-competitor.component';
+import { ViewCompetitorsComponent } from './components/competitors/view-competitors/view-competitors.component';
+import { ModifyCompetitorsComponent } from './components/competitors/modify-competitors/modify-competitors.component';
+
 
 import {LoginService} from './services/login.service';
 import { AlertService } from './services/alert.service';
 import { UserService } from './services/user.service';
 import { SportsService } from './services/sports.service';
 import { CompetitorService } from './services/competitor.service';
-import { ViewCompetitorsComponent } from './components/competitors/view-competitors/view-competitors.component';
-import { ModifyCompetitorsComponent } from './components/competitors/modify-competitors/modify-competitors.component';
-
+import { FavoriteService } from './services/favorite.service';
 
 
 const appRoutes: Routes = [
-  { path: 'favourites',component: FavouritesComponent},
   { path: 'users/create',component: CreateUserComponent},
   { path: 'users',component: ViewUsersComponent},
   { path: 'users/modify/:id',component: ModifyUserComponent},
@@ -39,7 +38,6 @@ const appRoutes: Routes = [
   { path: 'competitors/create',component: CreateCompetitorComponent},
   { path: 'competitors',component: ViewCompetitorsComponent},
   { path: 'competitors/modify/:id',component: ModifyCompetitorsComponent},
-  { path: '',component: FavouritesComponent},
   { path: '**',redirectTo: ''},
 ]
 
@@ -48,7 +46,6 @@ const appRoutes: Routes = [
     AppComponent,
     LoginComponent,
     AlertComponent,
-    FavouritesComponent,
     MenuComponent,
     CreateUserComponent,
     CreateSportComponent,
@@ -67,7 +64,7 @@ const appRoutes: Routes = [
     FormsModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [LoginService, AlertService, SportsService, UserService, CompetitorService],
+  providers: [LoginService, AlertService, SportsService, UserService, CompetitorService, FavoriteService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

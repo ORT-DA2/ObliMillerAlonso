@@ -1,6 +1,6 @@
 <div class='panel panel-primary'>
   <h2 class="competitorsListTitle">
-      Lista de Deportes
+      Lista de Competidores
   </h2>
 <div class='table-responsive table-hover table-striped'>
       <table class='table'>
@@ -10,6 +10,8 @@
                   <th>Nombre</th>
                   <th>Imagen</th>
                   <th>Deporte</th>
+                  <th>Favorito</th>
+                  <th>Editar</th>
               </tr>
           </thead>
           <tbody *ngIf='competitors && competitors.length; else noCompetitors'>
@@ -20,7 +22,10 @@
                     <img class="competitorImage" src="{{aCompetitor.picture}}"  />
                   </td>
                   <td>
-                      <a  href="#modifySport" [routerLink]="['/sports/modify/', aCompetitor.sport.id ]">{{aCompetitor.sport.name}}</a>
+                      <a href="#modifySport" [routerLink]="['/sports/modify/', aCompetitor.sport.id ]">{{aCompetitor.sport.name}}</a>
+                  </td>
+                  <td>
+                      <button type="submit" class="btn-default btn createfavorite" (click)="createfavorite(aCompetitor.id)">AGREGAR FAVORITO</button>
                   </td>
                   <td>
                       <a  href="#modifyCompetitor" [routerLink]="['/competitors/modify/', aCompetitor.id ]">Editar deporte</a>
