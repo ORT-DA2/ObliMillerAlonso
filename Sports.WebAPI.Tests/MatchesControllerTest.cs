@@ -269,17 +269,13 @@ namespace Sports.WebAPI.Tests
 
 
         [TestMethod]
-        public void AddFixtures()
+        public void RefreshFixtures()
         {
-            FixturesPathDTO pathDTO = new FixturesPathDTO()
-            {
-                Path = "path"
-            };
-
+            ICollection<string> fixtures = new List<string>();
             fixtureLogicMock.Setup(fixtureLogic => fixtureLogic.SetSession(It.IsAny<Guid>()));
-            fixtureLogicMock.Setup(fixtureLogic => fixtureLogic.AddFixtureImplementations(It.IsAny<string>()));
+            fixtureLogicMock.Setup(fixtureLogic => fixtureLogic.RefreshFixtureImplementations()).Returns(fixtures);
 
-            IActionResult result = controller.PostFixtureImplementation(pathDTO, token);
+            IActionResult result = controller.GetFixtureImplementations(token);
             var okResult = result as OkObjectResult;
 
             matchLogicMock.VerifyAll();
@@ -322,7 +318,7 @@ namespace Sports.WebAPI.Tests
 
             logLogicMock.Setup(logLogic => logLogic.AddEntry(It.IsAny<string>(),It.IsAny<string>(), It.IsAny<DateTime>()));
             fixtureLogicMock.Setup(fixtureLogic => fixtureLogic.SetSession(It.IsAny<Guid>())).Returns(user);
-            fixtureLogicMock.Setup(fixtureLogic => fixtureLogic.GenerateFixture(It.IsAny<ICollection<Sport>>(),It.IsAny<DateTime>()));
+            fixtureLogicMock.Setup(fixtureLogic => fixtureLogic.GenerateFixture(It.IsAny<int>(), It.IsAny<ICollection<Sport>>(),It.IsAny<DateTime>()));
 
             IActionResult result = controller.GenerateFixture(fixtureDTO, token);
             var okResult = result as OkObjectResult;
@@ -331,21 +327,6 @@ namespace Sports.WebAPI.Tests
 
             Assert.AreEqual(200, okResult.StatusCode);
         }
-
-        [TestMethod]
-        public void NextFixture()
-        {
-            string message = "message";
-
-            fixtureLogicMock.Setup(fixtureLogic => fixtureLogic.SetSession(It.IsAny<Guid>()));
-            fixtureLogicMock.Setup(fixtureLogic => fixtureLogic.ChangeFixtureImplementation()).Returns(message);
-
-            IActionResult result = controller.NextFixture(token);
-            var okResult = result as OkObjectResult;
-
-            matchLogicMock.VerifyAll();
-
-            Assert.AreEqual(200, okResult.StatusCode);
-        }
+        
     }
 }

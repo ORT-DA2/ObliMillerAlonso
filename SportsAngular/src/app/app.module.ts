@@ -3,6 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes} from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,13 +26,21 @@ import { ViewCommentsComponent } from './components/favourites/view-comments/vie
 
 
 
+import { CreateMatchComponent } from './components/matches/create-match/create-match.component';
+import { ModifyMatchComponent } from './components/matches/modify-match/modify-match.component';
+import { ViewMatchesComponent } from './components/matches/view-matches/view-matches.component';
+import { CommonModule } from '@angular/common';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { FlatpickrModule } from 'angularx-flatpickr';
 
-import {LoginService} from './services/login.service';
+import { LoginService } from './services/login.service';
 import { AlertService } from './services/alert.service';
 import { UserService } from './services/user.service';
 import { SportsService } from './services/sports.service';
 import { CompetitorService } from './services/competitor.service';
 import { FavoriteService } from './services/favorite.service';
+import { MatchService } from './services/match.service';
+
 
 
 const appRoutes: Routes = [
@@ -43,7 +54,9 @@ const appRoutes: Routes = [
   { path: 'competitors',component: ViewCompetitorsComponent},
   { path: 'competitors/modify/:id',component: ModifyCompetitorsComponent},
   { path: 'favourites', component: ViewFavouritesComponent},
-  { path: '**', component: ViewCommentsComponent}
+  { path: '**', component: ViewCommentsComponent},
+  { path: 'matches/create',component: CreateMatchComponent},
+  { path: 'matches',component: ViewMatchesComponent},
 ]
 
 @NgModule({
@@ -62,16 +75,28 @@ const appRoutes: Routes = [
     ViewCompetitorsComponent,
     ModifyCompetitorsComponent,
     ViewFavouritesComponent,
-    ViewCommentsComponent
+    ViewCommentsComponent,
+    CreateMatchComponent,
+    ModifyMatchComponent,
+    ViewMatchesComponent
   ],
   imports: [
     BrowserModule,
     HttpModule,
     AppRoutingModule,
     FormsModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    BrowserAnimationsModule,
+    CommonModule,
+    FormsModule,
+    NgbModalModule,
+    FlatpickrModule.forRoot(),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory
+    })
   ],
-  providers: [LoginService, AlertService, SportsService, UserService, CompetitorService, FavoriteService],
+  providers: [LoginService, AlertService, SportsService, UserService, CompetitorService, MatchService, FavoriteService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

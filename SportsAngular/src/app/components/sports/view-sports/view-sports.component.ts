@@ -14,7 +14,8 @@ export class ViewSportsComponent{
  
   @Input() pageTitle: string;
   createWidth: number = 250;
-  sports: Array<Sport>
+  sports: Array<Sport>;
+  sportService: any;
 
   constructor(
       private route: ActivatedRoute,

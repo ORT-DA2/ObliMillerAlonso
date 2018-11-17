@@ -30,7 +30,6 @@ export class ModifySportComponent {
         this.getSportById();
     }
   modify() {
-      console.log('1')
     if (this.data['Name'] === "") {
         this.alertService.error("nombre vacio");
     } else {

@@ -74,7 +74,6 @@ namespace Sports.WebAPI.Controllers
                 Competitor competitor = mapper.Map<Competitor>(competitorIn);
                 competitorLogic.Modify(id, competitor);
                 return Ok("Modificado");
-                //return RedirectToRoute("GetCompetitorById", new { id = id, token = token });
             }
             catch (UnauthorizedException ex)
             {

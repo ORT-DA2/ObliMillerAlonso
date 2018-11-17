@@ -111,6 +111,156 @@ namespace Sports.WebAPI.Controllers
         }
 
 
+        [HttpGet("bySport",Name = "GetAllMatchesBySport")]
+        public IActionResult GetAllBySport([FromHeader] string token)
+        {
+            try
+            {
+                Guid realToken = Guid.Parse(token);
+                matchLogic.SetSession(realToken);
+                ICollection<Match> matchList = matchLogic.GetAllMatches();
+                ICollection<MatchSimpleModelOut> matchModels = mapper.Map<ICollection<MatchSimpleModelOut>>(matchList);
+                ICollection<SportMatchModelOut> sportList = new List<SportMatchModelOut>();
+                foreach (MatchSimpleModelOut match in matchModels)
+                {
+                    SportMatchModelOut sportModel = sportList.Where(s => s.Id == match.Sport.Id).FirstOrDefault();
+                    if (sportModel == null)
+                    {
+                        sportModel = new SportMatchModelOut()
+                        {
+                            Id = match.Sport.Id,
+                            Name = match.Sport.Name,
+                            Matches = new List<MatchSimpleModelOut>()
+                        };
+                        sportList.Add(sportModel);
+                    }
+                    sportModel.Matches.Add(match);
+                }
+                return Ok(sportList.ToList());
+            }
+            catch (UnauthorizedException ex)
+            {
+                return StatusCode(401, ex.Message);
+            }
+            catch (DomainException ex)
+            {
+                return UnprocessableEntity(ex.Message);
+            }
+            catch (LogicException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (UnknownDataAccessException ex)
+            {
+                return StatusCode((int)HttpStatusCode.ServiceUnavailable, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet("bySport/{id}", Name = "GetAllMatchesBySportId")]
+        public IActionResult GetAllBySportId(int id, [FromHeader] string token)
+        {
+            try
+            {
+                Guid realToken = Guid.Parse(token);
+                matchLogic.SetSession(realToken);
+                ICollection<Match> matchList = matchLogic.GetAllMatches();
+                ICollection<MatchSimpleModelOut> matchModels = mapper.Map<ICollection<MatchSimpleModelOut>>(matchList);
+                ICollection<SportMatchModelOut> sportList = new List<SportMatchModelOut>();
+                foreach (MatchSimpleModelOut match in matchModels)
+                {
+                    SportMatchModelOut sportModel = sportList.Where(s => s.Id == match.Sport.Id).FirstOrDefault();
+                    if (sportModel == null)
+                    {
+                        sportModel = new SportMatchModelOut()
+                        {
+                            Id = match.Sport.Id,
+                            Name = match.Sport.Name,
+                            Matches = new List<MatchSimpleModelOut>()
+                        };
+                        sportList.Add(sportModel);
+                    }
+                    sportModel.Matches.Add(match);
+                }
+                return Ok(sportList.Where(s=>s.Id==id).ToList());
+            }
+            catch (UnauthorizedException ex)
+            {
+                return StatusCode(401, ex.Message);
+            }
+            catch (DomainException ex)
+            {
+                return UnprocessableEntity(ex.Message);
+            }
+            catch (LogicException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (UnknownDataAccessException ex)
+            {
+                return StatusCode((int)HttpStatusCode.ServiceUnavailable, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet("byCompetitor/{id}", Name = "GetAllMatchesByCompetitorId")]
+        public IActionResult GetAllByCompetitorId(int id, [FromHeader] string token)
+        {
+            try
+            {
+                Guid realToken = Guid.Parse(token);
+                matchLogic.SetSession(realToken);
+                competitorLogic.SetSession(realToken);
+                Competitor competitor = competitorLogic.GetCompetitorById(id);
+                ICollection<Match> matchList = matchLogic.GetAllMatchesForCompetitor(competitor);
+                ICollection<MatchSimpleModelOut> matchModels = mapper.Map<ICollection<MatchSimpleModelOut>>(matchList);
+                ICollection<SportMatchModelOut> sportList = new List<SportMatchModelOut>();
+                foreach (MatchSimpleModelOut match in matchModels)
+                {
+                    SportMatchModelOut sportModel = sportList.Where(s => s.Id == match.Sport.Id).FirstOrDefault();
+                    if (sportModel == null)
+                    {
+                        sportModel = new SportMatchModelOut()
+                        {
+                            Id = match.Sport.Id,
+                            Name = match.Sport.Name,
+                            Matches = new List<MatchSimpleModelOut>()
+                        };
+                        sportList.Add(sportModel);
+                    }
+                    sportModel.Matches.Add(match);
+                }
+                return Ok(sportList.ToList());
+            }
+            catch (UnauthorizedException ex)
+            {
+                return StatusCode(401, ex.Message);
+            }
+            catch (DomainException ex)
+            {
+                return UnprocessableEntity(ex.Message);
+            }
+            catch (LogicException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (UnknownDataAccessException ex)
+            {
+                return StatusCode((int)HttpStatusCode.ServiceUnavailable, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+
         [HttpPost(Name = "AddMatch")]
         public IActionResult Post([FromBody] MatchModelIn matchIn, [FromHeader] string token)
         {
@@ -155,7 +305,6 @@ namespace Sports.WebAPI.Controllers
                 Match match = mapper.Map<Match>(matchIn);
                 matchLogic.ModifyMatch(id, match);
                 return Ok("Modificado");
-                //return RedirectToRoute("GetMatchById", new { id = id, token = token });
             }
             catch (UnauthorizedException ex)
             {
@@ -261,7 +410,6 @@ namespace Sports.WebAPI.Controllers
                 Comment comment = mapper.Map<Comment>(commentIn);
                 matchLogic.AddCommentToMatch(id, comment);
                 return Ok(comment.Id);
-               // return RedirectToRoute("GetAllComments", new { id = id, token = token });
 
             }
             catch (UnauthorizedException ex)
@@ -286,39 +434,7 @@ namespace Sports.WebAPI.Controllers
             }
         }
         
-
-        [HttpPost("fixtureImplementations", Name = "AddFixture")]
-        public IActionResult PostFixtureImplementation([FromBody]FixturesPathDTO fixtureDTO, [FromHeader] string token)
-        {
-            try
-            {
-                Guid realToken = Guid.Parse(token);
-                fixtureLogic.SetSession(realToken);
-                fixtureLogic.AddFixtureImplementations(fixtureDTO.Path);
-                return Ok("Fixtures succesfully added");
-
-            }
-            catch (UnauthorizedException ex)
-            {
-                return StatusCode(401, ex.Message);
-            }
-            catch (DomainException ex)
-            {
-                return UnprocessableEntity(ex.Message);
-            }
-            catch (LogicException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            catch (UnknownDataAccessException ex)
-            {
-                return StatusCode((int)HttpStatusCode.ServiceUnavailable, ex.Message);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
-            }
-        }
+        
 
         [HttpPost("generateFixture", Name = "GenerateFixture")]
         public IActionResult GenerateFixture([FromBody] FixtureDTO fixtureData, [FromHeader] string token)
@@ -334,7 +450,7 @@ namespace Sports.WebAPI.Controllers
                     sports.Add(sport);
                 }
                 DateTime startDate = Convert.ToDateTime(fixtureData.Date);
-                fixtureLogic.GenerateFixture(sports, startDate);
+                fixtureLogic.GenerateFixture(fixtureData.Pos,  sports, startDate);
                 logLogic.AddEntry("Fixture", user.UserName, DateTime.Now);
                 return Ok("Fixture succesfully generated");
 
@@ -361,14 +477,14 @@ namespace Sports.WebAPI.Controllers
             }
         }
 
-        [HttpPut("nextFixture", Name = "ChangeFixture")]
-        public IActionResult NextFixture([FromHeader] string token)
+        [HttpGet("fixtures", Name = "ChangeFixture")]
+        public IActionResult GetFixtureImplementations([FromHeader] string token)
         {
             try
             {
                 Guid realToken = Guid.Parse(token);
                 fixtureLogic.SetSession(realToken);
-                string message = fixtureLogic.ChangeFixtureImplementation();
+                ICollection<string> message = fixtureLogic.RefreshFixtureImplementations();
                 return Ok(message);
             }
             catch (UnauthorizedException ex)

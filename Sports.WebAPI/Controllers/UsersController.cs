@@ -185,7 +185,6 @@ namespace Sports.WebAPI.Controllers
                 userLogic.UpdateUser(userId, user);
                 UserModelOut modelOut = mapper.Map<UserModelOut>(user);
                 return Ok("Modificado");
-                //return RedirectToRoute("GetUserById", new { id = userId, token = token });
             }
             catch (UnauthorizedException ex)
             {
@@ -317,7 +316,6 @@ namespace Sports.WebAPI.Controllers
                 favoriteLogic.AddFavoriteCompetitor(competitor);
 
                 return Ok("Modificado");
-                //return RedirectToRoute("GetFavoritesCompetitors", new {token = token });
             }
             catch (UnauthorizedException ex)
             {

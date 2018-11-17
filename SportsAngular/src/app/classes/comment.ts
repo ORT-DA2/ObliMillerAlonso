@@ -1,17 +1,16 @@
 import { User } from "./user";
+import { Match } from "./match";
 
 export class Comment {
     id:number;
-    text:string;
-    date:String;
     user:User;
+    match:Match;
+    date:String;
+    text:string;
 
-    constructor(id:number, text:string, date:string,user:User) {
-        this.id = id;
+    constructor(user:User, text:string,date:string) {
+        this.user = user;
         this.text = text;
         this.date = date;
-        this.user = user;
     }
 }
-
-
