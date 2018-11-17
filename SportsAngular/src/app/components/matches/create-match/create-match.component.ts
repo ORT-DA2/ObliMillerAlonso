@@ -19,7 +19,6 @@ export class CreateMatchComponent  {
   sportsArray:Array<Sport>;
   selectedSport: Sport;
   competitors:Array<number>;
-  scoresArray:Array<number>;
   competitorScores:Array<CompetitorScoreDTO>;
   competitorsArray:Array<Competitor>;
   date:string;
@@ -48,7 +47,6 @@ export class CreateMatchComponent  {
     });
     this.competitorsArray = this.selectedSport.competitors;
     this.competitors = Array<number>(this.selectedSport.amount).fill(0);
-    this.scoresArray = Array<number>(this.selectedSport.amount).fill(0);
     this.competitorScores = Array<CompetitorScoreDTO>(this.selectedSport.amount);
     for (var i = 0; i < this.competitors.length; i++) {
       this.competitors[i] = i; 
