@@ -1,0 +1,41 @@
+<div class='panel panel-primary'>
+        <h2 class="favoritesCompetitorsListTitle">
+            Lista de favoritos
+        </h2>
+      <div class='table-responsive table-hover table-striped'>
+            <table class='table'>
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Imagen</th>
+                        <th>Deporte</th>
+                        <th>Eliminar favorito</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf='competitors && competitors.length; else noCompetitors'>
+                    <tr *ngFor='let aCompetitor of competitors '>
+                        <td>{{aCompetitor.id }}</td>
+                        <td>{{aCompetitor.name | uppercase}}</td>
+                        <td>
+                          <img class="competitorImage" src="{{aCompetitor.picture}}"  />
+                        </td>
+                        <td>
+                            <a href="#modifySport" [routerLink]="['/sports/modify/', aCompetitor.sport.id ]">{{aCompetitor.sport.name}}</a>
+                        </td>
+                        <td>
+                             <button type="submit" class="btn-default btn deletefavorite" (click)="deleteFavorite(aCompetitor.id)">DEJAR DE SEGUIR</button>
+                        </td>
+                    </tr>
+                </tbody>
+                <ng-template #noUsers>
+                    <tbody>
+                        <tr>
+                            <td>No hay favoritos para mostrar</td>
+                        </tr>
+                    </tbody>
+                </ng-template>
+            </table>
+        </div>
+      
+      </div>

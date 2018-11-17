@@ -18,6 +18,8 @@ import { ModifySportComponent } from './components/sports/modify-sport/modify-sp
 import { CreateCompetitorComponent } from './components/competitors/create-competitor/create-competitor.component';
 import { ViewCompetitorsComponent } from './components/competitors/view-competitors/view-competitors.component';
 import { ModifyCompetitorsComponent } from './components/competitors/modify-competitors/modify-competitors.component';
+import { ViewFavouritesComponent } from './components/favourites/view-favourites/view-favourites.component';
+
 
 
 import {LoginService} from './services/login.service';
@@ -38,6 +40,7 @@ const appRoutes: Routes = [
   { path: 'competitors/create',component: CreateCompetitorComponent},
   { path: 'competitors',component: ViewCompetitorsComponent},
   { path: 'competitors/modify/:id',component: ModifyCompetitorsComponent},
+  { path: 'favourites', component: ViewFavouritesComponent},
   { path: '**',redirectTo: ''},
 ]
 
@@ -55,7 +58,8 @@ const appRoutes: Routes = [
     ModifySportComponent,
     CreateCompetitorComponent,
     ViewCompetitorsComponent,
-    ModifyCompetitorsComponent
+    ModifyCompetitorsComponent,
+    ViewFavouritesComponent
   ],
   imports: [
     BrowserModule,

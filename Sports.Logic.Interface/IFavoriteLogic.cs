@@ -12,5 +12,6 @@ namespace Sports.Logic.Interface
         ICollection<Comment> GetFavoritesCompetitorsComments();
         ICollection<Favorite> GetAll();
         void SetSession(Guid token);
+        void DeleteFavorite(int id);
     }
 }

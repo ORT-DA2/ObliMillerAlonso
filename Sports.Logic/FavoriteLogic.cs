@@ -42,6 +42,15 @@ namespace Sports.Logic
             repository.Save();
         }
 
+        public void DeleteFavorite(int competitorId)
+        {
+            sessionLogic.ValidateUserNotNull(sessionUser);
+            Favorite favorite = repository.FindByCondition(f => f.Competitor.Id == competitorId 
+            && f.User.Id == sessionUser.Id).First();
+            repository.Delete(favorite);
+            repository.Save();
+        }
+
         private void ValidateNewFavorite(User user, Competitor competitor, Favorite favorite)
         {
             favorite.Validate();
@@ -128,5 +137,6 @@ namespace Sports.Logic
             matchLogic.SetSession(token);
             userLogic.SetSession(token);
         }
+
     }
 }

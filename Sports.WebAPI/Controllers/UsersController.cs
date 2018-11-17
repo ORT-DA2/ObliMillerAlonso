@@ -417,6 +417,41 @@ namespace Sports.WebAPI.Controllers
             }
         }
 
+
+        [HttpDelete("favorite/{id}", Name = "DeleteFavoriteCompetitors")]
+        public IActionResult DeleteFavoriteCompetitor(int id, [FromHeader] string token)
+        {
+            try
+            {
+                Guid realToken = Guid.Parse(token);
+                favoriteLogic.SetSession(realToken);
+                favoriteLogic.DeleteFavorite(id);
+                return Ok("favorite Competitor deleted succesfully");
+            }
+            catch (UnauthorizedException ex)
+            {
+                return Unauthorized();
+            }
+            catch (DomainException ex)
+            {
+                return UnprocessableEntity(ex.Message);
+            }
+            catch (LogicException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (UnknownDataAccessException ex)
+            {
+                return StatusCode((int)HttpStatusCode.ServiceUnavailable, ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+
+
         [HttpPost("log", Name = "LogBetweenDates")]
         public IActionResult LogBetweenDates([FromHeader] string token, [FromBody] LogDatesDTO dates)
         {
