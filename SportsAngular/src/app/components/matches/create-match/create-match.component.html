@@ -5,7 +5,7 @@
         <label for="Sport">
             Seleccione un deporte:
         </label>
-        <select id="selectedSport" class="selectSport" (change)="onSportSelected($event.target.value)" [(ngModel)]="data.SportId" name="Sport">
+        <select id="selectedSport" class="selectSport" (change)="onSportSelected()" [(ngModel)]="data.SportId" name="Sport">
             <option *ngFor='let x of sportsArray' value="{{x.id}}">{{x.name}}</option>
         </select>
       </div>

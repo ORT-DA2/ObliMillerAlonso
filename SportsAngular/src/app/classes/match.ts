@@ -4,14 +4,14 @@ import { Comment } from "./comment";
 
 export class Match {
     id:number;
-    date:Date;
-    competitorScores:Array<CompetitorScore>;
+    date:string;
+    competitors:Array<CompetitorScore>;
     sport:Sport;
     comments:Array<Comment>;
 
-    constructor(date:Date, competitorScores:Array<CompetitorScore>, sport:Sport) {
+    constructor(date:string, competitors:Array<CompetitorScore>, sport:Sport) {
         this.date = date;
-        this.competitorScores = competitorScores;
+        this.competitors = competitors;
         this.sport = sport;
     }
 }

@@ -9,8 +9,7 @@ namespace Sports.WebAPI.Models
     {
         public int Id { get; set; }
         public SportSimpleModelOut Sport { get; set; }
-        public CompetitorSimpleModelOut Visitor { get;  set; }
-        public CompetitorSimpleModelOut Local { get; set; }
+        public ICollection<CompetitorScoreModelOut> Competitors { get; set; }
         public string Date { get; set; }
     }
 }

@@ -39,7 +39,7 @@ export class CreateMatchComponent  {
     this.getSports();
   }
 
-  onSportSelected(value){
+  onSportSelected(){
     this.sportsArray.forEach(sport => {
       if (sport.id==this.data.SportId){
         this.selectedSport = sport;

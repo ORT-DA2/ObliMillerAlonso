@@ -9,7 +9,7 @@ import {
 import { Observable, throwError } from "rxjs";
 import { map, tap, catchError } from "rxjs/operators";
 import { environment } from '../../environments/environment';
-
+import { Match } from "../classes/match";
 import { Sport } from "../classes/sport";
 import { AlertService } from "./alert.service";
 
@@ -44,15 +44,14 @@ export class MatchService {
           catchError(this.handleError)
         );
     }
-/*
-    getAllSports(): Observable<Array<Sport>> {
+    getAllMatches(): Observable<Array<Sport>> {
       let headers = new Headers({
         "Content-Type": "application/json",
         Token: localStorage.getItem("user_token")
       });
       let options = new RequestOptions({ headers: headers });
       return this._httpService
-        .get(environment.apiUrl + "sports", options)
+        .get(environment.apiUrl + "matches/bySport", options)
         .pipe(
           map((response: Response) => {
             return <Array<Sport>>response.json();
@@ -61,14 +60,47 @@ export class MatchService {
         );
     }
 
-    getSportById(sportId: number): any {
+    getAllMatchesBySport(sportId:number): Observable<Array<Sport>> {
       let headers = new Headers({
         "Content-Type": "application/json",
         Token: localStorage.getItem("user_token")
       });
       let options = new RequestOptions({ headers: headers });
       return this._httpService
-        .get(environment.apiUrl + "sports/" + sportId, options)
+        .get(environment.apiUrl + "matches/bySport/"+ sportId, options)
+        .pipe(
+          map((response: Response) => {
+            return <Array<Sport>>response.json();
+          }),
+          catchError(this.handleError)
+        );
+    }
+
+    
+    getAllMatchesByCompetitor(competitorId:number): Observable<Array<Sport>> {
+      let headers = new Headers({
+        "Content-Type": "application/json",
+        Token: localStorage.getItem("user_token")
+      });
+      let options = new RequestOptions({ headers: headers });
+      return this._httpService
+        .get(environment.apiUrl + "matches/byCompetitor/"+ competitorId, options)
+        .pipe(
+          map((response: Response) => {
+            return <Array<Sport>>response.json();
+          }),
+          catchError(this.handleError)
+        );
+    }
+
+    getMatchById(matchId: number): any {
+      let headers = new Headers({
+        "Content-Type": "application/json",
+        Token: localStorage.getItem("user_token")
+      });
+      let options = new RequestOptions({ headers: headers });
+      return this._httpService
+        .get(environment.apiUrl + "matches/" + matchId, options)
         .pipe(
           map((response: Response) => {
             return response.json();
@@ -77,6 +109,7 @@ export class MatchService {
         );
     }
   
+/*
     modifySport(data: any, sportId: number): any {
       console.log('2')
       let headers = new Headers({

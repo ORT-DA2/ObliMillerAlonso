@@ -11,6 +11,7 @@ using Sports.Domain.Constants;
 using Sports.Logic.Constants;
 using System.IO;
 using System.Reflection;
+using Newtonsoft.Json.Linq;
 
 namespace Sports.Logic
 {
@@ -22,6 +23,7 @@ namespace Sports.Logic
         private IMatchLogic matchLogic;
         private ISessionLogic sessionLogic;
         private User user;
+        private string implementationsPath;
 
         public FixtureLogic(IRepositoryUnitOfWork unit)
         {
@@ -36,16 +38,20 @@ namespace Sports.Logic
 
         public void ResetFixtureStrategies()
         {
+            JObject jsonPaths = JObject.Parse(File.ReadAllText(@"fixturesPath.json"));
+            implementationsPath = jsonPaths.SelectToken("FixtureDlls").ToString();
             fixtureGeneratorStrategies = new List<IFixtureGeneratorStrategy>();
             currentStrategy = 0;
         }
         
-        public void AddFixtureImplementations(string dllFilesPath)
+        public ICollection<string> RefreshFixtureImplementations()
         {
+            ResetFixtureStrategies();
             sessionLogic.ValidateUser(user); 
-            VerifyPath(dllFilesPath);
-            DirectoryInfo directory = new DirectoryInfo(dllFilesPath);
+            VerifyPath(implementationsPath);
+            DirectoryInfo directory = new DirectoryInfo(implementationsPath);
             EvaluateAllDlls(directory);
+            return GetFixtureImplementations();
         }
         
         private void VerifyPath(string dllFilesPath)
@@ -79,15 +85,18 @@ namespace Sports.Logic
             }
         }
 
-        public string ChangeFixtureImplementation()
+        public ICollection<string> GetFixtureImplementations()
         {
+            ICollection<string> implementations = new List<string>();
             sessionLogic.ValidateUser(user);
             CheckStrategiesAreImported();
-            currentStrategy = (currentStrategy + 1) % (fixtureGeneratorStrategies.Count);
-            IFixtureGeneratorStrategy fixtureStrategy = fixtureGeneratorStrategies.ElementAt(currentStrategy);
             try
             {
-                return fixtureStrategy.FixtureInfo();
+                foreach (IFixtureGeneratorStrategy strategy in fixtureGeneratorStrategies)
+                {
+                    implementations.Add(strategy.FixtureInfo());
+                }
+                return implementations;
             }
             catch (Exception)
             {
@@ -104,7 +113,7 @@ namespace Sports.Logic
         }
 
 
-        public void GenerateFixture(ICollection<Sport> sports, DateTime startDate)
+        public void GenerateFixture(int pos, ICollection<Sport> sports, DateTime startDate)
         {
             sessionLogic.ValidateUser(user);
             FixtureGenerationValidations(sports,startDate);
