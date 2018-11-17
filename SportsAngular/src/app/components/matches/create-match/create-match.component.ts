@@ -19,9 +19,10 @@ export class CreateMatchComponent  {
   sportsArray:Array<Sport>;
   selectedSport: Sport;
   competitors:Array<number>;
+  scoresArray:Array<number>;
   competitorScores:Array<CompetitorScoreDTO>;
   competitorsArray:Array<Competitor>;
-  date:Date;
+  date:string;
   data: any = { 'SportId': "", 'Competitors': "",'Date': ""};
 
   @Input() pageTitle: string;
@@ -47,9 +48,11 @@ export class CreateMatchComponent  {
     });
     this.competitorsArray = this.selectedSport.competitors;
     this.competitors = Array<number>(this.selectedSport.amount).fill(0);
-    this.competitorScores = Array<CompetitorScoreDTO>(this.selectedSport.amount).fill(new CompetitorScoreDTO(0,0));
+    this.scoresArray = Array<number>(this.selectedSport.amount).fill(0);
+    this.competitorScores = Array<CompetitorScoreDTO>(this.selectedSport.amount);
     for (var i = 0; i < this.competitors.length; i++) {
       this.competitors[i] = i; 
+      this.competitorScores[i] = new CompetitorScoreDTO(0,0);
   }
   }
 
@@ -64,15 +67,13 @@ export class CreateMatchComponent  {
     );
   }
   create() {
-    if (this.selectedSport === null) {
+    if (this.selectedSport == null) {
         this.alertService.error("eliga un deporte");
-    } else if (this.competitors === null) {
-        this.alertService.error("eliga una competidores");
-    } else if (this.date === null) {
+    } else if (this.date == null) {
         this.alertService.error("eliga una fecha");
     } else {
       this.data.SportId = this.selectedSport.id;
-      this.data.Competitors = this.competitors;
+      this.data.Competitors = this.competitorScores;
       this.data.Date = this.date;
         this.matchService.create(this.data).subscribe(
             data => {
