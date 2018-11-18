@@ -15,7 +15,7 @@ import {User} from "../../../classes/user";
 })
 export class ViewCommentsComponent{
 
-  comments: Array<Comment>;
+  comments: any;
 
   constructor(
     private route: ActivatedRoute,

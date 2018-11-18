@@ -54,9 +54,11 @@ const appRoutes: Routes = [
   { path: 'competitors',component: ViewCompetitorsComponent},
   { path: 'competitors/modify/:id',component: ModifyCompetitorsComponent},
   { path: 'favourites', component: ViewFavouritesComponent},
-  { path: '**', component: ViewCommentsComponent},
   { path: 'matches/create',component: CreateMatchComponent},
+  { path: 'matches/modify/:id',component: ModifyMatchComponent},
   { path: 'matches',component: ViewMatchesComponent},
+  { path: '', component: ViewCommentsComponent},
+  { path: '**', component: ViewCommentsComponent},
 ]
 
 @NgModule({

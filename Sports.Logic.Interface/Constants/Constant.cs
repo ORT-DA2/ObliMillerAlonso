@@ -37,7 +37,7 @@ namespace Sports.Logic.Constants
 
     public static class FavoriteNotFound
     {
-        public const string FAVORITE_NOT_FOUND_MESSAGE = "Favorite not exist";
+        public const string FAVORITE_NOT_FOUND_MESSAGE = "Favorite id does not exist";
     }
     public static class SessionValidation
     {
@@ -53,12 +53,12 @@ namespace Sports.Logic.Constants
 
     public static class UniqueSport
     {
-        public const string DUPLICATE_SPORT_MESSAGE = "Sport already exist";
+        public const string DUPLICATE_SPORT_MESSAGE = "Sport already exists";
     }
 
     public static class UniqueFavorite
     {
-        public const string UNIQUE_FAVORITE_MESSAGE = "Favorite already exist";
+        public const string UNIQUE_FAVORITE_MESSAGE = "Competitor has already been favourited";
     }
 
     public static class UniqueCompetitor
@@ -68,7 +68,7 @@ namespace Sports.Logic.Constants
 
     public static class UniqueUsername
     {
-        public const string DUPLICATE_USERNAME_MESSAGE = "Username already exist";
+        public const string DUPLICATE_USERNAME_MESSAGE = "Username already exists";
     }
 
     public static class AdminException

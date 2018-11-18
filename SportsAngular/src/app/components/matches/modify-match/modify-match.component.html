@@ -1,3 +1,36 @@
-<p>
-  modify-match works!
-</p>
+<h1 class="modifyMatchTitle">Crear Partido</h1>
+
+<form (ngSubmit)="modify()" class="modifyMatchContainer">
+    <div class="form-group">
+        <label for="Sport">
+            Seleccione un deporte:
+        </label>
+        <select id="selectedSport" class="selectSport" name="Sport" disabled>
+            <option selected>{{sportName}}</option>
+        </select>
+      </div>
+    <div class="form-group">
+        <label for="Competitor">
+            Seleccione los participantes:
+        </label>
+        <div *ngFor="let competitor of competitors" class="form-group">
+          <div>
+            <select  id="competitor{{competitor}}" class="selectCompetitor{{competitor}}" [(ngModel)]="competitorScores[competitor].competitorId" name="comp{{competitor}}">
+              <option *ngFor='let x of competitorsArray' value="{{x.id}}">{{x.name}}</option>
+            </select>
+            <label for="Date">
+                Resultado:
+            </label>
+            <input type="number" class="form-control" [(ngModel)]="competitorScores[competitor.valueOf()].score" name="Score{{competitor}}">
+          </div>
+      </div>
+    </div>
+    <div class="form-group">
+        <label for="Date">
+            Eliga la fecha:
+        </label>
+        <input type="datetime-local" id="Date" class="form-control" [(ngModel)]="date" name="Date">
+    </div>
+    <button type="submit" class="btn-default btn modifyButton">Modificar</button>
+    <button type="button" class="btn-default btn deleteButton" (click)="deleteMatch()">Eliminar</button>
+</form>

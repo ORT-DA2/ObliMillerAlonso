@@ -79,11 +79,12 @@ export class ViewMatchesComponent  {
     {
       label: '<i class="fa fa-fw fa-pencil"></i>',
       onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.router.navigate(['/competitors']);
+        this.router.navigate(['/matches/modify/, event.id']);
       }
     }
   ];
 
+  
   refresh: Subject<any> = new Subject();
 
   events: CalendarEvent[] = [];
@@ -128,12 +129,13 @@ export class ViewMatchesComponent  {
         let date = new Date(stringDate);
         let competitorsString = "";
         match.competitors.forEach(competitor => {
-          competitorsString+=competitor.competitor.name+" - ";
+          competitorsString+=competitor.competitor.name+" ("+competitor.score+") - ";
         });
         competitorsString+=datetime[1];
         this.events.push( {
           title: competitorsString,
           color: colors.yellow,
+          id : match.id,
           start: date,
           meta: {
             type: sport.name
@@ -218,7 +220,8 @@ export class ViewMatchesComponent  {
   
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
-    this.modal.open(this.modalContent, { size: 'lg' });
+    let route = 'matches/modify/'+event.id;
+    this.router.navigate([route]);
   }
 
 }
