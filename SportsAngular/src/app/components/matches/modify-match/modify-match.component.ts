@@ -116,7 +116,7 @@ export class ModifyMatchComponent {
     }
   }
   
-  deleteCompetitor() {
+  deleteMatch() {
     this.matchService.deleteMatch(this.id).subscribe(
         data => {
           this.router.navigate(['/matches']);
