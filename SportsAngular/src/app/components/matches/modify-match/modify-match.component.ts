@@ -17,7 +17,9 @@ import { Match } from 'src/app/classes/match';
 })
 export class ModifyMatchComponent {
   id: number;
+  comments:Array<Comment>;
   sportsArray:Array<Sport>;
+  comment:Comment;
   selectedSport: Sport;
   sportName: string;
   competitors:Array<number>;
@@ -37,6 +39,7 @@ export class ModifyMatchComponent {
     this.route.params.subscribe(params => {
         this.id = params["id"];
     });
+    this.comment = new Comment("");
     this.getMatchById();
   }
   
@@ -56,6 +59,7 @@ export class ModifyMatchComponent {
     this.data['SportId'] = match.sport.id;
     this.data['Competitors'] = match.competitors;
     this.id = match.id;
+    this.comments = match.comments;
     this.competitorScores = match.competitors;
     this.competitors = Array<number>(match.competitors.length).fill(0);
     for (var i = 0; i < this.competitors.length; i++) {
@@ -124,6 +128,16 @@ export class ModifyMatchComponent {
         error => {
             this.alertService.error(error.message);
         })
+  }
+
+  createComment(){
+    this.matchService.addComment(this.id,this.comment).subscribe(
+      data => {
+        this.getMatchById();
+      },
+      error => {
+          this.alertService.error(error.message);
+      })
   }
   
   isAdmin(): boolean{

@@ -13,9 +13,11 @@
             </thead>
             <tbody *ngIf='comments && comments.length; else noComments'>
                 <tr *ngFor='let aComment of comments '>
-                    <td>{{aComment.user }}</td>
+                    <td>{{aComment.user.username }}</td>
                     <td>{{aComment.text }}</td>
-                    <td></td>
+                    <td>
+                        <a href="#modifyMatch" [routerLink]="['/matches/', aComment.match.id ]">{{aComment.match.sport.name }} - {{aComment.match.date }}</a>
+                    </td>
                 </tr>
             </tbody>
             <ng-template #noComments>

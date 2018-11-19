@@ -8,9 +8,7 @@ export class Comment {
     date:String;
     text:string;
 
-    constructor(user:User, text:string,date:string) {
-        this.user = user;
+    constructor(text:string) {
         this.text = text;
-        this.date = date;
     }
 }

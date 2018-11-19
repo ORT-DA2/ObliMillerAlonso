@@ -144,6 +144,24 @@ export class MatchService {
         );
     }
     
+    addComment(matchId: number, data: any): any {
+      let headers = new Headers({
+        "Content-Type": "application/json",
+        Token: localStorage.getItem("user_token")
+      });
+      let options = new RequestOptions({ headers: headers });
+      return this._httpService
+        .post(environment.apiUrl + "matches/" + matchId +"/comments",
+        JSON.stringify(data),
+        options)
+        .pipe(
+          map((response: Response) => {
+          }),
+          catchError(this.handleError)
+        );
+    }
+    
+    
   private handleError(error: Response) {
     if (error.status == 0)
       return throwError(new Error("Ocurrió un error inesperado en el servidor."));

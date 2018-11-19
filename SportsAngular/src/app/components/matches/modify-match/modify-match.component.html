@@ -33,4 +33,41 @@
     </div>
     <button *ngIf="isAdmin()" type="submit" class="btn-default btn modifyButton">Modificar</button>
     <button *ngIf="isAdmin()" type="button" class="btn-default btn deleteButton" (click)="deleteMatch()">Eliminar</button>
+
+    <h2 class="commentsListTitle">
+           Comentarios
+        </h2>
+      <div class='table-responsive table-hover table-striped'>
+            <table class='table'>
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Comentario</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf='comments && comments.length; else noComments'>
+                    <tr *ngFor='let aComment of comments '>
+                        <td>{{aComment.user.username }}</td>
+                        <td>{{aComment.text }}</td>
+                    </tr>
+                </tbody>
+                <ng-template #noComments>
+                    <tbody>
+                        <tr>
+                            <td>No hay comentarios para mostrar</td>
+                        </tr>
+                    </tbody>
+                </ng-template>
+            </table>
+        </div>
+
+        <form (ngSubmit)="createComment()" class="createCommentContainer">
+                <div class="form-group">
+                    <label for="Comment">
+                        Comentario:
+                    </label>
+                    <input type="text" id="Comment" class="form-control" [(ngModel)]="comment.text" name="Comment">
+                </div>
+                <button type="submit" class="btn-default btn createComment">COMENTAR</button>
+            </form>
 </form>
