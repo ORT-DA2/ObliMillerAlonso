@@ -160,6 +160,38 @@ export class MatchService {
           catchError(this.handleError)
         );
     }
+    getAllFixtures(): any {
+      let headers = new Headers({
+        "Content-Type": "application/json",
+        Token: localStorage.getItem("user_token")
+      });
+      let options = new RequestOptions({ headers: headers });
+      return this._httpService
+        .get(environment.apiUrl + "matches/fixtures",
+        options)
+        .pipe(
+          map((response: Response) => {
+            return response.json();
+          }),
+          catchError(this.handleError)
+        );
+    }
+    generateFixture(data: any): any {
+      let headers = new Headers({
+        "Content-Type": "application/json",
+        Token: localStorage.getItem("user_token")
+      });
+      let options = new RequestOptions({ headers: headers });
+      return this._httpService
+        .post(environment.apiUrl + "matches/generateFixture",
+        JSON.stringify(data),
+        options)
+        .pipe(
+          map((response: Response) => {
+          }),
+          catchError(this.handleError)
+        );
+    }
     
     
   private handleError(error: Response) {

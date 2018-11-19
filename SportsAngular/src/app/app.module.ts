@@ -6,6 +6,9 @@ import { RouterModule, Routes} from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { CommonModule } from '@angular/common';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { FlatpickrModule } from 'angularx-flatpickr';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,15 +26,9 @@ import { ViewCompetitorsComponent } from './components/competitors/view-competit
 import { ModifyCompetitorsComponent } from './components/competitors/modify-competitors/modify-competitors.component';
 import { ViewFavouritesComponent } from './components/favourites/view-favourites/view-favourites.component';
 import { ViewCommentsComponent } from './components/favourites/view-comments/view-comments.component';
-
-
-
 import { CreateMatchComponent } from './components/matches/create-match/create-match.component';
 import { ModifyMatchComponent } from './components/matches/modify-match/modify-match.component';
 import { ViewMatchesComponent } from './components/matches/view-matches/view-matches.component';
-import { CommonModule } from '@angular/common';
-import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
-import { FlatpickrModule } from 'angularx-flatpickr';
 
 import { LoginService } from './services/login.service';
 import { AlertService } from './services/alert.service';
@@ -42,24 +39,26 @@ import { FavoriteService } from './services/favorite.service';
 import { MatchService } from './services/match.service';
 import { ViewLogComponent } from './components/users/view-log/view-log.component';
 import { FixtureComponent } from './components/matches/fixture/fixture.component';
-
+import { UserGuard } from './guards/user.guard';
+import { AdminGuard } from './guards/admin.guard';
 
 
 const appRoutes: Routes = [
-  { path: 'users/create',component: CreateUserComponent},
-  { path: 'users',component: ViewUsersComponent},
-  { path: 'log',component: ViewLogComponent},
-  { path: 'users/:id',component: ModifyUserComponent},
-  { path: 'sports/create',component: CreateSportComponent},
-  { path: 'sports',component: ViewSportsComponent},
-  { path: 'sports/:id',component: ModifySportComponent},
-  { path: 'competitors/create',component: CreateCompetitorComponent},
+  { path: 'users/create',component: CreateUserComponent, canActivate:[AdminGuard]},
+  { path: 'users',component: ViewUsersComponent, canActivate:[AdminGuard]},
+  { path: 'log',component: ViewLogComponent, canActivate:[AdminGuard]},
+  { path: 'users/:id',component: ModifyUserComponent, canActivate:[AdminGuard]},
+  { path: 'sports/create',component: CreateSportComponent, canActivate:[AdminGuard]},
+  { path: 'sports',component: ViewSportsComponent, canActivate:[UserGuard]},
+  { path: 'sports/:id',component: ModifySportComponent, canActivate:[UserGuard]},
+  { path: 'competitors/create',component: CreateCompetitorComponent, canActivate:[AdminGuard]},
   { path: 'competitors',component: ViewCompetitorsComponent},
-  { path: 'competitors/:id',component: ModifyCompetitorsComponent},
-  { path: 'favourites', component: ViewFavouritesComponent},
-  { path: 'matches/create',component: CreateMatchComponent},
-  { path: 'matches/:id',component: ModifyMatchComponent},
-  { path: 'matches',component: ViewMatchesComponent},
+  { path: 'competitors/:id',component: ModifyCompetitorsComponent, canActivate:[UserGuard]},
+  { path: 'favourites', component: ViewFavouritesComponent, canActivate:[UserGuard]},
+  { path: 'matches/create',component: CreateMatchComponent, canActivate:[AdminGuard]},
+  { path: 'fixtures',component: FixtureComponent, canActivate:[AdminGuard]},
+  { path: 'matches/:id',component: ModifyMatchComponent, canActivate:[UserGuard]},
+  { path: 'matches',component: ViewMatchesComponent, canActivate:[UserGuard]},
   { path: '', component: ViewCommentsComponent},
   { path: '**', component: ViewCommentsComponent},
 ]

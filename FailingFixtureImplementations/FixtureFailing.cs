@@ -12,7 +12,7 @@ namespace FailingFixtureImplementations
             throw new NotImplementedException();
         }
 
-        public ICollection<Match> GenerateFixture(ICollection<Sport> sports, DateTime startDate)
+        public ICollection<Match> GenerateFixture(Sport sport, DateTime startDate)
         {
             throw new NotImplementedException();
         }

@@ -173,9 +173,12 @@ namespace Sports.Logic
 
         public void AddMatches(ICollection<Match> matches)
         {
-            foreach(Match match in matches)
+            foreach (Match match in matches)
             {
-                DateTime date = match.Date.Date;
+                CheckMatchDoesntExist(match);
+            }
+            foreach (Match match in matches)
+            {
                 AddMatch(match);
             }
         }

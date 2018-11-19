@@ -113,16 +113,16 @@ namespace Sports.Logic
         }
 
 
-        public void GenerateFixture(int pos, ICollection<Sport> sports, DateTime startDate)
+        public void GenerateFixture(int pos, int sportId, DateTime startDate)
         {
             sessionLogic.ValidateUser(user);
-            FixtureGenerationValidations(sports,startDate);
-            ICollection<Sport> realSports = GetRealSports(sports);
+            FixtureGenerationValidations(startDate);
+            Sport realSport = sportLogic.GetSportById(sportId);
             ICollection<Match> fixtureMatches = new List<Match>();
-            IFixtureGeneratorStrategy fixtureStrategy = fixtureGeneratorStrategies.ElementAt(currentStrategy);
+            IFixtureGeneratorStrategy fixtureStrategy = fixtureGeneratorStrategies.ElementAt(pos);
             try
             {
-                fixtureMatches = fixtureStrategy.GenerateFixture(realSports, startDate);
+                fixtureMatches = fixtureStrategy.GenerateFixture(realSport, startDate);
             }
             catch(Exception)
             {
@@ -139,23 +139,12 @@ namespace Sports.Logic
             }
         }
 
-        private void FixtureGenerationValidations(ICollection<Sport> sports, DateTime startDate)
+        private void FixtureGenerationValidations( DateTime startDate)
         {
             ValidateDate(startDate);
             CheckFixtureImported();
-            CheckListIsNotNull(sports);
         }
-
-        private ICollection<Sport> GetRealSports(ICollection<Sport> sports)
-        {
-            ICollection<Sport> realSports = new List<Sport>();
-            foreach (Sport sport in sports)
-            {
-                realSports.Add(sportLogic.GetSportByName(sport.Name));
-            }
-            return realSports;
-        }
-
+        
         private void CheckListIsNotNull(ICollection<Sport> sports)
         {
             if (sports == null)

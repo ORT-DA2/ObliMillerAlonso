@@ -443,14 +443,8 @@ namespace Sports.WebAPI.Controllers
             {
                 Guid realToken = Guid.Parse(token);
                 User user =  fixtureLogic.SetSession(realToken);
-                ICollection<Sport> sports = new List<Sport>();
-                foreach (SportModelIn model in fixtureData.Sports)
-                {
-                    Sport sport = mapper.Map<Sport>(model);
-                    sports.Add(sport);
-                }
                 DateTime startDate = Convert.ToDateTime(fixtureData.Date);
-                fixtureLogic.GenerateFixture(fixtureData.Pos,  sports, startDate);
+                fixtureLogic.GenerateFixture(fixtureData.Pos, fixtureData.SportId, startDate);
                 logLogic.AddEntry("Fixture", user.UserName, DateTime.Now);
                 return Ok("Fixture succesfully generated");
 

@@ -12,17 +12,14 @@ namespace FixtureImplementations
         private Sport currentSport;
         private int daysToAddToDate;
         private DateTime initialDate;
-        public ICollection<Match> GenerateFixture(ICollection<Sport> sports, DateTime startDate)
+        public ICollection<Match> GenerateFixture(Sport sport, DateTime startDate)
         {
             generatedMatches = new List<Match>();
-            foreach (Sport sport in sports.ToList())
-            {
-                currentSport = sport;
-                daysToAddToDate = 1;
-                initialDate = startDate;
-                GenerateMatches(sport.Competitors.ToList(),new List<Competitor>(), 0, sport.Competitors.Count - 1);
-                GenerateMatches(sport.Competitors.ToList(), new List<Competitor>(), 0, sport.Competitors.Count - 1);
-            }
+            currentSport = sport;
+            daysToAddToDate = 1;
+            initialDate = startDate;
+            GenerateMatches(sport.Competitors.ToList(),new List<Competitor>(), 0, sport.Competitors.Count - 1);
+            GenerateMatches(sport.Competitors.ToList(), new List<Competitor>(), 0, sport.Competitors.Count - 1);
             return generatedMatches;
         }
 

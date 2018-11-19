@@ -12,15 +12,12 @@ namespace FixtureImplementations
         private Sport currentSport;
         private int lastFreeDate;
         private DateTime initialDate;
-        public ICollection<Match> GenerateFixture(ICollection<Sport> sports, DateTime startDate)
+        public ICollection<Match> GenerateFixture(Sport sport, DateTime startDate)
         {
             generatedMatches = new List<Match>();
-            foreach (Sport sport in sports.ToList())
-            {
-                currentSport = sport;
-                initialDate = startDate;
-                GenerateMatches(sport.Competitors.ToList(), new List<Competitor>(), 0, sport.Competitors.Count - 1);
-            }
+            currentSport = sport;
+            initialDate = startDate;
+            GenerateMatches(sport.Competitors.ToList(), new List<Competitor>(), 0, sport.Competitors.Count - 1);
             return generatedMatches;
         }
         
@@ -74,21 +71,29 @@ namespace FixtureImplementations
             while (dateIsOcupied)
             {
                 DateTime date = initialDate.AddDays(lastFreeDate);
-                if (IsWeekend(date) )
+                if (IsWeekend(date))
                 {
-                    if(UnoccupiedDateByCompetitors(date, competitors))
+                    if (UnoccupiedDateByCompetitors(date, competitors))
                     {
                         dateIsOcupied = false;
                         validDate = date;
                     }
-                    lastFreeDate += 5;
                 }
-                else
-                {
-                    lastFreeDate += 1;
-                }
+                SkipWeekdays(date);
             }
             return validDate;
+        }
+
+        private void SkipWeekdays(DateTime date)
+        {
+            if (date.DayOfWeek.Equals(DayOfWeek.Sunday))
+            {
+                lastFreeDate += 5;
+            }
+            else
+            {
+                lastFreeDate += 1;
+            }
         }
 
         private bool IsWeekend(DateTime date)
