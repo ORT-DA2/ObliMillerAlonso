@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { SportsService } from '../../../services/sports.service';
 import { AlertService } from '../../../services/alert.service';
 import { Sport } from "../../../classes/sport";
+import { CompetitorScore } from 'src/app/classes/competitorScore';
 
 @Component({
   selector: 'app-modify-sport',
@@ -15,6 +16,7 @@ export class ModifySportComponent {
   createWidth: number = 250;
   id: number;
   sport: any;
+  competitors: Array<CompetitorScore>
   data: any = { 'Name': ""};
 
   constructor(
@@ -69,6 +71,19 @@ getSportById(): any {
 setSportData(sport) {
     this.data['Name'] = sport.name;
     this.data['Amount'] = sport.amount;
+    this.getRanking();
+}
+
+getRanking(){
+    this.sportsService.getRanking(this.id).subscribe(
+        obtainedRanking => {
+            this.competitors = obtainedRanking;
+        }
+        ,
+        (error: any) => {
+            this.alertService.error(error.message);
+        }
+    );
 }
 
 isAdmin(): boolean{

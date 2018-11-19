@@ -40,6 +40,7 @@ import { SportsService } from './services/sports.service';
 import { CompetitorService } from './services/competitor.service';
 import { FavoriteService } from './services/favorite.service';
 import { MatchService } from './services/match.service';
+import { ViewLogComponent } from './components/users/view-log/view-log.component';
 
 
 
@@ -80,7 +81,8 @@ const appRoutes: Routes = [
     ViewCommentsComponent,
     CreateMatchComponent,
     ModifyMatchComponent,
-    ViewMatchesComponent
+    ViewMatchesComponent,
+    ViewLogComponent
   ],
   imports: [
     BrowserModule,

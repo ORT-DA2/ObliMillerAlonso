@@ -292,7 +292,7 @@ namespace Sports.WebAPI.Controllers
                     CompetitorScoreModelOut model = mapper.Map<CompetitorScoreModelOut>(competitor);
                     rankingModels.Add(model);
                 }
-                return Ok(rankingModels.ToList());
+                return Ok(rankingModels.OrderByDescending(r=>r.Score).ToList());
 
             }
             catch (UnauthorizedException ex)

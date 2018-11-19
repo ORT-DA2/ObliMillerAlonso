@@ -112,6 +112,23 @@ export class SportsService {
           catchError(this.handleError)
         );
     }
+
+    
+    getRanking(sportId: number): any {
+      let headers = new Headers({
+        "Content-Type": "application/json",
+        Token: localStorage.getItem("user_token")
+      });
+      let options = new RequestOptions({ headers: headers });
+      return this._httpService
+        .get(environment.apiUrl + "sports/" + sportId+"/ranking", options)
+        .pipe(
+          map((response: Response) => {
+            return response.json();
+          }),
+          catchError(this.handleError)
+        );
+    }
     
   private handleError(error: Response) {
     if (error.status == 0)
