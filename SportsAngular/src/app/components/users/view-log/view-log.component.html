@@ -1,3 +1,44 @@
-<p>
-  view-log works!
-</p>
+<div class='panel panel-primary'>
+    <h2 class="commentsListTitle">
+        Registro de acciones
+    </h2>
+    
+<form (ngSubmit)="refreshLog()" class="refreshLogContainer">
+    <div class="form-group">
+        <label for="Date">
+            Eliga la fecha desde:
+        </label>
+        <input type="date" id="Date" class="form-control" [(ngModel)]="startDate" name="startDate">
+    </div>
+    
+    <div class="form-group">
+        <label for="Date">
+            Eliga la fecha hasta:
+        </label>
+        <input type="date" id="Date" class="form-control" [(ngModel)]="endDate" name="endDate">
+    </div>
+    <button type="submit" class="btn-default btn refreshLog">Refrescar</button>
+  </form>
+  <div class='table-responsive table-hover table-striped'>
+        <table class='table'>
+            <thead>
+                <tr>
+                    <th>Registro</th>
+                </tr>
+            </thead>
+            <tbody *ngIf='logs && logs.length; else noLogs'>
+                <tr *ngFor='let log of logs '>
+                    <td>{{log}}</td>
+                </tr>
+            </tbody>
+            <ng-template #noLogs>
+                <tbody>
+                    <tr>
+                        <td>No hay registros para mostrar</td>
+                    </tr>
+                </tbody>
+            </ng-template>
+        </table>
+    </div>
+  
+  </div>
