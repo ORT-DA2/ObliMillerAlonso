@@ -111,6 +111,25 @@ export class UserService {
       );
   }
 
+  
+
+  getLog(data: any): any {
+    let headers = new Headers({
+      "Content-Type": "application/json",
+      Token: localStorage.getItem("user_token")
+    });
+    let options = new RequestOptions({ headers: headers });
+    return this._httpService
+      .post(environment.apiUrl + "users/log", 
+      JSON.stringify(data), options)
+      .pipe(
+        map((response: Response) => {
+          return response.json();
+        }),
+        catchError(this.handleError)
+      );
+  }
+
   private handleError(error: Response) {
     if (error.status == 0)
       return throwError(new Error("Ocurrió un error inesperado en el servidor."));

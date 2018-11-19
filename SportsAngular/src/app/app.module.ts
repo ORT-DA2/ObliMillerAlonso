@@ -40,12 +40,15 @@ import { SportsService } from './services/sports.service';
 import { CompetitorService } from './services/competitor.service';
 import { FavoriteService } from './services/favorite.service';
 import { MatchService } from './services/match.service';
+import { ViewLogComponent } from './components/users/view-log/view-log.component';
+import { FixtureComponent } from './components/matches/fixture/fixture.component';
 
 
 
 const appRoutes: Routes = [
   { path: 'users/create',component: CreateUserComponent},
   { path: 'users',component: ViewUsersComponent},
+  { path: 'log',component: ViewLogComponent},
   { path: 'users/:id',component: ModifyUserComponent},
   { path: 'sports/create',component: CreateSportComponent},
   { path: 'sports',component: ViewSportsComponent},
@@ -80,7 +83,9 @@ const appRoutes: Routes = [
     ViewCommentsComponent,
     CreateMatchComponent,
     ModifyMatchComponent,
-    ViewMatchesComponent
+    ViewMatchesComponent,
+    ViewLogComponent,
+    FixtureComponent
   ],
   imports: [
     BrowserModule,
