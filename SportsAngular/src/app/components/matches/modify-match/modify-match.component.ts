@@ -125,5 +125,10 @@ export class ModifyMatchComponent {
             this.alertService.error(error.message);
         })
   }
+  
+  isAdmin(): boolean{
+    var admin = localStorage.getItem('isAdmin');
+    return admin == true.toString();
+  }
 
 }

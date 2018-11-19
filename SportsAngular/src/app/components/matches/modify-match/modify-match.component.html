@@ -1,4 +1,4 @@
-<h1 class="modifyMatchTitle">Crear Partido</h1>
+<h1 class="modifyMatchTitle">Ver Partido</h1>
 
 <form (ngSubmit)="modify()" class="modifyMatchContainer">
     <div class="form-group">
@@ -31,6 +31,6 @@
         </label>
         <input type="datetime-local" id="Date" class="form-control" [(ngModel)]="date" name="Date">
     </div>
-    <button type="submit" class="btn-default btn modifyButton">Modificar</button>
-    <button type="button" class="btn-default btn deleteButton" (click)="deleteMatch()">Eliminar</button>
+    <button *ngIf="isAdmin()" type="submit" class="btn-default btn modifyButton">Modificar</button>
+    <button *ngIf="isAdmin()" type="button" class="btn-default btn deleteButton" (click)="deleteMatch()">Eliminar</button>
 </form>

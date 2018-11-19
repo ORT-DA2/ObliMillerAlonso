@@ -54,6 +54,16 @@ export class CreateMatchComponent  {
   }
   }
 
+  checkCompetitors():boolean{
+    let flag = false;
+    this.competitorScores.forEach(competitor => {
+      if(competitor.competitorId==0){
+        flag = true;
+      }
+    });
+    return flag;
+  }
+
   getSports(): any {
     this.sportsArray = new Array<Sport>();
 
@@ -65,9 +75,12 @@ export class CreateMatchComponent  {
     );
   }
   create() {
+
     if (this.selectedSport == null) {
         this.alertService.error("eliga un deporte");
-    } else if (this.date == null) {
+    } else if (this.checkCompetitors()) {
+      this.alertService.error("eliga todos los competidores");
+    }else if (this.date == null) {
         this.alertService.error("eliga una fecha");
     } else {
       this.data.SportId = this.selectedSport.id;
@@ -75,7 +88,7 @@ export class CreateMatchComponent  {
       this.data.Date = this.date;
         this.matchService.create(this.data).subscribe(
             data => {
-                //this.router.navigate(['/competitors']);
+                this.router.navigate(['/matches']);
             },
             error => {
                 this.alertService.error(error.message);

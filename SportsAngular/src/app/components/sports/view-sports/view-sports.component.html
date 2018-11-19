@@ -6,19 +6,16 @@
       <table class='table'>
           <thead>
               <tr>
-                  <th>Id</th>
                   <th>Nombre</th>
                   <th>Participantes por encuentro</th>
               </tr>
           </thead>
           <tbody *ngIf='sports && sports.length; else noSports'>
               <tr *ngFor='let aSport of sports '>
-                  <td>{{aSport.id }}</td>
-                  <td>{{aSport.name | uppercase}}</td>
-                  <td>{{aSport.amount}}</td>
                   <td>
-                      <a  href="#modifySport" [routerLink]="['/sports/modify/', aSport.id ]">Editar deporte</a>
+                    <a href="#modifySport" [routerLink]="['/sports/', aSport.id ]">{{aSport.name | uppercase}}</a>
                   </td>
+                  <td>{{aSport.amount}}</td>
               </tr>
           </tbody>
           <ng-template #noUsers>

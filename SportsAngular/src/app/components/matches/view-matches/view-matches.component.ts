@@ -220,7 +220,7 @@ export class ViewMatchesComponent  {
   
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
-    let route = 'matches/modify/'+event.id;
+    let route = 'matches/'+event.id;
     this.router.navigate([route]);
   }
 

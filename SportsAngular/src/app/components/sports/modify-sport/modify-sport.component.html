@@ -1,4 +1,4 @@
-<h1 class="modifySportTitle">Modificar Deporte</h1>
+<h1 class="modifySportTitle">Ver Deporte</h1>
 
 <form (ngSubmit)="modify()" class="modifySportContainer">
     <div class="form-group">
@@ -13,6 +13,6 @@
         </label>
         <input type="number" id="Amount" class="form-control" [(ngModel)]="data.Amount" name="Amount" disabled>
     </div>
-      <button type="submit" class="btn-default btn modifyButton">Modificar</button>
-      <button type="button" class="btn-default btn deleteButton" (click)="deleteSport()">Eliminar</button>
+      <button *ngIf="isAdmin()" type="submit" class="btn-default btn modifyButton">Modificar</button>
+      <button *ngIf="isAdmin()" type="button" class="btn-default btn deleteButton" (click)="deleteSport()">Eliminar</button>
 </form>

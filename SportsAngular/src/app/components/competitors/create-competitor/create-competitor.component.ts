@@ -16,7 +16,7 @@ export class CreateCompetitorComponent  {
   selectedFile: File = null;
   reader:FileReader = new FileReader;
   sportsArray:Array<Sport>;
-  sportId: number;
+  sportId: number = 0;
 
   @Input() pageTitle: string;
   createWidth: number = 250;
@@ -54,9 +54,7 @@ export class CreateCompetitorComponent  {
   create() {
     if (this.data['Name'] === "") {
         this.alertService.error("nombre vacio");
-    } else if (this.data['Picture'] === "") {
-        this.alertService.error("eliga una imagen");
-    } else if (this.sportId === 0) {
+    }  else if (this.sportId == 0) {
         this.alertService.error("eliga un deporte");
     } else {
         this.competitorService.create(this.sportId, this.data).subscribe(

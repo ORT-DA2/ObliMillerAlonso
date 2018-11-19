@@ -16,28 +16,28 @@ namespace Sports.Logic.Constants
 
     public static class MatchId
     {
-        public const string MATCH_ID_NOT_EXIST_MESSAGE = "Match id does not exist";
+        public const string MATCH_ID_NOT_EXIST_MESSAGE = "Invalid or nonexistent match seleceted";
     }
 
     public static class UserNotFound
     {
         public const string USER_NOT_FOUND_MESSAGE = "User deleted or not exist";
-        public const string USER_ID_NOT_FOUND_MESSAGE = "User Id does not exist";
+        public const string USER_ID_NOT_FOUND_MESSAGE = "Invalid or nonexistent user seleceted";
     }
 
     public static class SportNotFound
     {
-        public const string SPORT_NOT_FOUND_MESSAGE = "Id does not match any existing sports";
+        public const string SPORT_NOT_FOUND_MESSAGE = "Invalid or nonexistent sport seleceted";
     }
 
     public static class CompetitorNotFound
     {
-        public const string COMPETITOR_ID_NOT_FOUND_MESSAGE = "Id does not match any existing competitors";
+        public const string COMPETITOR_ID_NOT_FOUND_MESSAGE = "Invalid or nonexistent competitor selected";
     }
 
     public static class FavoriteNotFound
     {
-        public const string FAVORITE_NOT_FOUND_MESSAGE = "Favorite id does not exist";
+        public const string FAVORITE_NOT_FOUND_MESSAGE = "User has no favorite competitors";
     }
     public static class SessionValidation
     {
