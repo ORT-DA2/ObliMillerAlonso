@@ -16,6 +16,7 @@ namespace Sports.Logic
         ISportLogic sportLogic;
         ICommentLogic commentLogic;
         ICompetitorLogic competitorLogic;
+        ICompetitorScoreRepository competitorScoreRepository;
         ISessionLogic sessionLogic;
         IUserLogic userLogic;
         User user;
@@ -23,6 +24,7 @@ namespace Sports.Logic
         public MatchLogic(IRepositoryUnitOfWork unit)
         {
             repository = unit.Match;
+            competitorScoreRepository = unit.CompetitorScore;
             sportLogic = new SportLogic(unit);
             competitorLogic = new CompetitorLogic(unit);
             commentLogic = new CommentLogic(unit);
@@ -48,11 +50,15 @@ namespace Sports.Logic
         
         private void CheckMatchDoesntExist(Match match)
         {
-            ICollection<Match> matches = repository.FindByCondition(m => match.Competitors.Intersect(m.Competitors).Count() > 0 && m.Date.Date.Equals(match.Date.Date));
-            if (matches.Count != 0)
+            foreach (CompetitorScore competitor in match.Competitors)
             {
-                throw new MatchAlreadyExistsException(MatchValidation.COMPETITOR_ALREADY_PLAYING);
+                ICollection<Match> matches = repository.FindByCondition(m => match.Competitors.Contains(competitor) && m.Date.Date.Equals(match.Date.Date));
+                if (matches.Count != 0)
+                {
+                    throw new MatchAlreadyExistsException(MatchValidation.COMPETITOR_ALREADY_PLAYING);
+                }
             }
+            
         }
 
         private void ValidateSport(Match match)
@@ -124,6 +130,10 @@ namespace Sports.Logic
         {
             sessionLogic.ValidateUser(user);
             Match realMatch = GetMatchById(matchId);
+            foreach (CompetitorScore comp in realMatch.Competitors)
+            {
+                competitorScoreRepository.Delete(comp);
+            }
             repository.Delete(realMatch);
             repository.Save();
         }

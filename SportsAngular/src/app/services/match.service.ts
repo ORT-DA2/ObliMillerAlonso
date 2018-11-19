@@ -109,9 +109,7 @@ export class MatchService {
         );
     }
   
-/*
-    modifySport(data: any, sportId: number): any {
-      console.log('2')
+    modifyMatch(data: any, matchId: number): any {
       let headers = new Headers({
         "Content-Type": "application/json",
         Token: localStorage.getItem("user_token")
@@ -120,7 +118,7 @@ export class MatchService {
       return this._httpService
         .put(
           environment.apiUrl +
-          "sports/" + sportId, JSON.stringify(data),
+          "matches/" + matchId, JSON.stringify(data),
           options
         )
         .pipe(
@@ -131,21 +129,21 @@ export class MatchService {
         );
     }
   
-    deleteSport(sportId: number): any {
+    deleteMatch(matchId: number): any {
       let headers = new Headers({
         "Content-Type": "application/json",
         Token: localStorage.getItem("user_token")
       });
       let options = new RequestOptions({ headers: headers });
       return this._httpService
-        .delete(environment.apiUrl + "sports/" + sportId, options)
+        .delete(environment.apiUrl + "matches/" + matchId, options)
         .pipe(
           map((response: Response) => {
           }),
           catchError(this.handleError)
         );
     }
-    */
+    
   private handleError(error: Response) {
     if (error.status == 0)
       return throwError(new Error("Ocurrió un error inesperado en el servidor."));

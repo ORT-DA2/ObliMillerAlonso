@@ -46,17 +46,19 @@ import { MatchService } from './services/match.service';
 const appRoutes: Routes = [
   { path: 'users/create',component: CreateUserComponent},
   { path: 'users',component: ViewUsersComponent},
-  { path: 'users/modify/:id',component: ModifyUserComponent},
+  { path: 'users/:id',component: ModifyUserComponent},
   { path: 'sports/create',component: CreateSportComponent},
   { path: 'sports',component: ViewSportsComponent},
-  { path: 'sports/modify/:id',component: ModifySportComponent},
+  { path: 'sports/:id',component: ModifySportComponent},
   { path: 'competitors/create',component: CreateCompetitorComponent},
   { path: 'competitors',component: ViewCompetitorsComponent},
-  { path: 'competitors/modify/:id',component: ModifyCompetitorsComponent},
+  { path: 'competitors/:id',component: ModifyCompetitorsComponent},
   { path: 'favourites', component: ViewFavouritesComponent},
-  { path: '**', component: ViewCommentsComponent},
   { path: 'matches/create',component: CreateMatchComponent},
+  { path: 'matches/:id',component: ModifyMatchComponent},
   { path: 'matches',component: ViewMatchesComponent},
+  { path: '', component: ViewCommentsComponent},
+  { path: '**', component: ViewCommentsComponent},
 ]
 
 @NgModule({

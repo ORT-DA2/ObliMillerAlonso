@@ -1,4 +1,4 @@
-<h1 class="modifyCompetitorTitle">Crear Competidor</h1>
+<h1 class="modifyCompetitorTitle">Ver Competidor</h1>
 
 <form (ngSubmit)="modify()" class="modifyCompetitorContainer">
     <div class="form-group">
@@ -18,10 +18,8 @@
       <label for="Sport">
           Deporte:
       </label>
-      <select id="selectedSport" class="selectSport" name="Sport" value="Usuarios" disabled>
-          <option selected="selected">{{sport}}</option>
-      </select>
+      <a href="#modifySport" [routerLink]="['/sports/', sport.id ]">{{sport.name}}</a>
   </div>
-  <button type="submit" class="btn-default btn modifyButton">Modificar</button>
-  <button type="button" class="btn-default btn deleteButton" (click)="deleteSport()">Eliminar</button>
+  <button *ngIf="isAdmin()" type="submit" class="btn-default btn modifyButton">Modificar</button>
+  <button  *ngIf="isAdmin()" type="button" class="btn-default btn deleteButton" (click)="deleteSport()">Eliminar</button>
 </form>

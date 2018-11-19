@@ -71,4 +71,9 @@ setSportData(sport) {
     this.data['Amount'] = sport.amount;
 }
 
+isAdmin(): boolean{
+    var admin = localStorage.getItem('isAdmin');
+    return admin == true.toString();
+  }
+
 }

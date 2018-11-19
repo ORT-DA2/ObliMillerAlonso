@@ -16,28 +16,28 @@ namespace Sports.Logic.Constants
 
     public static class MatchId
     {
-        public const string MATCH_ID_NOT_EXIST_MESSAGE = "Match id does not exist";
+        public const string MATCH_ID_NOT_EXIST_MESSAGE = "Invalid or nonexistent match seleceted";
     }
 
     public static class UserNotFound
     {
         public const string USER_NOT_FOUND_MESSAGE = "User deleted or not exist";
-        public const string USER_ID_NOT_FOUND_MESSAGE = "User Id does not exist";
+        public const string USER_ID_NOT_FOUND_MESSAGE = "Invalid or nonexistent user seleceted";
     }
 
     public static class SportNotFound
     {
-        public const string SPORT_NOT_FOUND_MESSAGE = "Id does not match any existing sports";
+        public const string SPORT_NOT_FOUND_MESSAGE = "Invalid or nonexistent sport seleceted";
     }
 
     public static class CompetitorNotFound
     {
-        public const string COMPETITOR_ID_NOT_FOUND_MESSAGE = "Id does not match any existing competitors";
+        public const string COMPETITOR_ID_NOT_FOUND_MESSAGE = "Invalid or nonexistent competitor selected";
     }
 
     public static class FavoriteNotFound
     {
-        public const string FAVORITE_NOT_FOUND_MESSAGE = "Favorite not exist";
+        public const string FAVORITE_NOT_FOUND_MESSAGE = "User has no favorite competitors";
     }
     public static class SessionValidation
     {
@@ -53,12 +53,12 @@ namespace Sports.Logic.Constants
 
     public static class UniqueSport
     {
-        public const string DUPLICATE_SPORT_MESSAGE = "Sport already exist";
+        public const string DUPLICATE_SPORT_MESSAGE = "Sport already exists";
     }
 
     public static class UniqueFavorite
     {
-        public const string UNIQUE_FAVORITE_MESSAGE = "Favorite already exist";
+        public const string UNIQUE_FAVORITE_MESSAGE = "Competitor has already been favourited";
     }
 
     public static class UniqueCompetitor
@@ -68,7 +68,7 @@ namespace Sports.Logic.Constants
 
     public static class UniqueUsername
     {
-        public const string DUPLICATE_USERNAME_MESSAGE = "Username already exist";
+        public const string DUPLICATE_USERNAME_MESSAGE = "Username already exists";
     }
 
     public static class AdminException

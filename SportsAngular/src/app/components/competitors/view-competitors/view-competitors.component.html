@@ -19,29 +19,25 @@
       <table class='table'>
           <thead>
               <tr>
-                  <th>Id</th>
                   <th>Nombre</th>
                   <th>Imagen</th>
                   <th>Deporte</th>
                   <th>Favorito</th>
-                  <th>Editar</th>
               </tr>
           </thead>
           <tbody *ngIf='competitors && competitors.length; else noCompetitors'>
               <tr *ngFor='let aCompetitor of competitors '>
-                  <td>{{aCompetitor.id }}</td>
-                  <td>{{aCompetitor.name | uppercase}}</td>
+                  <td>
+                    <a  href="#modifyCompetitor" [routerLink]="['/competitors/', aCompetitor.id ]">{{aCompetitor.name | uppercase}}</a>
+                  </td>
                   <td>
                     <img class="competitorImage" src="{{aCompetitor.picture}}"  />
                   </td>
                   <td>
-                      <a href="#modifySport" [routerLink]="['/sports/modify/', aCompetitor.sport.id ]">{{aCompetitor.sport.name}}</a>
+                      <a href="#modifySport" [routerLink]="['/sports/', aCompetitor.sport.id ]">{{aCompetitor.sport.name}}</a>
                   </td>
                   <td>
                       <button type="submit" class="btn-default btn createfavorite" (click)="createfavorite(aCompetitor.id)">AGREGAR FAVORITO</button>
-                  </td>
-                  <td>
-                      <a  href="#modifyCompetitor" [routerLink]="['/competitors/modify/', aCompetitor.id ]">Editar deporte</a>
                   </td>
               </tr>
           </tbody>

@@ -17,6 +17,7 @@ namespace Sports.Repository.UnitOfWork
         private IMatchRepository _match;
         private ISessionRepository _session;
         private IFavoriteRepository _favorite;
+        private ICompetitorScoreRepository _competitorScore;
 
         public RepositoryUnitOfWork(RepositoryContext repositoryContext)
         {
@@ -84,6 +85,13 @@ namespace Sports.Repository.UnitOfWork
                 if (_favorite == null)
                     _favorite = new FavoriteRepository(_repositoryContext);
                 return _favorite;
+            }
+        }
+        public ICompetitorScoreRepository CompetitorScore {
+            get {
+                if (_competitorScore == null)
+                    _competitorScore = new CompetitorScoreRepository(_repositoryContext);
+                return _competitorScore;
             }
         }
 

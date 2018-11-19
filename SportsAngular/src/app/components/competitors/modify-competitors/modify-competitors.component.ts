@@ -18,7 +18,7 @@ export class ModifyCompetitorsComponent {
   id: number;
   selectedFile: File = null;
   reader:FileReader = new FileReader;
-  sport:string;
+  sport:Sport;
   competitor: any;
   data: any = { 'Name': "", 'Picture': ""};
 
@@ -84,8 +84,13 @@ getCompetitorById(): any {
 setCompetitorData(competitor) {
   this.data['Name'] = competitor.name;
   this.data['Picture'] = competitor.picture;
-  this.sport = competitor.sport.name;
+  this.sport = competitor.sport;
   this.id = competitor.id;
+}
+
+isAdmin(): boolean{
+  var admin = localStorage.getItem('isAdmin');
+  return admin == true.toString();
 }
 
 }

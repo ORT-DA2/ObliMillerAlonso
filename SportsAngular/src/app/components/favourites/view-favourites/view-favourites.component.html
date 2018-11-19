@@ -6,7 +6,6 @@
             <table class='table'>
                 <thead>
                     <tr>
-                        <th>Id</th>
                         <th>Nombre</th>
                         <th>Imagen</th>
                         <th>Deporte</th>
@@ -15,13 +14,12 @@
                 </thead>
                 <tbody *ngIf='competitors && competitors.length; else noCompetitors'>
                     <tr *ngFor='let aCompetitor of competitors '>
-                        <td>{{aCompetitor.id }}</td>
                         <td>{{aCompetitor.name | uppercase}}</td>
                         <td>
                           <img class="competitorImage" src="{{aCompetitor.picture}}"  />
                         </td>
                         <td>
-                            <a href="#modifySport" [routerLink]="['/sports/modify/', aCompetitor.sport.id ]">{{aCompetitor.sport.name}}</a>
+                            <a href="#modifySport" [routerLink]="['/sports/', aCompetitor.sport.id ]">{{aCompetitor.sport.name}}</a>
                         </td>
                         <td>
                              <button type="submit" class="btn-default btn deletefavorite" (click)="deleteFavorite(aCompetitor.id)">DEJAR DE SEGUIR</button>

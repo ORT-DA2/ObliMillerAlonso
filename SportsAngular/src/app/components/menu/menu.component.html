@@ -3,24 +3,32 @@
         <div class="headerLogoContainer">
             <img class="headerLogo" src="assets/images/logo.png">
         </div>
-        <div class="headerOption dropdown">
-            <div class="dropbtn">Deportistas y Equipos</div>
+        <div  class="headerOption dropdown">
+            <div class="dropbtn">Deportes</div>
             <div class="dropdown-content">
-                <a href="#" [routerLink]="['/competitors/create']">Crear Nuevo</a>
-                <a href="#" [routerLink]="['/competitors']">Ver Todos</a>
+                    <a *ngIf="isAdmin()" href="#" [routerLink]="['/sports/create']">Crear Deporte</a>
+                    <a href="#" [routerLink]="['/sports']">Ver Deportes</a>
             </div>
         </div>
         <div class="headerOption dropdown">
-            <div class="dropbtn">Favoritos</div>
+            <div class="dropbtn">Competidores</div>
             <div class="dropdown-content">
-                <a href="#" [routerLink]="['/favourites']">Ver Favoritos</a>
+                <a *ngIf="isAdmin()" href="#" [routerLink]="['/competitors/create']">Crear Nuevo</a>
+                <a href="#" [routerLink]="['/competitors']">Ver Todos</a>
             </div>
         </div>
         <div class="headerOption dropdown">
             <div class="dropbtn">Partidos</div>
             <div class="dropdown-content">
-                <a href="#" [routerLink]="['/matches/create']">Crear Partido</a>
+                <a *ngIf="isAdmin()" href="#" [routerLink]="['/matches/create']">Crear Partido</a>
                 <a href="#" [routerLink]="['/matches']">Ver Partidos</a>
+            </div>
+        </div>
+        <div class="headerOption dropdown">
+            <div class="dropbtn">Favoritos</div>
+            <div class="dropdown-content">
+                <a href="#" [routerLink]="['/']">Comentarios</a>
+                <a href="#" [routerLink]="['/favourites']">Competidores</a>
             </div>
         </div>
         <div *ngIf="isAdmin()" class="headerOption dropdown">
@@ -28,13 +36,6 @@
             <div class="dropdown-content">
                 <a href="#" [routerLink]="['/users/create']">Crear Usuario</a>
                 <a href="#" [routerLink]="['/users']">Ver Usuarios</a>
-            </div>
-        </div>
-        <div *ngIf="isAdmin()" class="headerOption dropdown">
-            <div class="dropbtn">Deportes</div>
-            <div class="dropdown-content">
-                    <a href="#" [routerLink]="['/sports/create']">Crear Deporte</a>
-                    <a href="#" [routerLink]="['/sports']">Ver Deportes</a>
             </div>
         </div>
         <div class="headerOption">
