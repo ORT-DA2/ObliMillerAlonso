@@ -1,0 +1,29 @@
+<h2 class="competitorsListTitle">
+  Ranking de Competidores
+</h2>
+<div class='table-responsive table-hover table-striped'>
+    
+  <table class='table'>
+      <thead>
+          <tr>
+              <th>Nombre</th>
+              <th>Puntaje</th>
+          </tr>
+      </thead>
+      <tbody *ngIf='competitors && competitors.length; else noCompetitors'>
+          <tr *ngFor='let aCompetitor of competitors '>
+              <td>
+                <a  href="#modifyCompetitor" [routerLink]="['/competitors/', aCompetitor.competitor.id ]">{{aCompetitor.competitor.name | uppercase}}</a>
+              </td>
+              <td>{{aCompetitor.score}}</td>
+          </tr>
+      </tbody>
+      <ng-template #noCompetitors>
+          <tbody>
+              <tr>
+                  <td>No hay competidores para mostrar</td>
+              </tr>
+          </tbody>
+      </ng-template>
+  </table>
+</div>

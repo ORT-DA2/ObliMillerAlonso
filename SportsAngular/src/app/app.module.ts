@@ -41,6 +41,8 @@ import { ViewLogComponent } from './components/users/view-log/view-log.component
 import { FixtureComponent } from './components/matches/fixture/fixture.component';
 import { UserGuard } from './guards/user.guard';
 import { AdminGuard } from './guards/admin.guard';
+import { ListCommentsComponent } from './components/comments/list-comments/list-comments.component';
+import { ListRankingComponent } from './components/competitors/list-ranking/list-ranking.component';
 
 
 const appRoutes: Routes = [
@@ -84,7 +86,9 @@ const appRoutes: Routes = [
     ModifyMatchComponent,
     ViewMatchesComponent,
     ViewLogComponent,
-    FixtureComponent
+    FixtureComponent,
+    ListCommentsComponent,
+    ListRankingComponent
   ],
   imports: [
     BrowserModule,

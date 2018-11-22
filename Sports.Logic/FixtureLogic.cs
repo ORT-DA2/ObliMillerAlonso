@@ -18,7 +18,6 @@ namespace Sports.Logic
     public class FixtureLogic : IFixtureLogic
     {
         private static ICollection<IFixtureGeneratorStrategy> fixtureGeneratorStrategies;
-        private static int currentStrategy;
         private ISportLogic sportLogic;
         private IMatchLogic matchLogic;
         private ISessionLogic sessionLogic;
@@ -41,7 +40,6 @@ namespace Sports.Logic
             JObject jsonPaths = JObject.Parse(File.ReadAllText(@"fixturesPath.json"));
             implementationsPath = jsonPaths.SelectToken("FixtureDlls").ToString();
             fixtureGeneratorStrategies = new List<IFixtureGeneratorStrategy>();
-            currentStrategy = 0;
         }
         
         public ICollection<string> RefreshFixtureImplementations()

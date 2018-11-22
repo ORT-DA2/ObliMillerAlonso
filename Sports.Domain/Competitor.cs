@@ -51,6 +51,7 @@ namespace Sports.Domain
         public void UpdateData(Competitor competitor)
         {
             this.Name = IgnoreWhiteSpace(this.Name, competitor.Name);
+            this.Picture = IgnoreWhiteSpace(this.Picture, competitor.Picture);
             this.IsValid();
         }
 

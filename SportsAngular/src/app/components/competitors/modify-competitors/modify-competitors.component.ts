@@ -26,6 +26,7 @@ export class ModifyCompetitorsComponent {
     private competitorService: CompetitorService) { }
 
   ngOnInit(): void {
+    this.sport = new Sport(name,2);
     this.route.params.subscribe(params => {
         this.id = params["id"];
     });
@@ -42,9 +43,7 @@ onFileSelected(event){
 modify() {
   if (this.data['Name'] === "") {
     this.alertService.error("nombre vacio");
-    } else if (this.data['Picture'] === "") {
-    this.alertService.error("eliga una imagen");
-  }  else {
+    }   else {
       this.competitorService.modifyCompetitor(this.data, this.id).subscribe(
           data => {
               this.alertService.success("Se ha modificado el deporte correctamente!");

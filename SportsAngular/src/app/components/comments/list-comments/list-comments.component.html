@@ -1,0 +1,30 @@
+<div class='table-responsive table-hover table-striped'>
+  <table class='table'>
+      <thead>
+          <tr>
+              <th>Usuario</th>
+              <th>Comentario</th>
+              <th>Partido</th>
+          </tr>
+      </thead>
+      <tbody *ngIf='comments && comments.length; else noComments'>
+          <tr *ngFor='let aComment of comments '>
+              <td>{{aComment.user.username }}</td>
+              <td>{{aComment.text }}</td>
+              <td *ngIf='aComment.match; else noMatches'>
+                  <a href="#modifyMatch" [routerLink]="['/matches/', aComment.match.id ]">{{aComment.match.sport.name }} - {{aComment.match.date }}</a>
+              </td>
+              <ng-template #noMatches>
+              <td> Partido Actual</td>
+            </ng-template>
+          </tr>
+      </tbody>
+      <ng-template #noComments>
+          <tbody>
+              <tr>
+                  <td>No hay comentarios para mostrar</td>
+              </tr>
+          </tbody>
+      </ng-template>
+  </table>
+</div>

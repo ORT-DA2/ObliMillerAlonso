@@ -146,7 +146,6 @@ namespace Sports.Logic
             comment.User = user;
             commentLogic.AddComment(comment);
             Match commentedMatch = GetMatchById(id);
-            ValidateMatch(commentedMatch);
             commentedMatch.AddComment(comment);
             repository.Update(commentedMatch);
             repository.Save();

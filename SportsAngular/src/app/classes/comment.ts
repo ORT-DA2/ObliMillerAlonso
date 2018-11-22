@@ -6,7 +6,7 @@ export class Comment {
     user:User;
     match:Match;
     date:String;
-    text:string;
+    text:String;
 
     constructor(text:string) {
         this.text = text;

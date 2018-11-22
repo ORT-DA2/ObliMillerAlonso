@@ -1,0 +1,64 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v2.1",
+    "signature": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v2.1": {
+      "FixtureImplementations/1.0.0": {
+        "dependencies": {
+          "Sports.Domain": "1.0.0",
+          "Sports.Logic.Interface": "1.0.0"
+        },
+        "runtime": {
+          "FixtureImplementations.dll": {}
+        }
+      },
+      "Sports.Domain/1.0.0": {
+        "runtime": {
+          "Sports.Domain.dll": {}
+        }
+      },
+      "Sports.Logic.Interface/1.0.0": {
+        "dependencies": {
+          "Sports.Domain": "1.0.0",
+          "Sports.Repository.Interface": "1.0.0"
+        },
+        "runtime": {
+          "Sports.Logic.Interface.dll": {}
+        }
+      },
+      "Sports.Repository.Interface/1.0.0": {
+        "dependencies": {
+          "Sports.Domain": "1.0.0"
+        },
+        "runtime": {
+          "Sports.Repository.Interface.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "FixtureImplementations/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Sports.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Sports.Logic.Interface/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Sports.Repository.Interface/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

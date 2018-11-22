@@ -48,7 +48,7 @@
         <input type="text" id="RepeatPassword" class="form-control" [(ngModel)]="repeatPassword" name="RepeatPassword">
     </div>
     <div class="form-group" class="buttonsContainer">
-        <button *ngIf="isAdmin()" type="submit" class="btn-default btn modifyButton">Editar</button>
-        <button *ngIf="isAdmin()" type="button" class="btn-default btn deleteButton" (click)="deleteUser()">Eliminar</button>
+        <button  type="submit" class="btn-default btn modifyButton">Editar</button>
+        <button  type="button" class="btn-default btn deleteButton" (click)="deleteUser()">Eliminar</button>
     </div>
 </form>

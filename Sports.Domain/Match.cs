@@ -56,7 +56,7 @@ namespace Sports.Domain
 
         private void IsValidDate(DateTime date)
         {
-            if (date.Date.CompareTo(DateTime.Now.Date)<=0)
+            if (date.Date.CompareTo(DateTime.Now.Date)<0)
                 
             {
                 throw new InvalidMatchDateFormatException(MatchDateFormat.INVALID_DATE_FORMAT_MESSAGE);

@@ -4,6 +4,7 @@ import { SportsService } from '../../../services/sports.service';
 import { MatchService } from '../../../services/match.service';
 import { AlertService } from '../../../services/alert.service';
 import { Sport } from '../../../classes/sport';
+import { Comment } from '../../../classes/comment';
 import { Competitor } from '../../../classes/competitor';
 import { CompetitorScoreDTO } from '../../../classes/competitorScoreDTO';
 

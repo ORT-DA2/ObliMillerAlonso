@@ -7,7 +7,7 @@
   <label for="Sport">
       Filtrar por deporte:
   </label>
-  <select id="selectedSport" class="selectSport" (change)="onSportSelected($event.target.value)" [(ngModel)]="sportId" name="Sport">
+  <select id="selectedSport" class="selectSport" (change)="onSportSelected($event.target.value)"  name="Sport">
       <option  value="0" selected="selected">Ninguno</option>
       <option *ngFor='let x of allSports' value="{{x.id}}">{{x.name}}</option>
   </select>
@@ -16,7 +16,7 @@
   <label for="Competitor">
       Filtrar por participante:
   </label>
-      <select   class="selectCompetitor" (change)="onCompetitorSelected($event.target.value)"[(ngModel)]="competitorId" name="Competitor">
+      <select   class="selectCompetitor" (change)="onCompetitorSelected($event.target.value)" name="Competitor">
           <option  value="0" selected="selected">Ninguno</option>
         <option *ngFor='let x of comptetitors' value="{{x.id}}">{{x.name}}</option>
     </select>
