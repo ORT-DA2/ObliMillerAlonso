@@ -77,18 +77,10 @@ namespace Sports.Logic
         {
             sessionLogic.ValidateUserNotNull(sessionUser);
             ICollection<Favorite> favorites = repository.FindByCondition(f => f.User.Id == sessionUser.Id);
-            ValidateFavoritesExist(favorites);
             ICollection<Competitor> competitors = GetCompetitorsFromFavorites(favorites);
             return competitors;
         }
-
-        private static void ValidateFavoritesExist(ICollection<Favorite> favorites)
-        {
-            if (favorites.Count == 0)
-            {
-                throw new FavoriteDoesNotExistException(FavoriteNotFound.FAVORITE_NOT_FOUND_MESSAGE);
-            }
-        }
+        
 
         private static ICollection<Competitor> GetCompetitorsFromFavorites(ICollection<Favorite> favorites)
         {

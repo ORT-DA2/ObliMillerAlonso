@@ -21,5 +21,5 @@
       <a href="#modifySport" [routerLink]="['/sports/', sport.id ]">{{sport.name}}</a>
   </div>
   <button *ngIf="isAdmin()" type="submit" class="btn-default btn modifyButton">Modificar</button>
-  <button  *ngIf="isAdmin()" type="button" class="btn-default btn deleteButton" (click)="deleteSport()">Eliminar</button>
+  <button  *ngIf="isAdmin()" type="button" class="btn-default btn deleteButton" (click)="deleteCompetitor()">Eliminar</button>
 </form>

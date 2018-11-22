@@ -43,7 +43,18 @@ namespace Sports.Domain
                 throw new InvalidCompetitorEmptyException(CompetitorValidation.COMPETITOR_EMPTY);
             }
         }
-        
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || !obj.GetType().Equals(this.GetType()))
+            {
+                return false;
+            }
+            else
+            {
+                return this.Competitor.Id.Equals(((CompetitorScore)obj).Competitor.Id);
+            }
+        }
 
         public bool Equals(CompetitorScore other)
         {

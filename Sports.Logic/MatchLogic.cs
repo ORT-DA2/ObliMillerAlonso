@@ -52,11 +52,15 @@ namespace Sports.Logic
         {
             foreach (CompetitorScore competitor in match.Competitors)
             {
-                ICollection<Match> matches = repository.FindByCondition(m => match.Competitors.Contains(competitor) && m.Date.Date.Equals(match.Date.Date));
-                if (matches.Count != 0)
+                ICollection<Match> matches = repository.FindByCondition(m => m.Date.Date.Equals(match.Date.Date));
+                foreach (Match similarMatch in matches)
                 {
-                    throw new MatchAlreadyExistsException(MatchValidation.COMPETITOR_ALREADY_PLAYING);
+                    if (similarMatch.Competitors.Contains(competitor))
+                    {
+                        throw new MatchAlreadyExistsException(MatchValidation.COMPETITOR_ALREADY_PLAYING);
+                    }
                 }
+                
             }
             
         }

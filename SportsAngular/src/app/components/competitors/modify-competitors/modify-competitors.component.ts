@@ -58,7 +58,7 @@ modify() {
 deleteCompetitor() {
   this.competitorService.deleteCompetitor(this.id).subscribe(
       data => {
-        this.router.navigate(['/competitor']);
+        this.router.navigate(['/competitors']);
       },
       error => {
           this.alertService.error(error.message);

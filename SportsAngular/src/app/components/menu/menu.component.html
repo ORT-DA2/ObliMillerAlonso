@@ -1,8 +1,8 @@
 <div class="contentHeader">
     <div id="headerContainer">
-        <div class="headerLogoContainer">
+        <a  [routerLink]="['/']" class="headerLogoContainer">
             <img class="headerLogo" src="assets/images/logo.png">
-        </div>
+        </a>
         <div  class="headerOption dropdown">
             <div class="dropbtn">Deportes</div>
             <div class="dropdown-content">
@@ -22,7 +22,7 @@
             <div class="dropdown-content">
                 <a *ngIf="isAdmin()" href="#" [routerLink]="['/matches/create']">Crear Partido</a>
                 <a href="#" [routerLink]="['/matches']">Ver Partidos</a>
-                <a href="#" [routerLink]="['/fixtures']">Generar Fixtures</a>
+                <a *ngIf="isAdmin()" href="#" [routerLink]="['/fixtures']">Generar Fixtures</a>
             </div>
         </div>
         <div class="headerOption dropdown">

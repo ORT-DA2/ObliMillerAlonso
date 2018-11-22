@@ -9,7 +9,7 @@ namespace Sports.Domain
     {
         public ICollection<CompetitorScore> GenerateScores(ICollection<CompetitorScore> competitors)
         {
-            ICollection<CompetitorScore> orderedResults = competitors.OrderByDescending(c => c.Score).ToList();
+            ICollection<CompetitorScore> orderedResults = competitors.OrderBy(c => c.Score).ToList();
             int pos = 1;
             foreach (CompetitorScore individualResult in orderedResults)
             {
