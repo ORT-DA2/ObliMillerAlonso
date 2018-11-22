@@ -1,5 +1,5 @@
 
-import { Component, Input, NgModule } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CompetitorService } from '../../../services/competitor.service';
 import { FavoriteService } from '../../../services/favorite.service';
@@ -21,11 +21,7 @@ export class ViewFavouritesComponent {
   users: Array<User>;
 
   constructor(
-      private route: ActivatedRoute,
       private alertService: AlertService,
-      private router: Router,
-      private competitorsService: CompetitorService,
-      private userService: UserService,
       private favoriteService: FavoriteService) { }
 
 

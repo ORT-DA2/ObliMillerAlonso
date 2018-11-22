@@ -1,7 +1,6 @@
 import { Component, Input, NgModule } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../../services/user.service';
-import { repeat } from 'rxjs/operators';
 import { AlertService } from '../../../services/alert.service';
 import { LoginService } from '../../../services/login.service';
 

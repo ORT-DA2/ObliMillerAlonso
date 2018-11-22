@@ -1,8 +1,7 @@
-import { Component, Input, NgModule } from '@angular/core';
+import { Component, Input} from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SportsService } from '../../../services/sports.service';
 import { AlertService } from '../../../services/alert.service';
-import { Sport } from "../../../classes/sport";
 import { CompetitorScore } from 'src/app/classes/competitorScore';
 
 @Component({

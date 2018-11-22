@@ -3,36 +3,24 @@ import {
   NgModule,
   ViewChild,
   TemplateRef } from '@angular/core';
-  import { Router, ActivatedRoute } from '@angular/router';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CalendarModule, DateAdapter } from 'angular-calendar';
+  import { Router} from '@angular/router';
 import { MatchService } from '../../../services/match.service';
 import { AlertService } from '../../../services/alert.service';
 import { SportsService } from '../../../services/sports.service';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import { Match } from "../../../classes/match";
 import { Competitor } from "../../../classes/competitor";
 import { Sport } from "../../../classes/sport";
 import {
-  startOfDay,
-  endOfDay,
-  subDays,
-  addDays,
-  endOfMonth,
   isSameDay,
   isSameMonth,
-  addHours
 } from 'date-fns';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   CalendarEvent,
   CalendarEventAction,
-  CalendarEventTimesChangedEvent,
   CalendarView,
   CalendarMonthViewDay 
 } from 'angular-calendar';
-import { CalendarEventActionsComponent } from 'angular-calendar/modules/common/calendar-event-actions.component';
 const colors: any = {
   red: {
     primary: '#ad2121',
@@ -94,7 +82,6 @@ export class ViewMatchesComponent  {
     private matchService: MatchService,
     private alertService: AlertService,
     private sportService: SportsService,
-    private modal: NgbModal,
     private router: Router
     ) { }
 

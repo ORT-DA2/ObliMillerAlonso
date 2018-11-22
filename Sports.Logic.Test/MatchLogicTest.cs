@@ -507,5 +507,45 @@ namespace Sports.Logic.Test
             Assert.AreEqual(ranking.ElementAt(0).Score, 3);
         }
 
+
+
+        [TestMethod]
+        public void GenerateTeamRankingTie()
+        {
+            matchLogic.AddMatch(teamMatch);
+            Comment comment = new Comment
+            {
+                Text = "Text",
+                User = user
+            };
+            matchLogic.AddCommentToMatch(teamMatch.Id, comment);
+            localCompetitor.Score = 1;
+            visitorCompetitor.Score = 1;
+            ICollection<CompetitorScore> competitors = new List<CompetitorScore>() { localCompetitor, visitorCompetitor };
+            teamMatch.Competitors = competitors;
+            matchLogic.ModifyMatch(teamMatch.Id, teamMatch);
+            ICollection<CompetitorScore> ranking = matchLogic.GenerateRanking(teamSport.Id);
+            Assert.AreEqual(ranking.Count, 2);
+        }
+
+
+        [TestMethod]
+        public void GenerateTeamRankingVisitorWins()
+        {
+            matchLogic.AddMatch(teamMatch);
+            Comment comment = new Comment
+            {
+                Text = "Text",
+                User = user
+            };
+            matchLogic.AddCommentToMatch(teamMatch.Id, comment);
+            localCompetitor.Score = 0;
+            visitorCompetitor.Score = 1;
+            ICollection<CompetitorScore> competitors = new List<CompetitorScore>() { localCompetitor, visitorCompetitor };
+            teamMatch.Competitors = competitors;
+            matchLogic.ModifyMatch(teamMatch.Id, teamMatch);
+            ICollection<CompetitorScore> ranking = matchLogic.GenerateRanking(teamSport.Id);
+            Assert.AreEqual(ranking.Count, 2);
+        }
     }
 }

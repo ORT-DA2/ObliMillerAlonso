@@ -94,5 +94,24 @@ namespace Sports.Domain.Test
         {
             Assert.AreEqual<string>(competitor.ToString(),competitor.Name);
         }
+
+        [ExpectedException(typeof(InvalidCompetitorEmptyException))]
+        [TestMethod]
+        public void EmptyCompetitorInScore()
+        {
+            CompetitorScore compScore = new CompetitorScore(null);
+            compScore.IsValid();
+        }
+
+
+        [ExpectedException(typeof(InvalidCompetitorScoreException))]
+        [TestMethod]
+        public void InvalidScore()
+        {
+            CompetitorScore compScore = new CompetitorScore(competitor);
+            compScore.Score = -1;
+            compScore.IsValid();
+        }
+
     }
 }

@@ -6,9 +6,6 @@ import { AlertService } from '../../../services/alert.service';
 import { Sport } from '../../../classes/sport';
 import { Competitor } from '../../../classes/competitor';
 import { CompetitorScoreDTO } from '../../../classes/competitorScoreDTO';
-import { PublicFeature } from '@angular/core/src/render3';
-import { $ } from 'protractor';
-import { Match } from 'src/app/classes/match';
 
 @Component({
   selector: 'app-create-match',
@@ -28,7 +25,6 @@ export class CreateMatchComponent  {
   createWidth: number = 250;
 
   constructor(
-    private route: ActivatedRoute,
     private alertService: AlertService,
     private router: Router,
     private sportsService: SportsService,

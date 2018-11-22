@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sports.WebAPI", "Sports.Web
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sports.WebAPI.Tests", "Sports.WebAPI.Tests\Sports.WebAPI.Tests.csproj", "{84A15C2A-CC64-4732-9EA9-458E8D7E845C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sports.Repository.UnitOfWork", "Sports.Repository.UnitOfWork\Sports.Repository.UnitOfWork.csproj", "{2AEFA53B-8085-4019-B3A2-4F321C4959B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sports.Repository.UnitOfWork", "Sports.Repository.UnitOfWork\Sports.Repository.UnitOfWork.csproj", "{2AEFA53B-8085-4019-B3A2-4F321C4959B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,10 +57,6 @@ Global
 		{14FA486A-D300-4DDC-AB47-1D6DFB843DA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14FA486A-D300-4DDC-AB47-1D6DFB843DA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14FA486A-D300-4DDC-AB47-1D6DFB843DA8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6A9CBE7E-B553-4A60-8390-D9898C2E2B93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6A9CBE7E-B553-4A60-8390-D9898C2E2B93}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6A9CBE7E-B553-4A60-8390-D9898C2E2B93}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6A9CBE7E-B553-4A60-8390-D9898C2E2B93}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BD290F45-2C5A-4CB5-A199-2699D6DAF5F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BD290F45-2C5A-4CB5-A199-2699D6DAF5F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD290F45-2C5A-4CB5-A199-2699D6DAF5F7}.Release|Any CPU.ActiveCfg = Release|Any CPU

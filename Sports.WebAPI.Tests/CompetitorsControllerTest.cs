@@ -94,11 +94,11 @@ namespace Sports.WebAPI.Tests
             competitorLogicMock.Setup(competitorLogic => competitorLogic.Modify(It.IsAny<int>(), It.IsAny<Competitor>()));
 
             IActionResult result = controller.PutCompetitor(competitorId, fakeCompetitor, token);
-            var createdResult = result as RedirectToRouteResult;
+            var okResult = result as OkObjectResult;
 
             sportLogicMock.VerifyAll();
 
-            Assert.IsNotNull(createdResult);
+            Assert.AreEqual(200, okResult.StatusCode);
         }
 
         [TestMethod]

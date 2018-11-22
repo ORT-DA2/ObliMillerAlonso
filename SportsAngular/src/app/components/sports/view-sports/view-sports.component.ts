@@ -1,5 +1,4 @@
-import { Component, Input, NgModule } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, Input } from '@angular/core';
 import { SportsService } from '../../../services/sports.service';
 import { AlertService } from '../../../services/alert.service';
 import { Sport } from "../../../classes/sport";
@@ -18,9 +17,7 @@ export class ViewSportsComponent{
   sportService: any;
 
   constructor(
-      private route: ActivatedRoute,
       private alertService: AlertService,
-      private router: Router,
       private sportsService: SportsService) { }
 
 

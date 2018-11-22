@@ -18,7 +18,7 @@ namespace Sports.Repository
         public CompetitorScoreRepository(RepositoryContext repositoryContext) : base(repositoryContext)
         {
         }
-
+/*
         public override ICollection<CompetitorScore> FindAll()
         {
             try
@@ -56,6 +56,6 @@ namespace Sports.Repository
             {
                 throw new UnknownDbException(AccessValidation.UNKNOWN_ERROR_MESSAGE);
             }
-        }
+        }*/
     }
 }

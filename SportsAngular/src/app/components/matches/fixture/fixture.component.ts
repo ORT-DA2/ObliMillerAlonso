@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatchService } from '../../../services/match.service';
 import { AlertService } from '../../../services/alert.service';
@@ -18,7 +18,6 @@ export class FixtureComponent {
   data: any = { 'Pos': "", 'SportId': "",'Date': ""};
 
   constructor(
-    private route: ActivatedRoute,
     private alertService: AlertService,
     private sportsService: SportsService,
     private router: Router,

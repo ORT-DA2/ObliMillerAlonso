@@ -1,11 +1,8 @@
 import { Component, Input, NgModule } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { SportsService } from '../../../services/sports.service';
 import { CompetitorService } from '../../../services/competitor.service';
 import { AlertService } from '../../../services/alert.service';
 import { Sport } from '../../../classes/sport';
-import { PublicFeature } from '@angular/core/src/render3';
-import { $ } from 'protractor';
 
 @Component({
   selector: 'app-modify-competitors',

@@ -162,6 +162,13 @@ namespace Sports.Logic.Test
         }
 
         [TestMethod]
+        public void DeleteFavorite()
+        {
+            favoriteLogic.AddFavoriteCompetitor(favoriteCompetitor);
+            favoriteLogic.DeleteFavorite(favoriteCompetitor.Id);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(FavoriteDoesNotExistException))]
         public void GetFavoritesForInexistentUser()
         {

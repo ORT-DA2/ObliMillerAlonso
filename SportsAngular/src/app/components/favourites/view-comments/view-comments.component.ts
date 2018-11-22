@@ -1,12 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import {Comment} from "../../../classes/comment";
-import { CompetitorService } from '../../../services/competitor.service';
+import { Component } from '@angular/core';
 import { FavoriteService } from '../../../services/favorite.service';
-import { UserService } from '../../../services/user.service';
 import { AlertService } from '../../../services/alert.service';
-import { Competitor } from "../../../classes/competitor";
-import {User} from "../../../classes/user";
 
 @Component({
   selector: 'app-view-comments',
@@ -18,9 +12,7 @@ export class ViewCommentsComponent{
   comments: any;
 
   constructor(
-    private route: ActivatedRoute,
     private alertService: AlertService,
-    private router: Router,
     private favoriteService: FavoriteService) { }
 
     ngOnInit(): void {

@@ -114,11 +114,11 @@ namespace Sports.WebAPI.Tests
             sportLogicMock.Setup(sportLogic => sportLogic.ModifySport(It.IsAny<int>(),It.IsAny<Sport>()));
 
             IActionResult result = controller.PutSport(sportId, sportModel, token);
-            var createdResult = result as RedirectToRouteResult;
+            var okResult = result as OkObjectResult;
 
             sportLogicMock.VerifyAll();
 
-            Assert.IsNotNull(createdResult);
+            Assert.AreEqual(200, okResult.StatusCode);
         }
 
 

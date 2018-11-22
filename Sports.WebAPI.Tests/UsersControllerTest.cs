@@ -100,11 +100,11 @@ namespace Sports.WebAPI.Tests
             userLogicMock.Setup(userLogic => userLogic.UpdateUser(It.IsAny<int>(),It.IsAny<User>()));
 
             IActionResult result = controller.PutUser(1, newUser, token);
-            var createdResult = result as RedirectToRouteResult;
+            var okResult = result as OkObjectResult;
 
             userLogicMock.VerifyAll();
 
-            Assert.IsNotNull(createdResult);
+            Assert.AreEqual(200, okResult.StatusCode);
         }
 
 
@@ -147,7 +147,7 @@ namespace Sports.WebAPI.Tests
 
             var result = controller.GetAllUsers(token);
             var okResult = result as OkObjectResult;
-            var modelOut = okResult.Value as ICollection<UserModelOut>;
+            var modelOut = okResult.Value as List<UserFullModelOut>;
 
             userLogicMock.VerifyAll();
 

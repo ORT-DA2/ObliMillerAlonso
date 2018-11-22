@@ -315,7 +315,7 @@ namespace Sports.WebAPI.Controllers
                 Competitor competitor = mapper.Map<Competitor>(competitorIn);
                 favoriteLogic.AddFavoriteCompetitor(competitor);
 
-                return Ok("Modificado");
+                return Ok("Creado");
             }
             catch (UnauthorizedException ex)
             {

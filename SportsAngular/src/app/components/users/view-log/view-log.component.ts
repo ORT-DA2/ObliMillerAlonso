@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../../services/user.service';
 import { AlertService } from '../../../services/alert.service';
@@ -16,9 +16,7 @@ export class ViewLogComponent {
   data:any = {"StartDate" : "", "FinishDate" : ''}
 
   constructor(
-    private route: ActivatedRoute,
     private alertService: AlertService,
-    private router: Router,
     private userService: UserService) { }
 
     ngOnInit(): void {

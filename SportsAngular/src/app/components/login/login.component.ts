@@ -18,7 +18,6 @@ export class LoginComponent {
     data = { 'UserName': "", 'Password': "" };
 
     constructor(
-        private route: ActivatedRoute,
         private alertService: AlertService,
         private router: Router,
         private loginService: LoginService) { }

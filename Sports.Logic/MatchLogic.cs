@@ -108,11 +108,7 @@ namespace Sports.Logic
         public ICollection<Match> GetAllPastMatchesForSport(Sport sport)
         {
             sessionLogic.ValidateUserNotNull(user);
-            List<Match> relatedMatches = repository.FindByCondition(m =>m.Sport.Equals(sport)&&m.Date.Date.CompareTo(DateTime.Now.Date) <= 1).ToList();
-            if (relatedMatches.Count == 0)
-            {
-                throw new MatchDoesNotExistException(MatchValidation.SPORT_DIDNT_PLAY);
-            }
+            List<Match> relatedMatches = repository.FindByCondition(m =>m.Sport.Equals(sport)&&m.Date.Date.CompareTo(DateTime.Now.Date) <= 0).ToList();
             return relatedMatches;
         }
 
@@ -187,12 +183,13 @@ namespace Sports.Logic
         {
             sessionLogic.ValidateUserNotNull(user);
             Sport sport = sportLogic.GetSportById(sportId);
-            ICollection<CompetitorScore> ranking = new List<CompetitorScore>();
-            foreach (Competitor competitor in sport.Competitors)
-            {
-                CompetitorScore rank = new CompetitorScore(competitor);
-                ranking.Add(rank);
-            }
+            ICollection<CompetitorScore> ranking = CreateRankingList(sport);
+            AddRankingScores(sport, ranking);
+            return ranking;
+        }
+
+        private void AddRankingScores(Sport sport, ICollection<CompetitorScore> ranking)
+        {
             IRankingGenerator rankingGenerator = sport.GetRankingGenerator();
             ICollection<Match> matches = GetAllPastMatchesForSport(sport);
             foreach (Match match in matches)
@@ -203,6 +200,17 @@ namespace Sports.Logic
                     ranking.Where(c => c.Competitor.Equals(competitorResult.Competitor)).FirstOrDefault().Score += competitorResult.Score;
                 }
             }
+        }
+
+        private static ICollection<CompetitorScore> CreateRankingList(Sport sport)
+        {
+            ICollection<CompetitorScore> ranking = new List<CompetitorScore>();
+            foreach (Competitor competitor in sport.Competitors)
+            {
+                CompetitorScore rank = new CompetitorScore(competitor);
+                ranking.Add(rank);
+            }
+
             return ranking;
         }
     }

@@ -13,12 +13,13 @@ namespace Sports.Domain
         {
             firstTeam = competitors.ElementAt(0);
             secondTeam = competitors.ElementAt(1);
-            if (firstTeam.Score == secondTeam.Score)
+            if (firstTeam.Score < secondTeam.Score)
             {
-                firstTeam.Score = 1;
-                secondTeam.Score = 1;
+                firstTeam.Score = 0;
+                secondTeam.Score = 3;
                 return new List<CompetitorScore>() { firstTeam, secondTeam };
-            }else if(firstTeam.Score > secondTeam.Score)
+            }
+            else if(firstTeam.Score > secondTeam.Score)
             {
                 firstTeam.Score = 3;
                 secondTeam.Score = 0;
@@ -26,8 +27,8 @@ namespace Sports.Domain
             }
             else
             {
-                firstTeam.Score = 0;
-                secondTeam.Score = 3;
+                firstTeam.Score = 1;
+                secondTeam.Score = 1;
                 return new List<CompetitorScore>() { firstTeam, secondTeam };
             }
         }

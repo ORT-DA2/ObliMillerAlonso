@@ -27,9 +27,7 @@ export class ViewCompetitorsComponent{
 
 
   constructor(
-      private route: ActivatedRoute,
       private alertService: AlertService,
-      private router: Router,
       private competitorsService: CompetitorService,
       private favoriteService: FavoriteService) { }
 

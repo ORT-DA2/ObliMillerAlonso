@@ -53,11 +53,11 @@ namespace Sports.WebAPI.Tests
             };
             favoriteLogicMock.Setup(favoriteLogic => favoriteLogic.AddFavoriteCompetitor(It.IsAny<Competitor>()));
             IActionResult result = controller.PostFavorite(competitorModelIn, token);
-            var createdResult = result as RedirectToRouteResult;
+            var okResult = result as OkObjectResult;
 
             favoriteLogicMock.VerifyAll();
-            
-            Assert.IsNotNull(createdResult);
+
+            Assert.AreEqual(200, okResult.StatusCode);
         }
 
         [TestMethod]

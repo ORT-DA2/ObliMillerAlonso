@@ -145,13 +145,6 @@ namespace Sports.Logic
             CheckFixtureImported();
         }
         
-        private void CheckListIsNotNull(ICollection<Sport> sports)
-        {
-            if (sports == null)
-            {
-                throw new InvalidNullValueException(FixtureValidation.EMPTY_SPORTS);
-            }
-        }
 
         private void CheckFixtureImported()
         {

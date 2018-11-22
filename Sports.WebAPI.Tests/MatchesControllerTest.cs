@@ -188,10 +188,11 @@ namespace Sports.WebAPI.Tests
 
             IActionResult result = controller.Put(matchId, model, token);
             var createdResult = result as RedirectToRouteResult;
+            var okResult = result as OkObjectResult;
 
             matchLogicMock.VerifyAll();
 
-            Assert.IsNotNull(createdResult);
+            Assert.AreEqual(200, okResult.StatusCode);
         }
         
         [TestMethod]
@@ -260,11 +261,11 @@ namespace Sports.WebAPI.Tests
             matchLogicMock.Setup(matchLogic => matchLogic.AddCommentToMatch(It.IsAny<int>(),It.IsAny<Comment>()));
 
             IActionResult result = controller.PostComment(matchId, modelIn, token);
-            var createdResult = result as RedirectToRouteResult;
+            var okResult = result as OkObjectResult;
 
             matchLogicMock.VerifyAll();
 
-            Assert.IsNotNull(createdResult);
+            Assert.AreEqual(200, okResult.StatusCode);
         }
 
 
@@ -301,24 +302,15 @@ namespace Sports.WebAPI.Tests
                 Name = "Deporte"
             };
 
-            SportModelIn sportModel = new SportModelIn()
-            {
-                Name = "Deporte"
-            };
-            ICollection<SportModelIn> sportModels = new List<SportModelIn>
-            {
-                sportModel
-            };
-
             FixtureDTO fixtureDTO = new FixtureDTO()
             {
-                Sports = sportModels,
+                SportId = sport.Id,
                 Date = "11/10/2014 10:10"
             };
 
             logLogicMock.Setup(logLogic => logLogic.AddEntry(It.IsAny<string>(),It.IsAny<string>(), It.IsAny<DateTime>()));
             fixtureLogicMock.Setup(fixtureLogic => fixtureLogic.SetSession(It.IsAny<Guid>())).Returns(user);
-            fixtureLogicMock.Setup(fixtureLogic => fixtureLogic.GenerateFixture(It.IsAny<int>(), It.IsAny<ICollection<Sport>>(),It.IsAny<DateTime>()));
+            fixtureLogicMock.Setup(fixtureLogic => fixtureLogic.GenerateFixture(It.IsAny<int>(), It.IsAny<int>(),It.IsAny<DateTime>()));
 
             IActionResult result = controller.GenerateFixture(fixtureDTO, token);
             var okResult = result as OkObjectResult;

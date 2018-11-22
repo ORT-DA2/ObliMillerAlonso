@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Sports.Domain.Exceptions;
+using Sports.Domain.Constants;
 
 namespace Sports.Domain
 {
@@ -31,7 +32,7 @@ namespace Sports.Domain
         {
             if (Score < 0)
             {
-                throw new InvalidCompetitorScoreException("");
+                throw new InvalidCompetitorScoreException(CompetitorValidation.COMPETITOR_INVALID_SCORE);
             }
         }
 
@@ -39,22 +40,10 @@ namespace Sports.Domain
         {
             if (Competitor == null)
             {
-                throw new InvalidCompetitorEmptyException("");
+                throw new InvalidCompetitorEmptyException(CompetitorValidation.COMPETITOR_EMPTY);
             }
         }
-
-
-        public override bool Equals(object obj)
-        {
-            if (obj == null || !obj.GetType().Equals(this.GetType()))
-            {
-                return false;
-            }
-            else
-            {
-                return this.Competitor.Id.Equals(((CompetitorScore)obj).Competitor.Id);
-            }
-        }
+        
 
         public bool Equals(CompetitorScore other)
         {

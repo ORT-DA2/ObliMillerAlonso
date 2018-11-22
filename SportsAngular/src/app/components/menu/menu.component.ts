@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { LoginService } from '../../services/login.service';
 import { AlertService } from '../../services/alert.service';
